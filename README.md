@@ -96,7 +96,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/get-current-execution.js)_
+_See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.1/src/commands/cloudmanager/get-current-execution.js)_
 
 ## `./bin/run cloudmanager:list-current-executions`
 
@@ -111,7 +111,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/list-current-executions.js)_
+_See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.1/src/commands/cloudmanager/list-current-executions.js)_
 
 ## `./bin/run cloudmanager:list-pipelines`
 
@@ -126,7 +126,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/list-pipelines.js)_
+_See code: [src/commands/cloudmanager/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.1/src/commands/cloudmanager/list-pipelines.js)_
 
 ## `./bin/run cloudmanager:list-programs`
 
@@ -141,7 +141,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/list-programs.js)_
+_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.1/src/commands/cloudmanager/list-programs.js)_
 
 ## `./bin/run cloudmanager:start-execution PIPELINEID`
 
@@ -159,5 +159,5 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/start-execution.js)_
+_See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.1/src/commands/cloudmanager/start-execution.js)_
 <!-- commandsstop -->
