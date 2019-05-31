@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-cli-plugin-config')
+const constants = require('./constants')
 
 function toJson(item) {
     let c = item
@@ -58,9 +59,18 @@ async function getBaseUrl() {
     return (configStr && toJson(configStr).base_url) || 'https://cloudmanager.adobe.io'
 }
 
+async function getProgramId(flags) {
+    const programId = flags.programId || await Config.get(constants.config.programId)
+    if (!programId) {
+        throw new Error(`Program ID must be specified either as --programId flag or through ${constants.config.programId} config value`)
+    }
+    return programId
+}
+
 module.exports = {
     getBaseUrl,
     getApiKey,
     getOrgId,
-    getCurrentStep
+    getCurrentStep,
+    getProgramId
 }

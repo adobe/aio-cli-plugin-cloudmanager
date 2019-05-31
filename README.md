@@ -16,6 +16,7 @@ governing permissions and limitations under the License.
 Cloud Manager Plugin for the Adobe I/O CLI 
 
 <!-- toc -->
+* [aio-cli-plugin-cloudmanager](#aio-cli-plugin-cloudmanager)
 * [Usage](#usage)
 * [Commands](#commands)
 <!-- tocstop -->
@@ -35,59 +36,55 @@ USAGE
 <!-- usagestop -->
 # Commands
 <!-- commands -->
-* [`./bin/run cloudmanager:get-current-execution PROGRAMID PIPELINEID`](#bin-run-cloudmanagerget-current-execution-programid-pipelineid)
-* [`./bin/run cloudmanager:list-current-executions PROGRAMID`](#bin-run-cloudmanagerlist-current-executions-programid)
-* [`./bin/run cloudmanager:list-pipelines PROGRAMID`](#bin-run-cloudmanagerlist-pipelines-programid)
+* [`./bin/run cloudmanager:get-current-execution PIPELINEID`](#bin-run-cloudmanagerget-current-execution-pipelineid)
+* [`./bin/run cloudmanager:list-current-executions`](#bin-run-cloudmanagerlist-current-executions)
+* [`./bin/run cloudmanager:list-pipelines`](#bin-run-cloudmanagerlist-pipelines)
 * [`./bin/run cloudmanager:list-programs`](#bin-run-cloudmanagerlist-programs)
-* [`./bin/run cloudmanager:start-execution PROGRAMID PIPELINEID`](#bin-run-cloudmanagerstart-execution-programid-pipelineid)
+* [`./bin/run cloudmanager:start-execution PIPELINEID`](#bin-run-cloudmanagerstart-execution-pipelineid)
 
-## `./bin/run cloudmanager:get-current-execution PROGRAMID PIPELINEID`
+## `./bin/run cloudmanager:get-current-execution PIPELINEID`
 
 get pipeline execution
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:get-current-execution PROGRAMID PIPELINEID
+  $ ./bin/run cloudmanager:get-current-execution PIPELINEID
 
 ARGUMENTS
-  PROGRAMID   the program id
   PIPELINEID  the pipeline id
 
 OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
 _See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/get-current-execution.js)_
 
-## `./bin/run cloudmanager:list-current-executions PROGRAMID`
+## `./bin/run cloudmanager:list-current-executions`
 
 list running pipeline executions
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:list-current-executions PROGRAMID
-
-ARGUMENTS
-  PROGRAMID  the program id
+  $ ./bin/run cloudmanager:list-current-executions
 
 OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
 _See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/list-current-executions.js)_
 
-## `./bin/run cloudmanager:list-pipelines PROGRAMID`
+## `./bin/run cloudmanager:list-pipelines`
 
 lists pipelines available in a Cloud Manager program
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:list-pipelines PROGRAMID
-
-ARGUMENTS
-  PROGRAMID  the program id
+  $ ./bin/run cloudmanager:list-pipelines
 
 OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
@@ -108,19 +105,19 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.0/src/commands/cloudmanager/list-programs.js)_
 
-## `./bin/run cloudmanager:start-execution PROGRAMID PIPELINEID`
+## `./bin/run cloudmanager:start-execution PIPELINEID`
 
 start pipeline execution
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:start-execution PROGRAMID PIPELINEID
+  $ ./bin/run cloudmanager:start-execution PIPELINEID
 
 ARGUMENTS
-  PROGRAMID   the program id
   PIPELINEID  the pipeline id
 
 OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 

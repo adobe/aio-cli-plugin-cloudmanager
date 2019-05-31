@@ -48,34 +48,17 @@ test('list-current-executions - missing arg', async () => {
 
     let runResult = ListCurrentExecutions.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
+    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified") === 0)
 })
 
 test('list-current-executions - missing config', async () => {
     expect.assertions(2)
 
-    let runResult = ListCurrentExecutions.run(["5"])
+    let runResult = ListCurrentExecutions.run(["--programId", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
-/*
-test('list-current-executions - failure', async () => {
-    mockStore = {
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    }
 
-    expect.assertions(2)
-
-    let runResult = ListCurrentExecutions.run(["6"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot get current execution: https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution (404 Not Found)'))
-})
-*/
 test('list-current-executions - success', async () => {
     mockStore = {
         'jwt-auth': JSON.stringify({
@@ -88,7 +71,7 @@ test('list-current-executions - success', async () => {
 
     expect.assertions(2)
 
-    let runResult = ListCurrentExecutions.run(["5"])
+    let runResult = ListCurrentExecutions.run(["--programId", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toMatchObject([{
         "id": "1000",

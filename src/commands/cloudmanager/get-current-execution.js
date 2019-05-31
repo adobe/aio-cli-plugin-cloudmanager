@@ -12,25 +12,27 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getCurrentStep } = require('../../cloudmanager-helpers')
+const { getApiKey, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
 
-async function _getCurrentExecution (orgId, programId, pipelineId, passphrase) {
+async function _getCurrentExecution (programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
   return new Client(orgId, accessToken, apiKey).getCurrentExecution(programId, pipelineId)
 }
 
 class GetCurrentExecutionCommand extends Command {
   async run () {
     const { args, flags } = this.parse(GetCurrentExecutionCommand)
-    const orgId = await getOrgId()
+
+    const programId = await getProgramId(flags)
 
     let result;
 
     try {
-      result = await this.getCurrentExecution(orgId, args.programId, args.pipelineId, flags.passphrase)
+      result = await this.getCurrentExecution(programId, args.pipelineId, flags.passphrase)
     } catch (error) {
       this.error(error.message)
     }
@@ -57,20 +59,20 @@ class GetCurrentExecutionCommand extends Command {
     return result
   }
 
-  async getCurrentExecution (orgId, programId, pipelineId, passphrase = null) {
-    return _getCurrentExecution(orgId, programId, pipelineId, passphrase)
+  async getCurrentExecution (programId, pipelineId, passphrase = null) {
+    return _getCurrentExecution(programId, pipelineId, passphrase)
   }
 }
 
 GetCurrentExecutionCommand.description = 'get pipeline execution'
 
 GetCurrentExecutionCommand.flags = {
-  passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' })
+  passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' }),
+  programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
 }
 
 GetCurrentExecutionCommand.args = [
-  {name: 'programId', required: true, description: "the program id"},
-  {name: 'pipelineId', required: true, description: "the pipeline id"}
+    {name: 'pipelineId', required: true, description: "the pipeline id"}
 ]
 
 

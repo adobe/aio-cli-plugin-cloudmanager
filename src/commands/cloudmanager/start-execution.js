@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
+const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
 
@@ -25,13 +25,16 @@ async function _startExecution (orgId, programId, pipelineId, passphrase) {
 class StartExecutionCommand extends Command {
   async run () {
     const { args, flags } = this.parse(StartExecutionCommand)
+
+    const programId = await getProgramId(flags)
+
     const orgId = await getOrgId()
     let result
 
     cli.action.start("starting execution")
 
     try {
-      result = await this.startExecution(orgId, args.programId, args.pipelineId, flags.passphrase)
+      result = await this.startExecution(orgId, programId, args.pipelineId, flags.passphrase)
     } catch (error) {
       cli.action.stop(error.message)
       return
@@ -50,11 +53,11 @@ class StartExecutionCommand extends Command {
 StartExecutionCommand.description = 'start pipeline execution'
 
 StartExecutionCommand.flags = {
-  passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' })
+  passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' }),
+  programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
 }
 
 StartExecutionCommand.args = [
-  {name: 'programId', required: true, description: "the program id"},
   {name: 'pipelineId', required: true, description: "the pipeline id"}
 ]
 

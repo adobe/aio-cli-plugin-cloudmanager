@@ -49,13 +49,13 @@ test('start-execution - missing arg', async () => {
 
     let runResult = StartExecutionCommand.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 2 required args") === 0)
+    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
 })
 
 test('start-execution - missing config', async () => {
     expect.assertions(2)
 
-    let runResult = StartExecutionCommand.run(["5", "10"])
+    let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
@@ -74,7 +74,7 @@ test('start-execution - bad pipeline', async () => {
 
     expect.assertions(3)
 
-    let runResult = StartExecutionCommand.run(["5", "10"])
+    let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
     await expect(actionSpy).toHaveBeenCalledWith("Cannot start execution. Pipeline 10 does not exist.")
@@ -94,7 +94,7 @@ test('start-execution - failed 412', async () => {
 
     expect.assertions(3)
 
-    let runResult = StartExecutionCommand.run(["5", "6"])
+    let runResult = StartExecutionCommand.run(["--programId", "5", "6"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
     await expect(actionSpy).toHaveBeenCalledWith("Cannot create execution. Pipeline already running.")
@@ -112,7 +112,7 @@ test('start-execution - success', async () => {
 
     expect.assertions(2)
 
-    let runResult = StartExecutionCommand.run(["5", "5"])
+    let runResult = StartExecutionCommand.run(["--programId", "5", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual("LOCATION")
 })

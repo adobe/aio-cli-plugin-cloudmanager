@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
+const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
 
@@ -25,11 +25,14 @@ async function _listPipelines(programId, passphrase) {
 
 class ListPipelinesCommand extends Command {
     async run() {
-        const { args, flags } = this.parse(ListPipelinesCommand)
+        const { flags } = this.parse(ListPipelinesCommand)
+
+        const programId = await getProgramId(flags)
+
         let result
 
         try {
-            result = await this.listPipelines(args.programId, flags.passphrase)
+            result = await this.listPipelines(programId, flags.passphrase)
         } catch (error) {
             this.error(error.message)
         }
@@ -55,11 +58,8 @@ class ListPipelinesCommand extends Command {
 ListPipelinesCommand.description = 'lists pipelines available in a Cloud Manager program'
 
 ListPipelinesCommand.flags = {
-    passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' })
+    passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' }),
+    programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
 }
-
-ListPipelinesCommand.args = [
-    { name: 'programId', required: true, description: "the program id" }
-]
 
 module.exports = ListPipelinesCommand

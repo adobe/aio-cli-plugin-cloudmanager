@@ -12,13 +12,14 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getCurrentStep } = require('../../cloudmanager-helpers')
+const { getApiKey, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
 
-async function _listCurrentExecutions(orgId, programId, passphrase) {
+async function _listCurrentExecutions(programId, passphrase) {
     const apiKey = await getApiKey()
     const accessToken = await getAccessToken(passphrase)
+    const orgId = await getOrgId()
     const client = new Client(orgId, accessToken, apiKey)
     const pipelines = await client.listPipelines(programId, {
         busy: true
@@ -28,13 +29,14 @@ async function _listCurrentExecutions(orgId, programId, passphrase) {
 
 class ListCurrentExecutionsCommand extends Command {
     async run() {
-        const { args, flags } = this.parse(ListCurrentExecutionsCommand)
-        const orgId = await getOrgId()
+        const { flags } = this.parse(ListCurrentExecutionsCommand)
 
         let result;
 
+        const programId = await getProgramId(flags)
+
         try {
-          result = await this.listCurrentExecutions(orgId, args.programId, args.pipelineId, flags.passphrase)
+          result = await this.listCurrentExecutions(programId, flags.passphrase)
         } catch (error) {
           this.error(error.message)
         }
@@ -61,20 +63,16 @@ class ListCurrentExecutionsCommand extends Command {
         return result
     }
 
-    async listCurrentExecutions(orgId, programId, passphrase = null) {
-        return _listCurrentExecutions(orgId, programId, passphrase)
+    async listCurrentExecutions(programId, passphrase = null) {
+        return _listCurrentExecutions(programId, passphrase)
     }
 }
 
 ListCurrentExecutionsCommand.description = 'list running pipeline executions'
 
 ListCurrentExecutionsCommand.flags = {
-    passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' })
+    passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' }),
+    programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
 }
-
-ListCurrentExecutionsCommand.args = [
-    { name: 'programId', required: true, description: "the program id" }
-]
-
 
 module.exports = ListCurrentExecutionsCommand

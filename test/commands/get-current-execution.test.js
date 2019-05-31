@@ -48,13 +48,13 @@ test('get-current-execution - missing arg', async () => {
 
     let runResult = GetCurrentExecution.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 2 required args") === 0)
+    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
 })
 
 test('get-current-execution - missing config', async () => {
     expect.assertions(2)
 
-    let runResult = GetCurrentExecution.run(["5", "5"])
+    let runResult = GetCurrentExecution.run(["5", "--programId", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
@@ -71,7 +71,7 @@ test('get-current-execution - failure', async () => {
 
     expect.assertions(2)
 
-    let runResult = GetCurrentExecution.run(["5", "5"])
+    let runResult = GetCurrentExecution.run(["5", "--programId", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('Cannot get current execution: https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution (404 Not Found)'))
 })
@@ -88,7 +88,7 @@ test('get-current-execution - success', async () => {
 
     expect.assertions(2)
 
-    let runResult = GetCurrentExecution.run(["5", "6"])
+    let runResult = GetCurrentExecution.run(["--programId", "5", "6"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toMatchObject({
         "id": "1000",

@@ -16,5 +16,8 @@ module.exports = {
         self: 'self',
         pipelines: 'http://ns.adobe.com/adobecloud/rel/pipelines',
         execution: 'http://ns.adobe.com/adobecloud/rel/execution'
+    },
+    config: {
+        programId: 'cloudmanager_programid'
     }
 }

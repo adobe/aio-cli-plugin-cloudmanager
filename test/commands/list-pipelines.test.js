@@ -48,13 +48,13 @@ test('list-pipelines - missing arg', async () => {
 
     let runResult = ListPipelinesCommand.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
+    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified either as --programId flag or through cloudmanager_programid") === 0)
 })
 
 test('list-pipelines - missing config', async () => {
     expect.assertions(2)
 
-    let runResult = ListPipelinesCommand.run(["5"])
+    let runResult = ListPipelinesCommand.run(["--programId", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
@@ -67,11 +67,12 @@ test('list-pipelines - failure', async () => {
                 iss: "good"
             }
         }),
+        'cloudmanager_programid': "6"
     }
 
     expect.assertions(2)
 
-    let runResult = ListPipelinesCommand.run(["6"])
+    let runResult = ListPipelinesCommand.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('Cannot retrieve pipelines: https://cloudmanager.adobe.io/api/program/6/pipelines (404 Not Found)'))
 })
@@ -84,11 +85,12 @@ test('list-pipelines - success empty', async () => {
                 iss: "good"
             }
         }),
+        'cloudmanager_programid': "4"
     }
 
     expect.assertions(2)
 
-    let runResult = ListPipelinesCommand.run(["4"])
+    let runResult = ListPipelinesCommand.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual([])
 })
@@ -101,11 +103,12 @@ test('list-programs - success', async () => {
                 iss: "good"
             }
         }),
+        'cloudmanager_programid': "5"
     }
 
     expect.assertions(2)
 
-    let runResult = ListPipelinesCommand.run(["5"])
+    let runResult = ListPipelinesCommand.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toMatchObject([{
         id: "5",
