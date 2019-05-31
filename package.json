@@ -1,0 +1,86 @@
+{
+  "name": "@adobe/aio-cli-plugin-cloudmanager",
+  "description": "Cloud Manager commands for the Adobe I/O CLI",
+  "version": "0.0.0",
+  "author": "Adobe Inc.",
+  "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
+  "dependencies": {
+    "@adobe/aio-cli-plugin-config": "^1.0.6",
+    "@adobe/aio-cli-plugin-jwt-auth": "^1.0.9",
+    "@oclif/command": "^1.5.6",
+    "@oclif/config": "^1.9.0",
+    "@oclif/errors": "^1.1.2",
+    "cli-ux": "^5.1.0",
+    "halfred": "^1.1.1",
+    "node-fetch": "^2.3.0"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1",
+    "@oclif/plugin-help": "^2.1.4",
+    "@oclif/test": "^1",
+    "acorn": "^6.1.1",
+    "chalk": "^2.4.1",
+    "codecov": "^3.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-oclif": "^3.1.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.13.10",
+    "eslint-plugin-jest": "^22.1.2",
+    "eslint-plugin-node": "^9.0.0",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "fetch-mock": "^7.3.3",
+    "jest": "^24.1.0",
+    "jest-extended": "^0.11.1",
+    "jest-haste-map": "^24.5.0",
+    "jest-junit": "^6.3.0",
+    "stdout-stderr": "^0.1.9"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/adobe/aio-cli-plugin-cloudmanager",
+  "keywords": [
+    "oclif-plugin"
+  ],
+  "license": "Apache-2.0",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "./bin/run",
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "main": "src/index.js",
+  "repository": "adobe/aio-cli-plugin-cloudmanager",
+  "scripts": {
+    "posttest": "eslint src",
+    "test": "npm run unit-tests",
+    "unit-tests": "jest --ci",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "postpack": "rm -f oclif.manifest.json",
+    "version": "oclif-dev readme && git add README.md"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "testPathIgnorePatterns": [
+      "<rootDir>/tests/fixtures/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/tests/fixtures/"
+    ],
+    "reporters": [
+      "default",
+      "jest-junit"
+    ],
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "jest-extended",
+      "./jest.setup.js"
+    ]
+  }
+}
