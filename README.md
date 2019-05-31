@@ -13,7 +13,62 @@ governing permissions and limitations under the License.
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # aio-cli-plugin-cloudmanager
-Cloud Manager Plugin for the Adobe I/O CLI 
+Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
+
+# Installation
+
+```sh-session
+$ aio plugin:install @adobe/aio-cli-plugin-cloudmanager
+```
+
+# Configuration
+
+## Authentication
+
+At minimum, an integration must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service. You may also add other services to this integration
+if you want to use other Adobe I/O CLI plugins. For example, to use the [Console Plugin](https://github.com/adobe/aio-cli-plugin-console/), your integration needs to have the "I/O Management API" service.
+
+After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the `client_id` and `client_secret` values to the config file; if you navigate to the JWT tab in Console, you'll get the value for the `jwt_payload`.
+
+```
+//config.json 
+{
+  "client_id": "value from your CLI integration (String)",
+  "client_secret": "value from your CLI integration (String)",
+  "jwt_payload": { value from your CLI integration (JSON Object Literal) },
+  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt",
+  "console_get_orgs_url":"https://api.adobe.io/console/organizations",
+  "console_get_namespaces_url":"https://api.adobe.io/runtime/admin/namespaces/"
+}
+```
+
+The last bit you need to have at hand is the private certificate you've used to create the integration; you need the private key, not the public one. Now, you are ready to configure the `aio` CLI.
+
+First, configure the credentials:
+
+```
+aio config:set jwt-auth PATH_TO_CONFIG_JSON_FILE --file --mime-type=application/json
+```
+
+Then, configure the private certificate:
+
+```
+aio config:set jwt-auth.jwt_private_key PATH_TO_PRIVATE_KEY_FILE --file --mime-type=application/x-pem-file
+```
+
+## Set Default Program
+
+If you want to avoid passing the program ID flag repeatedly, you can configure it using:
+
+```sh-session
+$ aio config:set cloudmanager_programid PROGRAMID
+```
+
+For example
+
+```sh-session
+$ aio config:set cloudmanager_programid 4
+```
 
 <!-- toc -->
 * [aio-cli-plugin-cloudmanager](#aio-cli-plugin-cloudmanager)
