@@ -72,25 +72,6 @@ For example
 $ aio config:set cloudmanager_programid 4
 ```
 
-<!-- toc -->
-* [aio-cli-plugin-cloudmanager](#aio-cli-plugin-cloudmanager)
-* [Usage](#usage)
-* [Commands](#commands)
-<!-- tocstop -->
-# Usage
-<!-- usage -->
-```sh-session
-$ npm install -g @adobe/aio-cli-plugin-cloudmanager
-$ ./bin/run COMMAND
-running command...
-$ ./bin/run (-v|--version|version)
-@adobe/aio-cli-plugin-cloudmanager/0.0.0 darwin-x64 node-v10.15.3
-$ ./bin/run --help [COMMAND]
-USAGE
-  $ ./bin/run COMMAND
-...
-```
-<!-- usagestop -->
 # Commands
 <!-- commands -->
 * [`./bin/run cloudmanager:get-current-execution PIPELINEID`](#bin-run-cloudmanagerget-current-execution-pipelineid)
