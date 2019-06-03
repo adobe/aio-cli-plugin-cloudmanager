@@ -32,5 +32,5 @@ git push origin $PKG_VER
 ## 5. publish to npm
 
 ```
-npm publish
+npm publish --access public
 ```
