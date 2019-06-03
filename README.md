@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 [![Version](https://img.shields.io/npm/v/@adobe/aio-cli-plugin-cloudmanager.svg)](https://npmjs.org/package/@adobe/aio-cli-plugin-cloudmanager)
 [![Build Status](https://travis-ci.com/adobe/aio-cli-plugin-cloudmanager.svg?branch=master)](https://travis-ci.com/adobe/aio-cli-plugin-cloudmanager)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Codecov Coverage](https://img.shields.io/codecov/c/github/adobe/aio-cli-plugin-cloudmanager/master.svg?style=flat-square)](https://codecov.io/gh/adobe/aio-cli-plugin-cloudmanager/)
+[![Codecov Coverage](https://img.shields.io/codecov/c/github/adobe/aio-cli-plugin-cloudmanager/master.svg?style=flat-square)](https://codecov.io/gh/adobe/aio-cli-plugin-cloudmanager/) [![Greenkeeper badge](https://badges.greenkeeper.io/adobe/aio-cli-plugin-cloudmanager.svg)](https://greenkeeper.io/)
 
 # aio-cli-plugin-cloudmanager
 Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
