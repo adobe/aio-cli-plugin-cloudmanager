@@ -159,12 +159,12 @@ class Client {
         const stepState = this.findStepState(execution, action)
 
         if (!stepState) {
-            throw new Error(`Cannot find step state for action ${action} on execution ${executionId}`)
+            throw new Error(`Cannot find step state for action ${action} on execution ${executionId}.`)
         }
 
         return this.get(`${stepState.link(rels.metrics).href}`).then((res) => {
             if (res.ok) return res.json()
-            else throw new Error(`Cannot get execution: ${res.url} (${res.status} ${res.statusText})`)
+            else throw new Error(`Cannot get metrics: ${res.url} (${res.status} ${res.statusText})`)
         })
     }
 }

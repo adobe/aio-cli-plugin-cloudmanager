@@ -45,7 +45,7 @@ class GetQualityGateResults extends Command {
     result = result.metrics
 
     if (!result) {
-        throw new Error("Metrics for action ${args.action} on execution ${args.executionId} could not be found.")
+        throw new Error(`Metrics for action ${args.action} on execution ${args.executionId} could not be found.`)
     }
 
     result = _.sortBy(result, "severity")

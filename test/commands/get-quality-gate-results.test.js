@@ -114,3 +114,71 @@ test('get-quality-gate-results - success', async () => {
     expect(columns.passed.get({ "passed" : true })).toBe("Yes")
     expect(columns.passed.get({ "passed" : false })).toBe("No")
 })
+
+test('get-quality-gate-results - not found', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
+
+    expect.assertions(2)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "7", "1001", "performance"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error("Cannot get metrics: https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8495/metrics (404 Not Found)"))
+})
+
+test('get-quality-gate-results - empty', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
+
+    expect.assertions(2)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "7", "1001", "security"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error("Metrics for action security on execution 1001 could not be found."))
+})
+
+test('get-quality-gate-results - missing step', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
+
+    expect.assertions(2)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "7", "1004", "security"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error("Cannot find step state for action security on execution 1004."))
+})
+
+test('get-quality-gate-results - bad pipeline', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
+
+    expect.assertions(2)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "100", "1001", "performance"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error("Cannot get execution. Pipeline 100 does not exist."))
+})

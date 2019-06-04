@@ -89,7 +89,13 @@
                         "override": true
                     }
                 },
-                "status": "FINISHED"
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/metrics",
+                        "templated": false
+                    }
+                }
             },
             {
                 "id": "36519",
@@ -138,7 +144,13 @@
                         "override": true
                     }
                 },
-                "status": "FINISHED"
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4597/step/8495/metrics",
+                        "templated": false
+                    }
+                }
             },
             {
                 "id": "36522",

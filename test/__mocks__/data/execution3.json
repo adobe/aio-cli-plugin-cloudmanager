@@ -1,0 +1,79 @@
+{
+    "_embedded": {
+        "stepStates": [
+            {
+                "id": "36514",
+                "stepId": "8491",
+                "phaseId": "4595",
+                "action": "validate",
+                "startedAt": "2019-05-23T13:49:52.154+0000",
+                "finishedAt": "2019-05-23T13:49:56.442+0000",
+                "updatedAt": "2019-05-23T13:49:56.493+0000",
+                "status": "FINISHED"
+            },
+            {
+                "id": "36515",
+                "stepId": "8492",
+                "phaseId": "4596",
+                "action": "build",
+                "repository": "weretail",
+                "branch": "master",
+                "startedAt": "2019-05-23T13:49:57.645+0000",
+                "finishedAt": "2019-05-23T13:55:44.904+0000",
+                "updatedAt": "2019-05-23T13:55:44.958+0000",
+                "status": "FINISHED"
+            },
+            {
+                "id": "36516",
+                "stepId": "8493",
+                "phaseId": "4596",
+                "action": "codeQuality",
+                "repository": "weretail",
+                "branch": "master",
+                "finishedAt": "2019-05-23T13:56:40.777+0000",
+                "updatedAt": "2019-05-23T13:56:40.842+0000",
+                "details": {
+                    "input": {
+                        "override": true
+                    }
+                },
+                "status": "FINISHED"
+            },
+            {
+                "id": "36517",
+                "stepId": "8494",
+                "phaseId": "4597",
+                "action": "deploy",
+                "environment": "weretail-global-b61e-01-dev",
+                "environmentType": "dev",
+                "environmentId": "1885",
+                "assetCollectionId": "1",
+                "startedAt": "2019-05-23T13:58:12.041+0000",
+                "finishedAt": "2019-05-23T14:41:31.701+0000",
+                "updatedAt": "2019-05-23T14:41:32.623+0000",
+                "details": {
+                    "environmentUrls": [
+                        {
+                            "instanceType": "publish",
+                            "instanceUrl": "https://weretail-global-dev.adobecqms.net"
+                        },
+                        {
+                            "instanceType": "author",
+                            "instanceUrl": "https://author-weretail-global-dev.adobecqms.net"
+                        }
+                    ],
+                    "deploymentStepDescription": "[{\"id\":1,\"stepAction\":\"perform-backup\",\"instanceId\":\"author1uswest2\",\"updated\":\"2019-05-23T13:58:26.305+0000\"},{\"id\":2,\"stepAction\":\"perform-backup\",\"instanceId\":\"publish1uswest2\",\"updated\":\"2019-05-23T13:58:26.443+0000\"},{\"id\":3,\"stepAction\":\"perform-backup\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T13:58:26.484+0000\"},{\"id\":4,\"stepAction\":\"manage-elb-links-detach\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T14:05:23.819+0000\"},{\"id\":5,\"stepAction\":\"install-client-packages\",\"instanceId\":\"publish1uswest2\",\"updated\":\"2019-05-23T14:06:12.580+0000\"},{\"id\":6,\"stepAction\":\"install-client-packages\",\"instanceId\":\"author1uswest2\",\"updated\":\"2019-05-23T14:06:12.862+0000\"},{\"id\":7,\"stepAction\":\"manage-elb-links-attach\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T14:40:48.007+0000\"}]"
+                },
+                "status": "FINISHED"
+            }
+        ]
+    },
+    "id": "1004",
+    "programId": "5",
+    "pipelineId": "6",
+    "trigger": "MANUAL",
+    "user": "3E8367615C0A78710A495EEF@AdobeID",
+    "status": "FINISHED",
+    "createdAt": "2019-05-23T13:49:47.688+0000",
+    "updatedAt": "2019-05-23T13:56:43.811+0000"
+}
