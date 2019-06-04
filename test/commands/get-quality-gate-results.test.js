@@ -149,7 +149,24 @@ test('get-quality-gate-results - empty', async () => {
     await expect(runResult).rejects.toEqual(new Error("Metrics for action security on execution 1001 could not be found."))
 })
 
-test('get-quality-gate-results - missing step', async () => {
+test('get-quality-gate-results - missing performance step', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
+
+    expect.assertions(2)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "7", "1003", "performance"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error("Cannot find step state for action performance on execution 1003."))
+})
+
+test('get-quality-gate-results - missing security step', async () => {
     mockStore = {
         'jwt-auth': JSON.stringify({
             client_id: '1234',

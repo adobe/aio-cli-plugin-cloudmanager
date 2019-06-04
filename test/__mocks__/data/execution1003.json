@@ -1,0 +1,171 @@
+{
+    "_embedded": {
+        "stepStates": [
+            {
+                "id": "36514",
+                "stepId": "8491",
+                "phaseId": "4595",
+                "action": "validate",
+                "startedAt": "2019-05-23T13:49:52.154+0000",
+                "finishedAt": "2019-05-23T13:49:56.442+0000",
+                "updatedAt": "2019-05-23T13:49:56.493+0000",
+                "status": "FINISHED"
+            },
+            {
+                "id": "36515",
+                "stepId": "8492",
+                "phaseId": "4596",
+                "action": "build",
+                "repository": "weretail",
+                "branch": "master",
+                "startedAt": "2019-05-23T13:49:57.645+0000",
+                "finishedAt": "2019-05-23T13:55:44.904+0000",
+                "updatedAt": "2019-05-23T13:55:44.958+0000",
+                "status": "FINISHED"
+            },
+            {
+                "id": "36516",
+                "stepId": "8493",
+                "phaseId": "4596",
+                "action": "codeQuality",
+                "repository": "weretail",
+                "branch": "master",
+                "finishedAt": "2019-05-23T13:56:40.777+0000",
+                "updatedAt": "2019-05-23T13:56:40.842+0000",
+                "details": {
+                    "input": {
+                        "override": true
+                    }
+                },
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics",
+                        "templated": false
+                    }
+                }
+            },
+            {
+                "id": "36517",
+                "stepId": "8494",
+                "phaseId": "4597",
+                "action": "deploy",
+                "environment": "weretail-global-b61e-01-stage",
+                "environmentType": "stage",
+                "environmentId": "1885",
+                "assetCollectionId": "1",
+                "startedAt": "2019-05-23T13:58:12.041+0000",
+                "finishedAt": "2019-05-23T14:41:31.701+0000",
+                "updatedAt": "2019-05-23T14:41:32.623+0000",
+                "details": {
+                    "environmentUrls": [
+                        {
+                            "instanceType": "publish",
+                            "instanceUrl": "https://weretail-global-stage.adobecqms.net"
+                        },
+                        {
+                            "instanceType": "author",
+                            "instanceUrl": "https://author-weretail-global-stage.adobecqms.net"
+                        }
+                    ],
+                    "deploymentStepDescription": "[{\"id\":1,\"stepAction\":\"perform-backup\",\"instanceId\":\"author1uswest2\",\"updated\":\"2019-05-23T13:58:26.305+0000\"},{\"id\":2,\"stepAction\":\"perform-backup\",\"instanceId\":\"publish1uswest2\",\"updated\":\"2019-05-23T13:58:26.443+0000\"},{\"id\":3,\"stepAction\":\"perform-backup\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T13:58:26.484+0000\"},{\"id\":4,\"stepAction\":\"manage-elb-links-detach\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T14:05:23.819+0000\"},{\"id\":5,\"stepAction\":\"install-client-packages\",\"instanceId\":\"publish1uswest2\",\"updated\":\"2019-05-23T14:06:12.580+0000\"},{\"id\":6,\"stepAction\":\"install-client-packages\",\"instanceId\":\"author1uswest2\",\"updated\":\"2019-05-23T14:06:12.862+0000\"},{\"id\":7,\"stepAction\":\"manage-elb-links-attach\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T14:40:48.007+0000\"}]"
+                },
+                "status": "FINISHED"
+            },
+            {
+                "id": "36518",
+                "stepId": "8495",
+                "phaseId": "4597",
+                "action": "securityTest",
+                "environment": "weretail-global-b61e-01-stage",
+                "environmentType": "stage",
+                "environmentId": "1885",
+                "assetCollectionId": "1",
+                "startedAt": "2019-05-23T14:41:37.879+0000",
+                "finishedAt": "2019-05-23T14:45:32.784+0000",
+                "updatedAt": "2019-05-23T14:45:32.858+0000",
+                "details": {
+                    "input": {
+                        "override": true
+                    }
+                },
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/metrics",
+                        "templated": false
+                    }
+                }
+            },
+            {
+                "id": "36522",
+                "stepId": "8499",
+                "phaseId": "4598",
+                "action": "approval",
+                "environment": "weretail-global-b61e-01-prod",
+                "environmentType": "prod",
+                "environmentId": "1884",
+                "startedAt": "2019-05-24T06:16:41.176+0000",
+                "finishedAt": "2019-05-24T09:57:58.596+0000",
+                "updatedAt": "2019-05-24T09:57:58.653+0000",
+                "details": {
+                    "input": {
+                        "approved": true
+                    }
+                },
+                "status": "FINISHED"
+            },
+            {
+                "id": "36523",
+                "stepId": "8761",
+                "phaseId": "4598",
+                "action": "managed",
+                "environment": "weretail-global-b61e-01-prod",
+                "environmentType": "prod",
+                "environmentId": "1884",
+                "startedAt": "2019-05-24T09:58:02.486+0000",
+                "updatedAt": "2019-05-24T09:58:02.532+0000",
+                "details": {},
+                "status": "WAITING"
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/program/4/pipeline/1/execution/6554/phase/4598/step/8500",
+                        "templated": false
+                    }
+                },
+                "id": "36524",
+                "stepId": "8500",
+                "phaseId": "4598",
+                "action": "deploy",
+                "environment": "weretail-global-b61e-01-prod",
+                "environmentType": "prod",
+                "environmentId": "1884",
+                "updatedAt": "2019-05-23T13:49:50.645+0000",
+                "details": {
+                    "environmentUrls": [
+                        {
+                            "instanceType": "publish",
+                            "instanceUrl": "https://weretail-global-prod.adobecqms.net"
+                        },
+                        {
+                            "instanceType": "author",
+                            "instanceUrl": "https://author-weretail-global-prod.adobecqms.net"
+                        }
+                    ]
+                },
+                "status": "NOT_STARTED"
+            }
+        ]
+    },
+    "id": "1001",
+    "programId": "5",
+    "pipelineId": "7",
+    "artifactsVersion": "2019.523.134947.0000006554",
+    "trigger": "MANUAL",
+    "user": "3E8367615C0A78710A495EEF@AdobeID",
+    "status": "RUNNING",
+    "createdAt": "2019-05-23T13:49:47.688+0000",
+    "updatedAt": "2019-05-23T13:56:43.811+0000"
+}

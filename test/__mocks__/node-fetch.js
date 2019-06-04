@@ -169,6 +169,7 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/6/pipelines', 404)
 
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001', 'GET', require('./data/execution1001.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution/1002', 'GET', 404)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1003', 'GET', require('./data/execution1003.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1004', 'GET', require('./data/execution1004.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics', 'GET', require('./data/metrics.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/metrics', 'GET', {})
