@@ -37,7 +37,13 @@
                         "override": true
                     }
                 },
-                "status": "FINISHED"
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics",
+                        "templated": false
+                    }
+                }
             },
             {
                 "id": "36517",
@@ -83,56 +89,13 @@
                         "override": true
                     }
                 },
-                "status": "FINISHED"
-            },
-            {
-                "id": "36519",
-                "stepId": "8496",
-                "phaseId": "4597",
-                "action": "loadTest",
-                "environment": "weretail-global-b61e-01-stage",
-                "environmentType": "stage",
-                "environmentId": "1885",
-                "assetCollectionId": "1",
-                "startedAt": "2019-05-23T14:45:37.987+0000",
-                "finishedAt": "2019-05-23T14:54:40.660+0000",
-                "updatedAt": "2019-05-23T14:54:40.661+0000",
-                "details": {},
-                "status": "FINISHED"
-            },
-            {
-                "id": "36520",
-                "stepId": "8497",
-                "phaseId": "4597",
-                "action": "assetsTest",
-                "environment": "weretail-global-b61e-01-stage",
-                "environmentType": "stage",
-                "environmentId": "1885",
-                "assetCollectionId": "1",
-                "startedAt": "2019-05-23T14:54:44.203+0000",
-                "finishedAt": "2019-05-23T15:02:38.540+0000",
-                "updatedAt": "2019-05-23T15:02:38.540+0000",
-                "details": {},
-                "status": "FINISHED"
-            },
-            {
-                "id": "36521",
-                "stepId": "8498",
-                "phaseId": "4597",
-                "action": "reportPerformanceTest",
-                "environment": "weretail-global-b61e-01-stage",
-                "environmentType": "stage",
-                "environmentId": "1885",
-                "assetCollectionId": "1",
-                "startedAt": "2019-05-23T15:02:41.527+0000",
-                "finishedAt": "2019-05-24T06:15:10.696+0000",
-                "updatedAt": "2019-05-24T06:15:10.763+0000",
-                "details": {
-                    "input": {
-                        "override": true
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/metrics",
+                        "templated": false
                     }
-                },
-                "status": "FINISHED"
+                }
             },
             {
                 "id": "36522",

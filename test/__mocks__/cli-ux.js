@@ -11,14 +11,11 @@ governing permissions and limitations under the License.
 */
 
 module.exports = {
-    basePath: '/api/programs',
-    rels: {
-        self: 'self',
-        pipelines: 'http://ns.adobe.com/adobecloud/rel/pipelines',
-        execution: 'http://ns.adobe.com/adobecloud/rel/execution',
-        metrics: 'http://ns.adobe.com/adobecloud/rel/pipeline/metrics'
-    },
-    config: {
-        programId: 'cloudmanager_programid'
+    cli: {
+        table: jest.fn(),
+        action: {
+            start: jest.fn(),
+            stop: jest.fn()
+        }
     }
-}
+};

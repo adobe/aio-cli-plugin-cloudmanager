@@ -123,6 +123,50 @@ class Client {
         })
     }
 
+    async getExecution(programId, pipelineId, executionId) {
+        const pipelines = await this.listPipelines(programId)
+        const pipeline = pipelines.find(p => p.id === pipelineId)
+        if (!pipeline) {
+            throw new Error(`Cannot get execution. Pipeline ${pipelineId} does not exist.`)
+        }
+        return this.get(`${pipeline.link(rels.execution).href}/${executionId}`).then((res) => {
+            if (res.ok) return res.json()
+            else throw new Error(`Cannot get execution: ${res.url} (${res.status} ${res.statusText})`)
+        })
+    }
+
+    findStepState(execution, action) {
+        let gates
+
+        switch (action) {
+            case 'security':
+                return execution.embeddedArray("stepStates").find(stepState => stepState.action === 'securityTest')
+            case 'performance':
+                gates = execution.embeddedArray("stepStates").filter(stepState => stepState.action === 'loadTest' || stepState.action === 'assetsTest' || stepState.action === 'reportPerformanceTest')
+                if (gates) {
+                    return gates[gates.length - 1]
+                } else {
+                    return
+                }
+            default:
+                return execution.embeddedArray("stepStates").find(stepState => stepState.action === action)
+        }
+    }
+
+    async getQualityGateResults(programId, pipelineId, executionId, action) {
+        const execution = halfred.parse(await this.getExecution(programId, pipelineId, executionId))
+
+        const stepState = this.findStepState(execution, action)
+
+        if (!stepState) {
+            throw new Error(`Cannot find step state for action ${action} on execution ${executionId}.`)
+        }
+
+        return this.get(`${stepState.link(rels.metrics).href}`).then((res) => {
+            if (res.ok) return res.json()
+            else throw new Error(`Cannot get metrics: ${res.url} (${res.status} ${res.statusText})`)
+        })
+    }
 }
 
 module.exports = Client

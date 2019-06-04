@@ -1,0 +1,84 @@
+{
+    "metrics": [
+        {
+            "id": "69548",
+            "severity": "important",
+            "passed": true,
+            "override": false,
+            "actualValue": "50.5",
+            "expectedValue": "50",
+            "comparator": "GTE",
+            "kpi": "coverage"
+        },
+        {
+            "id": "69549",
+            "severity": "important",
+            "passed": true,
+            "override": false,
+            "actualValue": "A",
+            "expectedValue": "A",
+            "comparator": "EQ",
+            "kpi": "security_rating"
+        },
+        {
+            "id": "69550",
+            "severity": "informational",
+            "passed": true,
+            "override": false,
+            "actualValue": "0.0",
+            "expectedValue": "1",
+            "comparator": "LTE",
+            "kpi": "duplicated_lines_density"
+        },
+        {
+            "id": "69602",
+            "severity": "critical",
+            "passed": true,
+            "override": false,
+            "actualValue": "A",
+            "expectedValue": "B",
+            "comparator": "GTE",
+            "kpi": "security_rating"
+        },
+        {
+            "id": "69603",
+            "severity": "informational",
+            "passed": false,
+            "override": false,
+            "actualValue": "1",
+            "expectedValue": "0",
+            "comparator": "EQ",
+            "kpi": "skipped_tests"
+        },
+        {
+            "id": "69604",
+            "severity": "informational",
+            "passed": false,
+            "override": false,
+            "actualValue": "31",
+            "expectedValue": "1",
+            "comparator": "LT",
+            "kpi": "open_issues"
+        },
+        {
+            "id": "69605",
+            "severity": "important",
+            "passed": true,
+            "override": false,
+            "actualValue": "A",
+            "expectedValue": "A",
+            "comparator": "EQ",
+            "kpi": "sqale_rating"
+        },
+        {
+            "id": "69551",
+            "severity": "important",
+            "passed": false,
+            "override": true,
+            "actualValue": "D",
+            "expectedValue": "C",
+            "comparator": "GTE",
+            "kpi": "reliability_rating"
+        }
+    ]
+}

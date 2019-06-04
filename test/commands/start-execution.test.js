@@ -70,14 +70,12 @@ test('start-execution - bad pipeline', async () => {
         }),
     }
 
-    const actionSpy = jest.spyOn(cli.action, 'stop');
-
     expect.assertions(3)
 
     let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
-    await expect(actionSpy).toHaveBeenCalledWith("Cannot start execution. Pipeline 10 does not exist.")
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot start execution. Pipeline 10 does not exist.")
 })
 
 test('start-execution - failed 412', async () => {
@@ -90,14 +88,12 @@ test('start-execution - failed 412', async () => {
         }),
     }
 
-    const actionSpy = jest.spyOn(cli.action, 'stop');
-
     expect.assertions(3)
 
     let runResult = StartExecutionCommand.run(["--programId", "5", "6"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
-    await expect(actionSpy).toHaveBeenCalledWith("Cannot create execution. Pipeline already running.")
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot create execution. Pipeline already running.")
 })
 
 test('start-execution - success', async () => {

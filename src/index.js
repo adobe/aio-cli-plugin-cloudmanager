@@ -15,11 +15,13 @@ const ListPipelinesCommand = require('./commands/cloudmanager/list-pipelines')
 const StartExecutionCommand = require('./commands/cloudmanager/start-execution')
 const GetCurrentExecution = require('./commands/cloudmanager/get-current-execution')
 const ListCurrentExecutions = require('./commands/cloudmanager/list-current-executions')
+const GetQualityGateResults = require('./commands/cloudmanager/get-quality-gate-results')
 
 module.exports = {
   'list-programs': new ListProgramsCommand().listPrograms,
   'list-pipelines': new ListPipelinesCommand().listPipelines,
   'start-execution': new StartExecutionCommand().startExecution,
   'get-current-execution': new GetCurrentExecution().getCurrentExecution,
-  'list-current-executions': new ListCurrentExecutions().listCurrentExecutions
+  'list-current-executions': new ListCurrentExecutions().listCurrentExecutions,
+  'get-quality-gate-results': new GetQualityGateResults().getQualityGateResults
 }
