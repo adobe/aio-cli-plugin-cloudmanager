@@ -37,7 +37,13 @@
                         "override": true
                     }
                 },
-                "status": "FINISHED"
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics",
+                        "templated": false
+                    }
+                }
             },
             {
                 "id": "36517",

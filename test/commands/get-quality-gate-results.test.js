@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const StartExecutionCommand = require('../../src/commands/cloudmanager/start-execution')
+const GetQualityGateResults = require('../../src/commands/cloudmanager/get-quality-gate-results')
 
 let mockStore = {}
 
@@ -44,59 +44,23 @@ beforeEach(() => {
     mockStore = {}
 })
 
-test('start-execution - missing arg', async () => {
+test('get-quality-gate-results - missing arg', async () => {
     expect.assertions(2)
 
-    let runResult = StartExecutionCommand.run([])
+    let runResult = GetQualityGateResults.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
+    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 3 required args") === 0)
 })
 
-test('start-execution - missing config', async () => {
+test('get-quality-gate-results - missing config', async () => {
     expect.assertions(2)
 
-    let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
+    let runResult = GetQualityGateResults.run(["5", "--programId", "7", "1001", "codeQuality"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('start-execution - bad pipeline', async () => {
-    mockStore = {
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    }
-
-    expect.assertions(3)
-
-    let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot start execution. Pipeline 10 does not exist.")
-})
-
-test('start-execution - failed 412', async () => {
-    mockStore = {
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    }
-
-    expect.assertions(3)
-
-    let runResult = StartExecutionCommand.run(["--programId", "5", "6"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot create execution. Pipeline already running.")
-})
-
-test('start-execution - success', async () => {
+test('get-quality-gate-results - failure', async () => {
     mockStore = {
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -108,9 +72,45 @@ test('start-execution - success', async () => {
 
     expect.assertions(2)
 
-    let runResult = StartExecutionCommand.run(["--programId", "5", "5"])
+    let runResult = GetQualityGateResults.run(["5", "--programId", "5", "1002", "codeQuality"])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual("LOCATION")
+    await expect(runResult).rejects.toEqual(new Error('Cannot get execution: https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution/1002 (404 Not Found)'))
 })
 
+test('get-quality-gate-results - success', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
 
+    expect.assertions(8)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "7", "1001", "codeQuality"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toMatchObject(expect.arrayContaining([{
+        "actualValue": "A",
+        "comparator": "GTE",
+        "expectedValue": "B",
+        "id": "69602",
+        "kpi": "security_rating",
+        "override": false,
+        "passed": true,
+        "severity": "critical"
+    }]))
+    await expect(runResult).resolves.toHaveLength(8)
+
+    const columns = cli.table.mock.calls[0][1];
+
+    expect(columns.severity.get({ "severity" : "critical" })).toBe("Critical")
+
+    expect(columns.kpi.get({ "kpi" : "some_thing" })).toBe("Some Thing")
+    expect(columns.kpi.get({ "kpi" : "sqale_rating" })).toBe("Maintainability Rating")
+
+
+    expect(columns.passed.get({ "passed" : true })).toBe("Yes")
+    expect(columns.passed.get({ "passed" : false })).toBe("No")
+})
