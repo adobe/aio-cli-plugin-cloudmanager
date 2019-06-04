@@ -126,3 +126,22 @@ test('list-programs - success', async () => {
         status: "BUSY"
     }])
 })
+
+
+test('list-pipelines - bad program', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+        'cloudmanager_programid': "8"
+    }
+
+    expect.assertions(2)
+
+    let runResult = ListPipelinesCommand.run([])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error('Could not find program 8'))
+})
