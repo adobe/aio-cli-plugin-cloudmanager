@@ -81,6 +81,7 @@
     "setupFilesAfterEnv": [
       "jest-extended",
       "./jest.setup.js"
-    ]
+    ],
+    "clearMocks": true
   }
 }
