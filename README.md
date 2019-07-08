@@ -73,13 +73,13 @@ $ aio config:set cloudmanager_programid 4
 
 # Commands
 <!-- commands -->
-* [`aio cloudmanager`](aio-cloudmanager)
-* [`aio cloudmanager:get-current-execution PIPELINEID`](aio-cloudmanagerget-current-execution-pipelineid)
-* [`aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](aio-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
-* [`aio cloudmanager:list-current-executions`](aio-cloudmanagerlist-current-executions)
-* [`aio cloudmanager:list-pipelines`](aio-cloudmanagerlist-pipelines)
-* [`aio cloudmanager:list-programs`](aio-cloudmanagerlist-programs)
-* [`aio cloudmanager:start-execution PIPELINEID`](aio-cloudmanagerstart-execution-pipelineid)
+* [`aio cloudmanager`](#aio-cloudmanager)
+* [`aio cloudmanager:get-current-execution PIPELINEID`](#aio-cloudmanagerget-current-execution-pipelineid)
+* [`aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
+* [`aio cloudmanager:list-current-executions`](#aio-cloudmanagerlist-current-executions)
+* [`aio cloudmanager:list-pipelines`](#aio-cloudmanagerlist-pipelines)
+* [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
+* [`aio cloudmanager:start-execution PIPELINEID`](#aio-cloudmanagerstart-execution-pipelineid)
 
 ## `aio cloudmanager`
 
