@@ -73,21 +73,21 @@ $ aio config:set cloudmanager_programid 4
 
 # Commands
 <!-- commands -->
-* [`./bin/run cloudmanager`](#bin-run-cloudmanager)
-* [`./bin/run cloudmanager:get-current-execution PIPELINEID`](#bin-run-cloudmanagerget-current-execution-pipelineid)
-* [`./bin/run cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#bin-run-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
-* [`./bin/run cloudmanager:list-current-executions`](#bin-run-cloudmanagerlist-current-executions)
-* [`./bin/run cloudmanager:list-pipelines`](#bin-run-cloudmanagerlist-pipelines)
-* [`./bin/run cloudmanager:list-programs`](#bin-run-cloudmanagerlist-programs)
-* [`./bin/run cloudmanager:start-execution PIPELINEID`](#bin-run-cloudmanagerstart-execution-pipelineid)
+* [`aio cloudmanager`](aio-cloudmanager)
+* [`aio cloudmanager:get-current-execution PIPELINEID`](aio-cloudmanagerget-current-execution-pipelineid)
+* [`aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](aio-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
+* [`aio cloudmanager:list-current-executions`](aio-cloudmanagerlist-current-executions)
+* [`aio cloudmanager:list-pipelines`](aio-cloudmanagerlist-pipelines)
+* [`aio cloudmanager:list-programs`](aio-cloudmanagerlist-programs)
+* [`aio cloudmanager:start-execution PIPELINEID`](aio-cloudmanagerstart-execution-pipelineid)
 
-## `./bin/run cloudmanager`
+## `aio cloudmanager`
 
 interact with the Cloud Manager API to list, start, cancel, and inspect pipelines and executions.
 
 ```
 USAGE
-  $ ./bin/run cloudmanager
+  $ aio cloudmanager
 
 OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
@@ -109,13 +109,13 @@ EXAMPLES
 
 _See code: [src/commands/cloudmanager/index.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/index.js)_
 
-## `./bin/run cloudmanager:get-current-execution PIPELINEID`
+## `aio cloudmanager:get-current-execution PIPELINEID`
 
 get pipeline execution
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:get-current-execution PIPELINEID
+  $ aio cloudmanager:get-current-execution PIPELINEID
 
 ARGUMENTS
   PIPELINEID  the pipeline id
@@ -127,13 +127,13 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/get-current-execution.js)_
 
-## `./bin/run cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
+## `aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
 
 get quality gate results
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION
+  $ aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION
 
 ARGUMENTS
   PIPELINEID   the pipeline id
@@ -147,13 +147,13 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/get-quality-gate-results.js)_
 
-## `./bin/run cloudmanager:list-current-executions`
+## `aio cloudmanager:list-current-executions`
 
 list running pipeline executions
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:list-current-executions
+  $ aio cloudmanager:list-current-executions
 
 OPTIONS
   -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
@@ -162,13 +162,13 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/list-current-executions.js)_
 
-## `./bin/run cloudmanager:list-pipelines`
+## `aio cloudmanager:list-pipelines`
 
 lists pipelines available in a Cloud Manager program
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:list-pipelines
+  $ aio cloudmanager:list-pipelines
 
 OPTIONS
   -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
@@ -177,13 +177,13 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/list-pipelines.js)_
 
-## `./bin/run cloudmanager:list-programs`
+## `aio cloudmanager:list-programs`
 
 lists programs available in Cloud Manager
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:list-programs
+  $ aio cloudmanager:list-programs
 
 OPTIONS
   -e, --enabledonly            only output Cloud Manager-enabled programs
@@ -192,13 +192,13 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/list-programs.js)_
 
-## `./bin/run cloudmanager:start-execution PIPELINEID`
+## `aio cloudmanager:start-execution PIPELINEID`
 
 start pipeline execution
 
 ```
 USAGE
-  $ ./bin/run cloudmanager:start-execution PIPELINEID
+  $ aio cloudmanager:start-execution PIPELINEID
 
 ARGUMENTS
   PIPELINEID  the pipeline id
