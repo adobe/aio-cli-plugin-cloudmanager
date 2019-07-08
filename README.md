@@ -75,12 +75,41 @@ $ aio config:set cloudmanager_programid 4
 
 # Commands
 <!-- commands -->
+* [`./bin/run cloudmanager`](#bin-run-cloudmanager)
 * [`./bin/run cloudmanager:get-current-execution PIPELINEID`](#bin-run-cloudmanagerget-current-execution-pipelineid)
 * [`./bin/run cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#bin-run-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
 * [`./bin/run cloudmanager:list-current-executions`](#bin-run-cloudmanagerlist-current-executions)
 * [`./bin/run cloudmanager:list-pipelines`](#bin-run-cloudmanagerlist-pipelines)
 * [`./bin/run cloudmanager:list-programs`](#bin-run-cloudmanagerlist-programs)
 * [`./bin/run cloudmanager:start-execution PIPELINEID`](#bin-run-cloudmanagerstart-execution-pipelineid)
+
+## `./bin/run cloudmanager`
+
+interact with the Cloud Manager API to list, start, cancel, and inspect pipelines and executions.
+
+```
+USAGE
+  $ ./bin/run cloudmanager
+
+OPTIONS
+  -r, --passphrase=passphrase  the passphrase for the private-key
+
+EXAMPLES
+  $ aio cloudmanager:list-programs
+  $ aio cloudmanager:list-programs --enabledonly
+  $ aio cloudmanager:list-pipelines
+  $ aio cloudmanager:list-pipelines --programId=PROGRAM_ID
+  $ aio cloudmanager:start-execution PIPELINE_ID
+  $ aio cloudmanager:start-execution --programId=PROGRAM_ID PIPELINE_ID
+  $ aio cloudmanager:list-current-executions
+  $ aio cloudmanager:list-current-executions --programId=PROGRAM_ID
+  $ aio cloudmanager:get-current-execution PIPELINE_ID
+  $ aio cloudmanager:get-current-execution --programId=PROGRAM_ID PIPELINE_ID
+  $ aio cloudmanager:get-quality-gate-results PIPELINE_ID [codeQuality|security|performance]
+  $ aio cloudmanager:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID [codeQuality|security|performance]
+```
+
+_See code: [src/commands/cloudmanager/index.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/index.js)_
 
 ## `./bin/run cloudmanager:get-current-execution PIPELINEID`
 
@@ -98,7 +127,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.2/src/commands/cloudmanager/get-current-execution.js)_
+_See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/get-current-execution.js)_
 
 ## `./bin/run cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
 
@@ -118,7 +147,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.2/src/commands/cloudmanager/get-quality-gate-results.js)_
+_See code: [src/commands/cloudmanager/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/get-quality-gate-results.js)_
 
 ## `./bin/run cloudmanager:list-current-executions`
 
@@ -133,7 +162,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.2/src/commands/cloudmanager/list-current-executions.js)_
+_See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/list-current-executions.js)_
 
 ## `./bin/run cloudmanager:list-pipelines`
 
@@ -148,7 +177,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.2/src/commands/cloudmanager/list-pipelines.js)_
+_See code: [src/commands/cloudmanager/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/list-pipelines.js)_
 
 ## `./bin/run cloudmanager:list-programs`
 
@@ -163,7 +192,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.2/src/commands/cloudmanager/list-programs.js)_
+_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/list-programs.js)_
 
 ## `./bin/run cloudmanager:start-execution PIPELINEID`
 
@@ -181,5 +210,5 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.2/src/commands/cloudmanager/start-execution.js)_
+_See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.0.3/src/commands/cloudmanager/start-execution.js)_
 <!-- commandsstop -->
