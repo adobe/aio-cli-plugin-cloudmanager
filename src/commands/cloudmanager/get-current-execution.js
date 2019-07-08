@@ -10,12 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command, flags } = require('@oclif/command')
+const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
 const { getApiKey, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
-const globalFlags = require('./index').flags
+const commonFlags = require('../../common-flags')
 
 async function _getCurrentExecution (programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
@@ -68,8 +68,8 @@ class GetCurrentExecutionCommand extends Command {
 GetCurrentExecutionCommand.description = 'get pipeline execution'
 
 GetCurrentExecutionCommand.flags = {
-  ...globalFlags,
-  programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
 GetCurrentExecutionCommand.args = [

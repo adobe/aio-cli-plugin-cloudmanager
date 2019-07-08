@@ -15,7 +15,7 @@ const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth'
 const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
 const Client = require('../../client')
 const { cli } = require('cli-ux')
-const globalFlags = require('./index').flags
+const commonFlags = require('../../common-flags')
 
 async function _listPrograms(passphrase) {
     const apiKey = await getApiKey()
@@ -60,7 +60,7 @@ class ListProgramsCommand extends Command {
 ListProgramsCommand.description = 'lists programs available in Cloud Manager'
 
 ListProgramsCommand.flags = {
-    ...globalFlags,
+    ...commonFlags.global,
     enabledonly: flags.boolean({ char: 'e', description: 'only output Cloud Manager-enabled programs' })
 }
 

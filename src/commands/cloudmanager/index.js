@@ -9,7 +9,8 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const { Command, flags } = require('@oclif/command')
+const { Command } = require('@oclif/command')
+const commonFlags = require('../../common-flags')
 
 class CloudManagerCommand extends Command { }
 
@@ -35,8 +36,6 @@ CloudManagerCommand.examples = [
     '$ aio cloudmanager:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID [codeQuality|security|performance]'
   ]
 
-CloudManagerCommand.flags = {
-  passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' })
-}
+CloudManagerCommand.flags = commonFlags.global
 
 module.exports = CloudManagerCommand
