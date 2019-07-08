@@ -39,9 +39,7 @@ After you've created the integration, create a `config.json` file on your comput
   "client_id": "value from your CLI integration (String)",
   "client_secret": "value from your CLI integration (String)",
   "jwt_payload": { value from your CLI integration (JSON Object Literal) },
-  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt",
-  "console_get_orgs_url":"https://api.adobe.io/console/organizations",
-  "console_get_namespaces_url":"https://api.adobe.io/runtime/admin/namespaces/"
+  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt"
 }
 ```
 
