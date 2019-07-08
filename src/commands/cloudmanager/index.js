@@ -33,7 +33,13 @@ CloudManagerCommand.examples = [
     '$ aio cloudmanager:get-current-execution --programId=PROGRAM_ID PIPELINE_ID',
 
     '$ aio cloudmanager:get-quality-gate-results PIPELINE_ID [codeQuality|security|performance]',
-    '$ aio cloudmanager:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID [codeQuality|security|performance]'
+    '$ aio cloudmanager:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID [codeQuality|security|performance]',
+
+    '$ aio cloudmanager:cancel-current-execution PIPELINE_ID',
+    '$ aio cloudmanager:cancel-current-execution --programId=PROGRAM_ID PIPELINE_ID',
+
+    '$ aio cloudmanager:advance-current-execution PIPELINE_ID',
+    '$ aio cloudmanager:advance-current-execution --programId=PROGRAM_ID PIPELINE_ID'
   ]
 
 CloudManagerCommand.flags = commonFlags.global

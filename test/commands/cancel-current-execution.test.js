@@ -11,7 +11,8 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const StartExecutionCommand = require('../../src/commands/cloudmanager/start-execution')
+const fetchMock = require('node-fetch')
+const CancelCurrentExecution = require('../../src/commands/cloudmanager/cancel-current-execution')
 
 let mockStore = {}
 
@@ -44,24 +45,24 @@ beforeEach(() => {
     mockStore = {}
 })
 
-test('start-execution - missing arg', async () => {
+test('cancel-current-execution - missing arg', async () => {
     expect.assertions(2)
 
-    let runResult = StartExecutionCommand.run([])
+    let runResult = CancelCurrentExecution.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
 })
 
-test('start-execution - missing config', async () => {
+test('cancel-current-execution - missing config', async () => {
     expect.assertions(3)
 
-    let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
+    let runResult = CancelCurrentExecution.run(["--programId", "5", "10"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
     await expect(cli.action.stop.mock.calls[0][0]).toBe("missing config data: jwt-auth")
 })
 
-test('start-execution - bad pipeline', async () => {
+test('cancel-current-execution - bad pipeline', async () => {
     mockStore = {
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -73,13 +74,13 @@ test('start-execution - bad pipeline', async () => {
 
     expect.assertions(3)
 
-    let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
+    let runResult = CancelCurrentExecution.run(["--programId", "5", "10"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot start execution. Pipeline 10 does not exist.")
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot get execution. Pipeline 10 does not exist.")
 })
 
-test('start-execution - failed 412', async () => {
+test('cancel-current-execution - build running', async () => {
     mockStore = {
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -88,16 +89,17 @@ test('start-execution - failed 412', async () => {
             }
         }),
     }
+    fetchMock.setPipeline7Execution("1005")
 
     expect.assertions(3)
 
-    let runResult = StartExecutionCommand.run(["--programId", "5", "6"])
+    let runResult = CancelCurrentExecution.run(["--programId", "5", "7"])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot create execution. Pipeline already running.")
+    await expect(runResult).resolves.toEqual({})
+    await expect(fetchMock.called('cancel-1005')).toBeTruthy()
 })
 
-test('start-execution - success', async () => {
+test('cancel-current-execution - code quality waiting', async () => {
     mockStore = {
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -106,12 +108,31 @@ test('start-execution - success', async () => {
             }
         }),
     }
+    fetchMock.setPipeline7Execution("1006")
 
-    expect.assertions(2)
+    expect.assertions(3)
 
-    let runResult = StartExecutionCommand.run(["--programId", "5", "5"])
+    let runResult = CancelCurrentExecution.run(["--programId", "5", "7"])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual("LOCATION")
+    await expect(runResult).resolves.toEqual({})
+    await expect(fetchMock.called('cancel-1006')).toBe(true)
 })
 
+test('cancel-current-execution - approval waiting', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
+    fetchMock.setPipeline7Execution("1007")
 
+    expect.assertions(3)
+
+    let runResult = CancelCurrentExecution.run(["--programId", "5", "7"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toEqual({})
+    await expect(fetchMock.called('cancel-1007')).toBe(true)
+})

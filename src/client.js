@@ -14,7 +14,7 @@ const fetch = require('node-fetch')
 const halfred = require('halfred')
 
 const { rels, basePath } = require('./constants')
-const { getBaseUrl } = require('./cloudmanager-helpers')
+const { getBaseUrl, getCurrentStep, getWaitingStep } = require('./cloudmanager-helpers')
 
 class Client {
 
@@ -24,8 +24,7 @@ class Client {
         this.apiKey = apiKey
     }
 
-
-    async _doRequest(path, method) {
+    async _doRequest(path, method, body) {
         const baseUrl = await getBaseUrl()
         const url = `${baseUrl}${path}`
         const options = {
@@ -37,6 +36,10 @@ class Client {
                 accept: 'application/json'
             }
         }
+        if (body) {
+            options.body = JSON.stringify(body)
+            options.headers['content-type'] = 'application/json'
+        }
 
         debug(`fetch: ${url}`)
         return fetch(url, options)
@@ -46,8 +49,8 @@ class Client {
         return this._doRequest(path, 'GET')
     }
 
-    async put(path) {
-        return this._doRequest(path, 'PUT')
+    async put(path, body) {
+        return this._doRequest(path, 'PUT', body)
     }
 
     async _listPrograms() {
@@ -162,9 +165,77 @@ class Client {
             throw new Error(`Cannot find step state for action ${action} on execution ${executionId}.`)
         }
 
+        return this._getMetricsForStepState(stepState)
+    }
+
+    async _getMetricsForStepState(stepState) {
         return this.get(`${stepState.link(rels.metrics).href}`).then((res) => {
             if (res.ok) return res.json()
             else throw new Error(`Cannot get metrics: ${res.url} (${res.status} ${res.statusText})`)
+        })
+    }
+
+    async cancelCurrentExecution(programId, pipelineId) {
+        const execution = halfred.parse(await this.getCurrentExecution(programId, pipelineId))
+        const step = getCurrentStep(execution)
+        if (!step) {
+            throw new Error(`Cannot find a current step for pipeline ${pipelineId}`)
+        }
+        const cancelHalLink = step.link(rels.cancel)
+        if (!cancelHalLink) {
+            throw new Error(`Cannot find a cancel link for the current step (${step.action})`)
+        }
+        const href = cancelHalLink.href
+
+        const body = {}
+        if (step.action === "approval") {
+            body.approved = false
+        } else if (step.action === "managed") {
+            body.start = false
+        } else if (step.status === "WAITING" && step.action !== "schedule") {
+            body.override = false
+        } else {
+            body.cancel = true
+        }
+
+        return this.put(href, body).then((res) => {
+            if (res.ok) return {}
+            else throw new Error(`Cannot cancel execution: ${res.url} (${res.status} ${res.statusText})`)
+        })
+    }
+
+    async advanceCurrentExecution(programId, pipelineId) {
+        const execution = halfred.parse(await this.getCurrentExecution(programId, pipelineId))
+        const step = getWaitingStep(execution)
+        if (!step) {
+            throw new Error(`Cannot find a waiting step for pipeline ${pipelineId}`)
+        }
+        const advanceHalLink = step.link(rels.advance)
+        if (!advanceHalLink) {
+            throw new Error(`Cannot find an advance link for the current step (${step.action})`)
+        }
+        const href = advanceHalLink.href
+
+        const body = {}
+        if (step.action === "approval") {
+            body.approved = true
+        } else if (step.action === "managed") {
+            body.start = true
+        } else if (step.action === "schedule") {
+            throw new Error("Cannot advanced schedule step (yet)")
+        } else {
+            const results = await this._getMetricsForStepState(step);
+            body.metrics = results.metrics.filter(metric => metric.severity === 'important' && metric.passed === false).map(metric => {
+                return {
+                    ...metric,
+                    override: true
+                }
+            })
+        }
+
+        return this.put(href, body).then((res) => {
+            if (res.ok) return {}
+            else throw new Error(`Cannot advance execution: ${res.url} (${res.status} ${res.statusText})`)
         })
     }
 }
