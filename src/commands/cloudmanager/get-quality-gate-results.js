@@ -16,6 +16,7 @@ const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helper
 const { cli } = require('cli-ux')
 const _ = require("lodash")
 const Client = require('../../client')
+const globalFlags = require('./index').flags
 
 async function _getQualityGateResults (programId, pipelineId, executionId, action, passphrase) {
   const apiKey = await getApiKey()
@@ -84,7 +85,7 @@ class GetQualityGateResults extends Command {
 GetQualityGateResults.description = 'get quality gate results'
 
 GetQualityGateResults.flags = {
-  passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' }),
+  ...globalFlags,
   programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
 }
 

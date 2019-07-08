@@ -15,6 +15,7 @@ const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth'
 const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
+const globalFlags = require('./index').flags
 
 async function _startExecution (orgId, programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
@@ -53,7 +54,7 @@ class StartExecutionCommand extends Command {
 StartExecutionCommand.description = 'start pipeline execution'
 
 StartExecutionCommand.flags = {
-  passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' }),
+  ...globalFlags,
   programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
 }
 
