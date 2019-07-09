@@ -80,6 +80,25 @@ test('advance-current-execution - bad pipeline', async () => {
     await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot get execution. Pipeline 10 does not exist.")
 })
 
+test('advance-current-execution - build running', async () => {
+    mockStore = {
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    }
+    fetchMock.setPipeline7Execution("1005")
+
+    expect.assertions(3)
+
+    let runResult = AdvanceCurrentExecution.run(["--programId", "5", "7"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toEqual(undefined)
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot find a waiting step for pipeline 7")
+})
+
 test('advance-current-execution - code quality waiting', async () => {
     mockStore = {
         'jwt-auth': JSON.stringify({

@@ -178,7 +178,7 @@ class Client {
     async cancelCurrentExecution(programId, pipelineId) {
         const execution = halfred.parse(await this.getCurrentExecution(programId, pipelineId))
         const step = getCurrentStep(execution)
-        if (!step) {
+        if (!step || !step.link) {
             throw new Error(`Cannot find a current step for pipeline ${pipelineId}`)
         }
         const cancelHalLink = step.link(rels.cancel)
@@ -207,7 +207,7 @@ class Client {
     async advanceCurrentExecution(programId, pipelineId) {
         const execution = halfred.parse(await this.getCurrentExecution(programId, pipelineId))
         const step = getWaitingStep(execution)
-        if (!step) {
+        if (!step || !step.link) {
             throw new Error(`Cannot find a waiting step for pipeline ${pipelineId}`)
         }
         const advanceHalLink = step.link(rels.advance)
