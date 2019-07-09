@@ -1,0 +1,96 @@
+{
+    "_embedded": {
+        "stepStates": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4595/step/8491",
+                        "templated": false
+                    }
+                },
+                "id": "53082",
+                "stepId": "8491",
+                "phaseId": "4595",
+                "executionId": "1006",
+                "pipelineId": "5",
+                "programId": "7",
+                "action": "validate",
+                "startedAt": "2019-07-08T22:44:32.267+0000",
+                "finishedAt": "2019-07-08T22:44:35.320+0000",
+                "updatedAt": "2019-07-08T22:44:35.383+0000",
+                "status": "FINISHED"
+            },
+            {
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/logs": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8492/logs",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8492/metrics",
+                        "templated": false
+                    },
+                    "self": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8492",
+                        "templated": false
+                    }
+                },
+                "id": "53083",
+                "stepId": "8492",
+                "phaseId": "4596",
+                "executionId": "1006",
+                "pipelineId": "5",
+                "programId": "7",
+                "action": "build",
+                "repository": "weretail",
+                "branch": "master",
+                "startedAt": "2019-07-08T22:44:36.814+0000",
+                "finishedAt": "2019-07-08T22:50:54.175+0000",
+                "updatedAt": "2019-07-08T22:50:54.259+0000",
+                "status": "FINISHED"
+            },
+            {
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/advance": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493/advance",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/cancel": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493/cancel",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/logs": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493/logs",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493/metrics",
+                        "templated": false
+                    },
+                    "self": {
+                        "href": "/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493",
+                        "templated": false
+                    }
+                },
+                "id": "53084",
+                "stepId": "8493",
+                "phaseId": "4596",
+                "executionId": "1006",
+                "pipelineId": "5",
+                "programId": "7",
+                "action": "codeQuality",
+                "repository": "weretail",
+                "branch": "master",
+                "updatedAt": "2019-07-08T22:51:00.625+0000",
+                "status": "WAITING"
+            }
+        ]
+    },
+    "id": "1006",
+    "programId": "5",
+    "pipelineId": "7",
+    "trigger": "MANUAL",
+    "status": "RUNNING",
+    "createdAt": "2019-07-08T22:44:25.537+0000",
+    "updatedAt": "2019-07-08T22:44:28.242+0000"
+}

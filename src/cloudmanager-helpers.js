@@ -26,6 +26,10 @@ function getCurrentStep(execution) {
     return (execution && execution._embedded && execution._embedded.stepStates && execution._embedded.stepStates.filter(ss => ss.status !== "FINISHED")[0]) || {}
 }
 
+function getWaitingStep(execution) {
+    return (execution && execution._embedded && execution._embedded.stepStates && execution._embedded.stepStates.filter(ss => ss.status === "WAITING")[0]) || {}
+}
+
 async function getOrgId() {
     const configData = await getJwtAuth()
     if (!configData.jwt_payload || !configData.jwt_payload.iss) {
@@ -72,5 +76,6 @@ module.exports = {
     getApiKey,
     getOrgId,
     getCurrentStep,
-    getProgramId
+    getProgramId,
+    getWaitingStep
 }

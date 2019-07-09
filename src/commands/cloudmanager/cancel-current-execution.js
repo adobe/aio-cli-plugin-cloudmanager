@@ -17,49 +17,49 @@ const { cli } = require('cli-ux')
 const Client = require('../../client')
 const commonFlags = require('../../common-flags')
 
-async function _startExecution (programId, pipelineId, passphrase) {
-  const orgId = await getOrgId()
+async function _cancelCurrentExecution (programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
-  return new Client(orgId, accessToken, apiKey).startExecution(programId, pipelineId)
+  const orgId = await getOrgId()
+  return new Client(orgId, accessToken, apiKey).cancelCurrentExecution(programId, pipelineId)
 }
 
-class StartExecutionCommand extends Command {
+class CancelCurrentExecutionCommand extends Command {
   async run () {
-    const { args, flags } = this.parse(StartExecutionCommand)
+    const { args, flags } = this.parse(CancelCurrentExecutionCommand)
 
     const programId = await getProgramId(flags)
 
     let result
 
-    cli.action.start("starting execution")
+    cli.action.start("cancelling execution")
 
     try {
-      result = await this.startExecution(programId, args.pipelineId, flags.passphrase)
+      result = await this.cancelCurrentExecution(programId, args.pipelineId, flags.passphrase)
     } catch (error) {
       cli.action.stop(error.message)
       return
     }
 
-    cli.action.stop('started')
+    cli.action.stop('cancelled')
 
     return result
   }
 
-  async startExecution (programId, pipelineId, passphrase = null) {
-    return _startExecution(programId, pipelineId, passphrase)
+  async cancelCurrentExecution (programId, pipelineId, passphrase = null) {
+    return _cancelCurrentExecution(programId, pipelineId, passphrase)
   }
 }
 
-StartExecutionCommand.description = 'start pipeline execution'
+CancelCurrentExecutionCommand.description = 'cancel current pipeline execution either by cancelling the current step, rejecting a waiting quality gate, or rejecting the approval step'
 
-StartExecutionCommand.flags = {
+CancelCurrentExecutionCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId
 }
 
-StartExecutionCommand.args = [
-  {name: 'pipelineId', required: true, description: "the pipeline id"}
+CancelCurrentExecutionCommand.args = [
+    {name: 'pipelineId', required: true, description: "the pipeline id"}
 ]
 
-module.exports = StartExecutionCommand
+module.exports = CancelCurrentExecutionCommand
