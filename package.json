@@ -5,7 +5,7 @@
   "author": "Adobe Inc.",
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
-    "@adobe/aio-cli-plugin-config": "^1.0.6",
+    "@adobe/aio-cli-plugin-config": "^2.0.0",
     "@adobe/aio-cli-plugin-jwt-auth": "^1.0.9",
     "@oclif/command": "^1.5.6",
     "@oclif/config": "^1.9.0",
