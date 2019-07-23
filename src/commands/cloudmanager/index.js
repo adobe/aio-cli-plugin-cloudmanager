@@ -12,7 +12,13 @@ governing permissions and limitations under the License.
 const { Command } = require('@oclif/command')
 const commonFlags = require('../../common-flags')
 
-class CloudManagerCommand extends Command { }
+class CloudManagerCommand extends Command {
+
+    async run() {
+        this._help();
+    }
+
+}
 
 CloudManagerCommand.description = 'interact with the Cloud Manager API to list, start, cancel, and inspect pipelines and executions.'
 
