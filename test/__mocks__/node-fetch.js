@@ -143,7 +143,7 @@ mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5/e
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution', 'PUT', {
     status: 201,
     headers: {
-        location: 'LOCATION'
+        location: 'https://cloudmanager.adobe.io/api/program/4/pipeline/8555/execution/12742'
     }
 });
 

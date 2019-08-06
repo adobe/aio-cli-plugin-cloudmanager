@@ -41,7 +41,13 @@ class StartExecutionCommand extends Command {
       return
     }
 
-    cli.action.stop('started')
+    const evaluated = /^.*\/([0-9]+)$/.exec(result)
+
+    if (evaluated) {
+        cli.action.stop(`started execution ID ${evaluated[1]}`)
+    } else {
+        cli.action.stop('started')
+    }
 
     return result
   }
