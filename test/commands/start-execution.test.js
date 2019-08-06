@@ -81,11 +81,12 @@ test('start-execution - success', async () => {
         }),
     })
 
-    expect.assertions(2)
+    expect.assertions(3)
 
     let runResult = StartExecutionCommand.run(["--programId", "5", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual("LOCATION")
+    await expect(runResult).resolves.toEqual("https://cloudmanager.adobe.io/api/program/4/pipeline/8555/execution/12742")
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("started execution ID 12742")
 })
 
 
