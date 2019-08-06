@@ -10,37 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { setStore } = require('@adobe/aio-cna-core-config')
 const ListProgramsCommand = require('../../src/commands/cloudmanager/list-programs')
 
-let mockStore = {}
-
-jest.mock('conf', () => {
-    return function () { // constructor
-        // set properties and functions for object
-        // this is how you can get the call stats on the mock instance,
-        // see https://github.com/facebook/jest/issues/2982
-        Object.defineProperty(this, 'store',
-            {
-                get: jest.fn(() => mockStore),
-            })
-
-        this.get = jest.fn(k => mockStore[k])
-        this.set = jest.fn()
-        this.delete = jest.fn()
-        this.clear = jest.fn()
-    }
-})
-
-jest.mock('@adobe/aio-cli-plugin-jwt-auth', () => {
-    return {
-        accessToken: () => {
-            return Promise.resolve('fake-token')
-        },
-    }
-})
-
 beforeEach(() => {
-    mockStore = {}
+    setStore({})
 })
 
 test('list-programs - missing config', async () => {
@@ -52,14 +26,14 @@ test('list-programs - missing config', async () => {
 })
 
 test('list-programs - failure', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "not-found"
             }
         }),
-    }
+    })
     expect.assertions(2)
 
     let runResult = ListProgramsCommand.run([])
@@ -68,15 +42,14 @@ test('list-programs - failure', async () => {
 })
 
 test('list-programs - success empty', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "empty"
             }
         }),
-    }
-
+    })
     expect.assertions(2)
 
     let runResult = ListProgramsCommand.run([])
@@ -85,14 +58,14 @@ test('list-programs - success empty', async () => {
 })
 
 test('list-programs - success', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 
@@ -115,14 +88,14 @@ test('list-programs - success', async () => {
 })
 
 test('list-programs - filtered', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 

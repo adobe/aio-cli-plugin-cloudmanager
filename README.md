@@ -48,13 +48,13 @@ The last bit you need to have at hand is the private certificate you've used to 
 First, configure the credentials:
 
 ```
-aio config:set jwt-auth PATH_TO_CONFIG_JSON_FILE --file --mime-type=application/json
+aio config:set jwt-auth PATH_TO_CONFIG_JSON_FILE --file --json
 ```
 
 Then, configure the private certificate:
 
 ```
-aio config:set jwt-auth.jwt_private_key PATH_TO_PRIVATE_KEY_FILE --file --mime-type=application/x-pem-file
+aio config:set jwt-auth.jwt_private_key PATH_TO_PRIVATE_KEY_FILE --file
 ```
 
 ## Set Default Program
