@@ -41,10 +41,10 @@ class StartExecutionCommand extends Command {
       return
     }
 
-    const evaluated = /^.*\/(?<executionId>[0-9]+)$/.exec(result)
+    const evaluated = /^.*\/([0-9]+)$/.exec(result)
 
     if (evaluated) {
-        cli.action.stop(`started execution ID ${evaluated.groups.executionId}`)
+        cli.action.stop(`started execution ID ${evaluated[1]}`)
     } else {
         cli.action.stop('started')
     }
