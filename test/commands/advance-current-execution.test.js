@@ -12,37 +12,11 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const fetchMock = require('node-fetch')
+const { setStore } = require('@adobe/aio-cna-core-config')
 const AdvanceCurrentExecution = require('../../src/commands/cloudmanager/advance-current-execution')
 
-let mockStore = {}
-
-jest.mock('conf', () => {
-    return function () { // constructor
-        // set properties and functions for object
-        // this is how you can get the call stats on the mock instance,
-        // see https://github.com/facebook/jest/issues/2982
-        Object.defineProperty(this, 'store',
-            {
-                get: jest.fn(() => mockStore),
-            })
-
-        this.get = jest.fn(k => mockStore[k])
-        this.set = jest.fn()
-        this.delete = jest.fn()
-        this.clear = jest.fn()
-    }
-})
-
-jest.mock('@adobe/aio-cli-plugin-jwt-auth', () => {
-    return {
-        accessToken: () => {
-            return Promise.resolve('fake-token')
-        },
-    }
-})
-
 beforeEach(() => {
-    mockStore = {}
+    setStore({})
 })
 
 test('advance-current-execution - missing arg', async () => {
@@ -63,14 +37,14 @@ test('advance-current-execution - missing config', async () => {
 })
 
 test('advance-current-execution - bad pipeline', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(3)
 
@@ -81,14 +55,14 @@ test('advance-current-execution - bad pipeline', async () => {
 })
 
 test('advance-current-execution - build running', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
     fetchMock.setPipeline7Execution("1005")
 
     expect.assertions(3)
@@ -100,14 +74,14 @@ test('advance-current-execution - build running', async () => {
 })
 
 test('advance-current-execution - code quality waiting', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
     fetchMock.setPipeline7Execution("1006")
 
     expect.assertions(3)
@@ -119,14 +93,14 @@ test('advance-current-execution - code quality waiting', async () => {
 })
 
 test('advance-current-execution - approval waiting', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
     fetchMock.setPipeline7Execution("1007")
 
     expect.assertions(3)

@@ -11,37 +11,11 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
+const { setStore } = require('@adobe/aio-cna-core-config')
 const GetQualityGateResults = require('../../src/commands/cloudmanager/get-quality-gate-results')
 
-let mockStore = {}
-
-jest.mock('conf', () => {
-    return function () { // constructor
-        // set properties and functions for object
-        // this is how you can get the call stats on the mock instance,
-        // see https://github.com/facebook/jest/issues/2982
-        Object.defineProperty(this, 'store',
-            {
-                get: jest.fn(() => mockStore),
-            })
-
-        this.get = jest.fn(k => mockStore[k])
-        this.set = jest.fn()
-        this.delete = jest.fn()
-        this.clear = jest.fn()
-    }
-})
-
-jest.mock('@adobe/aio-cli-plugin-jwt-auth', () => {
-    return {
-        accessToken: () => {
-            return Promise.resolve('fake-token')
-        },
-    }
-})
-
 beforeEach(() => {
-    mockStore = {}
+    setStore({})
 })
 
 test('get-quality-gate-results - missing arg', async () => {
@@ -61,14 +35,14 @@ test('get-quality-gate-results - missing config', async () => {
 })
 
 test('get-quality-gate-results - failure', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 
@@ -78,14 +52,14 @@ test('get-quality-gate-results - failure', async () => {
 })
 
 test('get-quality-gate-results - success', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(8)
 
@@ -116,14 +90,14 @@ test('get-quality-gate-results - success', async () => {
 })
 
 test('get-quality-gate-results - not found', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 
@@ -133,14 +107,14 @@ test('get-quality-gate-results - not found', async () => {
 })
 
 test('get-quality-gate-results - empty', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 
@@ -150,14 +124,14 @@ test('get-quality-gate-results - empty', async () => {
 })
 
 test('get-quality-gate-results - missing performance step', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 
@@ -167,14 +141,14 @@ test('get-quality-gate-results - missing performance step', async () => {
 })
 
 test('get-quality-gate-results - missing security step', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 
@@ -184,14 +158,14 @@ test('get-quality-gate-results - missing security step', async () => {
 })
 
 test('get-quality-gate-results - bad pipeline', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
                 iss: "good"
             }
         }),
-    }
+    })
 
     expect.assertions(2)
 

@@ -10,37 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { setStore } = require('@adobe/aio-cna-core-config')
 const ListPipelinesCommand = require('../../src/commands/cloudmanager/list-pipelines')
 
-let mockStore = {}
-
-jest.mock('conf', () => {
-    return function () { // constructor
-        // set properties and functions for object
-        // this is how you can get the call stats on the mock instance,
-        // see https://github.com/facebook/jest/issues/2982
-        Object.defineProperty(this, 'store',
-            {
-                get: jest.fn(() => mockStore),
-            })
-
-        this.get = jest.fn(k => mockStore[k])
-        this.set = jest.fn()
-        this.delete = jest.fn()
-        this.clear = jest.fn()
-    }
-})
-
-jest.mock('@adobe/aio-cli-plugin-jwt-auth', () => {
-    return {
-        accessToken: () => {
-            return Promise.resolve('fake-token')
-        },
-    }
-})
-
 beforeEach(() => {
-    mockStore = {}
+    setStore({})
 })
 
 test('list-pipelines - missing arg', async () => {
@@ -60,7 +34,7 @@ test('list-pipelines - missing config', async () => {
 })
 
 test('list-pipelines - failure', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
@@ -68,7 +42,7 @@ test('list-pipelines - failure', async () => {
             }
         }),
         'cloudmanager_programid': "6"
-    }
+    })
 
     expect.assertions(2)
 
@@ -78,7 +52,7 @@ test('list-pipelines - failure', async () => {
 })
 
 test('list-pipelines - success empty', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
@@ -86,7 +60,7 @@ test('list-pipelines - success empty', async () => {
             }
         }),
         'cloudmanager_programid': "4"
-    }
+    })
 
     expect.assertions(2)
 
@@ -96,7 +70,7 @@ test('list-pipelines - success empty', async () => {
 })
 
 test('list-programs - success', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
@@ -104,7 +78,7 @@ test('list-programs - success', async () => {
             }
         }),
         'cloudmanager_programid': "5"
-    }
+    })
 
     expect.assertions(2)
 
@@ -129,7 +103,7 @@ test('list-programs - success', async () => {
 
 
 test('list-pipelines - bad program', async () => {
-    mockStore = {
+    setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
             jwt_payload: {
@@ -137,7 +111,7 @@ test('list-pipelines - bad program', async () => {
             }
         }),
         'cloudmanager_programid': "8"
-    }
+    })
 
     expect.assertions(2)
 
