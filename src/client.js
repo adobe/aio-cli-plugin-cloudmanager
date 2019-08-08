@@ -183,7 +183,7 @@ class Client {
         }
         const cancelHalLink = step.link(rels.cancel)
         if (!cancelHalLink) {
-            throw new Error(`Cannot find a cancel link for the current step (${step.action})`)
+            throw new Error(`Cannot find a cancel link for the current step (${step.action}). Step may not be cancellable.`)
         }
         const href = cancelHalLink.href
 
