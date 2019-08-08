@@ -23,6 +23,11 @@ Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
 ```sh-session
 $ aio plugins:install @adobe/aio-cli-plugin-cloudmanager
 ```
+# Updating
+
+```sh-session
+$ aio plugins:update
+```
 
 # Configuration
 
