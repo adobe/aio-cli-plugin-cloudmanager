@@ -194,6 +194,8 @@ class Client {
             body.start = false
         } else if (step.status === "WAITING" && step.action !== "schedule") {
             body.override = false
+        } else if (step.action === "deploy") {
+            body.resume = false
         } else {
             body.cancel = true
         }
@@ -223,6 +225,8 @@ class Client {
             body.start = true
         } else if (step.action === "schedule") {
             throw new Error("Cannot advanced schedule step (yet)")
+        } else if (step.action === "deploy") {
+            body.resume = true
         } else {
             const results = await this._getMetricsForStepState(step);
             body.metrics = results.metrics.filter(metric => metric.severity === 'important' && metric.passed === false).map(metric => {
