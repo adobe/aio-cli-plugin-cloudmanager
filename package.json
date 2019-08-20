@@ -12,7 +12,8 @@
     "@oclif/errors": "^1.1.2",
     "cli-ux": "^5.1.0",
     "halfred": "^1.1.1",
-    "node-fetch": "^2.3.0"
+    "node-fetch": "^2.3.0",
+    "uritemplate": "^0.3.4"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
