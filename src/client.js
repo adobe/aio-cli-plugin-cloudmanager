@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 const debug = require('debug')('aio-cli-plugin-cloudmanager')
 const fetch = require('node-fetch')
 const halfred = require('halfred')
+const UriTemplate = require('uritemplate')
 
 const { rels, basePath } = require('./constants')
 const { getBaseUrl, getCurrentStep, getWaitingStep } = require('./cloudmanager-helpers')
@@ -132,7 +133,9 @@ class Client {
         if (!pipeline) {
             throw new Error(`Cannot get execution. Pipeline ${pipelineId} does not exist.`)
         }
-        return this.get(`${pipeline.link(rels.execution).href}/${executionId}`).then((res) => {
+        const executionTemplate = UriTemplate.parse(pipeline.link(rels.executionId).href)
+        const executionLink = executionTemplate.expand({executionId: executionId})
+        return this.get(executionLink).then((res) => {
             if (res.ok) return res.json()
             else throw new Error(`Cannot get execution: ${res.url} (${res.status} ${res.statusText})`)
         })

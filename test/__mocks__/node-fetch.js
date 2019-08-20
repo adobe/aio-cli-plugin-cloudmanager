@@ -107,6 +107,10 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/pipelines', {
                     },
                     'http://ns.adobe.com/adobecloud/rel/execution': {
                         href: '/api/program/5/pipeline/5/execution'
+                    },
+                    'http://ns.adobe.com/adobecloud/rel/execution/id': {
+                        href: '/api/program/5/pipeline/5/execution/{executionId}',
+                        templated: true
                     }
                 }
             },
@@ -120,6 +124,10 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/pipelines', {
                     },
                     'http://ns.adobe.com/adobecloud/rel/execution': {
                         href: '/api/program/5/pipeline/6/execution'
+                    },
+                    'http://ns.adobe.com/adobecloud/rel/execution/id': {
+                        href: '/api/program/5/pipeline/6/execution/{executionId}',
+                        templated: true
                     }
                 }
             },
@@ -133,6 +141,10 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/pipelines', {
                     },
                     'http://ns.adobe.com/adobecloud/rel/execution': {
                         href: '/api/program/5/pipeline/7/execution'
+                    },
+                    'http://ns.adobe.com/adobecloud/rel/execution/id': {
+                        href: '/api/program/5/pipeline/7/execution/{executionId}',
+                        templated: true
                     }
                 }
             }

@@ -18,7 +18,8 @@ module.exports = {
         execution: 'http://ns.adobe.com/adobecloud/rel/execution',
         metrics: 'http://ns.adobe.com/adobecloud/rel/pipeline/metrics',
         cancel: 'http://ns.adobe.com/adobecloud/rel/pipeline/cancel',
-        advance: 'http://ns.adobe.com/adobecloud/rel/pipeline/advance'
+        advance: 'http://ns.adobe.com/adobecloud/rel/pipeline/advance',
+        executionId: 'http://ns.adobe.com/adobecloud/rel/execution/id'
     },
     config: {
         programId: 'cloudmanager_programid'
