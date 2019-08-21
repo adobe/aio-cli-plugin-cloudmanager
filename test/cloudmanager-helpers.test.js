@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-cna-core-config')
-const {getApiKey, getOrgId} = require('../src/cloudmanager-helpers')
+const {getApiKey, getOrgId, isWithinFiveMinutesOfUTCMidnight} = require('../src/cloudmanager-helpers')
 
 beforeEach(() => {
     jest.clearAllMocks()
@@ -62,4 +62,15 @@ test('getApiKey', async () => {
       }
     })
     await expect(getOrgId()).resolves.toEqual('...')
+  })
+
+  test('isWithinFiveMinutesOfUTCMidnight', async () => {
+    var utcDate1 = new Date(Date.UTC(2019, 9, 12, 23, 55, 14));
+    expect(isWithinFiveMinutesOfUTCMidnight(utcDate1)).toEqual(true)
+    var utcDate2 = new Date(Date.UTC(2019, 9, 12, 23, 53, 14));
+    expect(isWithinFiveMinutesOfUTCMidnight(utcDate2)).toEqual(false)
+    var utcDate3 = new Date(Date.UTC(2019, 9, 12, 0, 4, 14));
+    expect(isWithinFiveMinutesOfUTCMidnight(utcDate3)).toEqual(true)
+    var utcDate4 = new Date(Date.UTC(2019, 9, 12, 0, 6, 0));
+    expect(isWithinFiveMinutesOfUTCMidnight(utcDate4)).toEqual(false)
   })

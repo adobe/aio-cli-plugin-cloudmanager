@@ -30,6 +30,20 @@ function getWaitingStep(execution) {
     return (execution && execution._embedded && execution._embedded.stepStates && execution._embedded.stepStates.filter(ss => ss.status === "WAITING")[0]) || {}
 }
 
+/**
+ * Returns true if the {date} is +-5 minutes of UTC midnight time
+ * @param {date} date 
+ */
+function isWithinFiveMinutesOfUTCMidnight(date) {
+    let currentUTCHours = date.getUTCHours();
+    let currentUTCMinutes = date.getUTCMinutes();
+    if ((currentUTCHours == 23 && currentUTCMinutes >= 55) || (currentUTCHours == 0 && currentUTCMinutes <= 5)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 async function getOrgId() {
     const configData = await getJwtAuth()
     if (!configData.jwt_payload || !configData.jwt_payload.iss) {
@@ -71,11 +85,18 @@ async function getProgramId(flags) {
     return programId
 }
 
+async function sleep(msec) {
+    return new Promise(resolve => setTimeout(resolve, msec));
+}
+
+
 module.exports = {
     getBaseUrl,
     getApiKey,
     getOrgId,
     getCurrentStep,
     getProgramId,
-    getWaitingStep
+    getWaitingStep,
+    isWithinFiveMinutesOfUTCMidnight,
+    sleep
 }

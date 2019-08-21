@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const fs = require("fs")
 const nodeFetch = jest.requireActual('node-fetch');
 const fetchMock = require('fetch-mock').sandbox();
 const { Readable } = require('stream');
@@ -94,8 +95,8 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                         "href": "/api/program/4/environment/1",
                         "templated": false
                     },
-                    "http://ns.adobe.com/adobecloud/rel/logs":{
-                        "href":"/api/program/4/environment/1884/logs?service={service}&name={name}&days={days}",
+                    "http://ns.adobe.com/adobecloud/rel/logs": {
+                        "href": "/api/program/4/environment/1/logs?service={service}&name={name}&days={days}",
                         "templated": true
                     }
                 },
@@ -103,7 +104,45 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                 "programId": "4",
                 "name": "TestProgram_prod",
                 "description": "description for TestProgram_prod",
-                "type": "prod"
+                "type": "prod",
+                "availableLogOptions": [
+                    {
+                        "service" : "author",
+                        "name" : "aemerror"
+                    },
+                    {
+                        "service" : "author",
+                        "name" : "aemrequest"
+                    },
+                    {
+                        "service" : "author",
+                        "name" : "aemaccess"
+                    },
+                    {
+                        "service" : "publish",
+                        "name" : "aemerror"
+                    },
+                    {
+                        "service" : "publish",
+                        "name" : "aemrequest"
+                    },
+                    {
+                        "service" : "publish",
+                        "name" : "aemaccess"
+                    },
+                    {
+                        "service" : "dispatcher",
+                        "name" : "httpdaccess"
+                    },
+                    {
+                        "service" : "dispatcher",
+                        "name" : "httpderror"
+                    },
+                    {
+                        "service" : "dispatcher",
+                        "name" : "aemdispatcher"
+                    }
+                ]
             },
             {
                 "_links": {
@@ -116,7 +155,8 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                 "programId": "4",
                 "name": "TestProgram_stage",
                 "description": "description for TestProgram_stage",
-                "type": "stage"
+                "type": "stage",
+                "availableLogs" : []
             },
             {
                 "_links": {
@@ -135,6 +175,108 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
     },
     "_totalNumberOfItems": 3
 
+})
+
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environment/1/logs?service=author&name=aemerror&days=1', {
+    "_links": {
+        "self": {
+            "href": `/api/program/4/environment/1/logs?service=author&type=aemerror&days=1`
+        },
+        "http://ns.adobe.com/adobecloud/rel/program": {
+            "href": `/api/program/4`,
+            "templated": false
+        },
+        "http://ns.adobe.com/adobecloud/rel/environment": {
+            "href": `/api/program/4/environment/1`,
+            "templated": false
+        }
+    },
+    "service": ["author"],
+    "name": ["aemerror"],
+    "days": 1,
+    "_embedded": {
+        "downloads": [
+            {
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/logs/download": {
+                        "href": "/api/program/4/environment/1/logs/download?service=author&name=aemerror&date=2019-09-8",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/logs/tail": {
+                        "href": "https://filestore/logs/author_aemerror_2019-09-8.log"
+                    }
+                },
+                "service": "author",
+                "name": "aemerror",
+                "date": "2019-09-8",
+                "programId": 4,
+                "environmentId": 1
+            },
+            {
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/logs/download": {
+                        "href": "/api/program/4/environment/1/logs/download?service=author&name=aemerror&date=2019-09-7",
+                        "templated": false
+                    }
+                },
+                "service": "author",
+                "name": "aemerror",
+                "date": "2019-09-7",
+                "programId": 4,
+                "environmentId": 1
+            }
+        ]
+    }
+})
+
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environment/1/logs?service=publish&name=aemerror&days=1', {
+    "_links": {
+        "self": {
+            "href": `/api/program/4/environment/1/logs?service=publish&type=aemerror&days=1`
+        },
+        "http://ns.adobe.com/adobecloud/rel/program": {
+            "href": `/api/program/4`,
+            "templated": false
+        },
+        "http://ns.adobe.com/adobecloud/rel/environment": {
+            "href": `/api/program/4/environment/1`,
+            "templated": false
+        }
+    },
+    "service": ["publish"],
+    "name": ["aemerror"],
+    "days": 1,
+    "_embedded": {
+        "downloads": [
+            {
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/logs/download": {
+                        "href": "/api/program/4/environment/2/logs/download?service=publish&name=aemerror&date=2019-09-7",
+                        "templated": false
+                    }
+                },
+                "service": "publish",
+                "name": "aemerror",
+                "date": "2019-09-8",
+                "programId": 4,
+                "environmentId": 2
+            }
+        ]
+    }
+})
+
+fetchMock.mock("https://cloudmanager.adobe.io/api/program/4/environment/1/logs/download?service=author&name=aemerror&date=2019-09-8", {
+    "redirect": "https://filestore/logs/author_aemerror_2019-09-8.log.gz"
+})
+fetchMock.mock("https://cloudmanager.adobe.io/api/program/4/environment/1/logs/download?service=author&name=aemerror&date=2019-09-7", {
+    "redirect": "https://filestore/logs/author_aemerror_2019-09-7.log.gz"
+})
+
+fetchMock.mock("https://filestore/logs/author_aemerror_2019-09-8.log.gz", () => {
+    return new nodeFetch.Response(fs.createReadStream(__dirname + "/file.log.gz"));
+})
+fetchMock.mock("https://filestore/logs/author_aemerror_2019-09-7.log.gz", () => {
+    return new nodeFetch.Response(fs.createReadStream(__dirname + "/file.log.gz"));
 })
 
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/5', {

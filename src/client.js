@@ -10,9 +10,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const debug = require('debug')('aio-cli-plugin-cloudmanager')
+const {isWithinFiveMinutesOfUTCMidnight, sleep} = require('./cloudmanager-helpers')
 const fetch = require('node-fetch')
+const zlib = require('zlib')
 const halfred = require('halfred')
 const UriTemplate = require('uritemplate')
+const fs = require("fs")
+const util = require("util")
+const streamPipeline = util.promisify(require("stream").pipeline)
 
 const { rels, basePath } = require('./constants')
 const { getBaseUrl, getCurrentStep, getWaitingStep } = require('./cloudmanager-helpers')
@@ -277,7 +282,7 @@ class Client {
     }
 
     async _getLogsForStepState(stepState, outputStream) {
-        return this.get(`${stepState.link(rels.logs).href}`).then(async (res) => {
+        return this.get(`${stepState.link(rels.stepLogs).href}`).then(async (res) => {
             if (res.ok) {
                 const json = await res.json()
                 if (json.redirect) {
@@ -304,6 +309,182 @@ class Client {
         return this._getLogsForStepState(stepState, outputStream)
     }
 
+    async listAvailableLogOptions(programId, environmentId) {
+        let environments = await this.listEnvironments(programId)
+        let environment = environments.find(e => e.id === environmentId);
+        if (!environment) {
+            throw new Error(`Could not find environment ${environmentId} for program ${programId}`)
+        }
+
+        return environment.availableLogOptions || []
+    }
+
+    async _getLogs(environment, service, name, days) {
+        if (!environment.link(rels.logs)) {
+            throw new Error(`Could not find logs link for environment ${environment.id} for program ${environment.programId}`)
+        }
+        const logsTemplate = UriTemplate.parse(environment.link(rels.logs).href)
+        const logsLink = logsTemplate.expand({service: service, name: name, days: days})
+
+        return this.get(logsLink).then((res) => {
+            if (res.ok) return res.json()
+            else throw new Error(`Cannot get logs: ${res.url} (${res.status} ${res.statusText})`)
+        })
+    }
+
+    async _download(href, outputPath, resultObject) {
+        const res = await this.get(href)
+        if (!res.ok) throw new Error(`Could not obtain download link from ${res.url} (${res.status} ${res.statusText})`)
+
+        const downloadUrl = res.url
+
+        const json = await res.json()
+        if (!json || !json.redirect) {
+            console.log(json)
+            throw new Error(`Could not retrieve redirect from ${res.url} (${res.status} ${res.statusText})`)
+        }
+
+        const redirectUrl = json.redirect
+
+        const logRes = await fetch(redirectUrl)
+        if (!logRes.ok) throw new Error(`Could not download ${logRes.url} to ${outputPath} (${logRes.status} ${logRes.statusText})`)
+
+        await this._streamAndUnzip(logRes.body, fs.createWriteStream(outputPath)).catch(
+            function (error) {
+                if (error.errno !== -5 || error.code !== 'Z_BUF_ERROR') {
+                    throw new Error(`Could not unzip ${logRes.url} to ${outputPath}`)
+                }
+            }
+        )
+
+        return {
+            ...resultObject,
+            path: outputPath,
+            url: downloadUrl
+        };
+    }
+
+    async _streamAndUnzip(src, dest) {
+        await streamPipeline(src, zlib.createGunzip(), dest)
+    }
+
+    async downloadLogs(programId, environmentId, service, name, days, outputDirectory) {
+        let environments = await this.listEnvironments(programId)
+        let environment = environments.find(e => e.id === environmentId);
+        if (!environment) {
+            throw new Error(`Could not find environment ${environmentId} for program ${programId}`)
+        }
+        let logs = await this._getLogs(environment, service, name, days);
+        logs = halfred.parse(logs);
+
+        const downloads = logs.embeddedArray("downloads") || []
+
+        if (!fs.existsSync(outputDirectory)) {
+            fs.mkdirSync(outputDirectory)
+        }
+
+        const downloadPromises = [];
+
+        downloads.forEach(download => {
+            const downloadLinks = download.linkArray(rels.logsDownload);
+
+            if (downloadLinks.length == 0) {
+                return;
+            } else if (downloadLinks.length == 1) {
+                const downloadName = `${download.service}-${download.name}-${download.date}.log`
+                const path = `${outputDirectory}/${environmentId}-${downloadName}`
+                downloadPromises.push(this._download(downloadLinks[0].href, path, {
+                    ...download,
+                    index: 0
+                }));
+            } else {
+                for (let i = 0; i < downloadLinks.length; i++) {
+                    const downloadName = `${download.service}-${download.name}-${download.date}-${i}.log`
+                    const path = `${outputDirectory}/${environmentId}-${downloadName}`
+                    downloadPromises.push(this._download(downloadLinks[i].href, path, {
+                        ...download,
+                        index: i
+                    }));
+                }
+            }
+        });
+
+        const downloaded = await Promise.all(downloadPromises)
+
+        return downloaded
+    }
+
+    async _getLogFileSizeInitialSize(url) {
+        let options = {
+            method: 'HEAD'
+        };
+        const res = await fetch(url, options)
+        if (!res.ok) throw new Error(`Could not get initial size of ${url}`)
+        return res.headers.get("content-length");
+    }
+
+    async tailLogs(programId, environmentId, service, name, writeStream) {
+        let environments = await this.listEnvironments(programId)
+        let environment = environments.find(e => e.id === environmentId);
+        if (!environment) {
+            throw new Error(`Could not find environment ${environmentId} for program ${programId}`)
+        }
+        let tailingSasUrl = await this._getTailingSasUrl(programId, environment, service, name);
+        let contentLength = await this._getLogFileSizeInitialSize(tailingSasUrl);
+        await this._getLiveStream(programId, environment, service, name, tailingSasUrl, contentLength, writeStream);
+    }
+
+    async _getLiveStream (programId, environment, service, name, tailingSasUrl, currentStartLimit, writeStream) {
+        for(;;) {
+            let options = {
+                headers : {
+                    Range: 'bytes='+ currentStartLimit + '-'
+                }
+            };
+            let res = await fetch(tailingSasUrl, options);
+            if (res.status === 206) {
+                let contentLength = res.headers.get("content-length");
+                res.body.pipe(writeStream);
+                currentStartLimit =  parseInt(currentStartLimit) + parseInt(contentLength);
+            } else if (res.status === 416) {
+                await sleep(2000);
+                /**
+                 * Handles the rollover around UTC midnight using delta of 5 minutes before and after midnight
+                 * to account for client's clock synchronisation
+                 */
+                if (isWithinFiveMinutesOfUTCMidnight(new Date())) {
+                    tailingSasUrl = await this._getTailingSasUrl(programId, environment, service, name);
+                    let startLimit = await this._getLogFileSizeInitialSize(tailingSasUrl);
+                    if (parseInt(startLimit) < parseInt(currentStartLimit)) {
+                        currentStartLimit = startLimit;
+                    } else {
+                        //sleep to reduce number of requests to ssg around UTC midnight
+                        await sleep(2000);
+                    }
+                }
+            } else if (res.status === 404) {
+                throw new Error(`Logs not found! ${res.url} (${res.status} ${res.statusText})`)
+            } else {
+                throw new Error(`Cannot get tail logs: ${res.url} (${res.status} ${res.statusText})`)
+            }
+        }
+    }
+
+    async _getTailingSasUrl(programId, environment, service, name) {
+        let logs = await this._getLogs(environment, service, name, 1);
+        logs = halfred.parse(logs);
+        const downloads = logs.embeddedArray("downloads") || []
+        if (downloads && downloads.length > 0) {
+            const tailLinks = downloads[0].linkArray(rels.logsTail)
+            if (tailLinks && tailLinks.length > 0) {
+                return tailLinks[0].href;
+            } else {
+                throw new Error(`No logs for tailing available in ${environment.id} for program ${programId}`)
+            }
+        } else {
+            throw new Error(`No logs available in ${environment.id} for program ${programId}`)
+        }
+    }
 }
 
 module.exports = Client
