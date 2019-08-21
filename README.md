@@ -257,3 +257,21 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.1.3/src/commands/cloudmanager/start-execution.js)_
 <!-- commandsstop -->
+
+# Development
+
+For development, it is useful to use `aio plugins:link` to link to a local clone of this repository rather than a specific npm module, e.g.
+
+```
+$ git clone git@github.com:adobe/aio-cli-plugin-cloudmanager.git
+$ git checkout -B <your feature branch>
+$ aio plugins:link
+$ aio cloudmanager:<some command>
+```
+
+It may also be useful during development to point to a different API endpoint than https://cloudmanager.adobe.io, e.g. if you have a mock server you are using. For this you can
+configure the `cloudmanager.base_url` configuration key:
+
+```
+$ aio config:set cloudmanager.base_url https://mydummyapiserver
+```
