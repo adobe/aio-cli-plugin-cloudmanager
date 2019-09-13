@@ -84,6 +84,7 @@ $ aio config:set cloudmanager_programid 4
 * [`aio cloudmanager:get-current-execution PIPELINEID`](#aio-cloudmanagerget-current-execution-pipelineid)
 * [`aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
 * [`aio cloudmanager:list-current-executions`](#aio-cloudmanagerlist-current-executions)
+* [`aio cloudmanager:list-environments`](#aio-cloudmanagerlist-environments)
 * [`aio cloudmanager:list-pipelines`](#aio-cloudmanagerlist-pipelines)
 * [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
 * [`aio cloudmanager:start-execution PIPELINEID`](#aio-cloudmanagerstart-execution-pipelineid)
@@ -208,6 +209,21 @@ OPTIONS
 ```
 
 _See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.1.3/src/commands/cloudmanager/list-current-executions.js)_
+
+## `aio cloudmanager:list-environments`
+
+lists environments available in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:list-environments
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private-key
+```
+
+_See code: [src/commands/cloudmanager/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/v0.1.3/src/commands/cloudmanager/list-environments.js)_
 
 ## `aio cloudmanager:list-pipelines`
 

@@ -245,6 +245,31 @@ class Client {
             else throw new Error(`Cannot advance execution: ${res.url} (${res.status} ${res.statusText})`)
         })
     }
+
+    async _listEnvironments(path) {
+        return this.get(path).then((res) => {
+            if (res.ok) return res.json()
+            else throw new Error(`Cannot retrieve environments: ${res.url} (${res.status} ${res.statusText})`)
+        })
+    }
+
+    async listEnvironments(programId) {
+        const programs = await this.listPrograms();
+        let program = programs.find(p => p.id === programId);
+        if (!program) {
+            throw new Error(`Could not find program ${programId}`)
+        }
+        program = await this.getProgram(program.link(rels.self).href)
+        program = halfred.parse(program)
+
+        const result = await this._listEnvironments(program.link(rels.environments).href)
+        let environments = result && halfred.parse(result).embeddedArray('environments')
+        if (!environments) {
+            throw new Error(`Could not find environments for program ${programId}`)
+        }
+        return environments
+    }
+
 }
 
 module.exports = Client

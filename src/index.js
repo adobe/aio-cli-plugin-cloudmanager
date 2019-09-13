@@ -19,6 +19,7 @@ const GetQualityGateResults = require('./commands/cloudmanager/get-quality-gate-
 const CloudManagerCommand = require('./commands/cloudmanager')
 const CancelCurrentExecution = require('./commands/cloudmanager/cancel-current-execution')
 const AdvanceCurrentExecution = require('./commands/cloudmanager/advance-current-execution')
+const ListEnvironments = require('./commands/cloudmanager/list-environments')
 
 module.exports = {
   'aaa': CloudManagerCommand, // needs to be first alphabetically
@@ -29,5 +30,6 @@ module.exports = {
   'list-current-executions': new ListCurrentExecutions().listCurrentExecutions,
   'get-quality-gate-results': new GetQualityGateResults().getQualityGateResults,
   'cancel-current-execution': new CancelCurrentExecution().cancelCurrentExecution,
-  'advance-current-execution': new AdvanceCurrentExecution().advanceCurrentExecution
+  'advance-current-execution': new AdvanceCurrentExecution().advanceCurrentExecution,
+  'list-environments': new ListEnvironments().listEnvironments
 }
