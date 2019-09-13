@@ -73,6 +73,9 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4', {
         },
         'http://ns.adobe.com/adobecloud/rel/pipelines': {
             href: '/api/program/4/pipelines'
+        },
+        'http://ns.adobe.com/adobecloud/rel/environments': {
+            href: '/api/program/4/environments'
         }
     }
 })
@@ -81,6 +84,58 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/pipelines', {
         pipelines: []
     }
 })
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
+    "_embedded": {
+        "environments": [
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/program/4/environment/1",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/logs":{
+                        "href":"/api/program/4/environment/1884/logs?service={service}&name={name}&days={days}",
+                        "templated": true
+                    }
+                },
+                "id": "1",
+                "programId": "4",
+                "name": "TestProgram_prod",
+                "description": "description for TestProgram_prod",
+                "type": "prod"
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/program/4/environment/2",
+                        "templated": false
+                    }
+                },
+                "id": "2",
+                "programId": "4",
+                "name": "TestProgram_stage",
+                "description": "description for TestProgram_stage",
+                "type": "stage"
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/program/4/environment/3",
+                        "templated": false
+                    }
+                },
+                "id": "3",
+                "programId": "4",
+                "name": "TestProgram_dev",
+                "description": "description for TestProgram_dev",
+                "type": "dev"
+            }
+        ]
+    },
+    "_totalNumberOfItems": 3
+
+})
+
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/5', {
     id: "5",
     name: "test1",
@@ -91,6 +146,9 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5', {
         },
         'http://ns.adobe.com/adobecloud/rel/pipelines': {
             href: '/api/program/5/pipelines'
+        },
+        'http://ns.adobe.com/adobecloud/rel/environments': {
+            href: '/api/program/5/environments'
         }
     }
 })
@@ -158,6 +216,11 @@ mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5/e
         location: 'https://cloudmanager.adobe.io/api/program/4/pipeline/8555/execution/12742'
     }
 });
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/environments', {
+    _embedded: {
+        environments: []
+    }
+})
 
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'GET', require('./data/execution1000.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'PUT', 412)
@@ -172,10 +235,14 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/6', {
         },
         'http://ns.adobe.com/adobecloud/rel/pipelines': {
             href: '/api/program/6/pipelines'
+        },
+        'http://ns.adobe.com/adobecloud/rel/environments': {
+            href: '/api/program/6/environments'
         }
     }
 })
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/6/pipelines', 404)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/6/environments', 'GET', 404)
 
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001', 'GET', require('./data/execution1001.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution/1002', 'GET', 404)
