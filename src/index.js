@@ -20,6 +20,7 @@ const CloudManagerCommand = require('./commands/cloudmanager')
 const CancelCurrentExecution = require('./commands/cloudmanager/cancel-current-execution')
 const AdvanceCurrentExecution = require('./commands/cloudmanager/advance-current-execution')
 const ListEnvironments = require('./commands/cloudmanager/list-environments')
+const GetExecutionStepDetails = require('./commands/cloudmanager/get-execution-step-details')
 
 module.exports = {
   'aaa': CloudManagerCommand, // needs to be first alphabetically
@@ -31,5 +32,6 @@ module.exports = {
   'get-quality-gate-results': new GetQualityGateResults().getQualityGateResults,
   'cancel-current-execution': new CancelCurrentExecution().cancelCurrentExecution,
   'advance-current-execution': new AdvanceCurrentExecution().advanceCurrentExecution,
-  'list-environments': new ListEnvironments().listEnvironments
+  'list-environments': new ListEnvironments().listEnvironments,
+  'get-execution-step-details': new GetExecutionStepDetails().getExecution
 }
