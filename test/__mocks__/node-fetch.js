@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 const nodeFetch = jest.requireActual('node-fetch');
 const fetchMock = require('fetch-mock').sandbox();
+const { Readable } = require('stream');
 Object.assign(fetchMock.config, nodeFetch, {
     fetch: nodeFetch
 });
@@ -251,6 +252,17 @@ mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/e
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics', 'GET', require('./data/metrics.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/metrics', 'GET', {})
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8495/metrics', 'GET', 404)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/logs', 'GET', {
+    redirect: 'https://somesite.com/log.txt'
+})
+const logResponse = new Readable()
+logResponse.push('some log line\n')
+logResponse.push('some other log line\n')
+logResponse.push(null)
+fetchMock.mock('https://somesite.com/log.txt', logResponse, { sendAsJson: false })
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/logs', 'GET', 404)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4598/step/8500/logs', 'GET', {})
+
 
 let executionForPipeline7 = "1001"
 const pipeline7Executions = {
