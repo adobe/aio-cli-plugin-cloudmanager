@@ -154,6 +154,12 @@ class Client {
                 } else {
                     return
                 }
+            case 'devDeploy':
+                return execution.embeddedArray("stepStates").find(stepState => stepState.action === 'deploy' && stepState.environmentType === 'dev')
+            case 'stageDeploy':
+                return execution.embeddedArray("stepStates").find(stepState => stepState.action === 'deploy' && stepState.environmentType === 'stage')
+            case 'prodDeploy':
+                return execution.embeddedArray("stepStates").find(stepState => stepState.action === 'deploy' && stepState.environmentType === 'prod')
             default:
                 return execution.embeddedArray("stepStates").find(stepState => stepState.action === action)
         }
@@ -268,6 +274,34 @@ class Client {
             throw new Error(`Could not find environments for program ${programId}`)
         }
         return environments
+    }
+
+    async _getLogsForStepState(stepState, outputStream) {
+        return this.get(`${stepState.link(rels.logs).href}`).then(async (res) => {
+            if (res.ok) {
+                const json = await res.json()
+                if (json.redirect) {
+                    await fetch(json.redirect).then(res => res.body.pipe(outputStream))
+                    return {}
+                } else {
+                    throw new Error(`Log ${res.url} did not contain a redirect. Was ${JSON.stringify(json)}.`)
+                }
+            } else {
+                throw new Error(`Cannot get log: ${res.url} (${res.status} ${res.statusText})`)
+            }
+        })
+    }
+
+    async getExecutionStepLog(programId, pipelineId, executionId, action, outputStream) {
+        const execution = halfred.parse(await this.getExecution(programId, pipelineId, executionId))
+
+        const stepState = this.findStepState(execution, action)
+
+        if (!stepState) {
+            throw new Error(`Cannot find step state for action ${action} on execution ${executionId}.`)
+        }
+
+        return this._getLogsForStepState(stepState, outputStream)
     }
 
 }

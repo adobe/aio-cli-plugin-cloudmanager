@@ -21,7 +21,13 @@
                 "startedAt": "2019-05-23T13:49:57.645+0000",
                 "finishedAt": "2019-05-23T13:55:44.904+0000",
                 "updatedAt": "2019-05-23T13:55:44.958+0000",
-                "status": "FINISHED"
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/logs": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4596/step/8492/logs",
+                        "templated": false
+                    }
+                }
             },
             {
                 "id": "36516",
@@ -41,6 +47,10 @@
                 "_links": {
                     "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
                         "href": "/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/logs": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/logs",
                         "templated": false
                     }
                 }
@@ -70,7 +80,13 @@
                     ],
                     "deploymentStepDescription": "[{\"id\":1,\"stepAction\":\"perform-backup\",\"instanceId\":\"author1uswest2\",\"updated\":\"2019-05-23T13:58:26.305+0000\"},{\"id\":2,\"stepAction\":\"perform-backup\",\"instanceId\":\"publish1uswest2\",\"updated\":\"2019-05-23T13:58:26.443+0000\"},{\"id\":3,\"stepAction\":\"perform-backup\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T13:58:26.484+0000\"},{\"id\":4,\"stepAction\":\"manage-elb-links-detach\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T14:05:23.819+0000\"},{\"id\":5,\"stepAction\":\"install-client-packages\",\"instanceId\":\"publish1uswest2\",\"updated\":\"2019-05-23T14:06:12.580+0000\"},{\"id\":6,\"stepAction\":\"install-client-packages\",\"instanceId\":\"author1uswest2\",\"updated\":\"2019-05-23T14:06:12.862+0000\"},{\"id\":7,\"stepAction\":\"manage-elb-links-attach\",\"instanceId\":\"dispatcher1uswest2\",\"updated\":\"2019-05-23T14:40:48.007+0000\"}]"
                 },
-                "status": "FINISHED"
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/logs": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/logs",
+                        "templated": false
+                    }
+                }
             },
             {
                 "id": "36518",
@@ -210,7 +226,13 @@
                         }
                     ]
                 },
-                "status": "NOT_STARTED"
+                "status": "NOT_STARTED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/logs": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4598/step/8500/logs",
+                        "templated": false
+                    }
+                }
             }
         ]
     },
