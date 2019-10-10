@@ -83,21 +83,21 @@ $ aio config:set cloudmanager_programid 4
 
 # Commands
 <!-- commands -->
-* [`aio cloudmanager`](#binrun-cloudmanager)
-* [`aio cloudmanager:advance-current-execution PIPELINEID`](#binrun-cloudmanageradvance-current-execution-pipelineid)
-* [`aio cloudmanager:cancel-current-execution PIPELINEID`](#binrun-cloudmanagercancel-current-execution-pipelineid)
-* [`aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`](#binrun-cloudmanagerdownload-logs-environmentid-service-name-days)
-* [`aio cloudmanager:get-current-execution PIPELINEID`](#binrun-cloudmanagerget-current-execution-pipelineid)
-* [`aio cloudmanager:get-execution-step-details PIPELINEID EXECUTIONID`](#binrun-cloudmanagerget-execution-step-details-pipelineid-executionid)
-* [`aio cloudmanager:get-execution-step-log PIPELINEID EXECUTIONID ACTION`](#binrun-cloudmanagerget-execution-step-log-pipelineid-executionid-action)
-* [`aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#binrun-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
-* [`aio cloudmanager:list-available-log-options ENVIRONMENTID`](#binrun-cloudmanagerlist-available-log-options-environmentid)
-* [`aio cloudmanager:list-current-executions`](#binrun-cloudmanagerlist-current-executions)
-* [`aio cloudmanager:list-environments`](#binrun-cloudmanagerlist-environments)
-* [`aio cloudmanager:list-pipelines`](#binrun-cloudmanagerlist-pipelines)
-* [`aio cloudmanager:list-programs`](#binrun-cloudmanagerlist-programs)
-* [`aio cloudmanager:start-execution PIPELINEID`](#binrun-cloudmanagerstart-execution-pipelineid)
-* [`aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME`](#binrun-cloudmanagertail-logs-environmentid-service-name)
+* [`aio cloudmanager`](#aio-cloudmanager)
+* [`aio cloudmanager:advance-current-execution PIPELINEID`](#aio-cloudmanageradvance-current-execution-pipelineid)
+* [`aio cloudmanager:cancel-current-execution PIPELINEID`](#aio-cloudmanagercancel-current-execution-pipelineid)
+* [`aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`](#aio-cloudmanagerdownload-logs-environmentid-service-name-days)
+* [`aio cloudmanager:get-current-execution PIPELINEID`](#aio-cloudmanagerget-current-execution-pipelineid)
+* [`aio cloudmanager:get-execution-step-details PIPELINEID EXECUTIONID`](#aio-cloudmanagerget-execution-step-details-pipelineid-executionid)
+* [`aio cloudmanager:get-execution-step-log PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerget-execution-step-log-pipelineid-executionid-action)
+* [`aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
+* [`aio cloudmanager:list-available-log-options ENVIRONMENTID`](#aio-cloudmanagerlist-available-log-options-environmentid)
+* [`aio cloudmanager:list-current-executions`](#aio-cloudmanagerlist-current-executions)
+* [`aio cloudmanager:list-environments`](#aio-cloudmanagerlist-environments)
+* [`aio cloudmanager:list-pipelines`](#aio-cloudmanagerlist-pipelines)
+* [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
+* [`aio cloudmanager:start-execution PIPELINEID`](#aio-cloudmanagerstart-execution-pipelineid)
+* [`aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME`](#aio-cloudmanagertail-logs-environmentid-service-name)
 
 ## `aio cloudmanager`
 
