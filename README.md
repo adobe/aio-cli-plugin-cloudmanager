@@ -18,6 +18,11 @@ governing permissions and limitations under the License.
 # aio-cli-plugin-cloudmanager
 Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
 
+# Requirements
+
+* Node.js 10.0+
+* [Adobe I/O CLI](https://github.com/adobe/aio-cli)
+
 # Installation
 
 ```sh-session
