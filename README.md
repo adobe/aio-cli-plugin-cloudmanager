@@ -97,7 +97,7 @@ $ aio config:set cloudmanager_programid 4
 * [`aio cloudmanager:list-pipelines`](#aio-cloudmanagerlist-pipelines)
 * [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
 * [`aio cloudmanager:start-execution PIPELINEID`](#aio-cloudmanagerstart-execution-pipelineid)
-* [`aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME`](#aio-cloudmanagertail-logs-environmentid-service-name)
+* [`aio cloudmanager:tail-log ENVIRONMENTID SERVICE NAME`](#aio-cloudmanagertail-log-environmentid-service-name)
 
 ## `aio cloudmanager`
 
@@ -129,7 +129,7 @@ EXAMPLES
   $ aio cloudmanager:advance-current-execution --programId=PROGRAM_ID PIPELINE_ID
 ```
 
-_See code: [src/commands/cloudmanager/index.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/index.js)_
+_See code: [src/commands/cloudmanager/index.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/index.js)_
 
 ## `aio cloudmanager:advance-current-execution PIPELINEID`
 
@@ -147,7 +147,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/advance-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/advance-current-execution.js)_
+_See code: [src/commands/cloudmanager/advance-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/advance-current-execution.js)_
 
 ## `aio cloudmanager:cancel-current-execution PIPELINEID`
 
@@ -165,7 +165,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/cancel-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/cancel-current-execution.js)_
+_See code: [src/commands/cloudmanager/cancel-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/cancel-current-execution.js)_
 
 ## `aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`
 
@@ -190,7 +190,7 @@ OPTIONS
   -r, --passphrase=passphrase            the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/download-logs.js)_
+_See code: [src/commands/cloudmanager/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/download-logs.js)_
 
 ## `aio cloudmanager:get-current-execution PIPELINEID`
 
@@ -208,7 +208,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/get-current-execution.js)_
+_See code: [src/commands/cloudmanager/get-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/get-current-execution.js)_
 
 ## `aio cloudmanager:get-execution-step-details PIPELINEID EXECUTIONID`
 
@@ -227,7 +227,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/get-execution-step-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/get-execution-step-details.js)_
+_See code: [src/commands/cloudmanager/get-execution-step-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/get-execution-step-details.js)_
 
 ## `aio cloudmanager:get-execution-step-log PIPELINEID EXECUTIONID ACTION`
 
@@ -248,7 +248,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/get-execution-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/get-execution-step-log.js)_
+_See code: [src/commands/cloudmanager/get-execution-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/get-execution-step-log.js)_
 
 ## `aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
 
@@ -268,7 +268,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/get-quality-gate-results.js)_
+_See code: [src/commands/cloudmanager/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/get-quality-gate-results.js)_
 
 ## `aio cloudmanager:list-available-log-options ENVIRONMENTID`
 
@@ -286,7 +286,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/list-available-log-options.js)_
+_See code: [src/commands/cloudmanager/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/list-available-log-options.js)_
 
 ## `aio cloudmanager:list-current-executions`
 
@@ -301,7 +301,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/list-current-executions.js)_
+_See code: [src/commands/cloudmanager/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/list-current-executions.js)_
 
 ## `aio cloudmanager:list-environments`
 
@@ -316,7 +316,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/list-environments.js)_
+_See code: [src/commands/cloudmanager/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/list-environments.js)_
 
 ## `aio cloudmanager:list-pipelines`
 
@@ -331,7 +331,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/list-pipelines.js)_
+_See code: [src/commands/cloudmanager/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/list-pipelines.js)_
 
 ## `aio cloudmanager:list-programs`
 
@@ -346,7 +346,7 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/list-programs.js)_
+_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/list-programs.js)_
 
 ## `aio cloudmanager:start-execution PIPELINEID`
 
@@ -364,15 +364,15 @@ OPTIONS
   -r, --passphrase=passphrase  the passphrase for the private-key
 ```
 
-_See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/start-execution.js)_
+_See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/start-execution.js)_
 
-## `aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME`
+## `aio cloudmanager:tail-log ENVIRONMENTID SERVICE NAME`
 
 lists available logs for an environment in a Cloud Manager program
 
 ```
 USAGE
-  $ aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME
+  $ aio cloudmanager:tail-log ENVIRONMENTID SERVICE NAME
 
 ARGUMENTS
   ENVIRONMENTID  the environment id
@@ -382,9 +382,12 @@ ARGUMENTS
 OPTIONS
   -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
   -r, --passphrase=passphrase  the passphrase for the private-key
+
+ALIASES
+  $ aio cloudmanager:tail-logs
 ```
 
-_See code: [src/commands/cloudmanager/tail-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.0/src/commands/cloudmanager/tail-logs.js)_
+_See code: [src/commands/cloudmanager/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/tail-log.js)_
 <!-- commandsstop -->
 
 # Development
