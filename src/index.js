@@ -24,7 +24,7 @@ const GetExecutionStepDetails = require('./commands/cloudmanager/get-execution-s
 const GetExecutionStepLog = require('./commands/cloudmanager/get-execution-step-log')
 const ListAvailableLogOptions = require('./commands/cloudmanager/list-available-log-options')
 const DownloadLogs = require('./commands/cloudmanager/download-logs')
-const TailLogs = require('./commands/cloudmanager/tail-logs')
+const TailLog = require('./commands/cloudmanager/tail-log')
 
 module.exports = {
   'aaa': CloudManagerCommand, // needs to be first alphabetically
@@ -41,5 +41,5 @@ module.exports = {
   'get-execution-step-log': new GetExecutionStepLog().getExecutionStepLog,
   'list-available-log-options': new ListAvailableLogOptions().listAvailableLogOptions,
   'download-logs': new DownloadLogs().downloadLogs,
-  'tail-logs': new TailLogs().tailLogs
+  'tail-log': new TailLog().tailLog
 }

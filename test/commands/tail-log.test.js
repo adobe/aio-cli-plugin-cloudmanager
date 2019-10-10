@@ -11,30 +11,30 @@ governing permissions and limitations under the License.
 */
 
 const { setStore } = require('@adobe/aio-cna-core-config')
-const TailLogs = require('../../src/commands/cloudmanager/tail-logs')
+const TailLog = require('../../src/commands/cloudmanager/tail-log')
 const Client = require('../../src/client')
 
 beforeEach(() => {
     setStore({})
 })
 
-test('tail-logs - missing arg', async () => {
+test('tail-log - missing arg', async () => {
     expect.assertions(2)
 
-    let runResult = TailLogs.run([])
+    let runResult = TailLog.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 3 required args") === 0)
 })
 
-test('tail-logs - missing config', async () => {
+test('tail-log - missing config', async () => {
     expect.assertions(2)
 
-    let runResult = TailLogs.run(["5", "author", "aemerror", "--programId", "5"])
+    let runResult = TailLog.run(["5", "author", "aemerror", "--programId", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('tail-logs - failure', async () => {
+test('tail-log - failure', async () => {
     setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -46,12 +46,12 @@ test('tail-logs - failure', async () => {
 
     expect.assertions(2)
 
-    let runResult = TailLogs.run(["17", "author", "aemerror", "--programId", "5"])
+    let runResult = TailLog.run(["17", "author", "aemerror", "--programId", "5"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('Could not find environment 17 for program 5'))
 })
 
-test('tail-logs - no logs for tailing', async () => {
+test('tail-log - no logs for tailing', async () => {
     setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -63,7 +63,7 @@ test('tail-logs - no logs for tailing', async () => {
 
     expect.assertions(2)
 
-    let runResult = TailLogs.run(["1", "publish", "aemerror", "--programId", "4"])
+    let runResult = TailLog.run(["1", "publish", "aemerror", "--programId", "4"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toEqual(new Error('No logs for tailing available in 1 for program 4'))
 })

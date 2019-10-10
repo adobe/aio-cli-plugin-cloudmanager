@@ -423,7 +423,7 @@ class Client {
         return res.headers.get("content-length");
     }
 
-    async tailLogs(programId, environmentId, service, name, writeStream) {
+    async tailLog(programId, environmentId, service, name, writeStream) {
         let environments = await this.listEnvironments(programId)
         let environment = environments.find(e => e.id === environmentId);
         if (!environment) {
