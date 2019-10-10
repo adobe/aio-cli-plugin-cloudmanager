@@ -16,23 +16,23 @@ const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helper
 const Client = require('../../client')
 const commonFlags = require('../../common-flags')
 
-async function _tailLogs(programId, environmentId, service, logName, passphrase) {
+async function _tailLog(programId, environmentId, service, logName, passphrase) {
     const apiKey = await getApiKey()
     const accessToken = await getAccessToken(passphrase)
     const orgId = await getOrgId()
-    await new Client(orgId, accessToken, apiKey).tailLogs(programId, environmentId, service, logName, process.stdout)
+    await new Client(orgId, accessToken, apiKey).tailLog(programId, environmentId, service, logName, process.stdout)
 }
 
-class TailLogs extends Command {
+class TailLog extends Command {
     async run() {
-        const { args, flags } = this.parse(TailLogs)
+        const { args, flags } = this.parse(TailLog)
 
         const programId = await getProgramId(flags)
 
         let result
 
         try {
-            result = await this.tailLogs(programId, args.environmentId, args.service, args.name, flags.passphrase)
+            result = await this.tailLog(programId, args.environmentId, args.service, args.name, flags.passphrase)
         } catch (error) {
             this.error(error.message)
         }
@@ -42,22 +42,24 @@ class TailLogs extends Command {
         return result
     }
 
-    async tailLogs(programId, environmentId, service, name, passphrase = null) {
-        return _tailLogs(programId, environmentId, service, name, passphrase)
+    async tailLog(programId, environmentId, service, name, passphrase = null) {
+        return _tailLog(programId, environmentId, service, name, passphrase)
     }
 }
 
-TailLogs.description = 'lists available logs for an environment in a Cloud Manager program'
+TailLog.description = 'lists available logs for an environment in a Cloud Manager program'
 
-TailLogs.args = [
+TailLog.args = [
     {name: 'environmentId', required: true, description: "the environment id"},
     {name: 'service', required: true, description: "the service"},
     {name: 'name', required: true, description: "the log name"}
 ]
 
-TailLogs.flags = {
+TailLog.flags = {
     ...commonFlags.global,
     ...commonFlags.programId
 }
 
-module.exports = TailLogs
+TailLog.aliases = ['cloudmanager:tail-logs']
+
+module.exports = TailLog
