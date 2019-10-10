@@ -86,15 +86,18 @@ $ aio config:set cloudmanager_programid 4
 * [`aio cloudmanager`](#aio-cloudmanager)
 * [`aio cloudmanager:advance-current-execution PIPELINEID`](#aio-cloudmanageradvance-current-execution-pipelineid)
 * [`aio cloudmanager:cancel-current-execution PIPELINEID`](#aio-cloudmanagercancel-current-execution-pipelineid)
+* [`aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`](#aio-cloudmanagerdownload-logs-environmentid-service-name-days)
 * [`aio cloudmanager:get-current-execution PIPELINEID`](#aio-cloudmanagerget-current-execution-pipelineid)
 * [`aio cloudmanager:get-execution-step-details PIPELINEID EXECUTIONID`](#aio-cloudmanagerget-execution-step-details-pipelineid-executionid)
 * [`aio cloudmanager:get-execution-step-log PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerget-execution-step-log-pipelineid-executionid-action)
 * [`aio cloudmanager:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerget-quality-gate-results-pipelineid-executionid-action)
+* [`aio cloudmanager:list-available-log-options ENVIRONMENTID`](#aio-cloudmanagerlist-available-log-options-environmentid)
 * [`aio cloudmanager:list-current-executions`](#aio-cloudmanagerlist-current-executions)
 * [`aio cloudmanager:list-environments`](#aio-cloudmanagerlist-environments)
 * [`aio cloudmanager:list-pipelines`](#aio-cloudmanagerlist-pipelines)
 * [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
 * [`aio cloudmanager:start-execution PIPELINEID`](#aio-cloudmanagerstart-execution-pipelineid)
+* [`aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME`](#aio-cloudmanagertail-logs-environmentid-service-name)
 
 ## `aio cloudmanager`
 
@@ -163,6 +166,31 @@ OPTIONS
 ```
 
 _See code: [src/commands/cloudmanager/cancel-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.1.6/src/commands/cloudmanager/cancel-current-execution.js)_
+
+## `aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`
+
+lists available logs for an environment in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  SERVICE        the service
+  NAME           the log name
+  DAYS           [default: 1] the number of days
+
+OPTIONS
+  -o, --outputDirectory=outputDirectory  the output directory. If not set, defaults to the current directory.
+
+  -p, --programId=programId              the programId. if not specified, defaults to 'cloudmanager_programid' config
+                                         value
+
+  -r, --passphrase=passphrase            the passphrase for the private-key
+```
+
+_See code: [src/commands/cloudmanager/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.1.6/src/commands/cloudmanager/download-logs.js)_
 
 ## `aio cloudmanager:get-current-execution PIPELINEID`
 
@@ -242,6 +270,24 @@ OPTIONS
 
 _See code: [src/commands/cloudmanager/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.1.6/src/commands/cloudmanager/get-quality-gate-results.js)_
 
+## `aio cloudmanager:list-available-log-options ENVIRONMENTID`
+
+lists available log options for an environment in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:list-available-log-options ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private-key
+```
+
+_See code: [src/commands/cloudmanager/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.1.6/src/commands/cloudmanager/list-available-log-options.js)_
+
 ## `aio cloudmanager:list-current-executions`
 
 list running pipeline executions
@@ -319,6 +365,26 @@ OPTIONS
 ```
 
 _See code: [src/commands/cloudmanager/start-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.1.6/src/commands/cloudmanager/start-execution.js)_
+
+## `aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME`
+
+lists available logs for an environment in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:tail-logs ENVIRONMENTID SERVICE NAME
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  SERVICE        the service
+  NAME           the log name
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private-key
+```
+
+_See code: [src/commands/cloudmanager/tail-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.1.6/src/commands/cloudmanager/tail-logs.js)_
 <!-- commandsstop -->
 
 # Development

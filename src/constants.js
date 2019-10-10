@@ -21,7 +21,10 @@ module.exports = {
         advance: 'http://ns.adobe.com/adobecloud/rel/pipeline/advance',
         executionId: 'http://ns.adobe.com/adobecloud/rel/execution/id',
         environments: 'http://ns.adobe.com/adobecloud/rel/environments',
-        logs: 'http://ns.adobe.com/adobecloud/rel/pipeline/logs'
+        stepLogs: 'http://ns.adobe.com/adobecloud/rel/pipeline/logs',
+        logs: 'http://ns.adobe.com/adobecloud/rel/logs',
+        logsDownload: 'http://ns.adobe.com/adobecloud/rel/logs/download',
+        logsTail: 'http://ns.adobe.com/adobecloud/rel/logs/tail'
     },
     config: {
         programId: 'cloudmanager_programid'

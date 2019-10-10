@@ -22,6 +22,9 @@ const AdvanceCurrentExecution = require('./commands/cloudmanager/advance-current
 const ListEnvironments = require('./commands/cloudmanager/list-environments')
 const GetExecutionStepDetails = require('./commands/cloudmanager/get-execution-step-details')
 const GetExecutionStepLog = require('./commands/cloudmanager/get-execution-step-log')
+const ListAvailableLogOptions = require('./commands/cloudmanager/list-available-log-options')
+const DownloadLogs = require('./commands/cloudmanager/download-logs')
+const TailLogs = require('./commands/cloudmanager/tail-logs')
 
 module.exports = {
   'aaa': CloudManagerCommand, // needs to be first alphabetically
@@ -35,5 +38,8 @@ module.exports = {
   'advance-current-execution': new AdvanceCurrentExecution().advanceCurrentExecution,
   'list-environments': new ListEnvironments().listEnvironments,
   'get-execution-step-details': new GetExecutionStepDetails().getExecution,
-  'get-execution-step-log': new GetExecutionStepLog().getExecutionStepLog
+  'get-execution-step-log': new GetExecutionStepLog().getExecutionStepLog,
+  'list-available-log-options': new ListAvailableLogOptions().listAvailableLogOptions,
+  'download-logs': new DownloadLogs().downloadLogs,
+  'tail-logs': new TailLogs().tailLogs
 }

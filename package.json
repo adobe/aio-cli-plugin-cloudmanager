@@ -7,14 +7,15 @@
   "dependencies": {
     "@adobe/aio-cli-plugin-jwt-auth": "^2.0.1",
     "@adobe/aio-cna-core-config": "^1.0.14",
-    "@oclif/command": "^1.5.6",
+    "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.9.0",
     "@oclif/errors": "^1.1.2",
     "cli-ux": "^5.1.0",
     "halfred": "^1.1.1",
     "moment": "^2.24.0",
     "node-fetch": "^2.3.0",
-    "uritemplate": "^0.3.4"
+    "uritemplate": "^0.3.4",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
