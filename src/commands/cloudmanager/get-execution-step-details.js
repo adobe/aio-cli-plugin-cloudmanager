@@ -104,7 +104,7 @@ class GetExecutionStepDetails extends Command {
   }
 }
 
-GetExecutionStepDetails.description = 'get quality gate results'
+GetExecutionStepDetails.description = 'get execution step details'
 
 GetExecutionStepDetails.flags = {
   ...commonFlags.global,

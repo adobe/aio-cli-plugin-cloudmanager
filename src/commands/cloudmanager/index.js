@@ -41,11 +41,33 @@ CloudManagerCommand.examples = [
     '$ aio cloudmanager:get-quality-gate-results PIPELINE_ID [codeQuality|security|performance]',
     '$ aio cloudmanager:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID [codeQuality|security|performance]',
 
+    '$ aio cloudmanager:get-execution-step-details PIPELINE_ID EXECUTION_ID',
+    '$ aio cloudmanager:get-execution-step-details --programId=PROGRAM_ID PIPELINE_ID EXECUTION_ID',
+
+    '$ aio cloudmanager:get-execution-step-log PIPELINE_ID',
+    '$ aio cloudmanager:get-execution-step-log --programId=PROGRAM_ID PIPELINE_ID [build|codeQuality|devDeploy|stageDeploy|prodDeploy]',
+
     '$ aio cloudmanager:cancel-current-execution PIPELINE_ID',
     '$ aio cloudmanager:cancel-current-execution --programId=PROGRAM_ID PIPELINE_ID',
 
     '$ aio cloudmanager:advance-current-execution PIPELINE_ID',
-    '$ aio cloudmanager:advance-current-execution --programId=PROGRAM_ID PIPELINE_ID'
+    '$ aio cloudmanager:advance-current-execution --programId=PROGRAM_ID PIPELINE_ID',
+
+    '$ aio cloudmanager:delete-pipeline PIPELINE_ID',
+    '$ aio cloudmanager:delete-pipeline --programId=PROGRAM_ID PIPELINE_ID',
+
+    '$ aio cloudmanager:list-environments',
+    '$ aio cloudmanager:list-environments --programId=PROGRAM_ID',
+
+    '$ aio cloudmanager:list-available-log-options ENVIRONMENT_ID',
+    '$ aio cloudmanager:list-available-log-options --programId=PROGRAM_ID ENVIRONMENT_ID',
+
+    '$ aio cloudmanager:download-logs ENVIRONMENT_ID SERVICE NAME',
+    '$ aio cloudmanager:download-logs ENVIRONMENT_ID SERVICE NAME DAYS',
+    '$ aio cloudmanager:download-logs --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME DAYS',
+
+    '$ aio cloudmanager:tail-logs ENVIRONMENT_ID SERVICE NAME',
+    '$ aio cloudmanager:tail-logs --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME',
   ]
 
 CloudManagerCommand.flags = commonFlags.global
