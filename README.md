@@ -86,6 +86,7 @@ $ aio config:set cloudmanager_programid 4
 * [`aio cloudmanager`](#aio-cloudmanager)
 * [`aio cloudmanager:advance-current-execution PIPELINEID`](#aio-cloudmanageradvance-current-execution-pipelineid)
 * [`aio cloudmanager:cancel-current-execution PIPELINEID`](#aio-cloudmanagercancel-current-execution-pipelineid)
+* [`aio cloudmanager:delete-pipeline PIPELINEID`](#aio-cloudmanagerdelete-pipeline-pipelineid)
 * [`aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`](#aio-cloudmanagerdownload-logs-environmentid-service-name-days)
 * [`aio cloudmanager:get-current-execution PIPELINEID`](#aio-cloudmanagerget-current-execution-pipelineid)
 * [`aio cloudmanager:get-execution-step-details PIPELINEID EXECUTIONID`](#aio-cloudmanagerget-execution-step-details-pipelineid-executionid)
@@ -166,6 +167,24 @@ OPTIONS
 ```
 
 _See code: [src/commands/cloudmanager/cancel-current-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/cancel-current-execution.js)_
+
+## `aio cloudmanager:delete-pipeline PIPELINEID`
+
+delete pipeline
+
+```
+USAGE
+  $ aio cloudmanager:delete-pipeline PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private-key
+```
+
+_See code: [src/commands/cloudmanager/delete-pipeline.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/delete-pipeline.js)_
 
 ## `aio cloudmanager:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`
 

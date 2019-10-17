@@ -364,6 +364,7 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/environments', {
         environments: []
     }
 })
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5', 'DELETE', 204)
 
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'GET', require('./data/execution1000.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'PUT', 412)

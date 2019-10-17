@@ -59,6 +59,10 @@ class Client {
         return this._doRequest(path, 'PUT', body)
     }
 
+    async delete(path) {
+        return this._doRequest(path, 'DELETE')
+    }
+
     async _listPrograms() {
         return this.get(basePath).then((res) => {
             if (res.ok) return res.json()
@@ -484,6 +488,19 @@ class Client {
         } else {
             throw new Error(`No logs available in ${environment.id} for program ${programId}`)
         }
+    }
+
+    async deletePipeline(programId, pipelineId) {
+        const pipelines = await this.listPipelines(programId)
+        const pipeline = pipelines.find(p => p.id === pipelineId)
+        if (!pipeline) {
+            throw new Error(`Cannot delete pipeline. Pipeline ${pipelineId} does not exist.`)
+        }
+
+        return this.delete(pipeline.link(rels.self).href).then((res) => {
+            if (res.ok) return {}
+            else throw new Error(`Cannot delete pipeline: ${res.url} (${res.status} ${res.statusText})`)
+        })
     }
 }
 
