@@ -56,6 +56,9 @@ CloudManagerCommand.examples = [
     '$ aio cloudmanager:delete-pipeline PIPELINE_ID',
     '$ aio cloudmanager:delete-pipeline --programId=PROGRAM_ID PIPELINE_ID',
 
+    '$ aio cloudmanager:update-pipeline PIPELINE_ID --branch=NEW_BRANCH',
+    '$ aio cloudmanager:update-pipeline --programId=PROGRAM_ID PIPELINE_ID --branch=NEW_BRANCH',
+
     '$ aio cloudmanager:list-environments',
     '$ aio cloudmanager:list-environments --programId=PROGRAM_ID',
 
