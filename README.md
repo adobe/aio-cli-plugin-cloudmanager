@@ -99,6 +99,7 @@ $ aio config:set cloudmanager_programid 4
 * [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
 * [`aio cloudmanager:start-execution PIPELINEID`](#aio-cloudmanagerstart-execution-pipelineid)
 * [`aio cloudmanager:tail-log ENVIRONMENTID SERVICE NAME`](#aio-cloudmanagertail-log-environmentid-service-name)
+* [`aio cloudmanager:update-pipeline PIPELINEID`](#aio-cloudmanagerupdate-pipeline-pipelineid)
 
 ## `aio cloudmanager`
 
@@ -124,10 +125,28 @@ EXAMPLES
   $ aio cloudmanager:get-current-execution --programId=PROGRAM_ID PIPELINE_ID
   $ aio cloudmanager:get-quality-gate-results PIPELINE_ID [codeQuality|security|performance]
   $ aio cloudmanager:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID [codeQuality|security|performance]
+  $ aio cloudmanager:get-execution-step-details PIPELINE_ID EXECUTION_ID
+  $ aio cloudmanager:get-execution-step-details --programId=PROGRAM_ID PIPELINE_ID EXECUTION_ID
+  $ aio cloudmanager:get-execution-step-log PIPELINE_ID
+  $ aio cloudmanager:get-execution-step-log --programId=PROGRAM_ID PIPELINE_ID 
+  [build|codeQuality|devDeploy|stageDeploy|prodDeploy]
   $ aio cloudmanager:cancel-current-execution PIPELINE_ID
   $ aio cloudmanager:cancel-current-execution --programId=PROGRAM_ID PIPELINE_ID
   $ aio cloudmanager:advance-current-execution PIPELINE_ID
   $ aio cloudmanager:advance-current-execution --programId=PROGRAM_ID PIPELINE_ID
+  $ aio cloudmanager:delete-pipeline PIPELINE_ID
+  $ aio cloudmanager:delete-pipeline --programId=PROGRAM_ID PIPELINE_ID
+  $ aio cloudmanager:update-pipeline PIPELINE_ID --branch=NEW_BRANCH
+  $ aio cloudmanager:update-pipeline --programId=PROGRAM_ID PIPELINE_ID --branch=NEW_BRANCH
+  $ aio cloudmanager:list-environments
+  $ aio cloudmanager:list-environments --programId=PROGRAM_ID
+  $ aio cloudmanager:list-available-log-options ENVIRONMENT_ID
+  $ aio cloudmanager:list-available-log-options --programId=PROGRAM_ID ENVIRONMENT_ID
+  $ aio cloudmanager:download-logs ENVIRONMENT_ID SERVICE NAME
+  $ aio cloudmanager:download-logs ENVIRONMENT_ID SERVICE NAME DAYS
+  $ aio cloudmanager:download-logs --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME DAYS
+  $ aio cloudmanager:tail-logs ENVIRONMENT_ID SERVICE NAME
+  $ aio cloudmanager:tail-logs --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME
 ```
 
 _See code: [src/commands/cloudmanager/index.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/index.js)_
@@ -231,7 +250,7 @@ _See code: [src/commands/cloudmanager/get-current-execution.js](https://github.c
 
 ## `aio cloudmanager:get-execution-step-details PIPELINEID EXECUTIONID`
 
-get quality gate results
+get execution step details
 
 ```
 USAGE
@@ -407,6 +426,26 @@ ALIASES
 ```
 
 _See code: [src/commands/cloudmanager/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/tail-log.js)_
+
+## `aio cloudmanager:update-pipeline PIPELINEID`
+
+update pipeline
+
+```
+USAGE
+  $ aio cloudmanager:update-pipeline PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private-key
+  --branch=branch              the new branch
+  --repositoryId=repositoryId  the new repositoryId
+```
+
+_See code: [src/commands/cloudmanager/update-pipeline.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.2.1/src/commands/cloudmanager/update-pipeline.js)_
 <!-- commandsstop -->
 
 # Development

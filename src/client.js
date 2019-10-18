@@ -18,6 +18,7 @@ const UriTemplate = require('uritemplate')
 const fs = require("fs")
 const util = require("util")
 const streamPipeline = util.promisify(require("stream").pipeline)
+const _ = require("lodash")
 
 const { rels, basePath } = require('./constants')
 const { getBaseUrl, getCurrentStep, getWaitingStep } = require('./cloudmanager-helpers')
@@ -61,6 +62,10 @@ class Client {
 
     async delete(path) {
         return this._doRequest(path, 'DELETE')
+    }
+
+    async patch(path, body) {
+        return this._doRequest(path, 'PATCH', body)
     }
 
     async _listPrograms() {
@@ -500,6 +505,38 @@ class Client {
         return this.delete(pipeline.link(rels.self).href).then((res) => {
             if (res.ok) return {}
             else throw new Error(`Cannot delete pipeline: ${res.url} (${res.status} ${res.statusText})`)
+        })
+    }
+
+    async updatePipeline(programId, pipelineId, changes) {
+        const pipelines = await this.listPipelines(programId)
+        const pipeline = pipelines.find(p => p.id === pipelineId)
+        if (!pipeline) {
+            throw new Error(`Cannot update pipeline. Pipeline ${pipelineId} does not exist.`)
+        }
+
+        const patch = {
+            phases: []
+        }
+
+        if (changes.branch || changes.repositoryId) {
+            const buildPhase = pipeline.phases.find(phase => phase.type === "BUILD")
+            if (!buildPhase) {
+                throw new Error(`Pipeline ${pipelineId} does not appear to have a build phase`)
+            }
+            const newBuildPhase = _.clone(buildPhase);
+            if (changes.branch) {
+                newBuildPhase.branch = changes.branch
+            }
+            if (changes.repositoryId) {
+                newBuildPhase.repositoryId = changes.repositoryId
+            }
+            patch.phases.push(newBuildPhase)
+        }
+
+        return this.patch(pipeline.link(rels.self).href, patch).then((res) => {
+            if (res.ok) return res.json()
+            else throw new Error(`Cannot update pipeline: ${res.url} (${res.status} ${res.statusText})`)
         })
     }
 }

@@ -26,6 +26,7 @@ const ListAvailableLogOptions = require('./commands/cloudmanager/list-available-
 const DownloadLogs = require('./commands/cloudmanager/download-logs')
 const TailLog = require('./commands/cloudmanager/tail-log')
 const DeletePipeline = require('./commands/cloudmanager/delete-pipeline')
+const UpdatePipeline = require('./commands/cloudmanager/update-pipeline')
 
 module.exports = {
   'aaa': CloudManagerCommand, // needs to be first alphabetically
@@ -43,5 +44,6 @@ module.exports = {
   'list-available-log-options': new ListAvailableLogOptions().listAvailableLogOptions,
   'download-logs': new DownloadLogs().downloadLogs,
   'tail-log': new TailLog().tailLog,
-  'delete-pipeline': new DeletePipeline().deletePipeline
+  'delete-pipeline': new DeletePipeline().deletePipeline,
+  'update-pipeline': new UpdatePipeline().updatePipeline
 }

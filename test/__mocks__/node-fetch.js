@@ -17,6 +17,7 @@ const { Readable } = require('stream');
 Object.assign(fetchMock.config, nodeFetch, {
     fetch: nodeFetch
 });
+const _ = require('lodash')
 module.exports = fetchMock;
 
 function mockResponseWithOrgId(url, orgId, response) {
@@ -24,7 +25,7 @@ function mockResponseWithOrgId(url, orgId, response) {
 }
 
 function mockResponseWithMethod(url, method, response) {
-    fetchMock.mock((u, opts) => u === url && opts.method === method, response);
+    fetchMock.mock((u, opts) => u === url && opts.method === method, response)
 }
 
 mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'not-found', 404)
@@ -295,26 +296,39 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5', {
         }
     }
 })
+const pipeline5 = {
+    id: "5",
+    name: "test1",
+    status: "IDLE",
+    phases: [
+        {
+            "name": "VALIDATE",
+            "type": "VALIDATE"
+        },
+        {
+            "name": "BUILD_1",
+            "type": "BUILD",
+            "repositoryId": "1",
+            "branch": "yellow"
+        }
+    ],
+    _links: {
+        self: {
+            href: '/api/program/5/pipeline/5'
+        },
+        'http://ns.adobe.com/adobecloud/rel/execution': {
+            href: '/api/program/5/pipeline/5/execution'
+        },
+        'http://ns.adobe.com/adobecloud/rel/execution/id': {
+            href: '/api/program/5/pipeline/5/execution/{executionId}',
+            templated: true
+        }
+    }
+}
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/pipelines', {
     _embedded: {
         pipelines: [
-            {
-                id: "5",
-                name: "test1",
-                status: "IDLE",
-                _links: {
-                    self: {
-                        href: '/api/program/5/pipeline/5'
-                    },
-                    'http://ns.adobe.com/adobecloud/rel/execution': {
-                        href: '/api/program/5/pipeline/5/execution'
-                    },
-                    'http://ns.adobe.com/adobecloud/rel/execution/id': {
-                        href: '/api/program/5/pipeline/5/execution/{executionId}',
-                        templated: true
-                    }
-                }
-            },
+            pipeline5,
             {
                 id: "6",
                 name: "test2",
@@ -365,6 +379,16 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/environments', {
     }
 })
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5', 'DELETE', 204)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5', 'PATCH', (url, opts) => {
+    const parsed = JSON.parse(opts.body)
+    const newPipeline = _.cloneDeep(pipeline5)
+    const buildPhase = newPipeline.phases.find(phase => phase.type === 'BUILD')
+    buildPhase.branch = parsed.phases[0].branch
+    if (parsed.phases[0].repositoryId) {
+        buildPhase.repositoryId = parsed.phases[0].repositoryId
+    }
+    return newPipeline
+})
 
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'GET', require('./data/execution1000.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'PUT', 412)
