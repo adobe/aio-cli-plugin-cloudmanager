@@ -73,7 +73,8 @@ GetExecutionStepLogs.args = [
         'codeQuality',
         'devDeploy',
         'stageDeploy',
-        'prodDeploy'
+        'prodDeploy',
+        'buildImage'
     ]},
 ]
 
