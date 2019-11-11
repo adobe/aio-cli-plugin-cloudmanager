@@ -150,7 +150,7 @@ test('list-available-logs - success', async () => {
         "name" : "aemdispatcher"
     }])
 
-    await expect(cli.table.mock.calls[0][1].id.get({environmentId: 1})).toBe("1")
+    await expect(cli.table.mock.calls[0][1].id.get()).toBe("1")
 })
 
 
