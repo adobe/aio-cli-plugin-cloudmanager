@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { cli } = require('cli-ux')
 const { setStore } = require('@adobe/aio-cna-core-config')
 const ListAvailableLogOptionsCommand = require('../../src/commands/cloudmanager/list-available-log-options')
 
@@ -70,11 +71,12 @@ test('list-available-logs - success undefined', async () => {
         'cloudmanager_programid': "4"
     })
 
-    expect.assertions(2)
+    expect.assertions(3)
 
     let runResult = ListAvailableLogOptionsCommand.run(["3"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual([])
+    await expect(cli.info.mock.calls[0][0]).toBe("No log options are available for environmentId 3")
 })
 
 test('list-available-logs - success empty', async () => {
@@ -88,11 +90,12 @@ test('list-available-logs - success empty', async () => {
         'cloudmanager_programid': "4"
     })
 
-    expect.assertions(2)
+    expect.assertions(3)
 
     let runResult = ListAvailableLogOptionsCommand.run(["2"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual([])
+    await expect(cli.info.mock.calls[0][0]).toBe("No log options are available for environmentId 2")
 })
 
 test('list-available-logs - success', async () => {
@@ -106,7 +109,7 @@ test('list-available-logs - success', async () => {
         'cloudmanager_programid': "4"
     })
 
-    expect.assertions(2)
+    expect.assertions(3)
 
     let runResult = ListAvailableLogOptionsCommand.run(["1"])
     await expect(runResult instanceof Promise).toBeTruthy()
@@ -146,6 +149,8 @@ test('list-available-logs - success', async () => {
         "service" : "dispatcher",
         "name" : "aemdispatcher"
     }])
+
+    await expect(cli.table.mock.calls[0][1].id.get({environmentId: 1})).toBe("1")
 })
 
 

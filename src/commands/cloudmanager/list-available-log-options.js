@@ -38,16 +38,20 @@ class ListAvailableLogOptionsCommand extends Command {
             this.error(error.message)
         }
 
-        cli.table(result, {
-            id: {
-                header: "Environment Id",
-                get: () => args.environmentId
-            },
-            service: {},
-            name: {}
-        }, {
-                printLine: this.log
-            })
+        if (result.length > 0) {
+            cli.table(result, {
+                id: {
+                    header: "Environment Id",
+                    get: () => args.environmentId
+                },
+                service: {},
+                name: {}
+            }, {
+                    printLine: this.log
+                })
+        } else {
+            cli.info(`No log options are available for environmentId ${args.environmentId}`)
+        }
 
         return result
     }
