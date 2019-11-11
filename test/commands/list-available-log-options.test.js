@@ -109,7 +109,7 @@ test('list-available-logs - success', async () => {
         'cloudmanager_programid': "4"
     })
 
-    expect.assertions(2)
+    expect.assertions(3)
 
     let runResult = ListAvailableLogOptionsCommand.run(["1"])
     await expect(runResult instanceof Promise).toBeTruthy()
@@ -149,6 +149,8 @@ test('list-available-logs - success', async () => {
         "service" : "dispatcher",
         "name" : "aemdispatcher"
     }])
+
+    await expect(cli.table.mock.calls[0][1].id.get({environmentId: 1})).toBe("1")
 })
 
 
