@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { cli } = require('cli-ux')
 const { setStore } = require('@adobe/aio-cna-core-config')
 const ListEnvironmentsCommand = require('../../src/commands/cloudmanager/list-environments')
 
@@ -80,7 +81,7 @@ test('list-environments - success', async () => {
         'cloudmanager_programid': "4"
     })
 
-    expect.assertions(2)
+    expect.assertions(4)
 
     let runResult = ListEnvironmentsCommand.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
@@ -99,6 +100,8 @@ test('list-environments - success', async () => {
         name: "TestProgram_dev",
         type: "dev"
     }])
+    await expect(cli.table.mock.calls[0][1].description.get({})).toBe("")
+    await expect(cli.table.mock.calls[0][1].description.get({description: "foo"})).toBe("foo")
 })
 
 

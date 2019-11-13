@@ -44,7 +44,10 @@ class ListEnvironmentsCommand extends Command {
             },
             name: {},
             type: {},
-            description: {}
+            description: {
+                header: "Description",
+                get: item => item.description ? item.description : ""
+              }
         }, {
                 printLine: this.log
             })
