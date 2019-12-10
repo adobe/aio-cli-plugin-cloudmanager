@@ -103,4 +103,63 @@ test('update-pipeline - repository and branch success', async () => {
     await expect(cli.action.stop.mock.calls[0][0]).toBe("updated pipeline ID 5")
 })
 
+test('update-pipeline - both tag and branch', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(2)
+
+    let runResult = UpdatePipelineCommand.run(["--programId", "5", "5", "--branch", "develop", "--tag", "foo"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Both branch and tag cannot be specified") === 0)
+})
+
+test('update-pipeline - malformed tag', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(2)
+
+    let runResult = UpdatePipelineCommand.run(["--programId", "5", "5", "--tag", "refs/tags/foo"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("tag flag should not be specified with \"refs/tags/\" prefix. Value provided was refs/tags/foo") === 0)
+})
+
+
+test('update-pipeline - correct tag', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(3)
+
+    let runResult = UpdatePipelineCommand.run(["--programId", "5", "5", "--tag", "foo"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toMatchObject({
+        phases: expect.arrayContaining([{
+            name: 'BUILD_1',
+            branch: 'refs/tags/foo',
+            type: 'BUILD',
+            repositoryId: '1'
+        }])
+    })
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("updated pipeline ID 5")
+})
 

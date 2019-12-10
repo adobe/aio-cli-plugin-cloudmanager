@@ -30,6 +30,18 @@ class UpdatePipelineCommand extends Command {
 
     const programId = await getProgramId(flags)
 
+    if (flags.tag && flags.branch) {
+        throw new Error("Both branch and tag cannot be specified.")
+    }
+
+    if (flags.tag && flags.tag.startsWith("refs/tags/")) {
+        throw new Error(`tag flag should not be specified with "refs/tags/" prefix. Value provided was ${flags.tag}`)
+    }
+
+    if (flags.tag) {
+        flags.branch = `refs/tags/${flags.tag}`
+    }
+
     let result
 
     cli.action.start("updating pipeline")
@@ -56,6 +68,7 @@ UpdatePipelineCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
   branch: flags.string({ description: "the new branch"}),
+  tag: flags.string({ description: "the new tag"}),
   repositoryId: flags.string({ description: "the new repositoryId"})
 }
 
