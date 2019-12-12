@@ -99,6 +99,9 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                     "http://ns.adobe.com/adobecloud/rel/logs": {
                         "href": "/api/program/4/environment/1/logs?service={service}&name={name}&days={days}",
                         "templated": true
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/developerConsole" : {
+                        "href": "https://github.com/adobe/aio-cli-plugin-cloudmanager"
                     }
                 },
                 "id": "1",
@@ -157,7 +160,9 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                 "name": "TestProgram_stage",
                 "description": "description for TestProgram_stage",
                 "type": "stage",
-                "availableLogs" : []
+                "availableLogs" : [],
+                "namespace" : "ns",
+                "cluster" : "cs"
             },
             {
                 "_links": {

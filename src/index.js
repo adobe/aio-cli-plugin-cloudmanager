@@ -27,6 +27,7 @@ const DownloadLogs = require('./commands/cloudmanager/download-logs')
 const TailLog = require('./commands/cloudmanager/tail-log')
 const DeletePipeline = require('./commands/cloudmanager/delete-pipeline')
 const UpdatePipeline = require('./commands/cloudmanager/update-pipeline')
+const OpenDeveloperConsole = require('./commands/cloudmanager/open-developer-console')
 
 module.exports = {
   'aaa': CloudManagerCommand, // needs to be first alphabetically
@@ -45,5 +46,6 @@ module.exports = {
   'download-logs': new DownloadLogs().downloadLogs,
   'tail-log': new TailLog().tailLog,
   'delete-pipeline': new DeletePipeline().deletePipeline,
-  'update-pipeline': new UpdatePipeline().updatePipeline
+  'update-pipeline': new UpdatePipeline().updatePipeline,
+  'open-developer-console': new OpenDeveloperConsole().getDeveloperConsoleUrl
 }

@@ -539,6 +539,27 @@ class Client {
             else throw new Error(`Cannot update pipeline: ${res.url} (${res.status} ${res.statusText})`)
         })
     }
+
+    async getDeveloperConsoleUrl(programId, environmentId) {
+        let environments = await this.listEnvironments(programId)
+        let environment = environments.find(e => e.id === environmentId);
+        if (!environment) {
+            throw new Error(`Could not find environment ${environmentId} for program ${programId}`)
+        }
+
+        let link = environment.link("http://ns.adobe.com/adobecloud/rel/developerConsole")
+        if (!link && environment.namespace && environment.cluster) {
+            link = {
+                href: `https://dev-console-${environment.namespace}.${environment.cluster}.dev.adobeaemcloud.com/dc/`
+            }
+        }
+
+        if (link) {
+            return link.href
+        } else {
+            throw new Error(`Environment ${environmentId} does not appear to support Developer Console.`)
+        }
+    }
 }
 
 module.exports = Client
