@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const Config = require('@adobe/aio-cna-core-config')
+const Config = require('@adobe/aio-lib-core-config')
 const constants = require('./constants')
 
 function toJson(item) {
@@ -32,7 +32,7 @@ function getWaitingStep(execution) {
 
 /**
  * Returns true if the {date} is +-5 minutes of UTC midnight time
- * @param {date} date 
+ * @param {date} date
  */
 function isWithinFiveMinutesOfUTCMidnight(date) {
     let currentUTCHours = date.getUTCHours();
