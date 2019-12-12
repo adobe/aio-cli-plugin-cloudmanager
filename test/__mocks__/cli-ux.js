@@ -17,6 +17,7 @@ module.exports = {
             start: jest.fn(),
             stop: jest.fn()
         },
-        info: jest.fn()
+        info: jest.fn(),
+        open: jest.fn()
     }
 };
