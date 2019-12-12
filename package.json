@@ -6,10 +6,11 @@
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
     "@adobe/aio-cli-plugin-jwt-auth": "^2.0.1",
-    "@adobe/aio-cna-core-config": "^1.0.14",
+    "@adobe/aio-lib-core-config": "^1.0.15",
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.9.0",
     "@oclif/errors": "^1.1.2",
+    "@oclif/plugin-help": "^2.1.4",
     "cli-ux": "^5.1.0",
     "halfred": "^1.1.1",
     "moment": "^2.24.0",
@@ -19,7 +20,6 @@
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
-    "@oclif/plugin-help": "^2.1.4",
     "@oclif/test": "^1",
     "acorn": "^7.0.0",
     "chalk": "^3.0.0",
