@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const fetchMock = require('node-fetch')
-const { setStore } = require('@adobe/aio-cna-core-config')
+const { setStore } = require('@adobe/aio-lib-core-config')
 const ListCurrentExecutions = require('../../src/commands/cloudmanager/list-current-executions')
 
 beforeEach(() => {
