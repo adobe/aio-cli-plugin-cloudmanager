@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const { setStore } = require('@adobe/aio-cna-core-config')
+const { setStore } = require('@adobe/aio-lib-core-config')
 const OpenDeveloperConsoleCommand = require('../../src/commands/cloudmanager/open-developer-console')
 
 beforeEach(() => {
