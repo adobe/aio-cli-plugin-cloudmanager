@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const { setStore } = require('@adobe/aio-cna-core-config')
+const { setStore } = require('@adobe/aio-lib-core-config')
 const UpdatePipelineCommand = require('../../src/commands/cloudmanager/update-pipeline')
 
 beforeEach(() => {

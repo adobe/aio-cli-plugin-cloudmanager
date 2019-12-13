@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const fetchMock = require('node-fetch')
-const { setStore } = require('@adobe/aio-cna-core-config')
+const { setStore } = require('@adobe/aio-lib-core-config')
 const CancelCurrentExecution = require('../../src/commands/cloudmanager/cancel-current-execution')
 
 beforeEach(() => {

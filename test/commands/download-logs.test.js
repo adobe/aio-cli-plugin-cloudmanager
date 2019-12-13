@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { setStore } = require('@adobe/aio-cna-core-config')
+const { setStore } = require('@adobe/aio-lib-core-config')
 const DownloadLogs = require('../../src/commands/cloudmanager/download-logs')
 
 beforeEach(() => {
