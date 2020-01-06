@@ -21,11 +21,11 @@ const _ = require('lodash')
 module.exports = fetchMock;
 
 function mockResponseWithOrgId(url, orgId, response) {
-    fetchMock.mock((u, { headers }) => u === url && headers['x-gw-ims-org-id'] === orgId, response)
+    fetchMock.mock({ url, headers: {"x-gw-ims-org-id" : orgId }, name: `${url}-org-id-${orgId}` }, response)
 }
 
 function mockResponseWithMethod(url, method, response) {
-    fetchMock.mock((u, opts) => u === url && opts.method === method, response)
+    fetchMock.mock({ url, method }, response)
 }
 
 mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'not-found', 404)
