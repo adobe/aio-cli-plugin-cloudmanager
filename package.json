@@ -35,7 +35,7 @@
     "fetch-mock": "^8.3.1",
     "jest": "^24.1.0",
     "jest-extended": "^0.11.1",
-    "jest-haste-map": "^24.5.0",
+    "jest-haste-map": "^25.1.0",
     "jest-junit": "^10.0.0",
     "stdout-stderr": "^0.1.9"
   },
