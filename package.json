@@ -67,7 +67,8 @@
     "fix-readme": "sed -i '' 's+\\./bin/run+aio+g' README.md && sed -i '' 's+#bin-run-+#aio-+g' README.md && sed -i '' 's+#binrun-+#aio-+g' README.md && sed -i '' 's+blob/v+blob/+g' README.md",
     "prepack": "oclif-dev manifest && oclif-dev readme && npm run fix-readme",
     "postpack": "rm -f oclif.manifest.json",
-    "version": "oclif-dev readme && npm run fix-readme && git add README.md"
+    "version": "oclif-dev readme && npm run fix-readme && git add README.md",
+    "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'"
   },
   "jest": {
     "collectCoverage": true,
