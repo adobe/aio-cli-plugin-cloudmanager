@@ -61,7 +61,7 @@
   "main": "src/index.js",
   "repository": "adobe/aio-cli-plugin-cloudmanager",
   "scripts": {
-    "posttest": "eslint src",
+    "posttest": "eslint src e2e",
     "test": "npm run unit-tests",
     "unit-tests": "jest --ci",
     "fix-readme": "sed -i '' 's+\\./bin/run+aio+g' README.md && sed -i '' 's+#bin-run-+#aio-+g' README.md && sed -i '' 's+#binrun-+#aio-+g' README.md && sed -i '' 's+blob/v+blob/+g' README.md",
