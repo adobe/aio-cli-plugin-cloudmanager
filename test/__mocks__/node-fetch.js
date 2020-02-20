@@ -100,6 +100,9 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                         "href": "/api/program/4/environment/1/logs?service={service}&name={name}&days={days}",
                         "templated": true
                     },
+                    "http://ns.adobe.com/adobecloud/rel/variables": {
+                        "href": "/api/program/4/environment/1/variables"
+                    },
                     "http://ns.adobe.com/adobecloud/rel/developerConsole" : {
                         "href": "https://github.com/adobe/aio-cli-plugin-cloudmanager"
                     }
@@ -169,6 +172,9 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                     "self": {
                         "href": "/api/program/4/environment/3",
                         "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/variables": {
+                        "href": "/api/program/4/environment/3/variables"
                     }
                 },
                 "id": "3",
@@ -283,6 +289,57 @@ fetchMock.mock("https://filestore/logs/author_aemerror_2019-09-8.log.gz", () => 
 })
 fetchMock.mock("https://filestore/logs/author_aemerror_2019-09-7.log.gz", () => {
     return new nodeFetch.Response(fs.createReadStream(__dirname + "/file.log.gz"));
+})
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environment/1/variables', {
+    "_links": {
+        "http://ns.adobe.com/adobecloud/rel/environment": {
+            "href": "/api/program/4/environment/1",
+            "templated": false
+        },
+        "http://ns.adobe.com/adobecloud/rel/program": {
+            "href": "/api/program/4",
+            "templated": false
+        },
+        "self": {
+            "href": "/api/program/4/environment/1/variables",
+            "templated": false
+        }
+    },
+    "_embedded": {
+        "variables": [
+            {
+                "name": "KEY",
+                "value": "value",
+                "type": "string"
+            },
+            {
+                "name": "I_AM_A_SECRET",
+                "type": "secretString"
+            }
+        ]
+    },
+    "_totalNumberOfItems": 2
+})
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environment/3/variables', {
+    "_links": {
+        "http://ns.adobe.com/adobecloud/rel/environment": {
+            "href": "/api/program/4/environment/1",
+            "templated": false
+        },
+        "http://ns.adobe.com/adobecloud/rel/program": {
+            "href": "/api/program/4",
+            "templated": false
+        },
+        "self": {
+            "href": "/api/program/4/environment/3/variables",
+            "templated": false
+        }
+    },
+    "_embedded": {
+        "variables": [
+        ]
+    },
+    "_totalNumberOfItems": 0
 })
 
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/5', {
