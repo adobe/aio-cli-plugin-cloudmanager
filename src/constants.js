@@ -24,7 +24,8 @@ module.exports = {
         stepLogs: 'http://ns.adobe.com/adobecloud/rel/pipeline/logs',
         logs: 'http://ns.adobe.com/adobecloud/rel/logs',
         logsDownload: 'http://ns.adobe.com/adobecloud/rel/logs/download',
-        logsTail: 'http://ns.adobe.com/adobecloud/rel/logs/tail'
+        logsTail: 'http://ns.adobe.com/adobecloud/rel/logs/tail',
+        variables: 'http://ns.adobe.com/adobecloud/rel/variables'
     },
     config: {
         programId: 'cloudmanager_programid'

@@ -318,12 +318,17 @@ class Client {
         return this._getLogsForStepState(stepState, outputStream)
     }
 
-    async listAvailableLogOptions(programId, environmentId) {
-        let environments = await this.listEnvironments(programId)
-        let environment = environments.find(e => e.id === environmentId);
+    async _getEnvironment(programId, environmentId) {
+        const environments = await this.listEnvironments(programId)
+        const environment = environments.find(e => e.id === environmentId);
         if (!environment) {
             throw new Error(`Could not find environment ${environmentId} for program ${programId}`)
         }
+        return environment
+    }
+
+    async listAvailableLogOptions(programId, environmentId) {
+        const environment = await this._getEnvironment(programId, environmentId);
 
         return environment.availableLogOptions || []
     }
@@ -559,6 +564,37 @@ class Client {
         } else {
             throw new Error(`Environment ${environmentId} does not appear to support Developer Console.`)
         }
+    }
+
+    async _getVariablesLink(programId, environmentId) {
+        const environment = await this._getEnvironment(programId, environmentId)
+
+        const variablesLink = environment.link(rels.variables);
+        if (!variablesLink) {
+            throw new Error(`Could not find variables link for environment ${environmentId} for program ${programId}`)
+        }
+        return variablesLink.href
+    }
+
+    async getEnvironmentVariables(programId, environmentId) {
+        const variablesLink = await this._getVariablesLink(programId, environmentId);
+
+        const variables = await this.get(variablesLink).then((res) => {
+            if (res.ok) return res.json()
+            else throw new Error(`Cannot get variables: ${res.url} (${res.status} ${res.statusText})`)
+        })
+
+        const result = halfred.parse(variables).embeddedArray("variables")
+        return result ? result.map(v => v.original()) : []
+    }
+
+    async setEnvironmentVariables(programId, environmentId, variables) {
+        const variablesLink = await this._getVariablesLink(programId, environmentId);
+
+        return await this.patch(variablesLink, variables).then((res) => {
+            if (res.ok) return true
+            else throw new Error(`Cannot set variables: ${res.url} (${res.status} ${res.statusText})`)
+        })
     }
 }
 
