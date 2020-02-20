@@ -12,7 +12,6 @@ governing permissions and limitations under the License.
 
 const BaseEnvironmentVariablesCommand = require('./base-environment-variables-command')
 const { getProgramId } = require('../../cloudmanager-helpers')
-const { cli } = require('cli-ux')
 const commonFlags = require('../../common-flags')
 
 class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
@@ -28,13 +27,7 @@ class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
         } catch (error) {
             this.error(error.message)
         }
-        cli.table(result, {
-            name: {},
-            type: {},
-            value: {
-                get: item => item.type === 'secretString' ? '****' : item.value
-            }
-        })
+        this.outputTable(result)
 
         return result
     }

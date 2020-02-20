@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
+const { cli } = require('cli-ux')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
 const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
 const Client = require('../../client')
@@ -26,6 +27,16 @@ class BaseEnvironmentVariablesCommand extends Command {
 
     async getEnvironmentVariables(programId, environmentId, passphrase = null) {
         return _getEnvironmentVariables(programId, environmentId, passphrase)
+    }
+
+    outputTable(result) {
+        cli.table(result, {
+            name: {},
+            type: {},
+            value: {
+                get: (item) => item.type === 'secretString' ? '****' : item.value
+            }
+        })
     }
 }
 

@@ -220,7 +220,7 @@ test('set-environment-variables - secret and variable', async () => {
         'cloudmanager_programid': "4"
     })
 
-    expect.assertions(3)
+    expect.assertions(4)
 
     let runResult = SetEnvironmentVariablesCommand.run(["1", "--variable", "foo", "bar", "--secret", "foo2", "bar2"])
     await expect(runResult instanceof Promise).toBeTruthy()
@@ -235,6 +235,10 @@ test('set-environment-variables - secret and variable', async () => {
         "type": "secretString",
         "value" : "bar2"
     }])
+    await expect(cli.table.mock.calls[0][1].value.get({
+        "name" : "I_AM_A_SECRET",
+        "type": "secretString"
+    })).toBe("****")
 })
 
 test('set-environment-variables - delete', async () => {

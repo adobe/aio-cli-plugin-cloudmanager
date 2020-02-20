@@ -73,11 +73,7 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
         } catch (error) {
             this.error(error.message)
         }
-        cli.table(result, {
-            name: {},
-            type: {},
-            value: {}
-        })
+        this.outputTable(result)
 
         return result
     }
