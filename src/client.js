@@ -31,7 +31,7 @@ class Client {
         this.apiKey = apiKey
     }
 
-    async _doRequest(path, method, body) {
+    async _doRequest(path, method, body, message) {
         const baseUrl = await getBaseUrl()
         const url = `${baseUrl}${path}`
         const options = {
@@ -49,29 +49,45 @@ class Client {
         }
 
         debug(`fetch: ${url}`)
-        return fetch(url, options)
+        return new Promise((resolve, reject) => {
+            fetch(url, options).then(res => {
+                if (res.ok) resolve(res)
+                else {
+                    res.text().then(text => {
+                        debug(text)
+                        if (res.ok) resolve(res)
+                        else {
+                        const error = new Error(`${message}: ${res.url} (${res.status} ${res.statusText})`)
+                        error.res = res
+                        reject(error)
+                        }
+                    })
+                }
+            })
+        })
     }
 
-    async get(path) {
-        return this._doRequest(path, 'GET')
+    async get(path, message) {
+        return this._doRequest(path, 'GET', null, message)
     }
 
-    async put(path, body) {
-        return this._doRequest(path, 'PUT', body)
+    async put(path, body, message) {
+        return this._doRequest(path, 'PUT', body, message)
     }
 
-    async delete(path) {
-        return this._doRequest(path, 'DELETE')
+    async delete(path, message) {
+        return this._doRequest(path, 'DELETE', null, message)
     }
 
-    async patch(path, body) {
-        return this._doRequest(path, 'PATCH', body)
+    async patch(path, body, message) {
+        return this._doRequest(path, 'PATCH', body, message)
     }
 
     async _listPrograms() {
-        return this.get(basePath).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot retrieve programs: ${res.url} (${res.status} ${res.statusText})`)
+        return this.get(basePath, 'Cannot retrieve programs').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
     }
 
@@ -81,16 +97,18 @@ class Client {
     }
 
     async getProgram(path) {
-        return this.get(path).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot retrieve program: ${res.url} (${res.status} ${res.statusText})`)
+        return this.get(path, 'Cannot retrieve program').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
     }
 
     async _listPipelines(path) {
-        return this.get(path).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot retrieve pipelines: ${res.url} (${res.status} ${res.statusText})`)
+        return this.get(path, 'Cannot retrieve pipelines').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
     }
 
@@ -121,10 +139,11 @@ class Client {
             throw new Error(`Cannot start execution. Pipeline ${pipelineId} does not exist.`)
         }
 
-        return this.put(pipeline.link(rels.execution).href).then((res) => {
-            if (res.ok) return res.headers.get("location")
-            else if (res.status === 412) throw new Error("Cannot create execution. Pipeline already running.")
-            else throw new Error(`Cannot start execution: ${res.url} (${res.status} ${res.statusText})`)
+        return this.put(pipeline.link(rels.execution).href, null, 'Cannot start execution').then(res => {
+            return res.headers.get("location")
+        }, e => {
+            if (e.res.status === 412) throw new Error("Cannot create execution. Pipeline already running.")
+            else throw e
         })
     }
 
@@ -135,9 +154,10 @@ class Client {
             throw new Error(`Cannot get execution. Pipeline ${pipelineId} does not exist.`)
         }
 
-        return this.get(pipeline.link(rels.execution).href).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot get current execution: ${res.url} (${res.status} ${res.statusText})`)
+        return this.get(pipeline.link(rels.execution).href, 'Cannot get current execution').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
     }
 
@@ -149,9 +169,10 @@ class Client {
         }
         const executionTemplate = UriTemplate.parse(pipeline.link(rels.executionId).href)
         const executionLink = executionTemplate.expand({executionId: executionId})
-        return this.get(executionLink).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot get execution: ${res.url} (${res.status} ${res.statusText})`)
+        return this.get(executionLink, 'Cannot get execution').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
     }
 
@@ -192,9 +213,10 @@ class Client {
     }
 
     async _getMetricsForStepState(stepState) {
-        return this.get(`${stepState.link(rels.metrics).href}`).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot get metrics: ${res.url} (${res.status} ${res.statusText})`)
+        return this.get(stepState.link(rels.metrics).href, 'Cannot get metrics').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
     }
 
@@ -223,9 +245,10 @@ class Client {
             body.cancel = true
         }
 
-        return this.put(href, body).then((res) => {
-            if (res.ok) return {}
-            else throw new Error(`Cannot cancel execution: ${res.url} (${res.status} ${res.statusText})`)
+        return this.put(href, body, 'Cannot cancel execution').then(() => {
+            return {}
+        }, e => {
+            throw e
         })
     }
 
@@ -260,16 +283,18 @@ class Client {
             })
         }
 
-        return this.put(href, body).then((res) => {
-            if (res.ok) return {}
-            else throw new Error(`Cannot advance execution: ${res.url} (${res.status} ${res.statusText})`)
+        return this.put(href, body, 'Cannot advance execution').then(() => {
+            return {}
+        }, e => {
+            throw e
         })
     }
 
     async _listEnvironments(path) {
-        return this.get(path).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot retrieve environments: ${res.url} (${res.status} ${res.statusText})`)
+        return this.get(path, 'Cannot retrieve environments').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
     }
 
@@ -291,18 +316,16 @@ class Client {
     }
 
     async _getLogsForStepState(stepState, outputStream) {
-        return this.get(`${stepState.link(rels.stepLogs).href}`).then(async (res) => {
-            if (res.ok) {
-                const json = await res.json()
-                if (json.redirect) {
-                    await fetch(json.redirect).then(res => res.body.pipe(outputStream))
-                    return {}
-                } else {
-                    throw new Error(`Log ${res.url} did not contain a redirect. Was ${JSON.stringify(json)}.`)
-                }
+        return this.get(stepState.link(rels.stepLogs).href, 'Cannot get log').then(async (res) => {
+            const json = await res.json()
+            if (json.redirect) {
+                await fetch(json.redirect).then(res => res.body.pipe(outputStream))
+                return {}
             } else {
-                throw new Error(`Cannot get log: ${res.url} (${res.status} ${res.statusText})`)
+                throw new Error(`Log ${res.url} did not contain a redirect. Was ${JSON.stringify(json)}.`)
             }
+        }, e => {
+            throw e
         })
     }
 
@@ -347,14 +370,13 @@ class Client {
     }
 
     async _download(href, outputPath, resultObject) {
-        const res = await this.get(href)
-        if (!res.ok) throw new Error(`Could not obtain download link from ${res.url} (${res.status} ${res.statusText})`)
+        const res = await this.get(href, 'Could not obtain download link')
 
         const downloadUrl = res.url
 
         const json = await res.json()
         if (!json || !json.redirect) {
-            console.log(json)
+            debug(json)
             throw new Error(`Could not retrieve redirect from ${res.url} (${res.status} ${res.statusText})`)
         }
 
@@ -507,9 +529,10 @@ class Client {
             throw new Error(`Cannot delete pipeline. Pipeline ${pipelineId} does not exist.`)
         }
 
-        return this.delete(pipeline.link(rels.self).href).then((res) => {
-            if (res.ok) return {}
-            else throw new Error(`Cannot delete pipeline: ${res.url} (${res.status} ${res.statusText})`)
+        return this.delete(pipeline.link(rels.self).href, 'Cannot delete pipeline').then(() => {
+            return {}
+        }, e => {
+            throw e
         })
     }
 
@@ -579,9 +602,10 @@ class Client {
     async getEnvironmentVariables(programId, environmentId) {
         const variablesLink = await this._getVariablesLink(programId, environmentId);
 
-        const variables = await this.get(variablesLink).then((res) => {
-            if (res.ok) return res.json()
-            else throw new Error(`Cannot get variables: ${res.url} (${res.status} ${res.statusText})`)
+        const variables = await this.get(variablesLink, 'Cannot get variables').then(res => {
+            return res.json()
+        }, e => {
+            throw e
         })
 
         const result = halfred.parse(variables).embeddedArray("variables")
@@ -591,9 +615,10 @@ class Client {
     async setEnvironmentVariables(programId, environmentId, variables) {
         const variablesLink = await this._getVariablesLink(programId, environmentId);
 
-        return await this.patch(variablesLink, variables).then((res) => {
-            if (res.ok) return true
-            else throw new Error(`Cannot set variables: ${res.url} (${res.status} ${res.statusText})`)
+        return await this.patch(variablesLink, variables, "Cannot set variables").then(() => {
+            return true
+        }, e => {
+            throw e
         })
     }
 }
