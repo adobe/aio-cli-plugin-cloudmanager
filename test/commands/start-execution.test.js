@@ -71,6 +71,24 @@ test('start-execution - failed 412', async () => {
     await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot create execution. Pipeline already running.")
 })
 
+test('start-execution - failed 404', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(3)
+
+    let runResult = StartExecutionCommand.run(["--programId", "5", "7"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toEqual(undefined)
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot start execution: https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution (404 Not Found)")
+})
+
 test('start-execution - success', async () => {
     setStore({
         'jwt-auth': JSON.stringify({

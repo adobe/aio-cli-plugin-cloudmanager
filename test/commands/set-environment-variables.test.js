@@ -135,6 +135,24 @@ test('set-environment-variables - no variables link', async () => {
     await expect(runResult).rejects.toEqual(new Error('Could not find variables link for environment 2 for program 4'))
 })
 
+test('set-environment-variables - PATCH fails', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+        'cloudmanager_programid': "4"
+    })
+
+    expect.assertions(2)
+
+    let runResult = SetEnvironmentVariablesCommand.run(["11", "--variable", "foo", "bar"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error('Cannot set variables: https://cloudmanager.adobe.io/api/program/4/environment/11/variables (400 Bad Request)'))
+})
+
 test('set-environment-variables - success empty', async () => {
     setStore({
         'jwt-auth': JSON.stringify({

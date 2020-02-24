@@ -99,11 +99,20 @@ test('list-environments - success', async () => {
         id: "3",
         name: "TestProgram_dev",
         type: "dev"
+    },
+    {
+        id: "10",
+        name: "TestProgram_dev2",
+        type: "dev"
+    },
+    {
+        id: "11",
+        name: "TestProgram_dev3",
+        type: "dev"
     }])
     await expect(cli.table.mock.calls[0][1].description.get({})).toBe("")
     await expect(cli.table.mock.calls[0][1].description.get({description: "foo"})).toBe("foo")
 })
-
 
 test('list-environments - bad program', async () => {
     setStore({

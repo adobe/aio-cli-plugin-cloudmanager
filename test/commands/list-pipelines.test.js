@@ -102,7 +102,25 @@ test('list-programs - success', async () => {
 })
 
 
-test('list-pipelines - bad program', async () => {
+test('list-pipelines - program in programs list but not found', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+        'cloudmanager_programid': "7"
+    })
+
+    expect.assertions(2)
+
+    let runResult = ListPipelinesCommand.run([])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve program: https://cloudmanager.adobe.io/api/program/7 (404 Not Found)'))
+})
+
+test('list-pipelines - program doesnt exist', async () => {
     setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
