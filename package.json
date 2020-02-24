@@ -13,6 +13,7 @@
     "@oclif/errors": "^1.1.2",
     "@oclif/plugin-help": "^2.2.3",
     "cli-ux": "^5.4.1",
+    "debug": "^4.1.1",
     "halfred": "^1.1.1",
     "moment": "^2.24.0",
     "node-fetch": "^2.3.0",
