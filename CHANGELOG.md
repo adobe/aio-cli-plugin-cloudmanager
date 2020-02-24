@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.6.2 (24/02/2020)
+- [**enhancement**] DEBUG mode should output result body for errors [#80](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/80)
+
+---
+
 ## 0.6.1 (20/02/2020)
 -  when outputting variables after setting them cloudmanager:set-environment-variables doesn't output secrets properly [#78](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/78)
 
