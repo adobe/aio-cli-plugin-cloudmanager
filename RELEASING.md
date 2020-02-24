@@ -34,3 +34,19 @@ git push origin $PKG_VER
 ```
 npm publish --access public
 ```
+
+## 6. update GitHub release
+
+```
+npm run update-release
+```
+
+> See https://github.com/github-tools/github-release-notes to set up the token
+
+## 7. update changelog
+
+```
+npm run update-changelog
+git commit -m "Update CHANGELOG for $PKG_VER" CHANGELOG.md
+git push origin master
+```
