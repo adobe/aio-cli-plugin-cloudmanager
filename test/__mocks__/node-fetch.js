@@ -62,6 +62,16 @@ mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'good', {
                         href: '/api/program/6'
                     }
                 }
+            },
+            {
+                id: "7",
+                name: "test3",
+                enabled: true,
+                _links: {
+                    self: {
+                        href: '/api/program/7'
+                    }
+                }
             }
         ]
     }
@@ -181,6 +191,38 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
                 "programId": "4",
                 "name": "TestProgram_dev",
                 "description": "description for TestProgram_dev",
+                "type": "dev"
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/program/4/environment/10",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/variables": {
+                        "href": "/api/program/4/environment/10/variables"
+                    }
+                },
+                "id": "10",
+                "programId": "4",
+                "name": "TestProgram_dev2",
+                "description": "description for TestProgram_dev2",
+                "type": "dev"
+            },
+            {
+                "_links": {
+                    "self": {
+                        "href": "/api/program/4/environment/11",
+                        "templated": false
+                    },
+                    "http://ns.adobe.com/adobecloud/rel/variables": {
+                        "href": "/api/program/4/environment/11/variables"
+                    }
+                },
+                "id": "11",
+                "programId": "4",
+                "name": "TestProgram_dev3",
+                "description": "description for TestProgram_dev3",
                 "type": "dev"
             }
         ]
@@ -455,6 +497,9 @@ mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5',
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'GET', require('./data/execution1000.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/execution', 'PUT', 412)
 
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7', 'DELETE', 400)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution', 'PUT', 404)
+
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/6', {
     id: "6",
     name: "test2",
@@ -531,3 +576,28 @@ fetchMock.mock((url, opts) => url === 'https://cloudmanager.adobe.io/api/program
     202, {
         name: 'advance-1006'
     });
+
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/7', 404)
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environment/10/variables', 404)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/4/environment/11/variables', 'GET', {
+    "_links": {
+        "http://ns.adobe.com/adobecloud/rel/environment": {
+            "href": "/api/program/4/environment/1",
+            "templated": false
+        },
+        "http://ns.adobe.com/adobecloud/rel/program": {
+            "href": "/api/program/4",
+            "templated": false
+        },
+        "self": {
+            "href": "/api/program/4/environment/3/variables",
+            "templated": false
+        }
+    },
+    "_embedded": {
+        "variables": [
+        ]
+    },
+    "_totalNumberOfItems": 0
+})
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/4/environment/11/variables', 'PATCH', 400)

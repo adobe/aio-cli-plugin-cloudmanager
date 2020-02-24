@@ -96,6 +96,24 @@ test('list-environment-variables - no variables link', async () => {
     await expect(runResult).rejects.toEqual(new Error('Could not find variables link for environment 2 for program 4'))
 })
 
+test('list-environment-variables - link returns 404', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+        'cloudmanager_programid': "4"
+    })
+
+    expect.assertions(2)
+
+    let runResult = ListEnvironmentVariablesCommand.run(["10"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error('Cannot get variables: https://cloudmanager.adobe.io/api/program/4/environment/10/variables (404 Not Found)'))
+})
+
 test('list-environment-variables - success empty', async () => {
     setStore({
         'jwt-auth': JSON.stringify({

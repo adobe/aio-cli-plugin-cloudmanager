@@ -35,6 +35,24 @@ test('delete-pipeline - missing config', async () => {
     await expect(cli.action.stop.mock.calls[0][0]).toBe("missing config data: jwt-auth")
 })
 
+test('delete-pipeline - delete pipeline returns 400', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(3)
+
+    let runResult = DeletePipelineCommand.run(["--programId", "5", "7"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toEqual(undefined)
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot delete pipeline: https://cloudmanager.adobe.io/api/program/5/pipeline/7 (400 Bad Request)")
+})
+
 test('delete-pipeline - bad pipeline', async () => {
     setStore({
         'jwt-auth': JSON.stringify({

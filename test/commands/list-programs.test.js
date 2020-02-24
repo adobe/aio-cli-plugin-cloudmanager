@@ -84,6 +84,11 @@ test('list-programs - success', async () => {
         id: "6",
         name: "test2",
         enabled: false
+    },
+    {
+        id: "7",
+        name: "test3",
+        enabled: true
     }])
 })
 
@@ -108,6 +113,10 @@ test('list-programs - filtered', async () => {
     },{
         id: "5",
         name: "test1",
+        enabled: true
+    },{
+        id: "7",
+        name: "test3",
         enabled: true
     }])
 })
