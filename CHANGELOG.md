@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.0 (26/02/2020)
+- [**enhancement**] Add support for alternate files in get-execution-step-logs [#84](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/84)
+
+---
+
 ## 0.6.2 (24/02/2020)
 - [**enhancement**] DEBUG mode should output result body for errors [#80](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/80)
 
