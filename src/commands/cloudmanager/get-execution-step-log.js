@@ -18,11 +18,11 @@ const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helper
 const Client = require('../../client')
 const commonFlags = require('../../common-flags')
 
-async function _getExecutionStepLog (programId, pipelineId, executionId, action, outputStream, passphrase) {
+async function _getExecutionStepLog (programId, pipelineId, executionId, action, logFile, outputStream, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const orgId = await getOrgId()
-  return new Client(orgId, accessToken, apiKey).getExecutionStepLog(programId, pipelineId, executionId, action, outputStream)
+  return new Client(orgId, accessToken, apiKey).getExecutionStepLog(programId, pipelineId, executionId, action, logFile, outputStream)
 }
 
 class GetExecutionStepLogs extends Command {
@@ -40,7 +40,7 @@ class GetExecutionStepLogs extends Command {
     let result;
 
     try {
-      result = await this.getExecutionStepLog(programId, args.pipelineId, args.executionId, args.action, outputStream, flags.passphrase)
+      result = await this.getExecutionStepLog(programId, args.pipelineId, args.executionId, args.action, flags.file, outputStream, flags.passphrase)
     } catch (error) {
       this.error(error.message)
     }
@@ -62,7 +62,8 @@ GetExecutionStepLogs.description = 'get step log'
 GetExecutionStepLogs.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  output: flags.string({ char: 'o', description: "the output file. If not set, uses standard output."})
+  output: flags.string({ char: 'o', description: "the output file. If not set, uses standard output."}),
+  file: flags.string({ char: 'f', description: "the alternative log file name. currently only `sonarLogFile` is available (for the codeQuality step)"})
 }
 
 GetExecutionStepLogs.args = [

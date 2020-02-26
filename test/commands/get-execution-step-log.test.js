@@ -84,6 +84,24 @@ test('get-execution-step-log - success', async () => {
     expect(capturedStdout).toEqual("some log line\nsome other log line\n")
 })
 
+test('get-execution-step-log - success alternate file', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(3)
+
+    let runResult = GetExecutionStepLog.run(["--programId", "5", "7", "1001", "codeQuality", "--file", "somethingspecial"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toEqual({})
+    expect(capturedStdout).toEqual("some special log line\nsome other special log line\n")
+})
+
 test('get-execution-step-log - not found', async () => {
     setStore({
         'jwt-auth': JSON.stringify({

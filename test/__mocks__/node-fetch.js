@@ -534,6 +534,14 @@ logResponse.push('some log line\n')
 logResponse.push('some other log line\n')
 logResponse.push(null)
 fetchMock.mock('https://somesite.com/log.txt', logResponse, { sendAsJson: false })
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/logs?file=somethingspecial', 'GET', {
+    redirect: 'https://somesite.com/special.txt'
+})
+const specialLogResponse = new Readable()
+specialLogResponse.push('some special log line\n')
+specialLogResponse.push('some other special log line\n')
+specialLogResponse.push(null)
+fetchMock.mock('https://somesite.com/special.txt', specialLogResponse, { sendAsJson: false })
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/logs', 'GET', 404)
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4598/step/8500/logs', 'GET', {})
 
