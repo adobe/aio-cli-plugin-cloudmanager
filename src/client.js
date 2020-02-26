@@ -315,8 +315,12 @@ class Client {
         return environments
     }
 
-    async _getLogsForStepState(stepState, outputStream) {
-        return this.get(stepState.link(rels.stepLogs).href, 'Cannot get log').then(async (res) => {
+    async _getLogsForStepState(stepState, logFile, outputStream) {
+        let link = stepState.link(rels.stepLogs).href
+        if (logFile) {
+            link = `${link}?file=${logFile}`
+        }
+        return this.get(link, 'Cannot get log').then(async (res) => {
             const json = await res.json()
             if (json.redirect) {
                 await fetch(json.redirect).then(res => res.body.pipe(outputStream))
@@ -329,7 +333,7 @@ class Client {
         })
     }
 
-    async getExecutionStepLog(programId, pipelineId, executionId, action, outputStream) {
+    async getExecutionStepLog(programId, pipelineId, executionId, action, logFile, outputStream) {
         const execution = halfred.parse(await this.getExecution(programId, pipelineId, executionId))
 
         const stepState = this.findStepState(execution, action)
@@ -338,7 +342,7 @@ class Client {
             throw new Error(`Cannot find step state for action ${action} on execution ${executionId}.`)
         }
 
-        return this._getLogsForStepState(stepState, outputStream)
+        return this._getLogsForStepState(stepState, logFile, outputStream)
     }
 
     async _getEnvironment(programId, environmentId) {
