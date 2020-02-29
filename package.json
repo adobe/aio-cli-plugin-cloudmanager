@@ -34,7 +34,7 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
-    "fetch-mock": "^8.3.1",
+    "fetch-mock": "^9.0.0",
     "github-release-notes": "^0.17.1",
     "jest": "^24.1.0",
     "jest-extended": "^0.11.1",
