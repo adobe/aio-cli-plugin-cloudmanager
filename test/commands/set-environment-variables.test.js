@@ -53,7 +53,7 @@ test('set-environment-variables - bad variable flag', async () => {
                 iss: "good"
             }
         }),
-        'cloudmanager_programid': "6"
+        'cloudmanager_programid': "4"
     })
 
     expect.assertions(2)
@@ -71,7 +71,7 @@ test('set-environment-variables - bad secret flag', async () => {
                 iss: "good"
             }
         }),
-        'cloudmanager_programid': "6"
+        'cloudmanager_programid': "4"
     })
 
     expect.assertions(2)
@@ -272,12 +272,57 @@ test('set-environment-variables - delete', async () => {
 
     expect.assertions(3)
 
-    let runResult = SetEnvironmentVariablesCommand.run(["1", "--delete", "foo"])
+    let runResult = SetEnvironmentVariablesCommand.run(["1", "--delete", "KEY"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toBeTruthy()
     const patchCall = fetchMock.calls().find(call => call[0] === 'https://cloudmanager.adobe.io/api/program/4/environment/1/variables' && call[1].method === 'PATCH')
     await expect(JSON.parse(patchCall[1].body)).toMatchObject([{
-        "name" : "foo",
+        "name" : "KEY",
+        "type": "string",
         "value" : ""
     }])
+})
+
+test('set-environment-variables - delete secret', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+        'cloudmanager_programid': "4"
+    })
+
+    expect.assertions(3)
+
+    let runResult = SetEnvironmentVariablesCommand.run(["1", "--delete", "I_AM_A_SECRET"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toBeTruthy()
+    const patchCall = fetchMock.calls().find(call => call[0] === 'https://cloudmanager.adobe.io/api/program/4/environment/1/variables' && call[1].method === 'PATCH')
+    await expect(JSON.parse(patchCall[1].body)).toMatchObject([{
+        "name" : "I_AM_A_SECRET",
+        "type": "secretString",
+        "value" : ""
+    }])
+})
+
+test('set-environment-variables - delete not found', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+        'cloudmanager_programid': "4"
+    })
+
+    expect.assertions(3)
+
+    let runResult = SetEnvironmentVariablesCommand.run(["1", "--delete", "foo"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toBeTruthy()
+    const patchCall = fetchMock.calls().find(call => call[0] === 'https://cloudmanager.adobe.io/api/program/4/environment/1/variables' && call[1].method === 'PATCH')
+    await expect(patchCall).toBeFalsy()
 })

@@ -32,6 +32,10 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
 
         const programId = await getProgramId(flags)
 
+        const currentVariablesList = await this.getEnvironmentVariables(programId, args.environmentId, flags.passphrase)
+        const currentVariableTypes = {}
+        currentVariablesList.forEach(variable => currentVariableTypes[variable.name] = variable.type)
+
         const variables = []
         if (flags.variable) {
             // each --param flag expects two values ( a key and a value ). Multiple --parm flags can be passed
@@ -56,20 +60,31 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
             }
         }
         if (flags.delete) {
-            flags.delete.forEach(key => variables.push({
-                name: key,
-                value: ''
-            }))
+            flags.delete.forEach(key => {
+                if (currentVariableTypes[key]) {
+                    variables.push({
+                        name: key,
+                        type: currentVariableTypes[key],
+                        value: ''
+                    })
+                } else {
+                    this.warn(`Variable ${key} not found. Will not try to delete.`)
+                }
+            })
         }
 
-        cli.action.start('setting variables')
-        await this.setEnvironmentVariables(programId, args.environmentId, variables, flags.passphrase)
-        cli.action.stop()
+        if (variables.length > 0) {
+            cli.action.start('setting variables')
+            await this.setEnvironmentVariables(programId, args.environmentId, variables, flags.passphrase)
+            cli.action.stop()
+        } else {
+            this.log("No variables to set or delete.")
+        }
 
         let result
 
         try {
-            result = await this.getEnvironmentVariables(programId, args.environmentId, variables, flags.passphrase)
+            result = await this.getEnvironmentVariables(programId, args.environmentId, flags.passphrase)
         } catch (error) {
             this.error(error.message)
         }
