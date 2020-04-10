@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.1 (10/04/2020)
+- [**bug**] Secret environment variables cannot be deleted [#96](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/96)
+
+---
+
 ## 0.7.0 (26/02/2020)
 - [**enhancement**] Add support for alternate files in get-execution-step-logs [#84](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/84)
 
