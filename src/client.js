@@ -57,9 +57,9 @@ class Client {
                         debug(text)
                         if (res.ok) resolve(res)
                         else {
-                        const error = new Error(`${message}: ${res.url} (${res.status} ${res.statusText})`)
-                        error.res = res
-                        reject(error)
+                            const error = new Error(`${message}: ${res.url} (${res.status} ${res.statusText})`)
+                            error.res = res
+                            reject(error)
                         }
                     })
                 }
