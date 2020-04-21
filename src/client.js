@@ -230,16 +230,21 @@ class Client {
         if (!cancelHalLink) {
             throw new Error(`Cannot find a cancel link for the current step (${step.action}). Step may not be cancellable.`)
         }
-        const href = cancelHalLink.href
+        let href = cancelHalLink.href
 
         const body = {}
         if (step.action === "approval") {
             body.approved = false
         } else if (step.action === "managed") {
             body.start = false
-        } else if (step.status === "WAITING" && step.action !== "schedule") {
+        } else if (step.status === "WAITING" && step.action !== "schedule" && step.action !== "deploy") {
             body.override = false
-        } else if (step.action === "deploy") {
+        } else if (step.status === "WAITING" && step.action === "deploy") {
+            const advanceHalLink = step.link(rels.advance)
+            if (!advanceHalLink) {
+                throw new Error(`Cannot find an advance link for the current step (${step.action})`)
+            }
+            href = advanceHalLink.href
             body.resume = false
         } else {
             body.cancel = true

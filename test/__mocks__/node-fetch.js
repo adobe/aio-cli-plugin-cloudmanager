@@ -551,7 +551,10 @@ const pipeline7Executions = {
     "1001": require(`./data/execution1001.json`),
     "1005": require('./data/execution1005.json'),
     "1006": require('./data/execution1006.json'),
-    "1007": require('./data/execution1007.json')
+    "1007": require('./data/execution1007.json'),
+    "1008": require('./data/execution1008.json'),
+    "1009": require('./data/execution1009.json'),
+    "1010": require('./data/execution1010.json')
 }
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution', 'GET', () => pipeline7Executions[executionForPipeline7])
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493/metrics', 'GET', require('./data/metrics.json'))
@@ -583,6 +586,11 @@ fetchMock.mock((url, opts) => url === 'https://cloudmanager.adobe.io/api/program
         opts.method === 'PUT' && JSON.parse(opts.body).metrics.length === 1 && JSON.parse(opts.body).metrics[0].override === true,
     202, {
         name: 'advance-1006'
+    });
+fetchMock.mock((url, opts) => url === 'https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1007/phase/8567/step/15492/advance' &&
+        opts.method === 'PUT' && opts.body === JSON.stringify({resume: false}),
+    202, {
+        name: 'cancel-1008'
     });
 
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/7', 404)
