@@ -110,3 +110,23 @@ test('cancel-current-execution - approval waiting', async () => {
     await expect(runResult).resolves.toEqual({})
     await expect(fetchMock.called('cancel-1007')).toBe(true)
 })
+
+test('cancel-current-execution - deploy waiting', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+    fetchMock.setPipeline7Execution("1008")
+
+    expect.assertions(3)
+
+    let runResult = CancelCurrentExecution.run(["--programId", "5", "7"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toEqual({})
+    await expect(fetchMock.called('cancel-1008')).toBe(true)
+})
+
