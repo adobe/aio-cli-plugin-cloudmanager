@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.2 (21/04/2020)
+-  Cancelling a paused deployment needs to use the advance, not cancel endpoint [#99](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/99)
+
+---
+
 ## 0.7.1 (10/04/2020)
 - [**bug**] Secret environment variables cannot be deleted [#96](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/96)
 
