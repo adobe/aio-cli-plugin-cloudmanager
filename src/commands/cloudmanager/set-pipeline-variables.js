@@ -10,42 +10,42 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const BaseEnvironmentVariablesCommand = require('../../base-environment-variables-command')
+const BasePipelineVariablesCommand = require('../../base-pipeline-variables-command')
 const BaseVariablesCommand = require('../../base-variables-command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
 const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
 const Client = require('../../client')
 const commonFlags = require('../../common-flags')
 
-async function _setEnvironmentVariables(programId, environmentId, variables, passphrase) {
+async function _setPipelineVariables(programId, pipelineId, variables, passphrase) {
     const apiKey = await getApiKey()
     const accessToken = await getAccessToken(passphrase)
     const orgId = await getOrgId()
-    return new Client(orgId, accessToken, apiKey).setEnvironmentVariables(programId, environmentId, variables)
+    return new Client(orgId, accessToken, apiKey).setPipelineVariables(programId, pipelineId, variables)
 }
 
-class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
+class SetPipelineVariablesCommand extends BasePipelineVariablesCommand {
     async run() {
-        const { args, flags } = this.parse(SetEnvironmentVariablesCommand)
+        const { args, flags } = this.parse(SetPipelineVariablesCommand)
 
         return this.runSet(args, flags)
     }
 
     async setVariables(programId, args, variables, passphrase = null) {
-        return _setEnvironmentVariables(programId, args.environmentId, variables, passphrase)
+        return _setPipelineVariables(programId, args.pipelineId, variables, passphrase)
     }
 }
 
-SetEnvironmentVariablesCommand.description = 'sets variables set on an environment'
+SetPipelineVariablesCommand.description = 'sets variables set on a pipeline'
 
-SetEnvironmentVariablesCommand.args = [
-    {name: 'environmentId', required: true, description: "the environment id"}
+SetPipelineVariablesCommand.args = [
+    {name: 'pipelineId', required: true, description: "the pipeline id"}
 ]
 
-SetEnvironmentVariablesCommand.flags = {
+SetPipelineVariablesCommand.flags = {
     ...commonFlags.global,
     ...commonFlags.programId,
     ...BaseVariablesCommand.flags
 }
 
-module.exports = SetEnvironmentVariablesCommand
+module.exports = SetPipelineVariablesCommand

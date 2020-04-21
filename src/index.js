@@ -29,6 +29,10 @@ const DeletePipeline = require('./commands/cloudmanager/delete-pipeline')
 const UpdatePipeline = require('./commands/cloudmanager/update-pipeline')
 const OpenDeveloperConsole = require('./commands/cloudmanager/open-developer-console')
 const DeleteProgram = require('./commands/cloudmanager/delete-program')
+const ListEnvironmentVariables = require('./commands/cloudmanager/list-environment-variables')
+const SetEnvironmentVariables = require('./commands/cloudmanager/set-environment-variables')
+const ListPipelineVariables = require('./commands/cloudmanager/list-pipeline-variables')
+const SetPipelineVariables = require('./commands/cloudmanager/set-pipeline-variables')
 
 module.exports = {
   'aaa': CloudManagerCommand, // needs to be first alphabetically
@@ -49,5 +53,9 @@ module.exports = {
   'delete-pipeline': new DeletePipeline().deletePipeline,
   'update-pipeline': new UpdatePipeline().updatePipeline,
   'open-developer-console': new OpenDeveloperConsole().getDeveloperConsoleUrl,
-  'delete-program': new DeleteProgram().deleteProgram
+  'delete-program': new DeleteProgram().deleteProgram,
+  'list-environment-variables': new ListEnvironmentVariables().getVariables,
+  'set-environment-variables': new SetEnvironmentVariables().setVariables,
+  'list-pipeline-variables': new ListPipelineVariables().getVariables,
+  'set-pipeline-variables': new SetPipelineVariables().setVariables
 }
