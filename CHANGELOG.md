@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.7.3 (27/04/2020)
+-  cloudmanager:base-environment-variables-command should not be listed on readme [#101](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/101)
+
+---
+
 ## 0.7.2 (21/04/2020)
 -  Cancelling a paused deployment needs to use the advance, not cancel endpoint [#99](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/99)
 
