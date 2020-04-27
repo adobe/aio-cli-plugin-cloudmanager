@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { flags } = require('@oclif/command')
-const BaseEnvironmentVariablesCommand = require('./base-environment-variables-command')
+const BaseEnvironmentVariablesCommand = require('../../base-environment-variables-command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
 const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { createKeyValueObjectFromFlag } = require('@adobe/aio-cli-plugin-runtime')

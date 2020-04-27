@@ -13,8 +13,8 @@ governing permissions and limitations under the License.
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
-const Client = require('../../client')
+const { getApiKey, getOrgId } = require('./cloudmanager-helpers')
+const Client = require('./client')
 
 async function _getEnvironmentVariables(programId, environmentId, passphrase) {
     const apiKey = await getApiKey()
