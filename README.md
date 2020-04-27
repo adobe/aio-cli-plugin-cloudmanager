@@ -536,6 +536,7 @@ For development, it is useful to use `aio plugins:link` to link to a local clone
 ```
 $ git clone git@github.com:adobe/aio-cli-plugin-cloudmanager.git
 $ git checkout -B <your feature branch>
+$ npm install
 $ aio plugins:link
 $ aio cloudmanager:<some command>
 ```
