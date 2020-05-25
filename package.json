@@ -16,8 +16,7 @@
     "halfred": "^1.1.1",
     "moment": "^2.26.0",
     "node-fetch": "^2.3.0",
-    "uritemplate": "^0.3.4",
-    "zlib": "^1.0.5"
+    "uritemplate": "^0.3.4"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
