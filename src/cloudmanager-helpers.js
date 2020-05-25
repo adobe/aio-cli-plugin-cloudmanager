@@ -89,6 +89,25 @@ async function sleep(msec) {
     return new Promise(resolve => setTimeout(resolve, msec));
 }
 
+function createKeyValueObjectFromFlag (flag) {
+    if (flag.length % 2 === 0) {
+      let i
+      const tempObj = {}
+      for (i = 0; i < flag.length; i += 2) {
+        try {
+          // assume it is JSON, there is only 1 way to find out
+          tempObj[flag[i]] = JSON.parse(flag[i + 1])
+        } catch (ex) {
+          // hmm ... not json, treat as string
+          tempObj[flag[i]] = flag[i + 1]
+        }
+      }
+      return tempObj
+    } else {
+      throw (new Error('Please provide correct values for flags'))
+    }
+  }
+
 
 module.exports = {
     getBaseUrl,
@@ -98,5 +117,6 @@ module.exports = {
     getProgramId,
     getWaitingStep,
     isWithinFiveMinutesOfUTCMidnight,
-    sleep
+    sleep,
+    createKeyValueObjectFromFlag
 }
