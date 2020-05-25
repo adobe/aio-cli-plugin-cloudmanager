@@ -16,7 +16,8 @@
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "node-fetch": "^2.3.0",
-    "uritemplate": "^0.3.4"
+    "uritemplate": "^0.3.4",
+    "snyk": "^1.327.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1",
@@ -71,7 +72,9 @@
     "prepack": "oclif-dev manifest && oclif-dev readme && npm run fix-readme",
     "postpack": "rm -f oclif.manifest.json",
     "version": "oclif-dev readme && npm run fix-readme && git add README.md",
-    "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'"
+    "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "jest": {
     "collectCoverage": true,
@@ -91,5 +94,6 @@
       "./jest.setup.js"
     ],
     "clearMocks": true
-  }
+  },
+  "snyk": true
 }
