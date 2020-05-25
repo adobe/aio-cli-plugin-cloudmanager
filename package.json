@@ -13,6 +13,7 @@
     "cli-ux": "^5.4.5",
     "debug": "^4.1.1",
     "halfred": "^1.1.1",
+    "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "node-fetch": "^2.3.0",
     "uritemplate": "^0.3.4"
