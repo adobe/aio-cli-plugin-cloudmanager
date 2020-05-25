@@ -1,0 +1,1 @@
+ignores: ["@oclif/plugin-help"]
