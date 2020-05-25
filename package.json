@@ -21,7 +21,6 @@
   "devDependencies": {
     "@oclif/dev-cli": "^1",
     "@oclif/test": "^1",
-    "acorn": "^7.0.0",
     "chalk": "^4.0.0",
     "codecov": "^3.5.0",
     "eslint": "^6.0.0",
