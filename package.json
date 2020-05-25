@@ -6,7 +6,6 @@
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
     "@adobe/aio-cli-plugin-jwt-auth": "^2.0.1",
-    "@adobe/aio-cli-plugin-runtime": "^1.6.0",
     "@adobe/aio-lib-core-config": "^1.2.8",
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.15.1",
