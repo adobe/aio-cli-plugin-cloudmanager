@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.8.0 (27/05/2020)
+-  Include validation errors in the non-debug error message [#115](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/115)
+-  Remove dependency on aio-cli-plugin-runtime [#111](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/111)
+-  resolve depcheck warnings [#109](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/109)
+
+---
+
 ## 0.7.3 (27/04/2020)
 -  cloudmanager:base-environment-variables-command should not be listed on readme [#101](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/101)
 
