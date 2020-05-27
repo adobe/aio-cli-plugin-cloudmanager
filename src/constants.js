@@ -29,5 +29,8 @@ module.exports = {
     },
     config: {
         programId: 'cloudmanager_programid'
+    },
+    problemTypes: {
+        validation: 'http://ns.adobe.com/adobecloud/validation-exception'
     }
 }
