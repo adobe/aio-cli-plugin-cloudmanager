@@ -20,7 +20,7 @@ const util = require("util")
 const streamPipeline = util.promisify(require("stream").pipeline)
 const _ = require("lodash")
 
-const { rels, basePath } = require('./constants')
+const { rels, basePath, problemTypes } = require('./constants')
 const { getBaseUrl, getCurrentStep, getWaitingStep } = require('./cloudmanager-helpers')
 
 class Client {
@@ -57,6 +57,17 @@ class Client {
                         debug(text)
                         if (res.ok) resolve(res)
                         else {
+                            const resContentType = res.headers.get('content-type')
+                            if (resContentType && resContentType.indexOf('application/problem+json') === 0) {
+                                const problem = JSON.parse(text)
+                                if (problemTypes.validation === problem.type && problem.errors && problem.errors.length > 0) {
+                                    const errors = problem.errors.join(', ')
+                                    const error = new Error(`${message}: ${res.url} (${res.status} ${res.statusText}) - Validation Error(s): ${errors}`)
+                                    error.res = res
+                                    reject(error)
+                                    return
+                                }
+                            }
                             const error = new Error(`${message}: ${res.url} (${res.status} ${res.statusText})`)
                             error.res = res
                             reject(error)

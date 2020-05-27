@@ -616,4 +616,15 @@ mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/4/environment/
     },
     "_totalNumberOfItems": 0
 })
-mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/4/environment/11/variables', 'PATCH', 400)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/4/environment/11/variables', 'PATCH', {
+    status: 400,
+    headers: {
+        'content-type': 'application/problem+json'
+    },
+    body: {
+        type: 'http://ns.adobe.com/adobecloud/validation-exception',
+        errors: [
+            'some error'
+        ]
+    }
+})
