@@ -16,7 +16,7 @@ governing permissions and limitations under the License.
 [![Codecov Coverage](https://img.shields.io/codecov/c/github/adobe/aio-cli-plugin-cloudmanager/master.svg?style=flat-square)](https://codecov.io/gh/adobe/aio-cli-plugin-cloudmanager/)
 [![Known Vulnerabilities](https://snyk.io/test/github/adobe/aio-cli-plugin-cloudmanager/badge.svg)](https://snyk.io/test/github/adobe/aio-cli-plugin-cloudmanager)
 
-<!-- trivial -->
+<!-- trivial2 -->
 
 # aio-cli-plugin-cloudmanager
 Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
