@@ -11,7 +11,7 @@
     "@oclif/config": "^1.15.1",
     "@oclif/plugin-help": "^2.2.3",
     "cli-ux": "^5.4.5",
-    "debug": "^4.1.1",
+    "debug": "^4.2.0",
     "halfred": "^1.1.1",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
