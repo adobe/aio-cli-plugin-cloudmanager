@@ -25,7 +25,7 @@ function mockResponseWithOrgId(url, orgId, response) {
 }
 
 function mockResponseWithMethod(url, method, response) {
-    fetchMock.mock({ url, method }, response)
+    fetchMock.mock({ url, method, name: `${method}-${url}` }, response)
 }
 
 mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'not-found', 404)
@@ -383,6 +383,8 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environment/3/variab
     },
     "_totalNumberOfItems": 0
 })
+
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5', 'DELETE', 400)
 
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/5', {
     id: "5",
