@@ -641,6 +641,19 @@ class Client {
             throw e
         })
     }
+
+    async deleteProgram(programId) {
+        const programs = await this.listPrograms();
+        let program = programs.find(p => p.id === programId);
+        if (!program) {
+            throw new Error(`Cannot delete program. Program ${programId} does not exist.`)
+        }
+        return this.delete(program.link(rels.self).href, 'Cannot delete program').then(() => {
+            return {}
+        }, e => {
+            throw e
+        })
+    }
 }
 
 module.exports = Client
