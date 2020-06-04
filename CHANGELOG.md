@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.9.0 (04/06/2020)
+-  Support delete program through CLI [#119](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/119)
+
+---
+
 ## 0.8.0 (27/05/2020)
 -  Include validation errors in the non-debug error message [#115](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/115)
 -  Remove dependency on aio-cli-plugin-runtime [#111](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/111)
