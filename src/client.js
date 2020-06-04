@@ -48,7 +48,7 @@ class Client {
             options.headers['content-type'] = 'application/json'
         }
 
-        debug(`fetch: ${url}`)
+        debug(`fetch: ${method} ${url}`)
         return new Promise((resolve, reject) => {
             fetch(url, options).then(res => {
                 if (res.ok) resolve(res)
