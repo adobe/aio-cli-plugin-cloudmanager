@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.10.0 (12/06/2020)
+- [**enhancement**] Output error code/message when present in error response [#122](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/122)
+
+---
+
 ## 0.9.0 (04/06/2020)
 -  Support delete program through CLI [#119](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/119)
 
