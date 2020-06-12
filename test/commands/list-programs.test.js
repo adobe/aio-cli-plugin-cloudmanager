@@ -41,6 +41,22 @@ test('list-programs - failure', async () => {
     await expect(runResult).rejects.toEqual(new Error('Cannot retrieve programs: https://cloudmanager.adobe.io/api/programs (404 Not Found)'))
 })
 
+test('list-programs - forbideen', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "forbidden"
+            }
+        }),
+    })
+    expect.assertions(2)
+
+    let runResult = ListProgramsCommand.run([])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve programs: https://cloudmanager.adobe.io/api/programs (403 Forbidden) - Detail: some message (Code: 1234)'))
+})
+
 test('list-programs - success empty', async () => {
     setStore({
         'jwt-auth': JSON.stringify({

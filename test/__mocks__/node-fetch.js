@@ -28,6 +28,16 @@ function mockResponseWithMethod(url, method, response) {
     fetchMock.mock({ url, method, name: `${method}-${url}` }, response)
 }
 
+mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'forbidden', {
+    status: 403,
+    headers: {
+        'content-type': 'application/json'
+    },
+    body: {
+        error_code: "1234",
+        message: "some message"
+    }
+})
 mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'not-found', 404)
 mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'empty', {})
 mockResponseWithOrgId('https://cloudmanager.adobe.io/api/programs', 'good', {
