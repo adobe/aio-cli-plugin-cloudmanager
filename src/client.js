@@ -57,18 +57,26 @@ class Client {
                         debug(text)
                         if (res.ok) resolve(res)
                         else {
+                            let errorMessage = `${message}: ${res.url} (${res.status} ${res.statusText})`
                             const resContentType = res.headers.get('content-type')
-                            if (resContentType && resContentType.indexOf('application/problem+json') === 0) {
-                                const problem = JSON.parse(text)
-                                if (problemTypes.validation === problem.type && problem.errors && problem.errors.length > 0) {
-                                    const errors = problem.errors.join(', ')
-                                    const error = new Error(`${message}: ${res.url} (${res.status} ${res.statusText}) - Validation Error(s): ${errors}`)
-                                    error.res = res
-                                    reject(error)
-                                    return
+                            if (resContentType) {
+                                if (resContentType.indexOf('application/problem+json') === 0) {
+                                    const problem = JSON.parse(text)
+                                    if (problemTypes.validation === problem.type && problem.errors && problem.errors.length > 0) {
+                                        const errors = problem.errors.join(', ')
+                                        errorMessage = errorMessage + ` - Validation Error(s): ${errors}`
+                                    }
+                                } else if (resContentType === 'application/json') {
+                                    const parsedBody = JSON.parse(text)
+                                    if (parsedBody.message) {
+                                        errorMessage = errorMessage + ` - Detail: ${parsedBody.message}`
+                                        if (parsedBody.error_code) {
+                                            errorMessage = errorMessage + ` (Code: ${parsedBody.error_code})`
+                                        }
+                                    }
                                 }
                             }
-                            const error = new Error(`${message}: ${res.url} (${res.status} ${res.statusText})`)
+                            const error = new Error(errorMessage)
                             error.res = res
                             reject(error)
                         }
