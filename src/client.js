@@ -9,8 +9,7 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
-const debug = require('debug')('aio-cli-plugin-cloudmanager')
-const {isWithinFiveMinutesOfUTCMidnight, sleep} = require('./cloudmanager-helpers')
+const aioConsoleLogger = require('@adobe/aio-lib-core-logging')('@adobe/aio-cli-plugin-cloudmanager')
 const fetch = require('node-fetch')
 const zlib = require('zlib')
 const halfred = require('halfred')
@@ -21,7 +20,7 @@ const streamPipeline = util.promisify(require("stream").pipeline)
 const _ = require("lodash")
 
 const { rels, basePath, problemTypes } = require('./constants')
-const { getBaseUrl, getCurrentStep, getWaitingStep } = require('./cloudmanager-helpers')
+const { getBaseUrl, getCurrentStep, getWaitingStep, isWithinFiveMinutesOfUTCMidnight, sleep } = require('./cloudmanager-helpers')
 
 class Client {
 
@@ -48,13 +47,13 @@ class Client {
             options.headers['content-type'] = 'application/json'
         }
 
-        debug(`fetch: ${method} ${url}`)
+        aioConsoleLogger.debug(`fetch: ${method} ${url}`)
         return new Promise((resolve, reject) => {
             fetch(url, options).then(res => {
                 if (res.ok) resolve(res)
                 else {
                     res.text().then(text => {
-                        debug(text)
+                        aioConsoleLogger.debug(text)
                         if (res.ok) resolve(res)
                         else {
                             let errorMessage = `${message}: ${res.url} (${res.status} ${res.statusText})`
@@ -404,7 +403,7 @@ class Client {
 
         const json = await res.json()
         if (!json || !json.redirect) {
-            debug(json)
+            aioConsoleLogger.debug(json)
             throw new Error(`Could not retrieve redirect from ${res.url} (${res.status} ${res.statusText})`)
         }
 
