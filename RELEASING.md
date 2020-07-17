@@ -13,7 +13,7 @@ export PKG_VER=`node -e "console.log(require('./package.json').version)"`
 ```
 ## 2. Commit the changed files
 ```
-git commit -m "Incremented version to $PKG_VER" package.json package-lock.json README.md
+git commit -m "Incremented version to $PKG_VER" package.json README.md
 ```
 
 ## 3. Tag a version
@@ -25,7 +25,7 @@ git tag $PKG_VER
 ## 4. Push version and tag
 
 ```
-git push origin master
+git push origin main
 git push origin $PKG_VER
 ```
 
@@ -48,5 +48,5 @@ npm run update-release
 ```
 npm run update-changelog
 git commit -m "Update CHANGELOG for $PKG_VER" CHANGELOG.md
-git push origin master
+git push origin main
 ```
