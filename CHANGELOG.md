@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.11.0 (17/07/2020)
+- [**enhancement**] Support Pipeline Variables List/Set [#131](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/131)
+
+---
+
 ## 0.10.0 (12/06/2020)
 - [**enhancement**] Output error code/message when present in error response [#122](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/122)
 
