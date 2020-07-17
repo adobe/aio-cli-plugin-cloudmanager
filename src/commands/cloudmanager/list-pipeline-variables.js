@@ -10,13 +10,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const BaseEnvironmentVariablesCommand = require('../../base-environment-variables-command')
+const BasePipelineVariablesCommand = require('../../base-pipeline-variables-command')
 const { getProgramId } = require('../../cloudmanager-helpers')
 const commonFlags = require('../../common-flags')
 
-class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
+class ListPipelineVariablesCommand extends BasePipelineVariablesCommand {
     async run() {
-        const { args, flags } = this.parse(ListEnvironmentVariablesCommand)
+        const { args, flags } = this.parse(ListPipelineVariablesCommand)
 
         const programId = await getProgramId(flags)
 
@@ -33,15 +33,15 @@ class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
     }
 }
 
-ListEnvironmentVariablesCommand.description = 'lists variables set on an environment'
+ListPipelineVariablesCommand.description = 'lists variables set on an pipeline'
 
-ListEnvironmentVariablesCommand.args = [
-    {name: 'environmentId', required: true, description: "the environment id"}
+ListPipelineVariablesCommand.args = [
+    {name: 'pipelineId', required: true, description: "the pipeline id"}
 ]
 
-ListEnvironmentVariablesCommand.flags = {
+ListPipelineVariablesCommand.flags = {
     ...commonFlags.global,
     ...commonFlags.programId
 }
 
-module.exports = ListEnvironmentVariablesCommand
+module.exports = ListPipelineVariablesCommand

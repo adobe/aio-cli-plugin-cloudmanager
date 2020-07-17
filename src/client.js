@@ -563,6 +563,16 @@ class Client {
         })
     }
 
+    async _getPipeline(programId, pipelineId) {
+        const pipelines = await this.listPipelines(programId)
+        const pipeline = pipelines.find(p => p.id === pipelineId)
+        if (!pipeline) {
+            throw new Error(`Could not find pipeline ${pipelineId} for program ${programId}`)
+        }
+
+        return pipeline
+    }
+
     async updatePipeline(programId, pipelineId, changes) {
         const pipelines = await this.listPipelines(programId)
         const pipeline = pipelines.find(p => p.id === pipelineId)
@@ -616,7 +626,7 @@ class Client {
         }
     }
 
-    async _getVariablesLink(programId, environmentId) {
+    async _getEnvironmentVariablesLink(programId, environmentId) {
         const environment = await this._getEnvironment(programId, environmentId)
 
         const variablesLink = environment.link(rels.variables);
@@ -627,7 +637,7 @@ class Client {
     }
 
     async getEnvironmentVariables(programId, environmentId) {
-        const variablesLink = await this._getVariablesLink(programId, environmentId);
+        const variablesLink = await this._getEnvironmentVariablesLink(programId, environmentId);
 
         const variables = await this.get(variablesLink, 'Cannot get variables').then(res => {
             return res.json()
@@ -640,7 +650,40 @@ class Client {
     }
 
     async setEnvironmentVariables(programId, environmentId, variables) {
-        const variablesLink = await this._getVariablesLink(programId, environmentId);
+        const variablesLink = await this._getEnvironmentVariablesLink(programId, environmentId);
+
+        return await this.patch(variablesLink, variables, "Cannot set variables").then(() => {
+            return true
+        }, e => {
+            throw e
+        })
+    }
+
+    async _getPipelineVariablesLink(programId, pipelineId) {
+        const pipeline = await this._getPipeline(programId, pipelineId)
+
+        const variablesLink = pipeline.link(rels.variables);
+        if (!variablesLink) {
+            throw new Error(`Could not find variables link for pipeline ${pipelineId} for program ${programId}`)
+        }
+        return variablesLink.href
+    }
+
+    async getPipelineVariables(programId, pipelineId) {
+        const variablesLink = await this._getPipelineVariablesLink(programId, pipelineId);
+
+        const variables = await this.get(variablesLink, 'Cannot get variables').then(res => {
+            return res.json()
+        }, e => {
+            throw e
+        })
+
+        const result = halfred.parse(variables).embeddedArray("variables")
+        return result ? result.map(v => v.original()) : []
+    }
+
+    async setPipelineVariables(programId, pipelineId, variables) {
+        const variablesLink = await this._getPipelineVariablesLink(programId, pipelineId);
 
         return await this.patch(variablesLink, variables, "Cannot set variables").then(() => {
             return true

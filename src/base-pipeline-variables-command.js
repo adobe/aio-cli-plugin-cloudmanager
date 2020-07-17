@@ -15,18 +15,18 @@ const { getApiKey, getOrgId } = require('./cloudmanager-helpers')
 const BaseVariablesCommand = require('./base-variables-command')
 const Client = require('./client')
 
-async function _getEnvironmentVariables(programId, environmentId, passphrase) {
+async function _getPipelineVariables(programId, pipelineId, passphrase) {
     const apiKey = await getApiKey()
     const accessToken = await getAccessToken(passphrase)
     const orgId = await getOrgId()
-    return new Client(orgId, accessToken, apiKey).getEnvironmentVariables(programId, environmentId)
+    return new Client(orgId, accessToken, apiKey).getPipelineVariables(programId, pipelineId)
 }
 
-class BaseEnvironmentVariablesCommand extends BaseVariablesCommand {
+class BasePipelineVariablesCommand extends BaseVariablesCommand {
 
     async getVariables(programId, args, passphrase = null) {
-        return _getEnvironmentVariables(programId, args.environmentId, passphrase)
+        return _getPipelineVariables(programId, args.pipelineId, passphrase)
     }
 }
 
-module.exports = BaseEnvironmentVariablesCommand
+module.exports = BasePipelineVariablesCommand

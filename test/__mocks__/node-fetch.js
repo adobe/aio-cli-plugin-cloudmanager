@@ -438,6 +438,9 @@ const pipeline5 = {
         'http://ns.adobe.com/adobecloud/rel/execution/id': {
             href: '/api/program/5/pipeline/5/execution/{executionId}',
             templated: true
+        },
+        'http://ns.adobe.com/adobecloud/rel/variables': {
+            href: '/api/program/5/pipeline/5/variables'
         }
     }
 }
@@ -476,6 +479,29 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/pipelines', {
                     'http://ns.adobe.com/adobecloud/rel/execution/id': {
                         href: '/api/program/5/pipeline/7/execution/{executionId}',
                         templated: true
+                    },
+                    'http://ns.adobe.com/adobecloud/rel/variables': {
+                        href: '/api/program/5/pipeline/7/variables'
+                    }
+                }
+            },
+            {
+                id: "8",
+                name: "test4",
+                status: "IDLE",
+                _links: {
+                    self: {
+                        href: '/api/program/5/pipeline/8'
+                    },
+                    'http://ns.adobe.com/adobecloud/rel/execution': {
+                        href: '/api/program/5/pipeline/8/execution'
+                    },
+                    'http://ns.adobe.com/adobecloud/rel/execution/id': {
+                        href: '/api/program/5/pipeline/8/execution/{executionId}',
+                        templated: true
+                    },
+                    'http://ns.adobe.com/adobecloud/rel/variables': {
+                        href: '/api/program/5/pipeline/8/variables'
                     }
                 }
             }
@@ -511,6 +537,59 @@ mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/6/e
 
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7', 'DELETE', 400)
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution', 'PUT', 404)
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/pipeline/5/variables', {
+    "_links": {
+        "http://ns.adobe.com/adobecloud/rel/pipeline": {
+            "href": "/api/program/5/pipeline/5",
+            "templated": false
+        },
+        "http://ns.adobe.com/adobecloud/rel/program": {
+            "href": "/api/program/5",
+            "templated": false
+        },
+        "self": {
+            "href": "/api/program/5/pipeline/5/variables",
+            "templated": false
+        }
+    },
+    "_embedded": {
+        "variables": [
+            {
+                "name": "KEY",
+                "value": "value",
+                "type": "string"
+            },
+            {
+                "name": "I_AM_A_SECRET",
+                "type": "secretString"
+            }
+        ]
+    },
+    "_totalNumberOfItems": 2
+})
+fetchMock.mock('https://cloudmanager.adobe.io/api/program/5/pipeline/7/variables', 404)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/8/variables', 'GET', {
+    "_links": {
+        "http://ns.adobe.com/adobecloud/rel/pipeline": {
+            "href": "/api/program/5/pipeline/8",
+            "templated": false
+        },
+        "http://ns.adobe.com/adobecloud/rel/program": {
+            "href": "/api/program/5",
+            "templated": false
+        },
+        "self": {
+            "href": "/api/program/5/pipeline/8/variables",
+            "templated": false
+        }
+    },
+    "_embedded": {
+        "variables": [
+        ]
+    },
+    "_totalNumberOfItems": 0
+})
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/8/variables', 'PATCH', 400)
 
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/6', {
     id: "6",
