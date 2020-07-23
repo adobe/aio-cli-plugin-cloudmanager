@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.12.0 (22/07/2020)
+- [**enhancement**] Delete Environment [#133](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/133)
+
 ## 0.11.0 (17/07/2020)
 - [**enhancement**] Support Pipeline Variables List/Set [#131](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/131)
 
