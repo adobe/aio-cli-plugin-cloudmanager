@@ -240,6 +240,9 @@ fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environments', {
     "_totalNumberOfItems": 3
 
 })
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/4/environment/3', 'DELETE', 400)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/4/environment/11', 'DELETE', 204)
+
 
 fetchMock.mock('https://cloudmanager.adobe.io/api/program/4/environment/1/logs?service=author&name=aemerror&days=1', {
     "_links": {

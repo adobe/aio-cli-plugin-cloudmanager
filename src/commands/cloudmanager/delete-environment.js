@@ -12,29 +12,31 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
+const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
 const commonFlags = require('../../common-flags')
 
-async function _deleteProgram (programId, passphrase) {
+async function _deleteEnvironment (programId, environmentId, passphrase) {
   const orgId = await getOrgId()
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
-  return new Client(orgId, accessToken, apiKey).deleteProgram(programId)
+  return new Client(orgId, accessToken, apiKey).deleteEnvironment(programId, environmentId)
 }
 
-class DeleteProgramCommand extends Command {
+class DeleteEnvironmentCommand extends Command {
   async run () {
-    const { args, flags } = this.parse(DeleteProgramCommand)
+    const { args, flags } = this.parse(DeleteEnvironmentCommand)
+
+    const programId = await getProgramId(flags)
 
     let result
 
-    cli.action.start("deleting program")
+    cli.action.start("deleting environment")
 
     try {
-      result = await this.deleteProgram(args.programId, flags.passphrase)
-      cli.action.stop(`deleted program ID ${args.programId}`)
+      result = await this.deleteEnvironment(programId, args.environmentId, flags.passphrase)
+      cli.action.stop(`deleted environment ID ${args.environmentId}`)
     } catch (error) {
       cli.action.stop(error.message)
       return
@@ -43,19 +45,20 @@ class DeleteProgramCommand extends Command {
     return result
   }
 
-  async deleteProgram (programId, passphrase = null) {
-    return _deleteProgram(programId, passphrase)
+  async deleteEnvironment (programId, environmentId, passphrase = null) {
+    return _deleteEnvironment(programId, environmentId, passphrase)
   }
 }
 
-DeleteProgramCommand.description = 'delete program'
+DeleteEnvironmentCommand.description = 'delete environment'
 
-DeleteProgramCommand.flags = {
-  ...commonFlags.global
+DeleteEnvironmentCommand.flags = {
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
-DeleteProgramCommand.args = [
-  {name: 'programId', required: true, description: "the program id"}
+DeleteEnvironmentCommand.args = [
+  {name: 'environmentId', required: true, description: 'the environment id'}
 ]
 
-module.exports = DeleteProgramCommand
+module.exports = DeleteEnvironmentCommand

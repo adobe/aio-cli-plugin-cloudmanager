@@ -167,6 +167,6 @@ test('get-execution-step-log - bad pipeline', async () => {
 
     let runResult = GetExecutionStepLog.run(["--programId", "5", "100", "1001", "build"])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error("Cannot get execution. Pipeline 100 does not exist."))
+    await expect(runResult).rejects.toEqual(new Error("Cannot get execution. Pipeline 100 does not exist in program 5."))
 })
 

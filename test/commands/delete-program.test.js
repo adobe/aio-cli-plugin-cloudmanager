@@ -11,7 +11,6 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const fetchMock = require('node-fetch')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const DeleteProgramCommand = require('../../src/commands/cloudmanager/delete-program')
 
