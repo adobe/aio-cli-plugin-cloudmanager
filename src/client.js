@@ -154,7 +154,7 @@ class Client {
         const pipelines = await this.listPipelines(programId)
         const pipeline = pipelines.find(p => p.id === pipelineId)
         if (!pipeline) {
-            throw new Error(`Cannot start execution. Pipeline ${pipelineId} does not exist.`)
+            throw new Error(`Cannot start execution. Pipeline ${pipelineId} does not exist in program ${programId}.`)
         }
 
         return this.put(pipeline.link(rels.execution).href, null, 'Cannot start execution').then(res => {
@@ -169,7 +169,7 @@ class Client {
         const pipelines = await this.listPipelines(programId)
         const pipeline = pipelines.find(p => p.id === pipelineId)
         if (!pipeline) {
-            throw new Error(`Cannot get execution. Pipeline ${pipelineId} does not exist.`)
+            throw new Error(`Cannot get execution. Pipeline ${pipelineId} does not exist in program ${programId}.`)
         }
 
         return this.get(pipeline.link(rels.execution).href, 'Cannot get current execution').then(res => {
@@ -183,7 +183,7 @@ class Client {
         const pipelines = await this.listPipelines(programId)
         const pipeline = pipelines.find(p => p.id === pipelineId)
         if (!pipeline) {
-            throw new Error(`Cannot get execution. Pipeline ${pipelineId} does not exist.`)
+            throw new Error(`Cannot get execution. Pipeline ${pipelineId} does not exist in program ${programId}.`)
         }
         const executionTemplate = UriTemplate.parse(pipeline.link(rels.executionId).href)
         const executionLink = executionTemplate.expand({executionId: executionId})
@@ -553,7 +553,7 @@ class Client {
         const pipelines = await this.listPipelines(programId)
         const pipeline = pipelines.find(p => p.id === pipelineId)
         if (!pipeline) {
-            throw new Error(`Cannot delete pipeline. Pipeline ${pipelineId} does not exist.`)
+            throw new Error(`Cannot delete pipeline. Pipeline ${pipelineId} does not exist in program ${programId}.`)
         }
 
         return this.delete(pipeline.link(rels.self).href, 'Cannot delete pipeline').then(() => {
@@ -577,7 +577,7 @@ class Client {
         const pipelines = await this.listPipelines(programId)
         const pipeline = pipelines.find(p => p.id === pipelineId)
         if (!pipeline) {
-            throw new Error(`Cannot update pipeline. Pipeline ${pipelineId} does not exist.`)
+            throw new Error(`Cannot update pipeline. Pipeline ${pipelineId} does not exist in program ${programId}.`)
         }
 
         const patch = {
@@ -699,6 +699,20 @@ class Client {
             throw new Error(`Cannot delete program. Program ${programId} does not exist.`)
         }
         return this.delete(program.link(rels.self).href, 'Cannot delete program').then(() => {
+            return {}
+        }, e => {
+            throw e
+        })
+    }
+
+    async deleteEnvironment(programId, environmentId) {
+        const environments = await this.listEnvironments(programId)
+        const environment = environments.find(e => e.id === environmentId)
+        if (!environment) {
+            throw new Error(`Cannot delete environment. Environment ${environmentId} does not exist in program ${programId}.`)
+        }
+
+        return this.delete(environment.link(rels.self).href, 'Cannot delete environment').then(() => {
             return {}
         }, e => {
             throw e

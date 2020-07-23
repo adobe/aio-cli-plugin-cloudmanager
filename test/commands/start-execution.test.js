@@ -50,7 +50,7 @@ test('start-execution - bad pipeline', async () => {
     let runResult = StartExecutionCommand.run(["--programId", "5", "10"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot start execution. Pipeline 10 does not exist.")
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot start execution. Pipeline 10 does not exist in program 5.")
 })
 
 test('start-execution - failed 412', async () => {

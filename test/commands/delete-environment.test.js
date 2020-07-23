@@ -11,32 +11,31 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const fetchMock = require('node-fetch')
 const { setStore } = require('@adobe/aio-lib-core-config')
-const AdvanceCurrentExecution = require('../../src/commands/cloudmanager/advance-current-execution')
+const DeleteEnvironmentCommand = require('../../src/commands/cloudmanager/delete-environment')
 
 beforeEach(() => {
     setStore({})
 })
 
-test('advance-current-execution - missing arg', async () => {
+test('delete-environment - missing arg', async () => {
     expect.assertions(2)
 
-    let runResult = AdvanceCurrentExecution.run([])
+    let runResult = DeleteEnvironmentCommand.run([])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
 })
 
-test('advance-current-execution - missing config', async () => {
+test('delete-environment - missing config', async () => {
     expect.assertions(3)
 
-    let runResult = AdvanceCurrentExecution.run(["--programId", "5", "10"])
+    let runResult = DeleteEnvironmentCommand.run(["--programId", "4", "10"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
     await expect(cli.action.stop.mock.calls[0][0]).toBe("missing config data: jwt-auth")
 })
 
-test('advance-current-execution - bad pipeline', async () => {
+test('delete-environment - delete environment returns 400', async () => {
     setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -48,13 +47,13 @@ test('advance-current-execution - bad pipeline', async () => {
 
     expect.assertions(3)
 
-    let runResult = AdvanceCurrentExecution.run(["--programId", "5", "10"])
+    let runResult = DeleteEnvironmentCommand.run(["--programId", "4", "3"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot get execution. Pipeline 10 does not exist in program 5.")
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot delete environment: https://cloudmanager.adobe.io/api/program/4/environment/3 (400 Bad Request)")
 })
 
-test('advance-current-execution - build running', async () => {
+test('delete-environment - bad environment', async () => {
     setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -63,17 +62,16 @@ test('advance-current-execution - build running', async () => {
             }
         }),
     })
-    fetchMock.setPipeline7Execution("1005")
 
     expect.assertions(3)
 
-    let runResult = AdvanceCurrentExecution.run(["--programId", "5", "7"])
+    let runResult = DeleteEnvironmentCommand.run(["--programId", "4", "12"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot find a waiting step for pipeline 7")
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot delete environment. Environment 12 does not exist in program 4.")
 })
 
-test('advance-current-execution - code quality waiting', async () => {
+test('delete-environment - success', async () => {
     setStore({
         'jwt-auth': JSON.stringify({
             client_id: '1234',
@@ -82,31 +80,13 @@ test('advance-current-execution - code quality waiting', async () => {
             }
         }),
     })
-    fetchMock.setPipeline7Execution("1006")
 
     expect.assertions(3)
 
-    let runResult = AdvanceCurrentExecution.run(["--programId", "5", "7"])
+    let runResult = DeleteEnvironmentCommand.run(["--programId", "4", "11"])
     await expect(runResult instanceof Promise).toBeTruthy()
     await expect(runResult).resolves.toEqual({})
-    await expect(fetchMock.called('advance-1006')).toBe(true)
+    await expect(cli.action.stop.mock.calls[0][0]).toBe("deleted environment ID 11")
 })
 
-test('advance-current-execution - approval waiting', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-    fetchMock.setPipeline7Execution("1007")
 
-    expect.assertions(3)
-
-    let runResult = AdvanceCurrentExecution.run(["--programId", "5", "7"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual({})
-    await expect(fetchMock.called('advance-1007')).toBe(true)
-})

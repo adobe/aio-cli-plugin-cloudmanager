@@ -171,5 +171,5 @@ test('get-quality-gate-results - bad pipeline', async () => {
 
     let runResult = GetQualityGateResults.run(["--programId", "5", "100", "1001", "performance"])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error("Cannot get execution. Pipeline 100 does not exist."))
+    await expect(runResult).rejects.toEqual(new Error("Cannot get execution. Pipeline 100 does not exist in program 5."))
 })
