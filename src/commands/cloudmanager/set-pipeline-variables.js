@@ -36,7 +36,7 @@ class SetPipelineVariablesCommand extends BasePipelineVariablesCommand {
     }
 }
 
-SetPipelineVariablesCommand.description = 'sets variables set on a pipeline'
+SetPipelineVariablesCommand.description = 'sets variables set on a pipeline. These are build-time variables available during the build process. Use set-environment-variables to set runtime variables on a environment.'
 
 SetPipelineVariablesCommand.args = [
     {name: 'pipelineId', required: true, description: "the pipeline id"}

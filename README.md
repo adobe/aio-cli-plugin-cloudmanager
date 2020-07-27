@@ -494,7 +494,7 @@ _See code: [src/commands/cloudmanager/open-developer-console.js](https://github.
 
 ## `aio cloudmanager:set-environment-variables ENVIRONMENTID`
 
-sets variables set on an environment
+sets variables set on an environment. These are runtime variables available to components running inside the runtime environment. Use set-pipeline-variables to set build-time variables on a pipeline.
 
 ```
 USAGE
@@ -515,7 +515,7 @@ _See code: [src/commands/cloudmanager/set-environment-variables.js](https://gith
 
 ## `aio cloudmanager:set-pipeline-variables PIPELINEID`
 
-sets variables set on a pipeline
+sets variables set on a pipeline. These are build-time variables available during the build process. Use set-environment-variables to set runtime variables on a environment.
 
 ```
 USAGE
