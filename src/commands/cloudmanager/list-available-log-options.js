@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getOrgId, getProgramId, sanitizeEnvironmentId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const Client = require('../../client')
 const commonFlags = require('../../common-flags')
@@ -32,8 +32,9 @@ class ListAvailableLogOptionsCommand extends Command {
 
         let result
 
+        let envId = sanitizeEnvironmentId(args.environmentId);
         try {
-            result = await this.listAvailableLogOptions(programId, args.environmentId, flags.passphrase)
+            result = await this.listAvailableLogOptions(programId, envId, flags.passphrase)
         } catch (error) {
             this.error(error.message)
         }
@@ -42,7 +43,7 @@ class ListAvailableLogOptionsCommand extends Command {
             cli.table(result, {
                 id: {
                     header: "Environment Id",
-                    get: () => args.environmentId
+                    get: () => envId
                 },
                 service: {},
                 name: {}
@@ -50,7 +51,7 @@ class ListAvailableLogOptionsCommand extends Command {
                     printLine: this.log
                 })
         } else {
-            cli.info(`No log options are available for environmentId ${args.environmentId}`)
+            cli.info(`No log options are available for environmentId ${envId}`)
         }
 
         return result

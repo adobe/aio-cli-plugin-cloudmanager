@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('./cloudmanager-helpers')
+const { getApiKey, getOrgId, sanitizeEnvironmentId } = require('./cloudmanager-helpers')
 const BaseVariablesCommand = require('./base-variables-command')
 const Client = require('./client')
 
@@ -25,7 +25,7 @@ async function _getEnvironmentVariables(programId, environmentId, passphrase) {
 class BaseEnvironmentVariablesCommand extends BaseVariablesCommand {
 
     async getVariables(programId, args, passphrase = null) {
-        return _getEnvironmentVariables(programId, args.environmentId, passphrase)
+        return _getEnvironmentVariables(programId, sanitizeEnvironmentId(args.environmentId), passphrase)
     }
 }
 
