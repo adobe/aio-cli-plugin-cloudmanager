@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.13.0 (04/09/2020)
+
+- [**enhancement**] Add Support for Experience Audit [#136](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/136)
+
 ## 0.12.0 (22/07/2020)
 - [**enhancement**] Delete Environment [#133](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/133)
 
