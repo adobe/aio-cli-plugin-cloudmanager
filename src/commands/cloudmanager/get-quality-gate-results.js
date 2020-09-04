@@ -22,11 +22,20 @@ async function _getQualityGateResults (programId, pipelineId, executionId, actio
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const orgId = await getOrgId()
+  if (action === 'experienceAudit') {
+      action = 'contentAudit'
+  }
   return new Client(orgId, accessToken, apiKey).getQualityGateResults(programId, pipelineId, executionId, action)
 }
 
 function formatMetricName(name) {
-    return _.startCase(name.replace('sqale', 'maintainability'))
+    switch (name) {
+        case 'pwa':
+        case 'seo':
+            return _.upperCase(name)
+        default:
+            return _.startCase(name.replace('sqale', 'maintainability'))
+    }
 }
 
 class GetQualityGateResults extends Command {
@@ -95,7 +104,9 @@ GetQualityGateResults.args = [
     {name: 'action', required: true, description: "the step action", options: [
         'codeQuality',
         'security',
-        'performance'
+        'performance',
+        'contentAudit',
+        'experienceAudit'
     ]},
 ]
 

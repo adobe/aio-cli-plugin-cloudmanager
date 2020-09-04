@@ -89,6 +89,65 @@ test('get-quality-gate-results - success', async () => {
     expect(columns.passed.get({ "passed" : false })).toBe("No")
 })
 
+test('get-quality-gate-results - contentAudit', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(5)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "7", "1001", "contentAudit"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toMatchObject(expect.arrayContaining([{
+        "id": "1671621",
+        "severity": "informational",
+        "passed": true,
+        "override": false,
+        "actualValue": "98",
+        "expectedValue": "80",
+        "comparator": "GTE",
+        "kpi": "performance"
+    }]))
+    await expect(runResult).resolves.toHaveLength(5)
+
+    const columns = cli.table.mock.calls[0][1];
+
+    expect(columns.kpi.get({ "kpi" : "pwa" })).toBe("PWA")
+    expect(columns.kpi.get({ "kpi" : "seo" })).toBe("SEO")
+})
+
+test('get-quality-gate-results - experienceAudit', async () => {
+    setStore({
+        'jwt-auth': JSON.stringify({
+            client_id: '1234',
+            jwt_payload: {
+                iss: "good"
+            }
+        }),
+    })
+
+    expect.assertions(3)
+
+    let runResult = GetQualityGateResults.run(["--programId", "5", "7", "1001", "experienceAudit"])
+    await expect(runResult instanceof Promise).toBeTruthy()
+    await expect(runResult).resolves.toMatchObject(expect.arrayContaining([{
+        "id": "1671621",
+        "severity": "informational",
+        "passed": true,
+        "override": false,
+        "actualValue": "98",
+        "expectedValue": "80",
+        "comparator": "GTE",
+        "kpi": "performance"
+    }]))
+    await expect(runResult).resolves.toHaveLength(5)
+})
+
 test('get-quality-gate-results - not found', async () => {
     setStore({
         'jwt-auth': JSON.stringify({

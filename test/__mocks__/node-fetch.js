@@ -617,9 +617,10 @@ mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/e
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution/1002', 'GET', 404)
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1003', 'GET', require('./data/execution1003.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1004', 'GET', require('./data/execution1004.json'))
-mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics', 'GET', require('./data/metrics.json'))
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/metrics', 'GET', require('./data/codequality-metrics.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/metrics', 'GET', {})
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8495/metrics', 'GET', 404)
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8498/metrics', 'GET', require('./data/experienceaudit-metrics.json'))
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4596/step/8493/logs', 'GET', {
     redirect: 'https://somesite.com/log.txt'
 })
@@ -651,7 +652,7 @@ const pipeline7Executions = {
     "1010": require('./data/execution1010.json')
 }
 mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution', 'GET', () => pipeline7Executions[executionForPipeline7])
-mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493/metrics', 'GET', require('./data/metrics.json'))
+mockResponseWithMethod('https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1006/phase/4596/step/8493/metrics', 'GET', require('./data/codequality-metrics.json'))
 
 fetchMock.setPipeline7Execution = function(id) {
     executionForPipeline7 = id

@@ -169,6 +169,27 @@
                 }
             },
             {
+                "id": "36521",
+                "stepId": "8498",
+                "phaseId": "4597",
+                "action": "contentAudit",
+                "environment": "weretail-global-b61e-01-stage",
+                "environmentType": "stage",
+                "environmentId": "1885",
+                "startedAt": "2019-05-23T15:02:41.527+0000",
+                "finishedAt": "2019-05-24T06:15:10.696+0000",
+                "updatedAt": "2019-05-24T06:15:10.763+0000",
+                "details": {
+                },
+                "status": "FINISHED",
+                "_links": {
+                    "http://ns.adobe.com/adobecloud/rel/pipeline/metrics": {
+                        "href": "/api/program/5/pipeline/7/execution/1001/phase/4597/step/8498/metrics",
+                        "templated": false
+                    }
+                }
+            },
+            {
                 "id": "36522",
                 "stepId": "8499",
                 "phaseId": "4598",
