@@ -1,0 +1,54 @@
+{
+    "metrics": [
+        {
+            "id": "1671621",
+            "severity": "informational",
+            "passed": true,
+            "override": false,
+            "actualValue": "98",
+            "expectedValue": "80",
+            "comparator": "GTE",
+            "kpi": "performance"
+        },
+        {
+            "id": "1671622",
+            "severity": "informational",
+            "passed": true,
+            "override": false,
+            "actualValue": "82",
+            "expectedValue": "80",
+            "comparator": "GTE",
+            "kpi": "seo"
+        },
+        {
+            "id": "1671623",
+            "severity": "informational",
+            "passed": false,
+            "override": false,
+            "actualValue": "63",
+            "expectedValue": "80",
+            "comparator": "GTE",
+            "kpi": "pwa"
+        },
+        {
+            "id": "1671624",
+            "severity": "informational",
+            "passed": true,
+            "override": false,
+            "actualValue": "86",
+            "expectedValue": "80",
+            "comparator": "GTE",
+            "kpi": "accessibility"
+        },
+        {
+            "id": "1671625",
+            "severity": "informational",
+            "passed": true,
+            "override": false,
+            "actualValue": "100",
+            "expectedValue": "80",
+            "comparator": "GTE",
+            "kpi": "best-practices"
+        }
+    ]
+}

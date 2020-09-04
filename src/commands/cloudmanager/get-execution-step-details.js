@@ -30,6 +30,8 @@ async function _getExecution (programId, pipelineId, executionId, passphrase) {
 function formatAction (stepState) {
     if (stepState.action === 'deploy') {
         return `${_.startCase(stepState.environmentType)} ${_.startCase(stepState.action)}`
+    } else if (stepState.action === 'contentAudit') {
+        return 'Experience Audit'
     } else {
         return _.startCase(stepState.action)
     }

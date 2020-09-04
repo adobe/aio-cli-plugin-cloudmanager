@@ -65,7 +65,7 @@ test('get-execution-step-details - success', async () => {
 
     let runResult = GetExecutionStepDetails.run(["--programId", "5", "7", "1001"])
     await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toHaveLength(11)
+    await expect(runResult).resolves.toHaveLength(12)
 
     const tableCall = cli.table.mock.calls[0];
     const tableData = tableCall[0];
@@ -102,6 +102,9 @@ test('get-execution-step-details - success', async () => {
         "status": "Finished"
     },{
         "action": "Report Performance Test",
+        "status": "Finished"
+    },{
+        "action": "Experience Audit",
         "status": "Finished"
     },{
         "action": "Approval",
