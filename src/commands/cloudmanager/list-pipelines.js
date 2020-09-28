@@ -12,55 +12,57 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
-async function _listPipelines(programId, passphrase) {
-    const apiKey = await getApiKey()
-    const accessToken = await getAccessToken(passphrase)
-    const orgId = await getOrgId()
-    return new Client(orgId, accessToken, apiKey).listPipelines(programId)
+async function _listPipelines (programId, passphrase) {
+  const apiKey = await getApiKey()
+  const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.listPipelines(programId)
 }
 
 class ListPipelinesCommand extends Command {
-    async run() {
-        const { flags } = this.parse(ListPipelinesCommand)
+  async run () {
+    const { flags } = this.parse(ListPipelinesCommand)
 
-        const programId = await getProgramId(flags)
+    const programId = await getProgramId(flags)
 
-        let result
+    let result
 
-        try {
-            result = await this.listPipelines(programId, flags.passphrase)
-        } catch (error) {
-            this.error(error.message)
-        }
-
-        cli.table(result, {
-            id: {
-                header: "Pipeline Id"
-            },
-            name: {},
-            status: {}
-        }, {
-                printLine: this.log
-            })
-
-        return result
+    try {
+      result = await this.listPipelines(programId, flags.passphrase)
+    } catch (error) {
+      this.error(error.message)
     }
 
-    async listPipelines(programId, passphrase = null) {
-        return _listPipelines(programId, passphrase)
-    }
+    cli.table(result, {
+      id: {
+        header: 'Pipeline Id'
+      },
+      name: {},
+      status: {}
+    }, {
+      printLine: this.log
+    })
+
+    return result
+  }
+
+  async listPipelines (programId, passphrase = null) {
+    return _listPipelines(programId, passphrase)
+  }
 }
 
 ListPipelinesCommand.description = 'lists pipelines available in a Cloud Manager program'
 
 ListPipelinesCommand.flags = {
-    ...commonFlags.global,
-    ...commonFlags.programId
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
 module.exports = ListPipelinesCommand

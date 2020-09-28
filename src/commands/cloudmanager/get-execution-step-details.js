@@ -12,39 +12,41 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const _ = require("lodash")
+const _ = require('lodash')
 const halfred = require('halfred')
-const moment = require("moment")
-const Client = require('../../client')
+const moment = require('moment')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _getExecution (programId, pipelineId, executionId, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const orgId = await getOrgId()
-  return new Client(orgId, accessToken, apiKey).getExecution(programId, pipelineId, executionId)
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.getExecution(programId, pipelineId, executionId)
 }
 
 function formatAction (stepState) {
-    if (stepState.action === 'deploy') {
-        return `${_.startCase(stepState.environmentType)} ${_.startCase(stepState.action)}`
-    } else if (stepState.action === 'contentAudit') {
-        return 'Experience Audit'
-    } else {
-        return _.startCase(stepState.action)
-    }
+  if (stepState.action === 'deploy') {
+    return `${_.startCase(stepState.environmentType)} ${_.startCase(stepState.action)}`
+  } else if (stepState.action === 'contentAudit') {
+    return 'Experience Audit'
+  } else {
+    return _.startCase(stepState.action)
+  }
 }
 
 function formatTime (property) {
-    return (stepState) => stepState[property] ? moment(stepState[property]).format('LLL') : ''
+  return (stepState) => stepState[property] ? moment(stepState[property]).format('LLL') : ''
 }
 
 function formatDuration (stepState) {
-    return stepState.startedAt && stepState.finishedAt ?
-        moment.duration(moment(stepState.finishedAt).diff(stepState.startedAt)).humanize() :
-        ''
+  return stepState.startedAt && stepState.finishedAt
+    ? moment.duration(moment(stepState.finishedAt).diff(stepState.startedAt)).humanize()
+    : ''
 }
 
 class GetExecutionStepDetails extends Command {
@@ -53,7 +55,7 @@ class GetExecutionStepDetails extends Command {
 
     const programId = await getProgramId(flags)
 
-    let result;
+    let result
 
     try {
       result = await this.getExecution(programId, args.pipelineId, args.executionId, flags.passphrase)
@@ -62,40 +64,40 @@ class GetExecutionStepDetails extends Command {
     }
 
     if (result) {
-        result = halfred.parse(result)
+      result = halfred.parse(result)
 
-        const stepStates = result.embeddedArray('stepStates')
+      const stepStates = result.embeddedArray('stepStates')
 
-        const buildStep = stepStates.find(stepState => stepState.action === 'build')
-        const codeQualityStep = stepStates.find(stepState => stepState.action === 'codeQuality')
-        codeQualityStep.startedAt = buildStep.finishedAt
+      const buildStep = stepStates.find(stepState => stepState.action === 'build')
+      const codeQualityStep = stepStates.find(stepState => stepState.action === 'codeQuality')
+      codeQualityStep.startedAt = buildStep.finishedAt
 
-        cli.table(stepStates, {
-            action: {
-              header: 'Action',
-              get: formatAction
-            },
-            status: {
-                header: 'Status',
-                get: (stepState) => _.startCase(stepState.status.toLowerCase())
-            },
-            startedAt: {
-                header: 'Started At',
-                get: formatTime('startedAt')
-            },
-            finishedAt: {
-                header: 'Finished At',
-                get: formatTime('finishedAt')
-            },
-            duration: {
-                header: 'Duration',
-                get: formatDuration
-            }
-          }, {
-            printLine: this.log
-          })
+      cli.table(stepStates, {
+        action: {
+          header: 'Action',
+          get: formatAction
+        },
+        status: {
+          header: 'Status',
+          get: (stepState) => _.startCase(stepState.status.toLowerCase())
+        },
+        startedAt: {
+          header: 'Started At',
+          get: formatTime('startedAt')
+        },
+        finishedAt: {
+          header: 'Finished At',
+          get: formatTime('finishedAt')
+        },
+        duration: {
+          header: 'Duration',
+          get: formatDuration
+        }
+      }, {
+        printLine: this.log
+      })
 
-        return stepStates
+      return stepStates
     }
 
     return result
@@ -114,9 +116,8 @@ GetExecutionStepDetails.flags = {
 }
 
 GetExecutionStepDetails.args = [
-    {name: 'pipelineId', required: true, description: "the pipeline id"},
-    {name: 'executionId', required: true, description: "the execution id"},
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
+  { name: 'executionId', required: true, description: 'the execution id' }
 ]
-
 
 module.exports = GetExecutionStepDetails

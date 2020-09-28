@@ -11,112 +11,85 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-lib-core-config')
-const constants = require('./constants')
 
-function toJson(item) {
-    let c = item
-    if (typeof c === 'string') {
-        c = JSON.parse(c)
-    }
+function toJson (item) {
+  let c = item
+  if (typeof c === 'string') {
+    c = JSON.parse(c)
+  }
 
-    return c
+  return c
 }
 
-function getCurrentStep(execution) {
-    return (execution && execution._embedded && execution._embedded.stepStates && execution._embedded.stepStates.filter(ss => ss.status !== "FINISHED")[0]) || {}
+async function getOrgId () {
+  const configData = await getJwtAuth()
+  if (!configData.jwt_payload || !configData.jwt_payload.iss) {
+    throw new Error('missing config data: jwt-auth.jwt_payload.iss')
+  }
+  return configData.jwt_payload.iss
 }
 
-function getWaitingStep(execution) {
-    return (execution && execution._embedded && execution._embedded.stepStates && execution._embedded.stepStates.filter(ss => ss.status === "WAITING")[0]) || {}
+async function getJwtAuth () {
+  const configStr = await Config.get('jwt-auth')
+  if (!configStr) {
+    return Promise.reject(new Error('missing config data: jwt-auth'))
+  }
+
+  const configData = toJson(configStr)
+
+  return configData
 }
 
-/**
- * Returns true if the {date} is +-5 minutes of UTC midnight time
- * @param {date} date
- */
-function isWithinFiveMinutesOfUTCMidnight(date) {
-    let currentUTCHours = date.getUTCHours();
-    let currentUTCMinutes = date.getUTCMinutes();
-    if ((currentUTCHours == 23 && currentUTCMinutes >= 55) || (currentUTCHours == 0 && currentUTCMinutes <= 5)) {
-        return true;
-    } else {
-        return false;
-    }
+async function getApiKey () {
+  const configData = await getJwtAuth()
+  if (!configData.client_id) {
+    throw new Error('missing config data: jwt-auth.client_id')
+  }
+  return configData.client_id
 }
 
-async function getOrgId() {
-    const configData = await getJwtAuth()
-    if (!configData.jwt_payload || !configData.jwt_payload.iss) {
-        throw new Error('missing config data: jwt-auth.jwt_payload.iss')
-    }
-    return configData.jwt_payload.iss
+async function getBaseUrl () {
+  const configStr = await Config.get('cloudmanager')
+
+  return (configStr && toJson(configStr).base_url) || 'https://cloudmanager.adobe.io'
 }
 
-async function getJwtAuth() {
-    const configStr = await Config.get('jwt-auth')
-    if (!configStr) {
-        return Promise.reject(new Error('missing config data: jwt-auth'))
-    }
-
-    const configData = toJson(configStr)
-
-    return configData
+async function getProgramId (flags) {
+  const programId = flags.programId || await Config.get('cloudmanager_programid')
+  if (!programId) {
+    throw new Error('Program ID must be specified either as --programId flag or through cloudmanager_programid config value')
+  }
+  return programId
 }
 
-async function getApiKey() {
-    const configData = await getJwtAuth()
-    if (!configData.client_id) {
-        throw new Error('missing config data: jwt-auth.client_id')
-    }
-    return configData.client_id
-}
-
-async function getBaseUrl() {
-    const configStr = await Config.get('cloudmanager')
-
-    return (configStr && toJson(configStr).base_url) || 'https://cloudmanager.adobe.io'
-}
-
-async function getProgramId(flags) {
-    const programId = flags.programId || await Config.get(constants.config.programId)
-    if (!programId) {
-        throw new Error(`Program ID must be specified either as --programId flag or through ${constants.config.programId} config value`)
-    }
-    return programId
-}
-
-async function sleep(msec) {
-    return new Promise(resolve => setTimeout(resolve, msec));
+async function sleep (msec) {
+  return new Promise(resolve => setTimeout(resolve, msec))
 }
 
 function createKeyValueObjectFromFlag (flag) {
-    if (flag.length % 2 === 0) {
-      let i
-      const tempObj = {}
-      for (i = 0; i < flag.length; i += 2) {
-        try {
-          // assume it is JSON, there is only 1 way to find out
-          tempObj[flag[i]] = JSON.parse(flag[i + 1])
-        } catch (ex) {
-          // hmm ... not json, treat as string
-          tempObj[flag[i]] = flag[i + 1]
-        }
+  if (flag.length % 2 === 0) {
+    let i
+    const tempObj = {}
+    for (i = 0; i < flag.length; i += 2) {
+      try {
+        // assume it is JSON, there is only 1 way to find out
+        tempObj[flag[i]] = JSON.parse(flag[i + 1])
+      } catch (ex) {
+        // hmm ... not json, treat as string
+        tempObj[flag[i]] = flag[i + 1]
       }
-      return tempObj
-    } else {
-      throw (new Error('Please provide correct values for flags'))
     }
+    return tempObj
+  } else {
+    throw (new Error('Please provide correct values for flags'))
   }
-
+}
 
 module.exports = {
-    getBaseUrl,
-    getApiKey,
-    getOrgId,
-    getCurrentStep,
-    getProgramId,
-    getWaitingStep,
-    isWithinFiveMinutesOfUTCMidnight,
-    sleep,
-    createKeyValueObjectFromFlag
+  getBaseUrl,
+  getApiKey,
+  getOrgId,
+  getProgramId,
+  sleep,
+  createKeyValueObjectFromFlag
 }

@@ -12,56 +12,58 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
-const Client = require('../../client')
+const { getApiKey, getBaseUrl, getOrgId } = require('../../cloudmanager-helpers')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../common-flags')
 
-async function _listPrograms(passphrase) {
-    const apiKey = await getApiKey()
-    const accessToken = await getAccessToken(passphrase)
-    const orgId = await getOrgId()
-    return new Client(orgId, accessToken, apiKey).listPrograms()
+async function _listPrograms (passphrase) {
+  const apiKey = await getApiKey()
+  const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.listPrograms()
 }
 
 class ListProgramsCommand extends Command {
-    async run() {
-        const { flags } = this.parse(ListProgramsCommand)
-        let result
+  async run () {
+    const { flags } = this.parse(ListProgramsCommand)
+    let result
 
-        try {
-            result = await this.listPrograms(flags.passphrase)
-        } catch (error) {
-            this.error(error.message)
-        }
-
-        if (flags.enabledonly) {
-            result = result.filter(p => p.enabled)
-        }
-
-        cli.table(result, {
-            id: {
-                header: "Program Id"
-            },
-            name: {},
-            enabled: {}
-        }, {
-                printLine: this.log
-            })
-
-        return result
+    try {
+      result = await this.listPrograms(flags.passphrase)
+    } catch (error) {
+      this.error(error.message)
     }
 
-    async listPrograms(passphrase = null) {
-        return _listPrograms(passphrase)
+    if (flags.enabledonly) {
+      result = result.filter(p => p.enabled)
     }
+
+    cli.table(result, {
+      id: {
+        header: 'Program Id'
+      },
+      name: {},
+      enabled: {}
+    }, {
+      printLine: this.log
+    })
+
+    return result
+  }
+
+  async listPrograms (passphrase = null) {
+    return _listPrograms(passphrase)
+  }
 }
 
 ListProgramsCommand.description = 'lists programs available in Cloud Manager'
 
 ListProgramsCommand.flags = {
-    ...commonFlags.global,
-    enabledonly: flags.boolean({ char: 'e', description: 'only output Cloud Manager-enabled programs' })
+  ...commonFlags.global,
+  enabledonly: flags.boolean({ char: 'e', description: 'only output Cloud Manager-enabled programs' })
 }
 
 module.exports = ListProgramsCommand

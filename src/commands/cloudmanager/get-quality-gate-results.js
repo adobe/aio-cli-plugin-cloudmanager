@@ -12,30 +12,32 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const _ = require("lodash")
-const Client = require('../../client')
+const _ = require('lodash')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _getQualityGateResults (programId, pipelineId, executionId, action, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
   if (action === 'experienceAudit') {
-      action = 'contentAudit'
+    action = 'contentAudit'
   }
-  return new Client(orgId, accessToken, apiKey).getQualityGateResults(programId, pipelineId, executionId, action)
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.getQualityGateResults(programId, pipelineId, executionId, action)
 }
 
-function formatMetricName(name) {
-    switch (name) {
-        case 'pwa':
-        case 'seo':
-            return _.upperCase(name)
-        default:
-            return _.startCase(name.replace('sqale', 'maintainability'))
-    }
+function formatMetricName (name) {
+  switch (name) {
+    case 'pwa':
+    case 'seo':
+      return _.upperCase(name)
+    default:
+      return _.startCase(name.replace('sqale', 'maintainability'))
+  }
 }
 
 class GetQualityGateResults extends Command {
@@ -44,7 +46,7 @@ class GetQualityGateResults extends Command {
 
     const programId = await getProgramId(flags)
 
-    let result;
+    let result
 
     try {
       result = await this.getQualityGateResults(programId, args.pipelineId, args.executionId, args.action, flags.passphrase)
@@ -55,29 +57,29 @@ class GetQualityGateResults extends Command {
     result = result.metrics
 
     if (!result) {
-        throw new Error(`Metrics for action ${args.action} on execution ${args.executionId} could not be found.`)
+      throw new Error(`Metrics for action ${args.action} on execution ${args.executionId} could not be found.`)
     }
 
-    result = _.sortBy(result, "severity")
+    result = _.sortBy(result, 'severity')
 
     cli.table(result, {
       severity: {
-        header: "Severity",
+        header: 'Severity',
         get: item => _.upperFirst(item.severity)
       },
       kpi: {
-        header: "Metric",
+        header: 'Metric',
         get: item => formatMetricName(item.kpi)
       },
       expectedValue: {
-        header: "Expected Value"
+        header: 'Expected Value'
       },
       actualValue: {
-        header: "Actual Value"
+        header: 'Actual Value'
       },
       passed: {
-        header: "Passed?",
-        get: item => item.passed ? "Yes" : "No"
+        header: 'Passed?',
+        get: item => item.passed ? 'Yes' : 'No'
       }
     }, {
       printLine: this.log
@@ -99,16 +101,20 @@ GetQualityGateResults.flags = {
 }
 
 GetQualityGateResults.args = [
-    {name: 'pipelineId', required: true, description: "the pipeline id"},
-    {name: 'executionId', required: true, description: "the execution id"},
-    {name: 'action', required: true, description: "the step action", options: [
-        'codeQuality',
-        'security',
-        'performance',
-        'contentAudit',
-        'experienceAudit'
-    ]},
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
+  { name: 'executionId', required: true, description: 'the execution id' },
+  {
+    name: 'action',
+    required: true,
+    description: 'the step action',
+    options: [
+      'codeQuality',
+      'security',
+      'performance',
+      'contentAudit',
+      'experienceAudit'
+    ]
+  }
 ]
-
 
 module.exports = GetQualityGateResults

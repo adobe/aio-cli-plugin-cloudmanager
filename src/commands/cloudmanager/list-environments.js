@@ -12,59 +12,61 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
-async function _listEnvironments(programId, passphrase) {
-    const apiKey = await getApiKey()
-    const accessToken = await getAccessToken(passphrase)
-    const orgId = await getOrgId()
-    return new Client(orgId, accessToken, apiKey).listEnvironments(programId)
+async function _listEnvironments (programId, passphrase) {
+  const apiKey = await getApiKey()
+  const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.listEnvironments(programId)
 }
 
 class ListEnvironmentsCommand extends Command {
-    async run() {
-        const { flags } = this.parse(ListEnvironmentsCommand)
+  async run () {
+    const { flags } = this.parse(ListEnvironmentsCommand)
 
-        const programId = await getProgramId(flags)
+    const programId = await getProgramId(flags)
 
-        let result
+    let result
 
-        try {
-            result = await this.listEnvironments(programId, flags.passphrase)
-        } catch (error) {
-            this.error(error.message)
-        }
-
-        cli.table(result, {
-            id: {
-                header: "Environment Id"
-            },
-            name: {},
-            type: {},
-            description: {
-                header: "Description",
-                get: item => item.description ? item.description : ""
-              }
-        }, {
-                printLine: this.log
-            })
-
-        return result
+    try {
+      result = await this.listEnvironments(programId, flags.passphrase)
+    } catch (error) {
+      this.error(error.message)
     }
 
-    async listEnvironments(programId, passphrase = null) {
-        return _listEnvironments(programId, passphrase)
-    }
+    cli.table(result, {
+      id: {
+        header: 'Environment Id'
+      },
+      name: {},
+      type: {},
+      description: {
+        header: 'Description',
+        get: item => item.description ? item.description : ''
+      }
+    }, {
+      printLine: this.log
+    })
+
+    return result
+  }
+
+  async listEnvironments (programId, passphrase = null) {
+    return _listEnvironments(programId, passphrase)
+  }
 }
 
 ListEnvironmentsCommand.description = 'lists environments available in a Cloud Manager program'
 
 ListEnvironmentsCommand.flags = {
-    ...commonFlags.global,
-    ...commonFlags.programId
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
 module.exports = ListEnvironmentsCommand

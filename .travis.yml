@@ -3,8 +3,13 @@ sudo: false
 git:
   depth: 10
 
+os:
+  - windows
+  - linux
+
 node_js:
   - "10"
+  - "12"
 
 install:
   - npm version

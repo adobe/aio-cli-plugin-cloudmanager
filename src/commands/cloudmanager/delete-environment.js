@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _deleteEnvironment (programId, environmentId, passphrase) {
   const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
-  return new Client(orgId, accessToken, apiKey).deleteEnvironment(programId, environmentId)
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.deleteEnvironment(programId, environmentId)
 }
 
 class DeleteEnvironmentCommand extends Command {
@@ -32,7 +34,7 @@ class DeleteEnvironmentCommand extends Command {
 
     let result
 
-    cli.action.start("deleting environment")
+    cli.action.start('deleting environment')
 
     try {
       result = await this.deleteEnvironment(programId, args.environmentId, flags.passphrase)
@@ -58,7 +60,7 @@ DeleteEnvironmentCommand.flags = {
 }
 
 DeleteEnvironmentCommand.args = [
-  {name: 'environmentId', required: true, description: 'the environment id'}
+  { name: 'environmentId', required: true, description: 'the environment id' }
 ]
 
 module.exports = DeleteEnvironmentCommand

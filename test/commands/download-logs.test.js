@@ -11,64 +11,46 @@ governing permissions and limitations under the License.
 */
 
 const { setStore } = require('@adobe/aio-lib-core-config')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const DownloadLogs = require('../../src/commands/cloudmanager/download-logs')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('download-logs - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = DownloadLogs.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 3 required args") === 0)
+  const runResult = DownloadLogs.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 3 required args') === 0)
 })
 
 test('download-logs - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = DownloadLogs.run(["5", "author", "aemerror", "--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = DownloadLogs.run(['5', 'author', 'aemerror', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
 test('download-logs - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
 
-    expect.assertions(2)
+  expect.assertions(5)
 
-    let runResult = DownloadLogs.run(["17", "author", "aemerror", "--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find environment 17 for program 5'))
-})
-
-test('download-logs - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(3)
-
-    let runResult = DownloadLogs.run(["1", "author", "aemerror", "--programId", "4"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toHaveLength(2)
-    await expect(runResult).resolves.toMatchObject([{
-        "path": "./1-author-aemerror-2019-09-8.log"
-    },
-    {
-        "path": "./1-author-aemerror-2019-09-7.log"
-    }])
+  const runResult = DownloadLogs.run(['17', 'author', 'aemerror', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.downloadLogs.mock.calls.length).toEqual(1)
+  await expect(mockSdk.downloadLogs).toHaveBeenCalledWith('5', '17', 'author', 'aemerror', '1', '.')
 })

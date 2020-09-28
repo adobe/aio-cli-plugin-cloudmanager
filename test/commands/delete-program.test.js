@@ -11,82 +11,48 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const DeleteProgramCommand = require('../../src/commands/cloudmanager/delete-program')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('delete-program - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = DeleteProgramCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") === 0)
+  const runResult = DeleteProgramCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') === 0)
 })
 
 test('delete-program - missing config', async () => {
-    expect.assertions(3)
+  expect.assertions(3)
 
-    let runResult = DeleteProgramCommand.run(["5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("missing config data: jwt-auth")
+  const runResult = DeleteProgramCommand.run(['5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).resolves.toEqual(undefined)
+  await expect(cli.action.stop.mock.calls[0][0]).toBe('missing config data: jwt-auth')
 })
 
-test('delete-program - delete program returns 400', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+test('delete-program - configured', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
 
-    expect.assertions(3)
+  expect.assertions(5)
 
-    let runResult = DeleteProgramCommand.run(["5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot delete program: https://cloudmanager.adobe.io/api/program/5 (400 Bad Request)")
+  const runResult = DeleteProgramCommand.run(['5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.deleteProgram.mock.calls.length).toEqual(1)
+  await expect(mockSdk.deleteProgram).toHaveBeenCalledWith('5')
 })
-
-test('delete-program - bad program', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(3)
-
-    let runResult = DeleteProgramCommand.run(["11"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual(undefined)
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("Cannot delete program. Program 11 does not exist.")
-})
-
-test('delete-program - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(3)
-
-    let runResult = DeleteProgramCommand.run(["6"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual({})
-    await expect(cli.action.stop.mock.calls[0][0]).toBe("deleted program ID 6")
-})
-
-

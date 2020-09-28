@@ -12,68 +12,69 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
-async function _listCurrentExecutions(programId, passphrase) {
-    const apiKey = await getApiKey()
-    const accessToken = await getAccessToken(passphrase)
-    const orgId = await getOrgId()
-    const client = new Client(orgId, accessToken, apiKey)
-    const pipelines = await client.listPipelines(programId, {
-        busy: true
-    });
-    return await Promise.all(pipelines.map(async pipeline => await client.getCurrentExecution(programId, pipeline.id)))
+async function _listCurrentExecutions (programId, passphrase) {
+  const apiKey = await getApiKey()
+  const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  const pipelines = await sdk.listPipelines(programId, {
+    busy: true
+  })
+  return await Promise.all(pipelines.map(async pipeline => await sdk.getCurrentExecution(programId, pipeline.id)))
 }
 
 class ListCurrentExecutionsCommand extends Command {
-    async run() {
-        const { flags } = this.parse(ListCurrentExecutionsCommand)
+  async run () {
+    const { flags } = this.parse(ListCurrentExecutionsCommand)
 
-        let result;
+    let result
 
-        const programId = await getProgramId(flags)
+    const programId = await getProgramId(flags)
 
-        try {
-          result = await this.listCurrentExecutions(programId, flags.passphrase)
-        } catch (error) {
-          this.error(error.message)
-        }
-
-        cli.table(result, {
-          pipelineId: {
-            header: "Pipeline Id"
-          },
-          id: {
-            header: "Execution Id"
-          },
-          currentStep: {
-            header: "Current Step Action",
-            get: item => getCurrentStep(item).action
-          },
-          currentStepStatus: {
-            header: "Current Step Status",
-            get: item => getCurrentStep(item).status
-          }
-        }, {
-          printLine: this.log
-        })
-
-        return result
+    try {
+      result = await this.listCurrentExecutions(programId, flags.passphrase)
+    } catch (error) {
+      this.error(error.message)
     }
 
-    async listCurrentExecutions(programId, passphrase = null) {
-        return _listCurrentExecutions(programId, passphrase)
-    }
+    cli.table(result, {
+      pipelineId: {
+        header: 'Pipeline Id'
+      },
+      id: {
+        header: 'Execution Id'
+      },
+      currentStep: {
+        header: 'Current Step Action',
+        get: item => getCurrentStep(item).action
+      },
+      currentStepStatus: {
+        header: 'Current Step Status',
+        get: item => getCurrentStep(item).status
+      }
+    }, {
+      printLine: this.log
+    })
+
+    return result
+  }
+
+  async listCurrentExecutions (programId, passphrase = null) {
+    return _listCurrentExecutions(programId, passphrase)
+  }
 }
 
 ListCurrentExecutionsCommand.description = 'list running pipeline executions'
 
 ListCurrentExecutionsCommand.flags = {
-    ...commonFlags.global,
-    ...commonFlags.programId
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
 module.exports = ListCurrentExecutionsCommand

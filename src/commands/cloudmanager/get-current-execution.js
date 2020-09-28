@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _getCurrentExecution (programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const orgId = await getOrgId()
-  return new Client(orgId, accessToken, apiKey).getCurrentExecution(programId, pipelineId)
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.getCurrentExecution(programId, pipelineId)
 }
 
 class GetCurrentExecutionCommand extends Command {
@@ -30,7 +32,7 @@ class GetCurrentExecutionCommand extends Command {
 
     const programId = await getProgramId(flags)
 
-    let result;
+    let result
 
     try {
       result = await this.getCurrentExecution(programId, args.pipelineId, flags.passphrase)
@@ -40,17 +42,17 @@ class GetCurrentExecutionCommand extends Command {
 
     cli.table([result], {
       pipelineId: {
-        header: "Pipeline Id"
+        header: 'Pipeline Id'
       },
       id: {
-        header: "Execution Id"
+        header: 'Execution Id'
       },
       currentStep: {
-        header: "Current Step Action",
+        header: 'Current Step Action',
         get: item => getCurrentStep(item).action
       },
       currentStepStatus: {
-        header: "Current Step Status",
+        header: 'Current Step Status',
         get: item => getCurrentStep(item).status
       }
     }, {
@@ -73,8 +75,7 @@ GetCurrentExecutionCommand.flags = {
 }
 
 GetCurrentExecutionCommand.args = [
-    {name: 'pipelineId', required: true, description: "the pipeline id"}
+  { name: 'pipelineId', required: true, description: 'the pipeline id' }
 ]
-
 
 module.exports = GetCurrentExecutionCommand

@@ -1,20 +1,8 @@
 {
-    "env": {
-        "node": true,
-        "es6": true,
-        "jest": true
-    },
-    "parserOptions": {
-        "ecmaVersion": 2018
-    },
-    "plugins": [
-        "jest"
-    ],
-    "extends": [
-        "plugin:jest/recommended",
-        "eslint:recommended"
-    ],
-    "rules": {
-        "no-var": 2
+    "extends": ["@adobe/eslint-config-aio-lib-config"],
+    "rules" : {
+        "jsdoc/require-jsdoc": 0,
+        "jsdoc/require-param": 0,
+        "jsdoc/require-returns": 0
     }
 }

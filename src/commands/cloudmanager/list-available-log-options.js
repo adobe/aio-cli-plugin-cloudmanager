@@ -12,64 +12,66 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
-async function _listAvailableLogOptions(programId, environmentId, passphrase) {
-    const apiKey = await getApiKey()
-    const accessToken = await getAccessToken(passphrase)
-    const orgId = await getOrgId()
-    return new Client(orgId, accessToken, apiKey).listAvailableLogOptions(programId, environmentId)
+async function _listAvailableLogOptions (programId, environmentId, passphrase) {
+  const apiKey = await getApiKey()
+  const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.listAvailableLogOptions(programId, environmentId)
 }
 
 class ListAvailableLogOptionsCommand extends Command {
-    async run() {
-        const { args, flags } = this.parse(ListAvailableLogOptionsCommand)
+  async run () {
+    const { args, flags } = this.parse(ListAvailableLogOptionsCommand)
 
-        const programId = await getProgramId(flags)
+    const programId = await getProgramId(flags)
 
-        let result
+    let result
 
-        try {
-            result = await this.listAvailableLogOptions(programId, args.environmentId, flags.passphrase)
-        } catch (error) {
-            this.error(error.message)
-        }
-
-        if (result.length > 0) {
-            cli.table(result, {
-                id: {
-                    header: "Environment Id",
-                    get: () => args.environmentId
-                },
-                service: {},
-                name: {}
-            }, {
-                    printLine: this.log
-                })
-        } else {
-            cli.info(`No log options are available for environmentId ${args.environmentId}`)
-        }
-
-        return result
+    try {
+      result = await this.listAvailableLogOptions(programId, args.environmentId, flags.passphrase)
+    } catch (error) {
+      this.error(error.message)
     }
 
-    async listAvailableLogOptions(programId, environmentId, passphrase = null) {
-        return _listAvailableLogOptions(programId, environmentId, passphrase)
+    if (result.length > 0) {
+      cli.table(result, {
+        id: {
+          header: 'Environment Id',
+          get: () => args.environmentId
+        },
+        service: {},
+        name: {}
+      }, {
+        printLine: this.log
+      })
+    } else {
+      cli.info(`No log options are available for environmentId ${args.environmentId}`)
     }
+
+    return result
+  }
+
+  async listAvailableLogOptions (programId, environmentId, passphrase = null) {
+    return _listAvailableLogOptions(programId, environmentId, passphrase)
+  }
 }
 
 ListAvailableLogOptionsCommand.description = 'lists available log options for an environment in a Cloud Manager program'
 
 ListAvailableLogOptionsCommand.args = [
-    {name: 'environmentId', required: true, description: "the environment id"}
+  { name: 'environmentId', required: true, description: 'the environment id' }
 ]
 
 ListAvailableLogOptionsCommand.flags = {
-    ...commonFlags.global,
-    ...commonFlags.programId
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
 module.exports = ListAvailableLogOptionsCommand

@@ -11,152 +11,62 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const ListPipelineVariablesCommand = require('../../src/commands/cloudmanager/list-pipeline-variables')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('list-pipeline-variables - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListPipelineVariablesCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") > -1)
+  const runResult = ListPipelineVariablesCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') > -1)
 })
 
 test('list-pipeline-variables - missing programId', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListPipelineVariablesCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified either as --programId flag or through cloudmanager_programid") === 0)
+  const runResult = ListPipelineVariablesCommand.run(['1'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Program ID must be specified either as --programId flag or through cloudmanager_programid') === 0)
 })
 
 test('list-pipeline-variables - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListPipelineVariablesCommand.run(["1", "--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
-})
-
-test('list-pipeline-variables - pipelines not found', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "6"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelineVariablesCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve pipelines: https://cloudmanager.adobe.io/api/program/6/pipelines (404 Not Found)'))
-})
-
-test('list-pipeline-variables - no pipeline', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelineVariablesCommand.run(["4"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find pipeline 4 for program 4'))
-})
-
-test('list-pipeline-variables - no variables link', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "5"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelineVariablesCommand.run(["6"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find variables link for pipeline 6 for program 5'))
-})
-
-test('list-pipeline-variables - link returns 404', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "5"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelineVariablesCommand.run(["7"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot get variables: https://cloudmanager.adobe.io/api/program/5/pipeline/7/variables (404 Not Found)'))
-})
-
-test('list-pipeline-variables - success empty', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "5"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelineVariablesCommand.run(["8"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual([])
+  const runResult = ListPipelineVariablesCommand.run(['1', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
 test('list-pipeline-variables - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "5"
-    })
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '5'
+  })
 
-    expect.assertions(3)
+  expect.assertions(6)
 
-    let runResult = ListPipelineVariablesCommand.run(["5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toMatchObject([{
-        "name" : "KEY",
-        "type": "string",
-        "value" : "value"
-    },{
-        "name" : "I_AM_A_SECRET",
-        "type": "secretString"
-    }])
-    await expect(cli.table.mock.calls[0][1].value.get({
-        "name" : "I_AM_A_SECRET",
-        "type": "secretString"
-    })).toBe("****")
+  const runResult = ListPipelineVariablesCommand.run(['50'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getPipelineVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getPipelineVariables).toHaveBeenCalledWith('5', '50')
+
+  await expect(cli.table.mock.calls[0][1].value.get({
+    name: 'I_AM_A_SECRET',
+    type: 'secretString'
+  })).toBe('****')
 })

@@ -11,123 +11,52 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const ListEnvironmentsCommand = require('../../src/commands/cloudmanager/list-environments')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('list-environments - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListEnvironmentsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified either as --programId flag or through cloudmanager_programid") === 0)
+  const runResult = ListEnvironmentsCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Program ID must be specified either as --programId flag or through cloudmanager_programid') === 0)
 })
 
 test('list-environments - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListEnvironmentsCommand.run(["--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = ListEnvironmentsCommand.run(['--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('list-environments - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "6"
-    })
+test('list-environments - configured', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '6'
+  })
 
-    expect.assertions(2)
+  expect.assertions(7)
 
-    let runResult = ListEnvironmentsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve environments: https://cloudmanager.adobe.io/api/program/6/environments (404 Not Found)'))
-})
+  const runResult = ListEnvironmentsCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
 
-test('list-environments - success empty', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "5"
-    })
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listEnvironments.mock.calls.length).toEqual(1)
+  await expect(mockSdk.listEnvironments).toHaveBeenCalledWith('6')
 
-    expect.assertions(2)
-
-    let runResult = ListEnvironmentsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual([])
-})
-
-test('list-environments - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(4)
-
-    let runResult = ListEnvironmentsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toMatchObject([{
-        id: "1",
-        name: "TestProgram_prod",
-        type: "prod"
-    },
-    {
-        id: "2",
-        name: "TestProgram_stage",
-        type: "stage"
-    },
-    {
-        id: "3",
-        name: "TestProgram_dev",
-        type: "dev"
-    },
-    {
-        id: "10",
-        name: "TestProgram_dev2",
-        type: "dev"
-    },
-    {
-        id: "11",
-        name: "TestProgram_dev3",
-        type: "dev"
-    }])
-    await expect(cli.table.mock.calls[0][1].description.get({})).toBe("")
-    await expect(cli.table.mock.calls[0][1].description.get({description: "foo"})).toBe("foo")
-})
-
-test('list-environments - bad program', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "8"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListEnvironmentsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find program 8'))
+  await expect(cli.table.mock.calls[0][1].description.get({})).toBe('')
+  await expect(cli.table.mock.calls[0][1].description.get({ description: 'foo' })).toBe('foo')
 })

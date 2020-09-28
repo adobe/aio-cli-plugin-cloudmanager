@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _deletePipeline (programId, pipelineId, passphrase) {
   const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
-  return new Client(orgId, accessToken, apiKey).deletePipeline(programId, pipelineId)
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.deletePipeline(programId, pipelineId)
 }
 
 class DeletePipelineCommand extends Command {
@@ -32,7 +34,7 @@ class DeletePipelineCommand extends Command {
 
     let result
 
-    cli.action.start("deleting pipeline")
+    cli.action.start('deleting pipeline')
 
     try {
       result = await this.deletePipeline(programId, args.pipelineId, flags.passphrase)
@@ -58,7 +60,7 @@ DeletePipelineCommand.flags = {
 }
 
 DeletePipelineCommand.args = [
-  {name: 'pipelineId', required: true, description: "the pipeline id"}
+  { name: 'pipelineId', required: true, description: 'the pipeline id' }
 ]
 
 module.exports = DeletePipelineCommand
