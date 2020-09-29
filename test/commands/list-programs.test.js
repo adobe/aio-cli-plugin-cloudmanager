@@ -36,11 +36,30 @@ test('list-programs - args', async () => {
       }
     })
   })
-  expect.assertions(4)
+  expect.assertions(5)
 
   const runResult = ListProgramsCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await runResult
+  await expect(runResult).resolves.toHaveLength(2)
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listPrograms.mock.calls.length).toEqual(1)
+})
+
+test('list-programs - enabled only', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    })
+  })
+  expect.assertions(5)
+
+  const runResult = ListProgramsCommand.run(['--enabledonly'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).resolves.toHaveLength(1)
   await expect(init.mock.calls.length).toEqual(1)
   await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.listPrograms.mock.calls.length).toEqual(1)

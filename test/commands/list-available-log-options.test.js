@@ -65,3 +65,66 @@ test('list-available-logs - empty', async () => {
   await expect(mockSdk.listAvailableLogOptions).toHaveBeenCalledWith('6', '1')
   await expect(cli.info.mock.calls[0][0]).toBe('No log options are available for environmentId 1')
 })
+
+test('list-available-logs - some entries', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '6'
+  })
+  mockSdk.listAvailableLogOptions = jest.fn(() => [
+    {
+      service: 'author',
+      name: 'aemerror'
+    },
+    {
+      service: 'author',
+      name: 'aemrequest'
+    },
+    {
+      service: 'author',
+      name: 'aemaccess'
+    },
+    {
+      service: 'publish',
+      name: 'aemerror'
+    },
+    {
+      service: 'publish',
+      name: 'aemrequest'
+    },
+    {
+      service: 'publish',
+      name: 'aemaccess'
+    },
+    {
+      service: 'dispatcher',
+      name: 'httpdaccess'
+    },
+    {
+      service: 'dispatcher',
+      name: 'httpderror'
+    },
+    {
+      service: 'dispatcher',
+      name: 'aemdispatcher'
+    }
+  ])
+
+  expect.assertions(8)
+
+  const runResult = ListAvailableLogOptionsCommand.run(['42'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listAvailableLogOptions.mock.calls.length).toEqual(1)
+  await expect(mockSdk.listAvailableLogOptions).toHaveBeenCalledWith('6', '42')
+  await expect(cli.info.mock.calls).toHaveLength(0)
+  await expect(cli.table.mock.calls).toHaveLength(1)
+  await expect(cli.table.mock.calls[0][1].id.get({ environmentid: 'ignored' })).toEqual('42')
+})

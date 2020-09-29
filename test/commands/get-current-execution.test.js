@@ -10,9 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { cli } = require('cli-ux')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const GetCurrentExecution = require('../../src/commands/cloudmanager/get-current-execution')
+const execution1010 = require('../data/execution1010.json')
 
 beforeEach(() => {
   setStore({})
@@ -44,7 +46,7 @@ test('get-current-execution - configured', async () => {
     })
   })
 
-  expect.assertions(5)
+  expect.assertions(7)
 
   const runResult = GetCurrentExecution.run(['5', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -53,4 +55,7 @@ test('get-current-execution - configured', async () => {
   await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getCurrentExecution.mock.calls.length).toEqual(1)
   await expect(mockSdk.getCurrentExecution).toHaveBeenCalledWith('5', '5')
+
+  await expect(cli.table.mock.calls[0][1].currentStep.get(execution1010)).toEqual('deploy')
+  await expect(cli.table.mock.calls[0][1].currentStepStatus.get(execution1010)).toEqual('WAITING')
 })

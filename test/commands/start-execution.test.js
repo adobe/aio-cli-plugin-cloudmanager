@@ -36,7 +36,7 @@ test('start-execution - missing config', async () => {
   await expect(cli.action.stop.mock.calls[0][0]).toBe('missing config data: jwt-auth')
 })
 
-test('start-execution - configured', async () => {
+test('start-execution - no url', async () => {
   setStore({
     'jwt-auth': JSON.stringify({
       client_id: '1234',
@@ -55,4 +55,28 @@ test('start-execution - configured', async () => {
   await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.startExecution.mock.calls.length).toEqual(1)
   await expect(mockSdk.startExecution).toHaveBeenCalledWith('5', '10')
+})
+
+test('start-execution - some url', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    })
+  })
+  mockSdk.startExecution = jest.fn(() => Promise.resolve('https://cloudmanager.adobe.io/api/program/4/pipeline/8555/execution/12742'))
+
+  expect.assertions(6)
+
+  const runResult = StartExecutionCommand.run(['--programId', '5', '10'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.startExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.startExecution).toHaveBeenCalledWith('5', '10')
+
+  await expect(cli.action.stop.mock.calls[0][0]).toEqual('started execution ID 12742')
 })

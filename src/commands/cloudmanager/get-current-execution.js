@@ -10,12 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, getCurrentStep } = require('../../cloudmanager-helpers')
-const { cli } = require('cli-ux')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
+const BaseExecutionCommand = require('../../base-execution-command')
 
 async function _getCurrentExecution (programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
@@ -26,7 +25,7 @@ async function _getCurrentExecution (programId, pipelineId, passphrase) {
   return sdk.getCurrentExecution(programId, pipelineId)
 }
 
-class GetCurrentExecutionCommand extends Command {
+class GetCurrentExecutionCommand extends BaseExecutionCommand {
   async run () {
     const { args, flags } = this.parse(GetCurrentExecutionCommand)
 
@@ -40,24 +39,7 @@ class GetCurrentExecutionCommand extends Command {
       this.error(error.message)
     }
 
-    cli.table([result], {
-      pipelineId: {
-        header: 'Pipeline Id'
-      },
-      id: {
-        header: 'Execution Id'
-      },
-      currentStep: {
-        header: 'Current Step Action',
-        get: item => getCurrentStep(item).action
-      },
-      currentStepStatus: {
-        header: 'Current Step Status',
-        get: item => getCurrentStep(item).status
-      }
-    }, {
-      printLine: this.log
-    })
+    this.outputTable([result])
 
     return result
   }

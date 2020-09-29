@@ -9,8 +9,28 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+const { getCurrentStep } = jest.requireActual('@adobe/aio-lib-cloudmanager')
+
 const mock = {
-  listPrograms: jest.fn(() => Promise.resolve()),
+  listPrograms: jest.fn(() => Promise.resolve([{
+    id: '6',
+    name: 'test2',
+    enabled: false,
+    _links: {
+      self: {
+        href: '/api/program/6'
+      }
+    }
+  }, {
+    id: '7',
+    name: 'test3',
+    enabled: true,
+    _links: {
+      self: {
+        href: '/api/program/7'
+      }
+    }
+  }])),
   listPipelines: jest.fn(() => Promise.resolve([
     {
       id: '10'
@@ -82,5 +102,6 @@ const mock = {
 
 module.exports = {
   init: jest.fn(() => mock),
-  mockSdk: mock
+  mockSdk: mock,
+  getCurrentStep: getCurrentStep
 }
