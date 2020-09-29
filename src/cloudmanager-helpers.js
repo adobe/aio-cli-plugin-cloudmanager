@@ -62,10 +62,6 @@ async function getProgramId (flags) {
   return programId
 }
 
-async function sleep (msec) {
-  return new Promise(resolve => setTimeout(resolve, msec))
-}
-
 function createKeyValueObjectFromFlag (flag) {
   if (flag.length % 2 === 0) {
     let i
@@ -90,6 +86,5 @@ module.exports = {
   getApiKey,
   getOrgId,
   getProgramId,
-  sleep,
   createKeyValueObjectFromFlag
 }

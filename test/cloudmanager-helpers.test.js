@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-lib-core-config')
-const { getApiKey, getOrgId } = require('../src/cloudmanager-helpers')
+const { getApiKey, getOrgId, getBaseUrl } = require('../src/cloudmanager-helpers')
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -62,4 +62,24 @@ test('getOrgId', async () => {
     }
   })
   await expect(getOrgId()).resolves.toEqual('...')
+})
+
+test('getBaseUrl', async () => {
+  expect.assertions(4)
+
+  // no cloudmanager key
+  jest.spyOn(Config, 'get').mockImplementation(() => null)
+  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+
+  // cloudmanager key available, but not a string
+  jest.spyOn(Config, 'get').mockImplementation(() => 42)
+  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+
+  // cloudmanager key, no base url
+  jest.spyOn(Config, 'get').mockImplementation(() => JSON.stringify({ foo: 'bar' }))
+  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+
+  // cloudmanager key, some base url
+  jest.spyOn(Config, 'get').mockImplementation(() => JSON.stringify({ base_url: 'https://www.adobe.com' }))
+  await expect(getBaseUrl()).resolves.toEqual('https://www.adobe.com')
 })

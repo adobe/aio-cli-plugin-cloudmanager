@@ -267,3 +267,31 @@ test('set-pipeline-variables - delete not found', async () => {
   await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setPipelineVariables.mock.calls.length).toEqual(0)
 })
+
+test('set-pipeline-variables - second get fails', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '4'
+  })
+
+  expect.assertions(2)
+
+  mockSdk.getPipelineVariables = jest.fn(() => Promise.resolve([]))
+    .mockImplementationOnce(() => Promise.resolve([]))
+    .mockImplementationOnce(() => { throw new Error('fail') })
+
+  let thrown = false
+
+  try {
+    await SetPipelineVariablesCommand.run(['1', '--variable', 'foo', 'bar', '--variable', 'foo2', 'bar2'])
+  } catch (err) {
+    thrown = err
+  }
+  await expect(thrown).toBeTruthy()
+  await expect(thrown.message).toEqual('fail')
+})

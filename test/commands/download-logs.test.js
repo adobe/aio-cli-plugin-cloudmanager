@@ -11,6 +11,8 @@ governing permissions and limitations under the License.
 */
 
 const { setStore } = require('@adobe/aio-lib-core-config')
+const { cli } = require('cli-ux')
+const path = require('path')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const DownloadLogs = require('../../src/commands/cloudmanager/download-logs')
 
@@ -34,7 +36,7 @@ test('download-logs - missing config', async () => {
   await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('download-logs - failure', async () => {
+test('download-logs - success single', async () => {
   setStore({
     'jwt-auth': JSON.stringify({
       client_id: '1234',
@@ -44,7 +46,7 @@ test('download-logs - failure', async () => {
     })
   })
 
-  expect.assertions(5)
+  expect.assertions(9)
 
   const runResult = DownloadLogs.run(['17', 'author', 'aemerror', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -53,4 +55,41 @@ test('download-logs - failure', async () => {
   await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.downloadLogs.mock.calls.length).toEqual(1)
   await expect(mockSdk.downloadLogs).toHaveBeenCalledWith('5', '17', 'author', 'aemerror', '1', '.')
+
+  await expect(cli.action.start.mock.calls.length).toEqual(1)
+  await expect(cli.action.stop.mock.calls.length).toEqual(1)
+  await expect(cli.action.stop.mock.calls[0][0]).toEqual(`downloaded 1 file to ${path.resolve('.')}`)
+
+  await expect(cli.table.mock.calls[0][1].path.get({ path: '.' })).toEqual(path.resolve(''))
+})
+
+test('download-logs - success multiple', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    })
+  })
+  mockSdk.downloadLogs = jest.fn(() => Promise.resolve([{
+    path: './1-author-aemerror-2019-09-8.log'
+  },
+  {
+    path: './1-author-aemerror-2019-09-7.log'
+  }]))
+
+  expect.assertions(8)
+
+  const runResult = DownloadLogs.run(['17', 'author', 'aemerror', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.downloadLogs.mock.calls.length).toEqual(1)
+  await expect(mockSdk.downloadLogs).toHaveBeenCalledWith('5', '17', 'author', 'aemerror', '1', '.')
+
+  await expect(cli.action.start.mock.calls.length).toEqual(1)
+  await expect(cli.action.stop.mock.calls.length).toEqual(1)
+  await expect(cli.action.stop.mock.calls[0][0]).toEqual(`downloaded 2 files to ${path.resolve('.')}`)
 })

@@ -54,7 +54,7 @@ test('list-environment-variables - success', async () => {
     cloudmanager_programid: '4'
   })
 
-  expect.assertions(6)
+  expect.assertions(7)
 
   const runResult = ListEnvironmentVariablesCommand.run(['1'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -68,4 +68,9 @@ test('list-environment-variables - success', async () => {
     name: 'I_AM_A_SECRET',
     type: 'secretString'
   })).toBe('****')
+  await expect(cli.table.mock.calls[0][1].value.get({
+    name: 'KEY',
+    type: 'string',
+    value: 'value'
+  })).toBe('value')
 })

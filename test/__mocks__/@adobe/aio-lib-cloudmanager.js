@@ -51,7 +51,9 @@ const mock = {
   }])),
   getExecutionStepLog: jest.fn(() => Promise.resolve()),
   listAvailableLogOptions: jest.fn(() => Promise.resolve([])),
-  downloadLogs: jest.fn(() => Promise.resolve([])),
+  downloadLogs: jest.fn(() => Promise.resolve([{
+    path: './1-author-aemerror-2019-09-8.log'
+  }])),
   deletePipeline: jest.fn(() => Promise.resolve()),
   updatePipeline: jest.fn(() => Promise.resolve()),
   getDeveloperConsoleUrl: jest.fn(() => Promise.resolve('https://github.com/adobe/aio-cli-plugin-cloudmanager')),
