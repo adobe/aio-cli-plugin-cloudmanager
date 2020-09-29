@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 const BaseEnvironmentVariablesCommand = require('../../base-environment-variables-command')
 const BaseVariablesCommand = require('../../base-variables-command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, sanitizeEnvironmentId } = require('../../cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
@@ -34,7 +34,8 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   }
 
   async setVariables (programId, args, variables, passphrase = null) {
-    return _setEnvironmentVariables(programId, args.environmentId, variables, passphrase)
+    const environmentId = sanitizeEnvironmentId(args.environmentId)
+    return _setEnvironmentVariables(programId, environmentId, variables, passphrase)
   }
 }
 

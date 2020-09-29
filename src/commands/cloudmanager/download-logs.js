@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, sanitizeEnvironmentId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const path = require('path')
 const { init } = require('@adobe/aio-lib-cloudmanager')
@@ -33,6 +33,8 @@ class DownloadLogs extends Command {
 
     const programId = await getProgramId(flags)
 
+    const environmentId = sanitizeEnvironmentId(args.environmentId)
+
     const outputDirectory = flags.outputDirectory || '.'
 
     cli.action.start('downloading logs')
@@ -40,7 +42,7 @@ class DownloadLogs extends Command {
     let result
 
     try {
-      result = await this.downloadLogs(programId, args.environmentId, args.service, args.name, args.days, outputDirectory, flags.passphrase)
+      result = await this.downloadLogs(programId, environmentId, args.service, args.name, args.days, outputDirectory, flags.passphrase)
     } catch (error) {
       this.error(error.message)
     }
