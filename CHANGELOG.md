@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0 (29/09/2020)
+-  Allow to use 'e'-prefixed env ids as found in cloud manager URLs [#140](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/140)
+- [**enhancement**] Refactor out aio-lib-cloudmanager [#138](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/138)
+
+---
+
 ## 0.13.0 (04/09/2020)
 
 - [**enhancement**] Add Support for Experience Audit [#136](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/136)
