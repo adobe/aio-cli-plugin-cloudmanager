@@ -10,6 +10,8 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const tmp = require('tmp')
+const { cli } = require('cli-ux')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const GetExecutionStepLog = require('../../src/commands/cloudmanager/get-execution-step-log')
@@ -34,7 +36,7 @@ test('get-execution-step-log - missing config', async () => {
   await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('get-execution-step-log - configured', async () => {
+test('get-execution-step-log - stdout', async () => {
   setStore({
     'jwt-auth': JSON.stringify({
       client_id: '1234',
@@ -76,4 +78,34 @@ test('get-execution-step-log - success alternate file', async () => {
   await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getExecutionStepLog.mock.calls.length).toEqual(1)
   await expect(mockSdk.getExecutionStepLog).toHaveBeenCalledWith('5', '7', '1001', 'codeQuality', 'somethingspecial', process.stdout)
+})
+
+test('get-execution-step-log - file', async () => {
+  const tmpFile = tmp.fileSync()
+
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    })
+  })
+
+  expect.assertions(11)
+
+  const runResult = GetExecutionStepLog.run(['15', '--programId', '5', '1002', 'codeQuality', '--output', tmpFile.name])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecutionStepLog.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][0]).toEqual('5')
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][1]).toEqual('15')
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][2]).toEqual('1002')
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][3]).toEqual('codeQuality')
+  await expect(cli.action.start.mock.calls).toHaveLength(1)
+  await expect(cli.action.start.mock.calls[0][0]).toEqual(`download codeQuality log to ${tmpFile.name}`)
+  await expect(cli.action.stop.mock.calls).toHaveLength(1)
 })

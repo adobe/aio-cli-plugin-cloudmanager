@@ -34,7 +34,8 @@
     "jest": "^24.1.0",
     "jest-extended": "^0.11.1",
     "jest-junit": "^10.0.0",
-    "stdout-stderr": "^0.1.9"
+    "stdout-stderr": "^0.1.9",
+    "tmp": "^0.2.1"
   },
   "engines": {
     "node": ">=10.0.0"
