@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, sanitizeEnvironmentId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
@@ -32,10 +32,12 @@ class OpenDeveloperConsoleCommand extends Command {
 
     const programId = await getProgramId(flags)
 
+    const environmentId = sanitizeEnvironmentId(args.environmentId)
+
     let result
 
     try {
-      result = await this.getDeveloperConsoleUrl(programId, args.environmentId, flags.passphrase)
+      result = await this.getDeveloperConsoleUrl(programId, environmentId, flags.passphrase)
     } catch (error) {
       this.error(error.message)
     }

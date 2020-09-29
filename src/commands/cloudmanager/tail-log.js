@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, sanitizeEnvironmentId } = require('../../cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
@@ -31,10 +31,12 @@ class TailLog extends Command {
 
     const programId = await getProgramId(flags)
 
+    const environmentId = sanitizeEnvironmentId(args.environmentId)
+
     let result
 
     try {
-      result = await this.tailLog(programId, args.environmentId, args.service, args.name, flags.passphrase)
+      result = await this.tailLog(programId, environmentId, args.service, args.name, flags.passphrase)
     } catch (error) {
       this.error(error.message)
     }

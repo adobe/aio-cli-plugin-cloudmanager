@@ -74,3 +74,28 @@ test('list-environment-variables - success', async () => {
     value: 'value'
   })).toBe('value')
 })
+
+test('list-environment-variables for "e" prefixed env id - success', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '4'
+  })
+
+  expect.assertions(2)
+
+  const runResult = ListEnvironmentVariablesCommand.run(['e1'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).resolves.toMatchObject([{
+    name: 'KEY',
+    type: 'string',
+    value: 'value'
+  }, {
+    name: 'I_AM_A_SECRET',
+    type: 'secretString'
+  }])
+})

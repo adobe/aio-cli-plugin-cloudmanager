@@ -81,10 +81,19 @@ function createKeyValueObjectFromFlag (flag) {
   }
 }
 
+function sanitizeEnvironmentId (environmentId) {
+  let envId = environmentId
+  if (envId && envId.startsWith('e')) {
+    envId = envId.substring(1)
+  }
+  return envId
+}
+
 module.exports = {
   getBaseUrl,
   getApiKey,
   getOrgId,
   getProgramId,
-  createKeyValueObjectFromFlag
+  createKeyValueObjectFromFlag,
+  sanitizeEnvironmentId
 }
