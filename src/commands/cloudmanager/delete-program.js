@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _deleteProgram (programId, passphrase) {
   const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
-  return new Client(orgId, accessToken, apiKey).deleteProgram(programId)
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.deleteProgram(programId)
 }
 
 class DeleteProgramCommand extends Command {
@@ -30,7 +32,7 @@ class DeleteProgramCommand extends Command {
 
     let result
 
-    cli.action.start("deleting program")
+    cli.action.start('deleting program')
 
     try {
       result = await this.deleteProgram(args.programId, flags.passphrase)
@@ -55,7 +57,7 @@ DeleteProgramCommand.flags = {
 }
 
 DeleteProgramCommand.args = [
-  {name: 'programId', required: true, description: "the program id"}
+  { name: 'programId', required: true, description: 'the program id' }
 ]
 
 module.exports = DeleteProgramCommand

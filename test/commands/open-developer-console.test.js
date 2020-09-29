@@ -11,143 +11,57 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const OpenDeveloperConsoleCommand = require('../../src/commands/cloudmanager/open-developer-console')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('open-developer-console - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = OpenDeveloperConsoleCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") > -1)
+  const runResult = OpenDeveloperConsoleCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') > -1)
 })
 
 test('open-developer-console - missing programId', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = OpenDeveloperConsoleCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified either as --programId flag or through cloudmanager_programid") === 0)
+  const runResult = OpenDeveloperConsoleCommand.run(['1'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Program ID must be specified either as --programId flag or through cloudmanager_programid') === 0)
 })
 
 test('open-developer-console - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = OpenDeveloperConsoleCommand.run(["1", "--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = OpenDeveloperConsoleCommand.run(['1', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('open-developer-console - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "6"
-    })
+test('open-developer-console - success', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '4'
+  })
 
-    expect.assertions(2)
+  expect.assertions(6)
 
-    let runResult = OpenDeveloperConsoleCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve environments: https://cloudmanager.adobe.io/api/program/6/environments (404 Not Found)'))
-})
-
-test('open-developer-console - missing properties', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(2)
-
-    let runResult = OpenDeveloperConsoleCommand.run(["3"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Environment 3 does not appear to support Developer Console.'))
-})
-
-test('open-developer-console - success hal', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(3)
-
-    let runResult = OpenDeveloperConsoleCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual("https://github.com/adobe/aio-cli-plugin-cloudmanager")
-    await expect(cli.open.mock.calls[0][0]).toBe("https://github.com/adobe/aio-cli-plugin-cloudmanager")
-})
-
-test('open-developer-console - success props', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(3)
-
-    let runResult = OpenDeveloperConsoleCommand.run(["2"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual("https://dev-console-ns.cs.dev.adobeaemcloud.com/dc/")
-    await expect(cli.open.mock.calls[0][0]).toBe("https://dev-console-ns.cs.dev.adobeaemcloud.com/dc/")
-})
-
-test('open-developer-console - bad program', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "8"
-    })
-
-    expect.assertions(2)
-
-    let runResult = OpenDeveloperConsoleCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find program 8'))
-})
-
-test('open-developer-console - bad environment', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(2)
-
-    let runResult = OpenDeveloperConsoleCommand.run(["5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find environment 5 for program 4'))
+  const runResult = OpenDeveloperConsoleCommand.run(['1'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getDeveloperConsoleUrl.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getDeveloperConsoleUrl).toHaveBeenCalledWith('4', '1')
+  await expect(cli.open.mock.calls[0][0]).toBe('https://github.com/adobe/aio-cli-plugin-cloudmanager')
 })

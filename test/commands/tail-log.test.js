@@ -11,59 +11,46 @@ governing permissions and limitations under the License.
 */
 
 const { setStore } = require('@adobe/aio-lib-core-config')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const TailLog = require('../../src/commands/cloudmanager/tail-log')
-const Client = require('../../src/client')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('tail-log - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = TailLog.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 3 required args") === 0)
+  const runResult = TailLog.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 3 required args') === 0)
 })
 
 test('tail-log - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = TailLog.run(["5", "author", "aemerror", "--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = TailLog.run(['5', 'author', 'aemerror', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('tail-log - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+test('tail-log - config', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
 
-    expect.assertions(2)
+  expect.assertions(5)
 
-    let runResult = TailLog.run(["17", "author", "aemerror", "--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find environment 17 for program 5'))
-})
-
-test('tail-log - no logs for tailing', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(2)
-
-    let runResult = TailLog.run(["1", "publish", "aemerror", "--programId", "4"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('No logs for tailing available in 1 for program 4'))
+  const runResult = TailLog.run(['17', 'author', 'aemerror', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.tailLog.mock.calls.length).toEqual(1)
+  await expect(mockSdk.tailLog).toHaveBeenCalledWith('5', '17', 'author', 'aemerror', process.stdout)
 })

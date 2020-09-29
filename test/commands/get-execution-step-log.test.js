@@ -10,163 +10,102 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const tmp = require('tmp')
+const { cli } = require('cli-ux')
 const { setStore } = require('@adobe/aio-lib-core-config')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const GetExecutionStepLog = require('../../src/commands/cloudmanager/get-execution-step-log')
 
-let capturedStdout
-let stdoutWriteToRestore;
-
 beforeEach(() => {
-    setStore({})
-    capturedStdout = ''
-    stdoutWriteToRestore = process.stdout.write.bind(process.stdout);
-    process.stdout.write = (chunk) => {
-        if (typeof chunk === 'string') {
-            capturedStdout += chunk;
-        } else if (Buffer.isBuffer(chunk)) {
-            capturedStdout += chunk.toString()
-        }
-    };
-})
-
-afterEach(() => {
-    process.stdout.write = stdoutWriteToRestore
+  setStore({})
 })
 
 test('get-execution-step-log - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = GetExecutionStepLog.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 3 required args") === 0)
+  const runResult = GetExecutionStepLog.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 3 required args') === 0)
 })
 
 test('get-execution-step-log - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = GetExecutionStepLog.run(["5", "--programId", "7", "1001", "codeQuality"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = GetExecutionStepLog.run(['5', '--programId', '7', '1001', 'codeQuality'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('get-execution-step-log - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+test('get-execution-step-log - stdout', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
 
-    expect.assertions(2)
+  expect.assertions(5)
 
-    let runResult = GetExecutionStepLog.run(["5", "--programId", "5", "1002", "codeQuality"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot get execution: https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution/1002 (404 Not Found)'))
-})
+  const runResult = GetExecutionStepLog.run(['15', '--programId', '5', '1002', 'codeQuality'])
+  await expect(runResult instanceof Promise).toBeTruthy()
 
-test('get-execution-step-log - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(3)
-
-    let runResult = GetExecutionStepLog.run(["--programId", "5", "7", "1001", "codeQuality"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual({})
-    expect(capturedStdout).toEqual("some log line\nsome other log line\n")
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecutionStepLog.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecutionStepLog).toHaveBeenCalledWith('5', '15', '1002', 'codeQuality', undefined, process.stdout)
 })
 
 test('get-execution-step-log - success alternate file', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
 
-    expect.assertions(3)
+  expect.assertions(5)
 
-    let runResult = GetExecutionStepLog.run(["--programId", "5", "7", "1001", "codeQuality", "--file", "somethingspecial"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual({})
-    expect(capturedStdout).toEqual("some special log line\nsome other special log line\n")
+  const runResult = GetExecutionStepLog.run(['--programId', '5', '7', '1001', 'codeQuality', '--file', 'somethingspecial'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecutionStepLog.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecutionStepLog).toHaveBeenCalledWith('5', '7', '1001', 'codeQuality', 'somethingspecial', process.stdout)
 })
 
-test('get-execution-step-log - not found', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+test('get-execution-step-log - file', async () => {
+  const tmpFile = tmp.fileSync()
+
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
 
-    expect.assertions(2)
+  expect.assertions(11)
 
-    let runResult = GetExecutionStepLog.run(["--programId", "5", "7", "1001", "stageDeploy"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error("Cannot get log: https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4597/step/8494/logs (404 Not Found)"))
+  const runResult = GetExecutionStepLog.run(['15', '--programId', '5', '1002', 'codeQuality', '--output', tmpFile.name])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecutionStepLog.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][0]).toEqual('5')
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][1]).toEqual('15')
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][2]).toEqual('1002')
+  await expect(mockSdk.getExecutionStepLog.mock.calls[0][3]).toEqual('codeQuality')
+  await expect(cli.action.start.mock.calls).toHaveLength(1)
+  await expect(cli.action.start.mock.calls[0][0]).toEqual(`download codeQuality log to ${tmpFile.name}`)
+  await expect(cli.action.stop.mock.calls).toHaveLength(1)
 })
-
-test('get-execution-step-log - empty', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(2)
-
-    let runResult = GetExecutionStepLog.run(["--programId", "5", "7", "1001", "prodDeploy"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error("Log https://cloudmanager.adobe.io/api/program/5/pipeline/7/execution/1001/phase/4598/step/8500/logs did not contain a redirect. Was {}."))
-})
-
-test('get-execution-step-log - missing step', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(2)
-
-    let runResult = GetExecutionStepLog.run(["--programId", "5", "7", "1003", "devDeploy"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error("Cannot find step state for action devDeploy on execution 1003."))
-})
-
-test('get-execution-step-log - bad pipeline', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(2)
-
-    let runResult = GetExecutionStepLog.run(["--programId", "5", "100", "1001", "build"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error("Cannot get execution. Pipeline 100 does not exist in program 5."))
-})
-

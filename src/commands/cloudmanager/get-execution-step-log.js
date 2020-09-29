@@ -11,18 +11,20 @@ governing permissions and limitations under the License.
 */
 
 const { Command, flags } = require('@oclif/command')
-const fs = require("fs")
+const fs = require('fs')
 const { cli } = require('cli-ux')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
-const Client = require('../../client')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _getExecutionStepLog (programId, pipelineId, executionId, action, logFile, outputStream, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const orgId = await getOrgId()
-  return new Client(orgId, accessToken, apiKey).getExecutionStepLog(programId, pipelineId, executionId, action, logFile, outputStream)
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.getExecutionStepLog(programId, pipelineId, executionId, action, logFile, outputStream)
 }
 
 class GetExecutionStepLogs extends Command {
@@ -34,10 +36,10 @@ class GetExecutionStepLogs extends Command {
     const outputStream = flags.output ? fs.createWriteStream(flags.output) : process.stdout
 
     if (flags.output) {
-        cli.action.start(`download ${args.action} log to ${flags.output}`)
+      cli.action.start(`download ${args.action} log to ${flags.output}`)
     }
 
-    let result;
+    let result
 
     try {
       result = await this.getExecutionStepLog(programId, args.pipelineId, args.executionId, args.action, flags.file, outputStream, flags.passphrase)
@@ -46,7 +48,7 @@ class GetExecutionStepLogs extends Command {
     }
 
     if (flags.output) {
-        cli.action.stop('downloaded')
+      cli.action.stop('downloaded')
     }
 
     return result
@@ -62,22 +64,26 @@ GetExecutionStepLogs.description = 'get step log'
 GetExecutionStepLogs.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  output: flags.string({ char: 'o', description: "the output file. If not set, uses standard output."}),
-  file: flags.string({ char: 'f', description: "the alternative log file name. currently only `sonarLogFile` is available (for the codeQuality step)"})
+  output: flags.string({ char: 'o', description: 'the output file. If not set, uses standard output.' }),
+  file: flags.string({ char: 'f', description: 'the alternative log file name. currently only `sonarLogFile` is available (for the codeQuality step)' })
 }
 
 GetExecutionStepLogs.args = [
-    {name: 'pipelineId', required: true, description: "the pipeline id"},
-    {name: 'executionId', required: true, description: "the execution id"},
-    {name: 'action', required: true, description: "the step action", options: [
-        'build',
-        'codeQuality',
-        'devDeploy',
-        'stageDeploy',
-        'prodDeploy',
-        'buildImage'
-    ]},
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
+  { name: 'executionId', required: true, description: 'the execution id' },
+  {
+    name: 'action',
+    required: true,
+    description: 'the step action',
+    options: [
+      'build',
+      'codeQuality',
+      'devDeploy',
+      'stageDeploy',
+      'prodDeploy',
+      'buildImage'
+    ]
+  }
 ]
-
 
 module.exports = GetExecutionStepLogs

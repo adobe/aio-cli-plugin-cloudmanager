@@ -10,52 +10,49 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const fetchMock = require('node-fetch')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const ListCurrentExecutions = require('../../src/commands/cloudmanager/list-current-executions')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('list-current-executions - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListCurrentExecutions.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified") === 0)
+  const runResult = ListCurrentExecutions.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Program ID must be specified') === 0)
 })
 
 test('list-current-executions - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListCurrentExecutions.run(["--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = ListCurrentExecutions.run(['--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
 test('list-current-executions - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
-    fetchMock.setPipeline7Execution("1001")
+  })
 
-    expect.assertions(2)
+  expect.assertions(7)
 
-    let runResult = ListCurrentExecutions.run(["--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toMatchObject([{
-        "id": "1000",
-        "programId": "5",
-        "pipelineId": "6",
-    },{
-        "id": "1001",
-        "programId": "5",
-        "pipelineId": "7",
-    }])
+  const runResult = ListCurrentExecutions.run(['--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listPipelines.mock.calls.length).toEqual(1)
+  await expect(mockSdk.listPipelines).toHaveBeenCalledWith('5', { busy: true })
+  await expect(mockSdk.getCurrentExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getCurrentExecution).toHaveBeenCalledWith('5', '10')
 })

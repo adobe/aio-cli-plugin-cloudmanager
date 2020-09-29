@@ -6,42 +6,39 @@
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
     "@adobe/aio-cli-plugin-jwt-auth": "^2.0.1",
+    "@adobe/aio-lib-cloudmanager": "0.0.2",
     "@adobe/aio-lib-core-config": "^1.2.8",
-    "@adobe/aio-lib-core-logging": "^1.1.0",
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
     "@oclif/plugin-help": "^2.2.3",
     "cli-ux": "^5.4.6",
-    "halfred": "^1.1.1",
+    "halfred": "^2.0.0",
     "lodash": "^4.17.15",
-    "moment": "^2.26.0",
-    "node-fetch": "^2.3.0",
-    "uritemplate": "^0.3.4"
+    "moment": "^2.29.0"
   },
   "devDependencies": {
+    "@adobe/eslint-config-aio-lib-config": "^1.2.1",
     "@oclif/dev-cli": "^1",
-    "@oclif/test": "^1",
     "chalk": "^4.0.0",
     "codecov": "^3.7.0",
     "eslint": "^6.0.0",
-    "eslint-config-oclif": "^3.1.0",
     "eslint-config-standard": "^14.0.0",
     "eslint-plugin-import": "^2.13.10",
     "eslint-plugin-jest": "^23.0.2",
+    "eslint-plugin-jsdoc": "^30.6.1",
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.0.0",
     "eslint-plugin-standard": "^4.0.0",
     "execa": "^4.0.2",
-    "fetch-mock": "9.10.1",
     "github-release-notes": "^0.17.3",
     "jest": "^24.1.0",
     "jest-extended": "^0.11.1",
-    "jest-haste-map": "^26.0.0",
     "jest-junit": "^10.0.0",
-    "stdout-stderr": "^0.1.9"
+    "stdout-stderr": "^0.1.9",
+    "tmp": "^0.2.1"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   },
   "files": [
     "/oclif.manifest.json",
@@ -62,7 +59,9 @@
   "main": "src/index.js",
   "repository": "adobe/aio-cli-plugin-cloudmanager",
   "scripts": {
-    "posttest": "eslint src e2e",
+    "posttest": "npm run lint",
+    "lint": "eslint src test e2e",
+    "lint-fix": "eslint src test e2e --fix",
     "test": "npm run unit-tests",
     "unit-tests": "jest --ci",
     "fix-readme": "sed -i '' 's+\\./bin/run+aio+g' README.md && sed -i '' 's+#bin-run-+#aio-+g' README.md && sed -i '' 's+#binrun-+#aio-+g' README.md && sed -i '' 's+blob/v+blob/+g' README.md",

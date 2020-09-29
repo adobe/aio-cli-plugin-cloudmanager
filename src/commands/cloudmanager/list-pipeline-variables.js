@@ -15,33 +15,33 @@ const { getProgramId } = require('../../cloudmanager-helpers')
 const commonFlags = require('../../common-flags')
 
 class ListPipelineVariablesCommand extends BasePipelineVariablesCommand {
-    async run() {
-        const { args, flags } = this.parse(ListPipelineVariablesCommand)
+  async run () {
+    const { args, flags } = this.parse(ListPipelineVariablesCommand)
 
-        const programId = await getProgramId(flags)
+    const programId = await getProgramId(flags)
 
-        let result
+    let result
 
-        try {
-            result = await this.getVariables(programId, args, flags.passphrase)
-        } catch (error) {
-            this.error(error.message)
-        }
-        this.outputTable(result)
-
-        return result
+    try {
+      result = await this.getVariables(programId, args, flags.passphrase)
+    } catch (error) {
+      this.error(error.message)
     }
+    this.outputTable(result)
+
+    return result
+  }
 }
 
 ListPipelineVariablesCommand.description = 'lists variables set on an pipeline'
 
 ListPipelineVariablesCommand.args = [
-    {name: 'pipelineId', required: true, description: "the pipeline id"}
+  { name: 'pipelineId', required: true, description: 'the pipeline id' }
 ]
 
 ListPipelineVariablesCommand.flags = {
-    ...commonFlags.global,
-    ...commonFlags.programId
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
 module.exports = ListPipelineVariablesCommand

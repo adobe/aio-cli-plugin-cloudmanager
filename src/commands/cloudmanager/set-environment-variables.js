@@ -13,39 +13,41 @@ governing permissions and limitations under the License.
 const BaseEnvironmentVariablesCommand = require('../../base-environment-variables-command')
 const BaseVariablesCommand = require('../../base-variables-command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId } = require('../../cloudmanager-helpers')
-const Client = require('../../client')
+const { getApiKey, getBaseUrl, getOrgId } = require('../../cloudmanager-helpers')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
-async function _setEnvironmentVariables(programId, environmentId, variables, passphrase) {
-    const apiKey = await getApiKey()
-    const accessToken = await getAccessToken(passphrase)
-    const orgId = await getOrgId()
-    return new Client(orgId, accessToken, apiKey).setEnvironmentVariables(programId, environmentId, variables)
+async function _setEnvironmentVariables (programId, environmentId, variables, passphrase) {
+  const apiKey = await getApiKey()
+  const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.setEnvironmentVariables(programId, environmentId, variables)
 }
 
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
-    async run() {
-        const { args, flags } = this.parse(SetEnvironmentVariablesCommand)
+  async run () {
+    const { args, flags } = this.parse(SetEnvironmentVariablesCommand)
 
-        return this.runSet(args, flags)
-    }
+    return this.runSet(args, flags)
+  }
 
-    async setVariables(programId, args, variables, passphrase = null) {
-        return _setEnvironmentVariables(programId, args.environmentId, variables, passphrase)
-    }
+  async setVariables (programId, args, variables, passphrase = null) {
+    return _setEnvironmentVariables(programId, args.environmentId, variables, passphrase)
+  }
 }
 
 SetEnvironmentVariablesCommand.description = 'sets variables set on an environment. These are runtime variables available to components running inside the runtime environment. Use set-pipeline-variables to set build-time variables on a pipeline.'
 
 SetEnvironmentVariablesCommand.args = [
-    {name: 'environmentId', required: true, description: "the environment id"}
+  { name: 'environmentId', required: true, description: 'the environment id' }
 ]
 
 SetEnvironmentVariablesCommand.flags = {
-    ...commonFlags.global,
-    ...commonFlags.programId,
-    ...BaseVariablesCommand.flags
+  ...commonFlags.global,
+  ...commonFlags.programId,
+  ...BaseVariablesCommand.flags
 }
 
 module.exports = SetEnvironmentVariablesCommand

@@ -10,9 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-let mockStore = {};
+let mockStore = {}
 
 module.exports = {
-    get: jest.fn(k => mockStore[k]),
-    setStore: (s) => mockStore = s
+  get: jest.fn(k => mockStore[k]),
+  setStore: (s) => (mockStore = s)
 }

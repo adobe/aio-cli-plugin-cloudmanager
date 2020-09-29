@@ -11,181 +11,120 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const ListAvailableLogOptionsCommand = require('../../src/commands/cloudmanager/list-available-log-options')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('list-available-logs - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListAvailableLogOptionsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 1 required arg") > -1)
+  const runResult = ListAvailableLogOptionsCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') > -1)
 })
 
 test('list-available-logs - missing programId', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListAvailableLogOptionsCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified either as --programId flag or through cloudmanager_programid") === 0)
+  const runResult = ListAvailableLogOptionsCommand.run(['1'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Program ID must be specified either as --programId flag or through cloudmanager_programid') === 0)
 })
 
 test('list-available-logs - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListAvailableLogOptionsCommand.run(["1", "--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = ListAvailableLogOptionsCommand.run(['1', '--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('list-available-logs - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "6"
-    })
+test('list-available-logs - empty', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '6'
+  })
 
-    expect.assertions(2)
+  expect.assertions(6)
 
-    let runResult = ListAvailableLogOptionsCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve environments: https://cloudmanager.adobe.io/api/program/6/environments (404 Not Found)'))
+  const runResult = ListAvailableLogOptionsCommand.run(['1'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listAvailableLogOptions.mock.calls.length).toEqual(1)
+  await expect(mockSdk.listAvailableLogOptions).toHaveBeenCalledWith('6', '1')
+  await expect(cli.info.mock.calls[0][0]).toBe('No log options are available for environmentId 1')
 })
 
-test('list-available-logs - success undefined', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(3)
-
-    let runResult = ListAvailableLogOptionsCommand.run(["3"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual([])
-    await expect(cli.info.mock.calls[0][0]).toBe("No log options are available for environmentId 3")
-})
-
-test('list-available-logs - success empty', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(3)
-
-    let runResult = ListAvailableLogOptionsCommand.run(["2"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual([])
-    await expect(cli.info.mock.calls[0][0]).toBe("No log options are available for environmentId 2")
-})
-
-test('list-available-logs - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(3)
-
-    let runResult = ListAvailableLogOptionsCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toMatchObject([{
-        "service" : "author",
-        "name" : "aemerror"
+test('list-available-logs - some entries', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '6'
+  })
+  mockSdk.listAvailableLogOptions = jest.fn(() => [
+    {
+      service: 'author',
+      name: 'aemerror'
     },
     {
-        "service" : "author",
-        "name" : "aemrequest"
+      service: 'author',
+      name: 'aemrequest'
     },
     {
-        "service" : "author",
-        "name" : "aemaccess"
+      service: 'author',
+      name: 'aemaccess'
     },
     {
-        "service" : "publish",
-        "name" : "aemerror"
+      service: 'publish',
+      name: 'aemerror'
     },
     {
-        "service" : "publish",
-        "name" : "aemrequest"
+      service: 'publish',
+      name: 'aemrequest'
     },
     {
-        "service" : "publish",
-        "name" : "aemaccess"
+      service: 'publish',
+      name: 'aemaccess'
     },
     {
-        "service" : "dispatcher",
-        "name" : "httpdaccess"
+      service: 'dispatcher',
+      name: 'httpdaccess'
     },
     {
-        "service" : "dispatcher",
-        "name" : "httpderror"
+      service: 'dispatcher',
+      name: 'httpderror'
     },
     {
-        "service" : "dispatcher",
-        "name" : "aemdispatcher"
-    }])
+      service: 'dispatcher',
+      name: 'aemdispatcher'
+    }
+  ])
 
-    await expect(cli.table.mock.calls[0][1].id.get()).toBe("1")
-})
+  expect.assertions(8)
 
-
-test('list-available-logs - bad program', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "8"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListAvailableLogOptionsCommand.run(["1"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find program 8'))
-})
-
-test('list-available-logs - bad environment', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListAvailableLogOptionsCommand.run(["5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find environment 5 for program 4'))
+  const runResult = ListAvailableLogOptionsCommand.run(['42'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listAvailableLogOptions.mock.calls.length).toEqual(1)
+  await expect(mockSdk.listAvailableLogOptions).toHaveBeenCalledWith('6', '42')
+  await expect(cli.info.mock.calls).toHaveLength(0)
+  await expect(cli.table.mock.calls).toHaveLength(1)
+  await expect(cli.table.mock.calls[0][1].id.get({ environmentid: 'ignored' })).toEqual('42')
 })

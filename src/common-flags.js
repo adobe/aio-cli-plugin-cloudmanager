@@ -12,10 +12,10 @@ governing permissions and limitations under the License.
 const { flags } = require('@oclif/command')
 
 module.exports = {
-    global: {
-        passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' })
-    },
-    programId: {
-        programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value"})
-    }
+  global: {
+    passphrase: flags.string({ char: 'r', description: 'the passphrase for the private-key' })
+  },
+  programId: {
+    programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value" })
+  }
 }

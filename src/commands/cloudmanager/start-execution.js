@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _startExecution (programId, pipelineId, passphrase) {
   const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
-  return new Client(orgId, accessToken, apiKey).startExecution(programId, pipelineId)
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.startExecution(programId, pipelineId)
 }
 
 class StartExecutionCommand extends Command {
@@ -32,7 +34,7 @@ class StartExecutionCommand extends Command {
 
     let result
 
-    cli.action.start("starting execution")
+    cli.action.start('starting execution')
 
     try {
       result = await this.startExecution(programId, args.pipelineId, flags.passphrase)
@@ -44,9 +46,9 @@ class StartExecutionCommand extends Command {
     const evaluated = /^.*\/([0-9]+)$/.exec(result)
 
     if (evaluated) {
-        cli.action.stop(`started execution ID ${evaluated[1]}`)
+      cli.action.stop(`started execution ID ${evaluated[1]}`)
     } else {
-        cli.action.stop('started')
+      cli.action.stop('started')
     }
 
     return result
@@ -65,7 +67,7 @@ StartExecutionCommand.flags = {
 }
 
 StartExecutionCommand.args = [
-  {name: 'pipelineId', required: true, description: "the pipeline id"}
+  { name: 'pipelineId', required: true, description: 'the pipeline id' }
 ]
 
 module.exports = StartExecutionCommand

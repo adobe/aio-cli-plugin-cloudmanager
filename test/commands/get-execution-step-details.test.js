@@ -11,128 +11,79 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const GetExecutionStepDetails = require('../../src/commands/cloudmanager/get-execution-step-details')
+const execution1010 = require('../data/execution1010.json')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('get-execution-step-details - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = GetExecutionStepDetails.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Missing 2 required args") === 0)
+  const runResult = GetExecutionStepDetails.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 2 required args') === 0)
 })
 
 test('get-execution-step-details - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = GetExecutionStepDetails.run(["5", "--programId", "7", "1001"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = GetExecutionStepDetails.run(['5', '--programId', '7', '1001'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('get-execution-step-details - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+test('get-execution-step-details - no result', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
 
-    expect.assertions(2)
+  expect.assertions(6)
 
-    let runResult = GetExecutionStepDetails.run(["5", "--programId", "5", "1002"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot get execution: https://cloudmanager.adobe.io/api/program/5/pipeline/5/execution/1002 (404 Not Found)'))
+  const runResult = GetExecutionStepDetails.run(['5', '--programId', '5', '1002'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await expect(runResult).resolves.toBeUndefined()
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecution).toHaveBeenCalledWith('5', '5', '1002')
 })
 
-test('get-execution-step-details - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
+test('get-execution-step-details - result', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
+  })
+  mockSdk.getExecution = jest.fn(() => execution1010)
 
-    expect.assertions(4)
+  expect.assertions(12)
 
-    let runResult = GetExecutionStepDetails.run(["--programId", "5", "7", "1001"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toHaveLength(12)
+  const runResult = GetExecutionStepDetails.run(['5', '--programId', '5', '1002'])
+  await expect(runResult instanceof Promise).toBeTruthy()
 
-    const tableCall = cli.table.mock.calls[0];
-    const tableData = tableCall[0];
-    const columns = tableCall[1];
+  await expect(runResult).resolves.toBeTruthy()
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecution).toHaveBeenCalledWith('5', '5', '1002')
+  await expect(cli.table.mock.calls).toHaveLength(1)
 
-    const columnResults = tableData.map(row => {
-        const rowMapped = {};
-        Object.keys(columns).forEach(column => {
-            rowMapped[column] = columns[column].get(row)
-        })
-        return rowMapped;
-    })
-
-    expect(columnResults).toMatchObject([{
-        "action": "Validate",
-        "status": "Finished"
-    },{
-        "action": "Build",
-        "status": "Finished"
-    },{
-        "action": "Code Quality",
-        "status": "Finished"
-    },{
-        "action": "Stage Deploy",
-        "status": "Finished"
-    },{
-        "action": "Security Test",
-        "status": "Finished"
-    },{
-        "action": "Load Test",
-        "status": "Finished"
-    },{
-        "action": "Assets Test",
-        "status": "Finished"
-    },{
-        "action": "Report Performance Test",
-        "status": "Finished"
-    },{
-        "action": "Experience Audit",
-        "status": "Finished"
-    },{
-        "action": "Approval",
-        "status": "Finished"
-    },{
-        "action": "Managed",
-        "status": "Waiting"
-    },{
-        "action": "Prod Deploy",
-        "status": "Not Started"
-    }])
-
-    expect(columnResults[2].startedAt).toBeTruthy()
-})
-
-test('get-execution-step-details - bad pipeline', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(2)
-
-    let runResult = GetExecutionStepDetails.run(["--programId", "5", "100", "1001"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error("Cannot get execution. Pipeline 100 does not exist in program 5."))
+  await expect(cli.table.mock.calls[0][1].status.get({ status: 'RUNNING' })).toEqual('Running')
+  await expect(cli.table.mock.calls[0][1].action.get({ action: 'codeQuality' })).toEqual('Code Quality')
+  await expect(cli.table.mock.calls[0][1].action.get({ action: 'contentAudit' })).toEqual('Experience Audit')
+  await expect(cli.table.mock.calls[0][1].action.get({ action: 'deploy', environmentType: 'dev' })).toEqual('Dev Deploy')
+  await expect(cli.table.mock.calls[0][1].duration.get(execution1010._embedded.stepStates[1])).toEqual('7 minutes')
 })

@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _advanceCurrentExecution (programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const orgId = await getOrgId()
-  return new Client(orgId, accessToken, apiKey).advanceCurrentExecution(programId, pipelineId)
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.advanceCurrentExecution(programId, pipelineId)
 }
 
 class AdvanceCurrentExecutionCommand extends Command {
@@ -32,7 +34,7 @@ class AdvanceCurrentExecutionCommand extends Command {
 
     let result
 
-    cli.action.start("advancing execution")
+    cli.action.start('advancing execution')
 
     try {
       result = await this.advanceCurrentExecution(programId, args.pipelineId, flags.passphrase)
@@ -59,7 +61,7 @@ AdvanceCurrentExecutionCommand.flags = {
 }
 
 AdvanceCurrentExecutionCommand.args = [
-    {name: 'pipelineId', required: true, description: "the pipeline id"}
+  { name: 'pipelineId', required: true, description: 'the pipeline id' }
 ]
 
 module.exports = AdvanceCurrentExecutionCommand

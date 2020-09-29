@@ -11,66 +11,75 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-lib-core-config')
-const {getApiKey, getOrgId, isWithinFiveMinutesOfUTCMidnight} = require('../src/cloudmanager-helpers')
+const { getApiKey, getOrgId, getBaseUrl } = require('../src/cloudmanager-helpers')
 
 beforeEach(() => {
-    jest.clearAllMocks()
-    jest.resetAllMocks()
+  jest.clearAllMocks()
+  jest.resetAllMocks()
 })
 
 test('getApiKey', async () => {
-    expect.assertions(3)
+  expect.assertions(3)
 
-    // no jwt-auth key
-    jest.spyOn(Config, 'get').mockImplementation(() => null)
-    await expect(getApiKey()).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  // no jwt-auth key
+  jest.spyOn(Config, 'get').mockImplementation(() => null)
+  await expect(getApiKey()).rejects.toEqual(new Error('missing config data: jwt-auth'))
 
-    // jwt-auth available
-    jest.spyOn(Config, 'get').mockImplementation(() => '{ "jwt-auth": {} }')
-    await expect(getApiKey()).rejects.toEqual(new Error('missing config data: jwt-auth.client_id'))
+  // jwt-auth available
+  jest.spyOn(Config, 'get').mockImplementation(() => '{ "jwt-auth": {} }')
+  await expect(getApiKey()).rejects.toEqual(new Error('missing config data: jwt-auth.client_id'))
 
-    // jwt-auth, client_id available
-    jest.spyOn(Config, 'get').mockImplementation(k => {
-      if (k === 'jwt-auth') {
-        return JSON.stringify({
-          client_id: '...',
-        })
-      }
-    })
-    await expect(getApiKey()).resolves.toEqual('...')
+  // jwt-auth, client_id available
+  jest.spyOn(Config, 'get').mockImplementation(k => {
+    if (k === 'jwt-auth') {
+      return JSON.stringify({
+        client_id: '...'
+      })
+    }
   })
+  await expect(getApiKey()).resolves.toEqual('...')
+})
 
-  test('getOrgId', async () => {
-    expect.assertions(3)
+test('getOrgId', async () => {
+  expect.assertions(3)
 
-    // no jwt-auth key
-    jest.spyOn(Config, 'get').mockImplementation(() => null)
-    await expect(getOrgId()).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  // no jwt-auth key
+  jest.spyOn(Config, 'get').mockImplementation(() => null)
+  await expect(getOrgId()).rejects.toEqual(new Error('missing config data: jwt-auth'))
 
-    // jwt-auth available
-    jest.spyOn(Config, 'get').mockImplementation(() => '{ "jwt-auth": {} }')
-    await expect(getOrgId()).rejects.toEqual(new Error('missing config data: jwt-auth.jwt_payload.iss'))
+  // jwt-auth available
+  jest.spyOn(Config, 'get').mockImplementation(() => '{ "jwt-auth": {} }')
+  await expect(getOrgId()).rejects.toEqual(new Error('missing config data: jwt-auth.jwt_payload.iss'))
 
-    // jwt-auth, client_id available
-    jest.spyOn(Config, 'get').mockImplementation(k => {
-      if (k === 'jwt-auth') {
-        return JSON.stringify({
-            jwt_payload: {
-                iss: '...',
-            }
-        })
-      }
-    })
-    await expect(getOrgId()).resolves.toEqual('...')
+  // jwt-auth, client_id available
+  jest.spyOn(Config, 'get').mockImplementation(k => {
+    if (k === 'jwt-auth') {
+      return JSON.stringify({
+        jwt_payload: {
+          iss: '...'
+        }
+      })
+    }
   })
+  await expect(getOrgId()).resolves.toEqual('...')
+})
 
-  test('isWithinFiveMinutesOfUTCMidnight', async () => {
-    const utcDate1 = new Date(Date.UTC(2019, 9, 12, 23, 55, 14));
-    expect(isWithinFiveMinutesOfUTCMidnight(utcDate1)).toEqual(true)
-    const utcDate2 = new Date(Date.UTC(2019, 9, 12, 23, 53, 14));
-    expect(isWithinFiveMinutesOfUTCMidnight(utcDate2)).toEqual(false)
-    const utcDate3 = new Date(Date.UTC(2019, 9, 12, 0, 4, 14));
-    expect(isWithinFiveMinutesOfUTCMidnight(utcDate3)).toEqual(true)
-    const utcDate4 = new Date(Date.UTC(2019, 9, 12, 0, 6, 0));
-    expect(isWithinFiveMinutesOfUTCMidnight(utcDate4)).toEqual(false)
-  })
+test('getBaseUrl', async () => {
+  expect.assertions(4)
+
+  // no cloudmanager key
+  jest.spyOn(Config, 'get').mockImplementation(() => null)
+  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+
+  // cloudmanager key available, but not a string
+  jest.spyOn(Config, 'get').mockImplementation(() => 42)
+  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+
+  // cloudmanager key, no base url
+  jest.spyOn(Config, 'get').mockImplementation(() => JSON.stringify({ foo: 'bar' }))
+  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+
+  // cloudmanager key, some base url
+  jest.spyOn(Config, 'get').mockImplementation(() => JSON.stringify({ base_url: 'https://www.adobe.com' }))
+  await expect(getBaseUrl()).resolves.toEqual('https://www.adobe.com')
+})

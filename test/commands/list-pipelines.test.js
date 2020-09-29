@@ -11,134 +11,47 @@ governing permissions and limitations under the License.
 */
 
 const { setStore } = require('@adobe/aio-lib-core-config')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const ListPipelinesCommand = require('../../src/commands/cloudmanager/list-pipelines')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('list-pipelines - missing arg', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListPipelinesCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toSatisfy(err => err.message.indexOf("Program ID must be specified either as --programId flag or through cloudmanager_programid") === 0)
+  const runResult = ListPipelinesCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Program ID must be specified either as --programId flag or through cloudmanager_programid') === 0)
 })
 
 test('list-pipelines - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(2)
 
-    let runResult = ListPipelinesCommand.run(["--programId", "5"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = ListPipelinesCommand.run(['--programId', '5'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
 })
 
-test('list-pipelines - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "6"
-    })
+test('list-pipelines - normal', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
+    }),
+    cloudmanager_programid: '6'
+  })
 
-    expect.assertions(2)
+  expect.assertions(5)
 
-    let runResult = ListPipelinesCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve pipelines: https://cloudmanager.adobe.io/api/program/6/pipelines (404 Not Found)'))
-})
-
-test('list-pipelines - success empty', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "4"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelinesCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual([])
-})
-
-test('list-programs - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "5"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelinesCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toMatchObject([{
-        id: "5",
-        name: "test1",
-        status: "IDLE"
-    },
-    {
-        id: "6",
-        name: "test2",
-        status: "BUSY"
-    },
-    {
-        id: "7",
-        name: "test3",
-        status: "BUSY"
-    },
-    {
-        id: "8",
-        name: "test4",
-        status: "IDLE"
-    }])
-})
-
-
-test('list-pipelines - program in programs list but not found', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "7"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelinesCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve program: https://cloudmanager.adobe.io/api/program/7 (404 Not Found)'))
-})
-
-test('list-pipelines - program doesnt exist', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-        'cloudmanager_programid': "8"
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListPipelinesCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Could not find program 8'))
+  const runResult = ListPipelinesCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listPipelines.mock.calls.length).toEqual(1)
+  await expect(mockSdk.listPipelines).toHaveBeenCalledWith('6')
 })

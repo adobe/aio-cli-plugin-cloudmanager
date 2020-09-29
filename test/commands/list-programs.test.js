@@ -11,128 +11,56 @@ governing permissions and limitations under the License.
 */
 
 const { setStore } = require('@adobe/aio-lib-core-config')
+const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const ListProgramsCommand = require('../../src/commands/cloudmanager/list-programs')
 
 beforeEach(() => {
-    setStore({})
+  setStore({})
 })
 
 test('list-programs - missing config', async () => {
-    expect.assertions(2)
+  expect.assertions(3)
 
-    let runResult = ListProgramsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  const runResult = ListProgramsCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  expect(init.mock.calls.length).toEqual(0)
 })
 
-test('list-programs - failure', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "not-found"
-            }
-        }),
+test('list-programs - args', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
-    expect.assertions(2)
+  })
+  expect.assertions(5)
 
-    let runResult = ListProgramsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve programs: https://cloudmanager.adobe.io/api/programs (404 Not Found)'))
+  const runResult = ListProgramsCommand.run([])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).resolves.toHaveLength(2)
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listPrograms.mock.calls.length).toEqual(1)
 })
 
-test('list-programs - forbideen', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "forbidden"
-            }
-        }),
+test('list-programs - enabled only', async () => {
+  setStore({
+    'jwt-auth': JSON.stringify({
+      client_id: '1234',
+      jwt_payload: {
+        iss: 'good'
+      }
     })
-    expect.assertions(2)
+  })
+  expect.assertions(5)
 
-    let runResult = ListProgramsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).rejects.toEqual(new Error('Cannot retrieve programs: https://cloudmanager.adobe.io/api/programs (403 Forbidden) - Detail: some message (Code: 1234)'))
-})
-
-test('list-programs - success empty', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "empty"
-            }
-        }),
-    })
-    expect.assertions(2)
-
-    let runResult = ListProgramsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toEqual([])
-})
-
-test('list-programs - success', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListProgramsCommand.run([])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toMatchObject([{
-        id: "4",
-        name: "test0",
-        enabled: true
-    },{
-        id: "5",
-        name: "test1",
-        enabled: true
-    },
-    {
-        id: "6",
-        name: "test2",
-        enabled: false
-    },
-    {
-        id: "7",
-        name: "test3",
-        enabled: true
-    }])
-})
-
-test('list-programs - filtered', async () => {
-    setStore({
-        'jwt-auth': JSON.stringify({
-            client_id: '1234',
-            jwt_payload: {
-                iss: "good"
-            }
-        }),
-    })
-
-    expect.assertions(2)
-
-    let runResult = ListProgramsCommand.run(["-e"])
-    await expect(runResult instanceof Promise).toBeTruthy()
-    await expect(runResult).resolves.toMatchObject([{
-        id: "4",
-        name: "test0",
-        enabled: true
-    },{
-        id: "5",
-        name: "test1",
-        enabled: true
-    },{
-        id: "7",
-        name: "test3",
-        enabled: true
-    }])
+  const runResult = ListProgramsCommand.run(['--enabledonly'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).resolves.toHaveLength(1)
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.listPrograms.mock.calls.length).toEqual(1)
 })

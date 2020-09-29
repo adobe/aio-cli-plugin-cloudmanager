@@ -10,54 +10,56 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command} = require('@oclif/command')
+const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
-const Client = require('../../client')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
-async function _tailLog(programId, environmentId, service, logName, passphrase) {
-    const apiKey = await getApiKey()
-    const accessToken = await getAccessToken(passphrase)
-    const orgId = await getOrgId()
-    await new Client(orgId, accessToken, apiKey).tailLog(programId, environmentId, service, logName, process.stdout)
+async function _tailLog (programId, environmentId, service, logName, passphrase) {
+  const apiKey = await getApiKey()
+  const accessToken = await getAccessToken(passphrase)
+  const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.tailLog(programId, environmentId, service, logName, process.stdout)
 }
 
 class TailLog extends Command {
-    async run() {
-        const { args, flags } = this.parse(TailLog)
+  async run () {
+    const { args, flags } = this.parse(TailLog)
 
-        const programId = await getProgramId(flags)
+    const programId = await getProgramId(flags)
 
-        let result
+    let result
 
-        try {
-            result = await this.tailLog(programId, args.environmentId, args.service, args.name, flags.passphrase)
-        } catch (error) {
-            this.error(error.message)
-        }
-
-        this.log()
-
-        return result
+    try {
+      result = await this.tailLog(programId, args.environmentId, args.service, args.name, flags.passphrase)
+    } catch (error) {
+      this.error(error.message)
     }
 
-    async tailLog(programId, environmentId, service, name, passphrase = null) {
-        return _tailLog(programId, environmentId, service, name, passphrase)
-    }
+    this.log()
+
+    return result
+  }
+
+  async tailLog (programId, environmentId, service, name, passphrase = null) {
+    return _tailLog(programId, environmentId, service, name, passphrase)
+  }
 }
 
 TailLog.description = 'lists available logs for an environment in a Cloud Manager program'
 
 TailLog.args = [
-    {name: 'environmentId', required: true, description: "the environment id"},
-    {name: 'service', required: true, description: "the service"},
-    {name: 'name', required: true, description: "the log name"}
+  { name: 'environmentId', required: true, description: 'the environment id' },
+  { name: 'service', required: true, description: 'the service' },
+  { name: 'name', required: true, description: 'the log name' }
 ]
 
 TailLog.flags = {
-    ...commonFlags.global,
-    ...commonFlags.programId
+  ...commonFlags.global,
+  ...commonFlags.programId
 }
 
 TailLog.aliases = ['cloudmanager:tail-logs']

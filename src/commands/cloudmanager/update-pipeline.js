@@ -12,16 +12,18 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const Client = require('../../client')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
 
 async function _updatePipeline (programId, pipelineId, changes, passphrase) {
   const orgId = await getOrgId()
+  const baseUrl = await getBaseUrl()
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
-  return new Client(orgId, accessToken, apiKey).updatePipeline(programId, pipelineId, changes)
+  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
+  return sdk.updatePipeline(programId, pipelineId, changes)
 }
 
 class UpdatePipelineCommand extends Command {
@@ -31,20 +33,20 @@ class UpdatePipelineCommand extends Command {
     const programId = await getProgramId(flags)
 
     if (flags.tag && flags.branch) {
-        throw new Error("Both branch and tag cannot be specified.")
+      throw new Error('Both branch and tag cannot be specified.')
     }
 
-    if (flags.tag && flags.tag.startsWith("refs/tags/")) {
-        throw new Error(`tag flag should not be specified with "refs/tags/" prefix. Value provided was ${flags.tag}`)
+    if (flags.tag && flags.tag.startsWith('refs/tags/')) {
+      throw new Error(`tag flag should not be specified with "refs/tags/" prefix. Value provided was ${flags.tag}`)
     }
 
     if (flags.tag) {
-        flags.branch = `refs/tags/${flags.tag}`
+      flags.branch = `refs/tags/${flags.tag}`
     }
 
     let result
 
-    cli.action.start("updating pipeline")
+    cli.action.start('updating pipeline')
 
     try {
       result = await this.updatePipeline(programId, args.pipelineId, flags, flags.passphrase)
@@ -67,13 +69,13 @@ UpdatePipelineCommand.description = 'update pipeline'
 UpdatePipelineCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  branch: flags.string({ description: "the new branch"}),
-  tag: flags.string({ description: "the new tag"}),
-  repositoryId: flags.string({ description: "the new repositoryId"})
+  branch: flags.string({ description: 'the new branch' }),
+  tag: flags.string({ description: 'the new tag' }),
+  repositoryId: flags.string({ description: 'the new repositoryId' })
 }
 
 UpdatePipelineCommand.args = [
-  {name: 'pipelineId', required: true, description: "the pipeline id"}
+  { name: 'pipelineId', required: true, description: 'the pipeline id' }
 ]
 
 module.exports = UpdatePipelineCommand

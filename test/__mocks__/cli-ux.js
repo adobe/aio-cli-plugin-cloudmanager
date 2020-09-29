@@ -11,13 +11,13 @@ governing permissions and limitations under the License.
 */
 
 module.exports = {
-    cli: {
-        table: jest.fn(),
-        action: {
-            start: jest.fn(),
-            stop: jest.fn()
-        },
-        info: jest.fn(),
-        open: jest.fn()
-    }
-};
+  cli: {
+    table: jest.fn(),
+    action: {
+      start: jest.fn(),
+      stop: jest.fn()
+    },
+    info: jest.fn(),
+    open: jest.fn()
+  }
+}
