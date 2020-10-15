@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.14.1 (15/10/2020)
+- [**bug**] Description of tail-log and download-logs is incorrect [#142](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/142)
+
+---
+
 ## 0.14.0 (29/09/2020)
 -  Allow to use 'e'-prefixed env ids as found in cloud manager URLs [#140](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/140)
 - [**enhancement**] Refactor out aio-lib-cloudmanager [#138](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/138)
