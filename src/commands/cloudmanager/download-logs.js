@@ -69,7 +69,7 @@ class DownloadLogs extends Command {
   }
 }
 
-DownloadLogs.description = 'lists available logs for an environment in a Cloud Manager program'
+DownloadLogs.description = 'downloads log files for the specified environment, service and log name for one or more days'
 
 DownloadLogs.args = [
   { name: 'environmentId', required: true, description: 'the environment id' },

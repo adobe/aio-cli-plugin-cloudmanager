@@ -51,7 +51,7 @@ class TailLog extends Command {
   }
 }
 
-TailLog.description = 'lists available logs for an environment in a Cloud Manager program'
+TailLog.description = 'outputs a stream of log data for the specified environment, service and log name'
 
 TailLog.args = [
   { name: 'environmentId', required: true, description: 'the environment id' },
