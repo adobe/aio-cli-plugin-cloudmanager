@@ -23,7 +23,7 @@ async function _startExecution (programId, pipelineId, passphrase) {
   const apiKey = await getApiKey()
   const accessToken = await getAccessToken(passphrase)
   const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.startExecution(programId, pipelineId)
+  return sdk.createExecution(programId, pipelineId)
 }
 
 class StartExecutionCommand extends Command {
@@ -43,13 +43,7 @@ class StartExecutionCommand extends Command {
       return
     }
 
-    const evaluated = /^.*\/([0-9]+)$/.exec(result)
-
-    if (evaluated) {
-      cli.action.stop(`started execution ID ${evaluated[1]}`)
-    } else {
-      cli.action.stop('started')
-    }
+    cli.action.stop(`started execution ID ${result.id}`)
 
     return result
   }
@@ -69,5 +63,7 @@ StartExecutionCommand.flags = {
 StartExecutionCommand.args = [
   { name: 'pipelineId', required: true, description: 'the pipeline id' }
 ]
+
+StartExecutionCommand.aliases = ['cloudmanager:create-execution']
 
 module.exports = StartExecutionCommand
