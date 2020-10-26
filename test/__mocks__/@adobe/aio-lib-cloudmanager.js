@@ -37,7 +37,7 @@ function createDefaultMock () {
         id: '10'
       }
     ])),
-    startExecution: jest.fn(() => Promise.resolve()),
+    createExecution: jest.fn(() => Promise.resolve()),
     getCurrentExecution: jest.fn(() => Promise.resolve()),
     getExecution: jest.fn(() => Promise.resolve()),
     getQualityGateResults: jest.fn(() => Promise.resolve({
