@@ -48,7 +48,7 @@ SetEnvironmentVariablesCommand.args = [
 SetEnvironmentVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.flags
+  ...BaseVariablesCommand.setterFlags
 }
 
 module.exports = SetEnvironmentVariablesCommand

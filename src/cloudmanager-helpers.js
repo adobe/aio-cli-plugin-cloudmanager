@@ -62,6 +62,15 @@ async function getProgramId (flags) {
   return programId
 }
 
+async function getOutputFormat (flags) {
+  if (flags.json) {
+    return 'json'
+  }
+  if (flags.yaml) {
+    return 'yaml'
+  }
+}
+
 function createKeyValueObjectFromFlag (flag) {
   if (flag.length % 2 === 0) {
     let i
@@ -94,6 +103,7 @@ module.exports = {
   getApiKey,
   getOrgId,
   getProgramId,
+  getOutputFormat,
   createKeyValueObjectFromFlag,
   sanitizeEnvironmentId
 }

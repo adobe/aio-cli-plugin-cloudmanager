@@ -39,7 +39,7 @@ class GetCurrentExecutionCommand extends BaseExecutionCommand {
       this.error(error.message)
     }
 
-    this.outputTable([result])
+    this.outputTable([result], flags)
 
     return result
   }
@@ -53,7 +53,8 @@ GetCurrentExecutionCommand.description = 'get pipeline execution'
 
 GetCurrentExecutionCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
+  ...BaseExecutionCommand.flags
 }
 
 GetCurrentExecutionCommand.args = [

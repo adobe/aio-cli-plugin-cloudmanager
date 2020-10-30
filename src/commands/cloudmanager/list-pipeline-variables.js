@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const BasePipelineVariablesCommand = require('../../base-pipeline-variables-command')
+const BaseVariablesCommand = require('../../base-variables-command')
 const { getProgramId } = require('../../cloudmanager-helpers')
 const commonFlags = require('../../common-flags')
 
@@ -41,7 +42,8 @@ ListPipelineVariablesCommand.args = [
 
 ListPipelineVariablesCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
+  ...BaseVariablesCommand.getterFlags
 }
 
 module.exports = ListPipelineVariablesCommand

@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, getOutputFormat } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../common-flags')
@@ -47,7 +47,8 @@ class ListPipelinesCommand extends Command {
       name: {},
       status: {}
     }, {
-      printLine: this.log
+      printLine: this.log,
+      output: await getOutputFormat(flags)
     })
 
     return result
@@ -62,6 +63,7 @@ ListPipelinesCommand.description = 'lists pipelines available in a Cloud Manager
 
 ListPipelinesCommand.flags = {
   ...commonFlags.global,
+  ...commonFlags.outputFormat,
   ...commonFlags.programId
 }
 
