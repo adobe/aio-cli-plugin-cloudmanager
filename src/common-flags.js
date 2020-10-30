@@ -19,7 +19,7 @@ module.exports = {
     programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value" })
   },
   outputFormat: {
-    json: flags.boolean({ char: 'j', description: "output in json format" }),
-    yaml: flags.boolean({ char: 'y', description: "output in yaml format" })
+    json: flags.boolean({ char: 'j', description: 'output in json format' }),
+    yaml: flags.boolean({ char: 'y', description: 'output in yaml format' })
   }
 }

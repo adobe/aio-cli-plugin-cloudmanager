@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { flags } = require('@oclif/command')
-const { getProgramId, createKeyValueObjectFromFlag } = require('./cloudmanager-helpers')
+const { getProgramId, createKeyValueObjectFromFlag, getOutputFormat } = require('./cloudmanager-helpers')
 const commonFlags = require('./common-flags')
 
 class BaseVariablesCommand extends Command {
@@ -25,7 +25,7 @@ class BaseVariablesCommand extends Command {
         get: (item) => item.type === 'secretString' ? '****' : item.value
       }
     }, {
-      output: await getOutputFormat(flags)
+      output: getOutputFormat(flags)
     })
   }
 

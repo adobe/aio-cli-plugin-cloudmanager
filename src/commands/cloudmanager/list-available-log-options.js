@@ -52,7 +52,7 @@ class ListAvailableLogOptionsCommand extends Command {
         name: {}
       }, {
         printLine: this.log,
-        output: await getOutputFormat(flags)
+        output: getOutputFormat(flags)
       })
     } else {
       cli.info(`No log options are available for environmentId ${environmentId}`)

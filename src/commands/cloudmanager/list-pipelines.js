@@ -48,7 +48,7 @@ class ListPipelinesCommand extends Command {
       status: {}
     }, {
       printLine: this.log,
-      output: await getOutputFormat(flags)
+      output: getOutputFormat(flags)
     })
 
     return result

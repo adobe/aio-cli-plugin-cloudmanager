@@ -83,7 +83,7 @@ class GetQualityGateResults extends Command {
       }
     }, {
       printLine: this.log,
-      output: await getOutputFormat(flags)
+      output: getOutputFormat(flags)
     })
 
     return result

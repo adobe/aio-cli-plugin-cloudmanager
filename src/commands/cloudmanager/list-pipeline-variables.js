@@ -28,7 +28,7 @@ class ListPipelineVariablesCommand extends BasePipelineVariablesCommand {
     } catch (error) {
       this.error(error.message)
     }
-    this.outputTable(result)
+    this.outputTable(result, flags)
 
     return result
   }

@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const BaseEnvironmentVariablesCommand = require('../../base-environment-variables-command')
 const BaseVariablesCommand = require('../../base-variables-command')
-const { getProgramId, getOutputFormat } = require('../../cloudmanager-helpers')
+const { getProgramId } = require('../../cloudmanager-helpers')
 const commonFlags = require('../../common-flags')
 
 class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {

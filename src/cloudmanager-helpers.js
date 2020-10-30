@@ -62,7 +62,7 @@ async function getProgramId (flags) {
   return programId
 }
 
-async function getOutputFormat (flags) {
+function getOutputFormat (flags) {
   if (flags.json) {
     return 'json'
   }

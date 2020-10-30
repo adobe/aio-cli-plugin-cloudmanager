@@ -49,7 +49,7 @@ class ListProgramsCommand extends Command {
       enabled: {}
     }, {
       printLine: this.log,
-      output: await getOutputFormat(flags)
+      output: getOutputFormat(flags)
     })
 
     return result
