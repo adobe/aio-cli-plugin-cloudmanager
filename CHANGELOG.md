@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.11 (12/11/2020)
+
+- No functional changes. Purely done to change release process.
+
+---
+
 ## 0.15.0 (12/11/2020)
 - [**enhancement**] Add support for json and yaml output formats [#147](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/147)
 -  Replace use of startExecution with createExecution [#145](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/145)
