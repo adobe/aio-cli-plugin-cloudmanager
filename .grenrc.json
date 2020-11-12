@@ -2,7 +2,7 @@
     "dataSource": "issues",
     "prefix": "",
     "ignoreLabels": ["greenkeeper", "closed"],
-    "ignoreIssuesWith": ["greenkeeper"],
+    "ignoreIssuesWith": ["greenkeeper", "invalid"],
     "groupBy": false,
     "milestoneMatch": "Release {{tag_name}}",
     "changelogFilename": "CHANGELOG-add.md"
