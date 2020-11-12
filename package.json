@@ -64,10 +64,11 @@
     "lint-fix": "eslint src test e2e --fix",
     "test": "npm run unit-tests",
     "unit-tests": "jest --ci",
+    "debug-info" : "echo $PWD && ls -l",
     "fix-readme": "sed -i '' 's+\\./bin/run+aio+g' README.md && sed -i '' 's+#bin-run-+#aio-+g' README.md && sed -i '' 's+#binrun-+#aio-+g' README.md && sed -i '' 's+blob/v+blob/+g' README.md",
     "update-release": "gren release --override",
     "update-changelog": "gren changelog -G --override && sed -i '' 's+# Changelog+---+' CHANGELOG.md && awk 'BEGIN{print\"\"}1' CHANGELOG.md > CHANGELOG-premerge.md && sed -n 'p' CHANGELOG-add.md CHANGELOG-premerge.md > CHANGELOG.md && rm CHANGELOG-add.md && rm CHANGELOG-premerge.md",
-    "prepack": "oclif-dev manifest && oclif-dev readme && npm run fix-readme",
+    "prepack": "oclif-dev manifest && oclif-dev readme && npm run debug-info --scripts-prepend-node-path && npm run fix-readme --scripts-prepend-node-path",
     "postpack": "rm -f oclif.manifest.json",
     "version": "oclif-dev readme && npm run fix-readme && git add README.md",
     "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'"
