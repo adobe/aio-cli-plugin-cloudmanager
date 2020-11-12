@@ -1,7 +1,7 @@
 {
   "name": "@adobe/aio-cli-plugin-cloudmanager",
   "description": "Cloud Manager commands for the Adobe I/O CLI",
-  "version": "0.15.6",
+  "version": "0.15.7",
   "author": "Adobe Inc.",
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
@@ -64,7 +64,7 @@
     "lint-fix": "eslint src test e2e --fix",
     "test": "npm run unit-tests",
     "unit-tests": "jest --ci",
-    "debug-info" : "echo $PWD && ls -l",
+    "debug-info": "echo $PWD && ls -l",
     "fix-readme": "sed -i '' 's+\\./bin/run+aio+g' README.md && sed -i '' 's+#bin-run-+#aio-+g' README.md && sed -i '' 's+#binrun-+#aio-+g' README.md && sed -i '' 's+blob/v+blob/+g' README.md",
     "update-release": "gren release --override",
     "update-changelog": "gren changelog -G --override && sed -i '' 's+# Changelog+---+' CHANGELOG.md && awk 'BEGIN{print\"\"}1' CHANGELOG.md > CHANGELOG-premerge.md && sed -n 'p' CHANGELOG-add.md CHANGELOG-premerge.md > CHANGELOG.md && rm CHANGELOG-add.md && rm CHANGELOG-premerge.md",
