@@ -1,0 +1,978 @@
+{
+  "version": "0.15.0",
+  "commands": {
+    "cloudmanager:advance-current-execution": {
+      "id": "cloudmanager:advance-current-execution",
+      "description": "advance current pipeline execution either by overriding a waiting quality gate or advancing the approval step",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:cancel-current-execution": {
+      "id": "cloudmanager:cancel-current-execution",
+      "description": "cancel current pipeline execution either by cancelling the current step, rejecting a waiting quality gate, or rejecting the approval step",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:delete-environment": {
+      "id": "cloudmanager:delete-environment",
+      "description": "delete environment",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "environmentId",
+          "description": "the environment id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:delete-pipeline": {
+      "id": "cloudmanager:delete-pipeline",
+      "description": "delete pipeline",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:delete-program": {
+      "id": "cloudmanager:delete-program",
+      "description": "delete program",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        }
+      },
+      "args": [
+        {
+          "name": "programId",
+          "description": "the program id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:download-logs": {
+      "id": "cloudmanager:download-logs",
+      "description": "downloads log files for the specified environment, service and log name for one or more days",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "outputDirectory": {
+          "name": "outputDirectory",
+          "type": "option",
+          "char": "o",
+          "description": "the output directory. If not set, defaults to the current directory."
+        }
+      },
+      "args": [
+        {
+          "name": "environmentId",
+          "description": "the environment id",
+          "required": true
+        },
+        {
+          "name": "service",
+          "description": "the service",
+          "required": true
+        },
+        {
+          "name": "name",
+          "description": "the log name",
+          "required": true
+        },
+        {
+          "name": "days",
+          "description": "the number of days",
+          "required": false,
+          "default": "1"
+        }
+      ]
+    },
+    "cloudmanager:get-current-execution": {
+      "id": "cloudmanager:get-current-execution",
+      "description": "get pipeline execution",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:get-execution-step-details": {
+      "id": "cloudmanager:get-execution-step-details",
+      "description": "get execution step details",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        },
+        {
+          "name": "executionId",
+          "description": "the execution id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:get-execution-step-log": {
+      "id": "cloudmanager:get-execution-step-log",
+      "description": "get step log",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "output": {
+          "name": "output",
+          "type": "option",
+          "char": "o",
+          "description": "the output file. If not set, uses standard output."
+        },
+        "file": {
+          "name": "file",
+          "type": "option",
+          "char": "f",
+          "description": "the alternative log file name. currently only `sonarLogFile` is available (for the codeQuality step)"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        },
+        {
+          "name": "executionId",
+          "description": "the execution id",
+          "required": true
+        },
+        {
+          "name": "action",
+          "description": "the step action",
+          "required": true,
+          "options": [
+            "build",
+            "codeQuality",
+            "devDeploy",
+            "stageDeploy",
+            "prodDeploy",
+            "buildImage"
+          ]
+        }
+      ]
+    },
+    "cloudmanager:get-quality-gate-results": {
+      "id": "cloudmanager:get-quality-gate-results",
+      "description": "get quality gate results",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        },
+        {
+          "name": "executionId",
+          "description": "the execution id",
+          "required": true
+        },
+        {
+          "name": "action",
+          "description": "the step action",
+          "required": true,
+          "options": [
+            "codeQuality",
+            "security",
+            "performance",
+            "contentAudit",
+            "experienceAudit"
+          ]
+        }
+      ]
+    },
+    "cloudmanager": {
+      "id": "cloudmanager",
+      "description": "interact with the Cloud Manager API to list, start, cancel, and inspect pipelines and executions.",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "examples": [
+        "$ aio cloudmanager:list-programs",
+        "$ aio cloudmanager:list-programs --enabledonly",
+        "$ aio cloudmanager:list-pipelines",
+        "$ aio cloudmanager:list-pipelines --programId=PROGRAM_ID",
+        "$ aio cloudmanager:start-execution PIPELINE_ID",
+        "$ aio cloudmanager:start-execution --programId=PROGRAM_ID PIPELINE_ID",
+        "$ aio cloudmanager:list-current-executions",
+        "$ aio cloudmanager:list-current-executions --programId=PROGRAM_ID",
+        "$ aio cloudmanager:get-current-execution PIPELINE_ID",
+        "$ aio cloudmanager:get-current-execution --programId=PROGRAM_ID PIPELINE_ID",
+        "$ aio cloudmanager:get-quality-gate-results PIPELINE_ID [codeQuality|security|performance]",
+        "$ aio cloudmanager:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID [codeQuality|security|performance]",
+        "$ aio cloudmanager:get-execution-step-details PIPELINE_ID EXECUTION_ID",
+        "$ aio cloudmanager:get-execution-step-details --programId=PROGRAM_ID PIPELINE_ID EXECUTION_ID",
+        "$ aio cloudmanager:get-execution-step-log PIPELINE_ID",
+        "$ aio cloudmanager:get-execution-step-log --programId=PROGRAM_ID PIPELINE_ID [build|codeQuality|devDeploy|stageDeploy|prodDeploy]",
+        "$ aio cloudmanager:cancel-current-execution PIPELINE_ID",
+        "$ aio cloudmanager:cancel-current-execution --programId=PROGRAM_ID PIPELINE_ID",
+        "$ aio cloudmanager:advance-current-execution PIPELINE_ID",
+        "$ aio cloudmanager:advance-current-execution --programId=PROGRAM_ID PIPELINE_ID",
+        "$ aio cloudmanager:delete-pipeline PIPELINE_ID",
+        "$ aio cloudmanager:delete-pipeline --programId=PROGRAM_ID PIPELINE_ID",
+        "$ aio cloudmanager:update-pipeline PIPELINE_ID --branch=NEW_BRANCH",
+        "$ aio cloudmanager:update-pipeline --programId=PROGRAM_ID PIPELINE_ID --branch=NEW_BRANCH",
+        "$ aio cloudmanager:list-environments",
+        "$ aio cloudmanager:list-environments --programId=PROGRAM_ID",
+        "$ aio cloudmanager:list-available-log-options ENVIRONMENT_ID",
+        "$ aio cloudmanager:list-available-log-options --programId=PROGRAM_ID ENVIRONMENT_ID",
+        "$ aio cloudmanager:download-logs ENVIRONMENT_ID SERVICE NAME",
+        "$ aio cloudmanager:download-logs ENVIRONMENT_ID SERVICE NAME DAYS",
+        "$ aio cloudmanager:download-logs --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME DAYS",
+        "$ aio cloudmanager:tail-log ENVIRONMENT_ID SERVICE NAME",
+        "$ aio cloudmanager:tail-log --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME"
+      ],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        }
+      },
+      "args": []
+    },
+    "cloudmanager:list-available-log-options": {
+      "id": "cloudmanager:list-available-log-options",
+      "description": "lists available log options for an environment in a Cloud Manager program",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "environmentId",
+          "description": "the environment id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:list-current-executions": {
+      "id": "cloudmanager:list-current-executions",
+      "description": "list running pipeline executions",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        }
+      },
+      "args": []
+    },
+    "cloudmanager:list-environment-variables": {
+      "id": "cloudmanager:list-environment-variables",
+      "description": "lists variables set on an environment",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        }
+      },
+      "args": [
+        {
+          "name": "environmentId",
+          "description": "the environment id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:list-environments": {
+      "id": "cloudmanager:list-environments",
+      "description": "lists environments available in a Cloud Manager program",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": []
+    },
+    "cloudmanager:list-pipeline-variables": {
+      "id": "cloudmanager:list-pipeline-variables",
+      "description": "lists variables set on an pipeline",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:list-pipelines": {
+      "id": "cloudmanager:list-pipelines",
+      "description": "lists pipelines available in a Cloud Manager program",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": []
+    },
+    "cloudmanager:list-programs": {
+      "id": "cloudmanager:list-programs",
+      "description": "lists programs available in Cloud Manager",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        },
+        "enabledonly": {
+          "name": "enabledonly",
+          "type": "boolean",
+          "char": "e",
+          "description": "only output Cloud Manager-enabled programs",
+          "allowNo": false
+        }
+      },
+      "args": []
+    },
+    "cloudmanager:open-developer-console": {
+      "id": "cloudmanager:open-developer-console",
+      "description": "opens the Developer Console, if available, in a browser",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "environmentId",
+          "description": "the environment id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:set-environment-variables": {
+      "id": "cloudmanager:set-environment-variables",
+      "description": "sets variables set on an environment. These are runtime variables available to components running inside the runtime environment. Use set-pipeline-variables to set build-time variables on a pipeline.",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "variable": {
+          "name": "variable",
+          "type": "option",
+          "char": "v",
+          "description": "variable values in KEY VALUE format"
+        },
+        "secret": {
+          "name": "secret",
+          "type": "option",
+          "char": "s",
+          "description": "secret values in KEY VALUE format"
+        },
+        "delete": {
+          "name": "delete",
+          "type": "option",
+          "char": "d",
+          "description": "variables/secrets to delete"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        }
+      },
+      "args": [
+        {
+          "name": "environmentId",
+          "description": "the environment id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:set-pipeline-variables": {
+      "id": "cloudmanager:set-pipeline-variables",
+      "description": "sets variables set on a pipeline. These are build-time variables available during the build process. Use set-environment-variables to set runtime variables on a environment.",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "variable": {
+          "name": "variable",
+          "type": "option",
+          "char": "v",
+          "description": "variable values in KEY VALUE format"
+        },
+        "secret": {
+          "name": "secret",
+          "type": "option",
+          "char": "s",
+          "description": "secret values in KEY VALUE format"
+        },
+        "delete": {
+          "name": "delete",
+          "type": "option",
+          "char": "d",
+          "description": "variables/secrets to delete"
+        },
+        "json": {
+          "name": "json",
+          "type": "boolean",
+          "char": "j",
+          "description": "output in json format",
+          "allowNo": false
+        },
+        "yaml": {
+          "name": "yaml",
+          "type": "boolean",
+          "char": "y",
+          "description": "output in yaml format",
+          "allowNo": false
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:start-execution": {
+      "id": "cloudmanager:start-execution",
+      "description": "start pipeline execution",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [
+        "cloudmanager:create-execution"
+      ],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:tail-log": {
+      "id": "cloudmanager:tail-log",
+      "description": "outputs a stream of log data for the specified environment, service and log name",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [
+        "cloudmanager:tail-logs"
+      ],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        }
+      },
+      "args": [
+        {
+          "name": "environmentId",
+          "description": "the environment id",
+          "required": true
+        },
+        {
+          "name": "service",
+          "description": "the service",
+          "required": true
+        },
+        {
+          "name": "name",
+          "description": "the log name",
+          "required": true
+        }
+      ]
+    },
+    "cloudmanager:update-pipeline": {
+      "id": "cloudmanager:update-pipeline",
+      "description": "update pipeline",
+      "pluginName": "@adobe/aio-cli-plugin-cloudmanager",
+      "pluginType": "core",
+      "aliases": [],
+      "flags": {
+        "passphrase": {
+          "name": "passphrase",
+          "type": "option",
+          "char": "r",
+          "description": "the passphrase for the private-key"
+        },
+        "programId": {
+          "name": "programId",
+          "type": "option",
+          "char": "p",
+          "description": "the programId. if not specified, defaults to 'cloudmanager_programid' config value"
+        },
+        "branch": {
+          "name": "branch",
+          "type": "option",
+          "description": "the new branch"
+        },
+        "tag": {
+          "name": "tag",
+          "type": "option",
+          "description": "the new tag"
+        },
+        "repositoryId": {
+          "name": "repositoryId",
+          "type": "option",
+          "description": "the new repositoryId"
+        }
+      },
+      "args": [
+        {
+          "name": "pipelineId",
+          "description": "the pipeline id",
+          "required": true
+        }
+      ]
+    }
+  }
+}
