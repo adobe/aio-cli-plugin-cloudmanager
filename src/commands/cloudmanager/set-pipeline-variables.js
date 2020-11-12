@@ -47,7 +47,7 @@ SetPipelineVariablesCommand.args = [
 SetPipelineVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.flags
+  ...BaseVariablesCommand.setterFlags
 }
 
 module.exports = SetPipelineVariablesCommand

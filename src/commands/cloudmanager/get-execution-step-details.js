@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, getOutputFormat } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const _ = require('lodash')
 const halfred = require('halfred')
@@ -94,7 +94,8 @@ class GetExecutionStepDetails extends Command {
           get: formatDuration
         }
       }, {
-        printLine: this.log
+        printLine: this.log,
+        output: getOutputFormat(flags)
       })
 
       return stepStates
@@ -112,6 +113,7 @@ GetExecutionStepDetails.description = 'get execution step details'
 
 GetExecutionStepDetails.flags = {
   ...commonFlags.global,
+  ...commonFlags.outputFormat,
   ...commonFlags.programId
 }
 

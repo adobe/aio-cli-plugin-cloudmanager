@@ -13,9 +13,11 @@ governing permissions and limitations under the License.
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { getCurrentStep } = require('@adobe/aio-lib-cloudmanager')
+const { getOutputFormat } = require('./cloudmanager-helpers')
+const commonFlags = require('./common-flags')
 
 class BaseExecutionCommand extends Command {
-  outputTable (result) {
+  outputTable (result, flags) {
     cli.table(result, {
       pipelineId: {
         header: 'Pipeline Id'
@@ -32,9 +34,14 @@ class BaseExecutionCommand extends Command {
         get: item => getCurrentStep(item).status
       }
     }, {
-      printLine: this.log
+      printLine: this.log,
+      output: getOutputFormat(flags)
     })
   }
+}
+
+BaseExecutionCommand.flags = {
+  ...commonFlags.outputFormat
 }
 
 module.exports = BaseExecutionCommand

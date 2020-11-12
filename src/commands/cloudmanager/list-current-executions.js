@@ -42,7 +42,7 @@ class ListCurrentExecutionsCommand extends BaseExecutionCommand {
       this.error(error.message)
     }
 
-    this.outputTable(result)
+    this.outputTable(result, flags)
 
     return result
   }
@@ -56,7 +56,8 @@ ListCurrentExecutionsCommand.description = 'list running pipeline executions'
 
 ListCurrentExecutionsCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
+  ...BaseExecutionCommand.flags
 }
 
 module.exports = ListCurrentExecutionsCommand

@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const BaseEnvironmentVariablesCommand = require('../../base-environment-variables-command')
+const BaseVariablesCommand = require('../../base-variables-command')
 const { getProgramId } = require('../../cloudmanager-helpers')
 const commonFlags = require('../../common-flags')
 
@@ -27,7 +28,7 @@ class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
     } catch (error) {
       this.error(error.message)
     }
-    this.outputTable(result)
+    this.outputTable(result, flags)
 
     return result
   }
@@ -41,7 +42,8 @@ ListEnvironmentVariablesCommand.args = [
 
 ListEnvironmentVariablesCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
+  ...BaseVariablesCommand.getterFlags
 }
 
 module.exports = ListEnvironmentVariablesCommand

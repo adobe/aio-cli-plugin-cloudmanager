@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getOutputFormat } = require('../../cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../common-flags')
@@ -48,7 +48,8 @@ class ListProgramsCommand extends Command {
       name: {},
       enabled: {}
     }, {
-      printLine: this.log
+      printLine: this.log,
+      output: getOutputFormat(flags)
     })
 
     return result
@@ -63,6 +64,7 @@ ListProgramsCommand.description = 'lists programs available in Cloud Manager'
 
 ListProgramsCommand.flags = {
   ...commonFlags.global,
+  ...commonFlags.outputFormat,
   enabledonly: flags.boolean({ char: 'e', description: 'only output Cloud Manager-enabled programs' })
 }
 

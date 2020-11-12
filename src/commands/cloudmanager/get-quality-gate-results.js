@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command } = require('@oclif/command')
 const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../cloudmanager-helpers')
+const { getApiKey, getBaseUrl, getOrgId, getProgramId, getOutputFormat } = require('../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const _ = require('lodash')
 const { init } = require('@adobe/aio-lib-cloudmanager')
@@ -82,7 +82,8 @@ class GetQualityGateResults extends Command {
         get: item => item.passed ? 'Yes' : 'No'
       }
     }, {
-      printLine: this.log
+      printLine: this.log,
+      output: getOutputFormat(flags)
     })
 
     return result
@@ -97,6 +98,7 @@ GetQualityGateResults.description = 'get quality gate results'
 
 GetQualityGateResults.flags = {
   ...commonFlags.global,
+  ...commonFlags.outputFormat,
   ...commonFlags.programId
 }
 

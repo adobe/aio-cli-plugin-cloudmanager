@@ -13,16 +13,19 @@ governing permissions and limitations under the License.
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { flags } = require('@oclif/command')
-const { getProgramId, createKeyValueObjectFromFlag } = require('./cloudmanager-helpers')
+const { getProgramId, createKeyValueObjectFromFlag, getOutputFormat } = require('./cloudmanager-helpers')
+const commonFlags = require('./common-flags')
 
 class BaseVariablesCommand extends Command {
-  outputTable (result) {
+  outputTable (result, flags) {
     cli.table(result, {
       name: {},
       type: {},
       value: {
         get: (item) => item.type === 'secretString' ? '****' : item.value
       }
+    }, {
+      output: getOutputFormat(flags)
     })
   }
 
@@ -48,7 +51,7 @@ class BaseVariablesCommand extends Command {
     } catch (error) {
       this.error(error.message)
     }
-    this.outputTable(result)
+    this.outputTable(result, flags)
 
     return result
   }
@@ -98,7 +101,7 @@ class BaseVariablesCommand extends Command {
   }
 }
 
-BaseVariablesCommand.flags = {
+BaseVariablesCommand.setterFlags = {
   variable: flags.string({
     char: 'v',
     description: 'variable values in KEY VALUE format',
@@ -113,7 +116,12 @@ BaseVariablesCommand.flags = {
     char: 'd',
     description: 'variables/secrets to delete',
     multiple: true
-  })
+  }),
+  ...commonFlags.outputFormat
+}
+
+BaseVariablesCommand.getterFlags = {
+  ...commonFlags.outputFormat
 }
 
 module.exports = BaseVariablesCommand
