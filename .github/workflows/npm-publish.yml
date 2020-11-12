@@ -15,13 +15,14 @@ jobs:
       with:
         node-version: 10.0.0
     - name: Publish if version has been updated
-      uses: justinedelson/npm-publish-action@8ebc2ccde8b1c95f4fabff1391369fd4ba841cb5
+      uses: justinedelson/npm-publish-action@9ba053cd789f85cbe38976a8fdce346792139a78
       with: # All of theses inputs are optional
         tag_name: "%s"
         tag_message: "Release %s"
         commit_pattern: "^Release (\\S+)"
         workspace: "."
         run_install_first: "true"
+        runner_command: "npm"
       env: # More info about the environment variables in the README
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
         NPM_AUTH_TOKEN: ${{ secrets.ADOBE_BOT_NPM_TOKEN }} # This will be shared with your repo as an org secret
