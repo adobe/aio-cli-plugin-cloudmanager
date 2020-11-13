@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-lib-core-config')
-const { getApiKey, getOrgId, getBaseUrl, getOutputFormat } = require('../src/cloudmanager-helpers')
+const { getApiKey, getOrgId, getBaseUrl, getOutputFormat, columnWithArray } = require('../src/cloudmanager-helpers')
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -88,4 +88,12 @@ test('getOutputFormat', () => {
   expect(getOutputFormat({})).toBeUndefined()
   expect(getOutputFormat({ json: true })).toBe('json')
   expect(getOutputFormat({ yaml: true })).toBe('yaml')
+})
+
+test('columnWithArray', () => {
+  expect(
+    columnWithArray('key', { header: 'Test' }, {}).get({ key: ['foo', 'bar'] }),
+  ).toEqual('foo, bar')
+  expect(columnWithArray('key', { header: 'Test' }, { json: true })).not.toHaveProperty('get')
+  expect(columnWithArray('key', { header: 'Test' }, { yaml: true })).not.toHaveProperty('get')
 })

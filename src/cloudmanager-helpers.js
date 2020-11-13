@@ -71,6 +71,22 @@ function getOutputFormat (flags) {
   }
 }
 
+/*
+ * This doesn't work quite correctly -- when output in both JSON and YAML, the result is a JSON-encoded array in a string whereas one
+ * would expect a JSON or YAML. This seems like a bug in oclif that will hopefully get addressed.
+ */
+function columnWithArray (key, options, flags) {
+  const mapperFunction = options.mapperFunction || (i => i)
+  if (flags.json || flags.yaml) {
+    return options
+  } else {
+    return {
+      ...options,
+      get: item => item[key].map(mapperFunction).join(', '),
+    }
+  }
+}
+
 function createKeyValueObjectFromFlag (flag) {
   if (flag.length % 2 === 0) {
     let i
@@ -111,4 +127,5 @@ module.exports = {
   createKeyValueObjectFromFlag,
   sanitizeEnvironmentId,
   getDefaultEnvironmentId,
+  columnWithArray,
 }
