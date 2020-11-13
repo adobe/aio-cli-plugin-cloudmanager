@@ -54,7 +54,8 @@
     "bin": "aio",
     "devPlugins": [
       "@oclif/plugin-help"
-    ]
+    ],
+    "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>"
   },
   "main": "src/index.js",
   "repository": "adobe/aio-cli-plugin-cloudmanager",
