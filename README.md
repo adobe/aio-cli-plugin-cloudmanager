@@ -107,16 +107,25 @@ $ aio config:set cloudmanager_environmentid 7
 * [`aio cloudmanager:current-execution:advance PIPELINEID`](#aio-cloudmanagercurrent-executionadvance-pipelineid)
 * [`aio cloudmanager:current-execution:cancel PIPELINEID`](#aio-cloudmanagercurrent-executioncancel-pipelineid)
 * [`aio cloudmanager:current-execution:get PIPELINEID`](#aio-cloudmanagercurrent-executionget-pipelineid)
+* [`aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`](#aio-cloudmanagerenvironmentbind-ip-allowlist-environmentid-ipallowlistid-service)
 * [`aio cloudmanager:environment:delete ENVIRONMENTID`](#aio-cloudmanagerenvironmentdelete-environmentid)
 * [`aio cloudmanager:environment:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`](#aio-cloudmanagerenvironmentdownload-logs-environmentid-service-name-days)
 * [`aio cloudmanager:environment:list-available-log-options ENVIRONMENTID`](#aio-cloudmanagerenvironmentlist-available-log-options-environmentid)
+* [`aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID`](#aio-cloudmanagerenvironmentlist-ip-allowlist-bindings-environmentid)
 * [`aio cloudmanager:environment:list-variables ENVIRONMENTID`](#aio-cloudmanagerenvironmentlist-variables-environmentid)
 * [`aio cloudmanager:environment:open-developer-console ENVIRONMENTID`](#aio-cloudmanagerenvironmentopen-developer-console-environmentid)
 * [`aio cloudmanager:environment:set-variables ENVIRONMENTID`](#aio-cloudmanagerenvironmentset-variables-environmentid)
 * [`aio cloudmanager:environment:tail-log ENVIRONMENTID SERVICE NAME`](#aio-cloudmanagerenvironmenttail-log-environmentid-service-name)
+* [`aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`](#aio-cloudmanagerenvironmentunbind-ip-allowlist-environmentid-ipallowlistid-service)
 * [`aio cloudmanager:execution:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerexecutionget-quality-gate-results-pipelineid-executionid-action)
 * [`aio cloudmanager:execution:get-step-details PIPELINEID EXECUTIONID`](#aio-cloudmanagerexecutionget-step-details-pipelineid-executionid)
 * [`aio cloudmanager:execution:get-step-log PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerexecutionget-step-log-pipelineid-executionid-action)
+* [`aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE`](#aio-cloudmanagerip-allowlistbind-ipallowlistid-environmentid-service)
+* [`aio cloudmanager:ip-allowlist:create NAME`](#aio-cloudmanagerip-allowlistcreate-name)
+* [`aio cloudmanager:ip-allowlist:delete IPALLOWLISTID`](#aio-cloudmanagerip-allowlistdelete-ipallowlistid)
+* [`aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID`](#aio-cloudmanagerip-allowlistget-binding-details-ipallowlistid)
+* [`aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE`](#aio-cloudmanagerip-allowlistunbind-ipallowlistid-environmentid-service)
+* [`aio cloudmanager:ip-allowlist:update IPALLOWLISTID`](#aio-cloudmanagerip-allowlistupdate-ipallowlistid)
 * [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
 * [`aio cloudmanager:pipeline:create-execution PIPELINEID`](#aio-cloudmanagerpipelinecreate-execution-pipelineid)
 * [`aio cloudmanager:pipeline:delete PIPELINEID`](#aio-cloudmanagerpipelinedelete-pipelineid)
@@ -126,6 +135,7 @@ $ aio config:set cloudmanager_environmentid 7
 * [`aio cloudmanager:program:delete PROGRAMID`](#aio-cloudmanagerprogramdelete-programid)
 * [`aio cloudmanager:program:list-current-executions`](#aio-cloudmanagerprogramlist-current-executions)
 * [`aio cloudmanager:program:list-environments`](#aio-cloudmanagerprogramlist-environments)
+* [`aio cloudmanager:program:list-ip-allowlists`](#aio-cloudmanagerprogramlist-ip-allowlists)
 * [`aio cloudmanager:program:list-pipelines`](#aio-cloudmanagerprogramlist-pipelines)
 
 ## `aio cloudmanager:current-execution:advance PIPELINEID`
@@ -192,6 +202,26 @@ ALIASES
 ```
 
 _See code: [src/commands/cloudmanager/current-execution/get.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.3/src/commands/cloudmanager/current-execution/get.js)_
+
+## `aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
+
+Bind an IP Allowlist to an environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  IPALLOWLISTID  the IP allowlist id
+  SERVICE        (author|publish) the service name
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+```
+
+_See code: [src/commands/cloudmanager/environment/bind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/environment/bind-ip-allowlist.js)_
 
 ## `aio cloudmanager:environment:delete ENVIRONMENTID`
 
@@ -264,6 +294,29 @@ ALIASES
 ```
 
 _See code: [src/commands/cloudmanager/environment/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.3/src/commands/cloudmanager/environment/list-available-log-options.js)_
+
+## `aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID`
+
+lists IP Allowlists bound to an environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -j, --json                   output in json format
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+  -y, --yaml                   output in yaml format
+
+ALIASES
+  $ aio cloudmanager:environment:list-bound-ip-allowlists
+```
+
+_See code: [src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js)_
 
 ## `aio cloudmanager:environment:list-variables ENVIRONMENTID`
 
@@ -365,6 +418,26 @@ ALIASES
 
 _See code: [src/commands/cloudmanager/environment/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.3/src/commands/cloudmanager/environment/tail-log.js)_
 
+## `aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
+
+Bind an IP Allowlist to an environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  IPALLOWLISTID  the IP allowlist id
+  SERVICE        (author|publish) the service name
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+```
+
+_See code: [src/commands/cloudmanager/environment/unbind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/environment/unbind-ip-allowlist.js)_
+
 ## `aio cloudmanager:execution:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
 
 get quality gate results
@@ -442,6 +515,124 @@ ALIASES
 ```
 
 _See code: [src/commands/cloudmanager/execution/get-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.3/src/commands/cloudmanager/execution/get-step-log.js)_
+
+## `aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE`
+
+Bind an IP Allowlist to an environment
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE
+
+ARGUMENTS
+  IPALLOWLISTID  the IP allowlist id
+  ENVIRONMENTID  the environment id
+  SERVICE        (author|publish) the service name
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/bind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/ip-allowlist/bind.js)_
+
+## `aio cloudmanager:ip-allowlist:create NAME`
+
+Create an IP Allowlist
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:create NAME
+
+ARGUMENTS
+  NAME  the name to create
+
+OPTIONS
+  -c, --cidr=cidr              (required) a CIDR block
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/create.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/ip-allowlist/create.js)_
+
+## `aio cloudmanager:ip-allowlist:delete IPALLOWLISTID`
+
+Delete an IP Allowlist
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:delete IPALLOWLISTID
+
+ARGUMENTS
+  IPALLOWLISTID  the id of the allowlist to delete
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/ip-allowlist/delete.js)_
+
+## `aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID`
+
+list detailed information on IP Allowlist Bindings
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID
+
+ARGUMENTS
+  IPALLOWLISTID  the id of the allowlist
+
+OPTIONS
+  -j, --json                   output in json format
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+  -y, --yaml                   output in yaml format
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/get-binding-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/ip-allowlist/get-binding-details.js)_
+
+## `aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE`
+
+Remove an IP Allowlist binding
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE
+
+ARGUMENTS
+  IPALLOWLISTID  the IP allowlist id
+  ENVIRONMENTID  the environment id
+  SERVICE        (author|publish) the service name
+
+OPTIONS
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/unbind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/ip-allowlist/unbind.js)_
+
+## `aio cloudmanager:ip-allowlist:update IPALLOWLISTID`
+
+Update an IP Allowlist by replacing the CIDR blocks
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:update IPALLOWLISTID
+
+ARGUMENTS
+  IPALLOWLISTID  the id of the allowlist to update
+
+OPTIONS
+  -c, --cidr=cidr              (required) a CIDR block
+  -j, --json                   output in json format
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+  -y, --yaml                   output in yaml format
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/ip-allowlist/update.js)_
 
 ## `aio cloudmanager:list-programs`
 
@@ -641,6 +832,23 @@ ALIASES
 ```
 
 _See code: [src/commands/cloudmanager/program/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.3/src/commands/cloudmanager/program/list-environments.js)_
+
+## `aio cloudmanager:program:list-ip-allowlists`
+
+lists IP Allowlists available in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:program:list-ip-allowlists
+
+OPTIONS
+  -j, --json                   output in json format
+  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -r, --passphrase=passphrase  the passphrase for the private key
+  -y, --yaml                   output in yaml format
+```
+
+_See code: [src/commands/cloudmanager/program/list-ip-allowlists.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/program/list-ip-allowlists.js)_
 
 ## `aio cloudmanager:program:list-pipelines`
 
