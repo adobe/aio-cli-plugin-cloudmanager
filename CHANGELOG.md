@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.16.0 (13/11/2020)
+- [**enhancement**] Restructure commands into topics [#151](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/151)
+
+---
+
 ## 0.15.11 (12/11/2020)
 
 - No functional changes. Purely done to change release process.
