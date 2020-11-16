@@ -10,11 +10,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { promisify } = require('util')
+const fs = require('fs')
+
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { flags } = require('@oclif/command')
 const { getProgramId, createKeyValueObjectFromFlag, getOutputFormat } = require('./cloudmanager-helpers')
 const commonFlags = require('./common-flags')
+const { getPipedData } = require('@adobe/aio-lib-core-config')
+const _ = require('lodash')
 
 class BaseVariablesCommand extends Command {
   outputTable (result, flags) {
@@ -34,7 +39,7 @@ class BaseVariablesCommand extends Command {
 
     const currentVariablesList = await this.getVariables(programId, args, flags.passphrase)
 
-    const variables = this.prepareVariableList(flags, currentVariablesList)
+    const variables = await this.prepareVariableList(flags, currentVariablesList)
 
     if (variables.length > 0) {
       cli.action.start('setting variables')
@@ -56,7 +61,7 @@ class BaseVariablesCommand extends Command {
     return result
   }
 
-  prepareVariableList (flags, currentVariablesList) {
+  async prepareVariableList (flags, currentVariablesList) {
     const currentVariableTypes = {}
     currentVariablesList.forEach(variable => (currentVariableTypes[variable.name] = variable.type))
 
@@ -97,7 +102,41 @@ class BaseVariablesCommand extends Command {
       })
     }
 
+    if (flags.jsonStdin) {
+      const rawStdinData = await getPipedData()
+      this.loadVariablesFromJson(rawStdinData, currentVariableTypes, variables)
+    } else if (flags.jsonFile) {
+      const getFileData = promisify(fs.readFile)
+      const rawFileData = await getFileData(flags.jsonFile)
+      this.loadVariablesFromJson(rawFileData, currentVariableTypes, variables)
+    }
+
     return variables
+  }
+
+  loadVariablesFromJson (rawData, currentVariableTypes, variables) {
+    let data
+    try {
+      data = JSON.parse(rawData)
+    } catch (e) {
+      this.error('Unable to parse variables from provided data.')
+    }
+    if (!_.isArray(data)) {
+      this.error('Provided variables input was not an array.')
+    }
+    data.forEach(item => {
+      if (item.name && !_.isUndefined(item.value)) {
+        if (!item.type) {
+          item.type = 'string'
+        }
+        if (currentVariableTypes[item.name] && !item.value) {
+          item.type = currentVariableTypes[item.name]
+        }
+        if (!variables.find(variable => variable.name === item.name)) {
+          variables.push(item)
+        }
+      }
+    })
   }
 }
 
@@ -116,6 +155,14 @@ BaseVariablesCommand.setterFlags = {
     char: 'd',
     description: 'variables/secrets to delete',
     multiple: true
+  }),
+  jsonStdin: flags.boolean({
+    default: false,
+    description: 'if set, read variables from a JSON array provided as standard input; variables set through --variable or --secret flag will take precedence'
+  }),
+  jsonFile: flags.string({
+    description: 'if set, read variables from a JSON array provided as a file; variables set through --variable or --secret flag will take precedence',
+    exclusive: ['jsonStdin']
   }),
   ...commonFlags.outputFormat
 }
