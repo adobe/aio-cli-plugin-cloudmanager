@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.16.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.16.2...0.16.3) (2020-11-16)
+
+
+### Bug Fixes
+
+* **build:** changelog title not respected ([16c71d4](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/16c71d4a1a30465646bba47c56cb676f3dac85e7))
+
 ## [0.16.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.16.1...0.16.2) (2020-11-16)
 
 ### Bug Fixes
