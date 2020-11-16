@@ -1,11 +1,10 @@
-## [0.16.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.16.1...0.16.2) (2020-11-16)
+# Changelog
 
+## [0.16.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.16.1...0.16.2) (2020-11-16)
 
 ### Bug Fixes
 
 * **build:** semantic-release does not update readme, changelog or package.json in git ([c893959](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/c893959acc5c3af0efd60a63fa14f6dbbd329045))
-
-# Changelog
 
 ## 0.16.0 (13/11/2020)
 - [**enhancement**] Restructure commands into topics [#151](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/151)
