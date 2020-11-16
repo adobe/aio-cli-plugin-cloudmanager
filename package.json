@@ -18,6 +18,8 @@
   },
   "devDependencies": {
     "@adobe/eslint-config-aio-lib-config": "^1.2.1",
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
     "@oclif/dev-cli": "^1",
     "chalk": "^4.0.0",
     "codecov": "^3.7.0",
@@ -31,6 +33,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "execa": "^4.0.2",
     "github-release-notes": "^0.17.3",
+    "husky": "^4.3.0",
     "jest": "^24.1.0",
     "jest-extended": "^0.11.1",
     "jest-junit": "^10.0.0",
@@ -38,7 +41,7 @@
     "tmp": "^0.2.1"
   },
   "engines": {
-    "node": ">=10.0.0"
+    "node": ">=10.22.0"
   },
   "files": [
     "/oclif.manifest.json",
@@ -58,7 +61,10 @@
     "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>"
   },
   "main": "src/index.js",
-  "repository": "adobe/aio-cli-plugin-cloudmanager",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adobe/aio-cli-plugin-cloudmanager.git"
+  },
   "scripts": {
     "posttest": "npm run lint",
     "lint": "eslint src test e2e",
@@ -90,5 +96,15 @@
       "./jest.setup.js"
     ],
     "clearMocks": true
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
