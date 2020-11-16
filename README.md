@@ -706,9 +706,9 @@ configure the `cloudmanager.base_url` configuration key:
 $ aio config:set cloudmanager.base_url https://mydummyapiserver
 ```
 
-## Tagging and Releasing
+## Commits and Releasing
 
-Commits (generally via merged pull requests) to the `main` branch of this repository will automatically generate semantically versioned releases. To accomplish this, commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) syntax, specifically:
+Commits (generally via merged pull requests) to the `main` branch of this repository will automatically generate [semantically versioned releases](https://github.com/semantic-release). To accomplish this, commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) syntax, specifically:
 
 For bug fixes:
 ```
