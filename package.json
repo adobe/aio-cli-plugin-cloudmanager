@@ -21,6 +21,7 @@
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@oclif/dev-cli": "^1",
+    "@semantic-release/changelog": "^5.0.1",
     "chalk": "^4.0.0",
     "codecov": "^3.7.0",
     "eslint": "^6.0.0",
@@ -37,6 +38,7 @@
     "jest": "^24.1.0",
     "jest-extended": "^0.11.1",
     "jest-junit": "^10.0.0",
+    "semantic-release": "^17.2.2",
     "stdout-stderr": "^0.1.9",
     "tmp": "^0.2.1"
   },
@@ -76,7 +78,8 @@
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "postpack": "rm -f oclif.manifest.json",
     "version": "oclif-dev readme && git add README.md",
-    "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'"
+    "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'",
+    "semantic-release": "semantic-release"
   },
   "jest": {
     "collectCoverage": true,
@@ -105,6 +108,19 @@
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
+    ]
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "tagFormat": "${version}",
+    "plugins" : [
+        "@semantic-release/commit-analyzer",
+        "@semantic-release/release-notes-generator",
+        "@semantic-release/changelog",
+        "@semantic-release/npm",
+        "@semantic-release/github"
     ]
   }
 }
