@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.17.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.16.3...0.17.0) (2020-11-17)
+
+
+### Features
+
+* **various:** implement loading environmentId from configuration. fixes [#149](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/149) ([#154](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/154)) ([c1b0d5e](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/c1b0d5e13f9adb9a976b3d1dad04923f205b1140))
+
 ## [0.16.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.16.2...0.16.3) (2020-11-16)
 
 
