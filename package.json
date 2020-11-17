@@ -10,6 +10,7 @@
     "@adobe/aio-lib-core-config": "^1.2.8",
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
+    "@oclif/parser": "^3.8.5",
     "@oclif/plugin-help": "^2.2.3",
     "cli-ux": "^5.4.6",
     "halfred": "^2.0.0",
@@ -60,7 +61,10 @@
     "devPlugins": [
       "@oclif/plugin-help"
     ],
-    "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>"
+    "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>",
+    "hooks": {
+      "prerun": "./src/hooks/prerun/environment-id-from-config"
+    }
   },
   "main": "src/index.js",
   "repository": {

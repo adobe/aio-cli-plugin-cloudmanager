@@ -98,6 +98,10 @@ function sanitizeEnvironmentId (environmentId) {
   return envId
 }
 
+async function getDefaultEnvironmentId (flags) {
+  return await Config.get('cloudmanager_environmentid')
+}
+
 module.exports = {
   getBaseUrl,
   getApiKey,
@@ -105,5 +109,6 @@ module.exports = {
   getProgramId,
   getOutputFormat,
   createKeyValueObjectFromFlag,
-  sanitizeEnvironmentId
+  sanitizeEnvironmentId,
+  getDefaultEnvironmentId
 }
