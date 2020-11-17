@@ -1,5 +1,12 @@
 # Changelog
 
+# [0.18.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.17.0...0.18.0) (2020-11-17)
+
+
+### Features
+
+* **variables:** support JSON input on stdin and files. fixes [#150](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/150) ([#153](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/153)) ([9ad5b34](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/9ad5b349969ecd7b95f7b83f7bbf573c4d89b77b))
+
 # [0.17.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.16.3...0.17.0) (2020-11-17)
 
 
