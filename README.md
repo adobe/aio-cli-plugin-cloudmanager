@@ -86,6 +86,22 @@ For example
 $ aio config:set cloudmanager_programid 4
 ```
 
+## Set Default Environment
+
+If you want to avoid passing the environment ID argument repeatedly, you can configure it using:
+
+```sh-session
+$ aio config:set cloudmanager_environmentid ENVIRONMENTID
+```
+
+For example
+
+```sh-session
+$ aio config:set cloudmanager_environmentid 7
+```
+
+> This only works for commands where the environmentId is the **first** argument.
+
 # Commands
 <!-- commands -->
 * [`aio cloudmanager`](#aio-cloudmanager)
