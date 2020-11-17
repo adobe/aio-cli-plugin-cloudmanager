@@ -381,6 +381,12 @@ OPTIONS
   -v, --variable=variable      variable values in KEY VALUE format
   -y, --yaml                   output in yaml format
 
+  --jsonFile=jsonFile          if set, read variables from a JSON array provided as a file; variables set through
+                               --variable or --secret flag will take precedence
+
+  --jsonStdin                  if set, read variables from a JSON array provided as standard input; variables set
+                               through --variable or --secret flag will take precedence
+
 ALIASES
   $ aio cloudmanager:set-environment-variables
 ```
@@ -592,6 +598,12 @@ OPTIONS
   -v, --variable=variable      variable values in KEY VALUE format
   -y, --yaml                   output in yaml format
 
+  --jsonFile=jsonFile          if set, read variables from a JSON array provided as a file; variables set through
+                               --variable or --secret flag will take precedence
+
+  --jsonStdin                  if set, read variables from a JSON array provided as standard input; variables set
+                               through --variable or --secret flag will take precedence
+
 ALIASES
   $ aio cloudmanager:set-pipeline-variables
 ```
@@ -702,6 +714,37 @@ ALIASES
 
 _See code: [src/commands/cloudmanager/program/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.17.0/src/commands/cloudmanager/program/list-pipelines.js)_
 <!-- commandsstop -->
+
+# Variables From Standard Input
+
+The `environment:set-variables` and `pipeline:set-variables` commands allow for variables to be passed both as flags to the command and as a JSON array provided as standard input or as a file. The objects in this array are expected to have a `name`, `value`, and `type` keys following the same syntax as the Cloud Manager API. Deleting a variable can be done by passing an empty `value`. For example, given a file named `variables.json` that contains this:
+
+```
+[
+  {
+    "name" : "MY_VARIABLE",
+    "value" : "something",
+    "type" : "string"
+  },
+  {
+    "name" : "MY_SECRET_VARIABLE",
+    "value" : "shhhh",
+    "type" : "secretString"
+  }
+]
+```
+
+This can be passed to the `pipeline:set-variables` command using a shell command of
+
+```
+$ cat variables.json | aio cloudmanager:pipeline:set-variables 1 --jsonStdin
+```
+
+Or
+
+```
+$ aio cloudmanager:pipeline:set-variables 1 --jsonFile variables.json
+```
 
 # Development
 
