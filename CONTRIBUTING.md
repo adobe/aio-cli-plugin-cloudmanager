@@ -17,3 +17,23 @@ All third-party contributions to this project must be accompanied by a signed co
 All submissions should come in the form of pull requests and need to be reviewed by project committers. Read [GitHub's pull request documentation](https://help.github.com/articles/about-pull-requests/) for more information on sending pull requests.
 
 Lastly, please follow the [pull request template](PULL_REQUEST_TEMPLATE.md) when submitting a pull request!
+
+## Commits and Releasing
+
+Commits (generally via merged pull requests) to the `main` branch of this repository will automatically generate [semantically versioned releases](https://github.com/semantic-release). To accomplish this, commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) syntax, specifically:
+
+For bug fixes:
+```
+fix(scope): <description>
+
+[optional content]
+```
+
+For features:
+```
+feat(scope): <description>
+
+[optional content]
+```
+
+In general, the scope should be the command name or topic, but there may be exceptions.
