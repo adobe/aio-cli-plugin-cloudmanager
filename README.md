@@ -706,3 +706,27 @@ configure the `cloudmanager.base_url` configuration key:
 $ aio config:set cloudmanager.base_url https://mydummyapiserver
 ```
 
+## Using an Unreleased aio-lib-cloudmanager
+
+When new functions are added to [aio-lib-cloudmanager](https://github.com/adobe/aio-lib-cloudmanager), it may be useful to use a local copy of this library during the development of this plugin. This can be done using [npm-link](https://docs.npmjs.com/cli/v6/commands/npm-link) as a two-step process:
+
+First, in the `aio-lib-cloudmanager` clone directory, run
+
+```
+npm link
+```
+
+And then in the clone of this project, run
+
+```
+npm link @adobe/aio-lib-cloudmanager
+```
+
+To switch back to the released version of `aio-lib-cloudmanager` run
+
+```
+npm unlink --no-save @adobe/aio-lib-cloudmanager
+npm install
+```
+
+Of course this should not replace proper unit testing.
