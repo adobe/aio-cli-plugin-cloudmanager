@@ -104,7 +104,6 @@ $ aio config:set cloudmanager_environmentid 7
 
 # Commands
 <!-- commands -->
-* [`aio cloudmanager`](#aio-cloudmanager)
 * [`aio cloudmanager:current-execution:advance PIPELINEID`](#aio-cloudmanagercurrent-executionadvance-pipelineid)
 * [`aio cloudmanager:current-execution:cancel PIPELINEID`](#aio-cloudmanagercurrent-executioncancel-pipelineid)
 * [`aio cloudmanager:current-execution:get PIPELINEID`](#aio-cloudmanagercurrent-executionget-pipelineid)
@@ -128,57 +127,6 @@ $ aio config:set cloudmanager_environmentid 7
 * [`aio cloudmanager:program:list-current-executions`](#aio-cloudmanagerprogramlist-current-executions)
 * [`aio cloudmanager:program:list-environments`](#aio-cloudmanagerprogramlist-environments)
 * [`aio cloudmanager:program:list-pipelines`](#aio-cloudmanagerprogramlist-pipelines)
-
-## `aio cloudmanager`
-
-interact with the Cloud Manager API to list, start, cancel, and inspect pipelines and executions.
-
-```
-USAGE
-  $ aio cloudmanager
-
-OPTIONS
-  -r, --passphrase=passphrase  the passphrase for the private key
-
-EXAMPLES
-  $ aio cloudmanager:list-programs
-  $ aio cloudmanager:list-programs --enabledonly
-  $ aio cloudmanager:program:list-pipelines
-  $ aio cloudmanager:program:list-pipelines --programId=PROGRAM_ID
-  $ aio cloudmanager:pipeline:start-execution PIPELINE_ID
-  $ aio cloudmanager:pipeline:start-execution --programId=PROGRAM_ID PIPELINE_ID
-  $ aio cloudmanager:program:list-current-executions
-  $ aio cloudmanager:program:list-current-executions --programId=PROGRAM_ID
-  $ aio cloudmanager:pipeline:get-current-execution PIPELINE_ID
-  $ aio cloudmanager:pipeline:get-current-execution --programId=PROGRAM_ID PIPELINE_ID
-  $ aio cloudmanager:execution:get-quality-gate-results PIPELINE_ID [codeQuality|security|performance]
-  $ aio cloudmanager:execution:get-quality-gate-results --programId=PROGRAM_ID PIPELINE_ID 
-  [codeQuality|security|performance]
-  $ aio cloudmanager:execution:get-step-details PIPELINE_ID EXECUTION_ID
-  $ aio cloudmanager:execution:get-step-details --programId=PROGRAM_ID PIPELINE_ID EXECUTION_ID
-  $ aio cloudmanager:execution:get-step-log PIPELINE_ID
-  $ aio cloudmanager:execution:get-step-log --programId=PROGRAM_ID PIPELINE_ID 
-  [build|codeQuality|devDeploy|stageDeploy|prodDeploy]
-  $ aio cloudmanager:current-execution:cancel PIPELINE_ID
-  $ aio cloudmanager:current-execution:cancel --programId=PROGRAM_ID PIPELINE_ID
-  $ aio cloudmanager:current-execution:advance PIPELINE_ID
-  $ aio cloudmanager:current-execution:advance --programId=PROGRAM_ID PIPELINE_ID
-  $ aio cloudmanager:pipeline:delete PIPELINE_ID
-  $ aio cloudmanager:pipeline:delete --programId=PROGRAM_ID PIPELINE_ID
-  $ aio cloudmanager:pipeline:update PIPELINE_ID --branch=NEW_BRANCH
-  $ aio cloudmanager:pipeline:update --programId=PROGRAM_ID PIPELINE_ID --branch=NEW_BRANCH
-  $ aio cloudmanager:program:list-environments
-  $ aio cloudmanager:program:list-environments --programId=PROGRAM_ID
-  $ aio cloudmanager:environment:list-available-log-options ENVIRONMENT_ID
-  $ aio cloudmanager:environment:list-available-log-options --programId=PROGRAM_ID ENVIRONMENT_ID
-  $ aio cloudmanager:environment:download-logs ENVIRONMENT_ID SERVICE NAME
-  $ aio cloudmanager:environment:download-logs ENVIRONMENT_ID SERVICE NAME DAYS
-  $ aio cloudmanager:environment:download-logs --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME DAYS
-  $ aio cloudmanager:environment:tail-log ENVIRONMENT_ID SERVICE NAME
-  $ aio cloudmanager:environment:tail-log --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME
-```
-
-_See code: [src/commands/cloudmanager/index.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.18.0/src/commands/cloudmanager/index.js)_
 
 ## `aio cloudmanager:current-execution:advance PIPELINEID`
 

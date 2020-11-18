@@ -23,7 +23,7 @@ function loadCommandNames (manifest) {
 }
 
 test('all commands from 0.15.0 have aliases', async () => {
-  const oldCommandNames = loadCommandNames(require('../data/oclif.manifest.0.15.0.json'))
+  const oldCommandNames = loadCommandNames(require('../data/oclif.manifest.0.15.0.json')).filter(name => name !== 'cloudmanager')
 
   const root = path.resolve('.')
   const thisPlugin = new Config.Plugin({ root, type: 'core', ignoreManifest: true, errorOnManifestCreate: true })

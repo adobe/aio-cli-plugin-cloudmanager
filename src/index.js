@@ -16,7 +16,6 @@ const StartExecutionCommand = require('./commands/cloudmanager/pipeline/create-e
 const GetCurrentExecution = require('./commands/cloudmanager/current-execution/get')
 const ListCurrentExecutions = require('./commands/cloudmanager/program/list-current-executions')
 const GetQualityGateResults = require('./commands/cloudmanager/execution/get-quality-gate-results')
-const CloudManagerCommand = require('./commands/cloudmanager')
 const CancelCurrentExecution = require('./commands/cloudmanager/current-execution/cancel')
 const AdvanceCurrentExecution = require('./commands/cloudmanager/current-execution/advance')
 const ListEnvironments = require('./commands/cloudmanager/program/list-environments')
@@ -36,7 +35,6 @@ const SetPipelineVariables = require('./commands/cloudmanager/pipeline/set-varia
 const DeleteEnvironment = require('./commands/cloudmanager/environment/delete')
 
 module.exports = {
-  aaa: CloudManagerCommand, // needs to be first alphabetically
   'list-programs': new ListProgramsCommand().listPrograms,
   'list-pipelines': new ListPipelinesCommand().listPipelines,
   'start-execution': new StartExecutionCommand().startExecution,
