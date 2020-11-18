@@ -64,6 +64,14 @@
     "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>",
     "hooks": {
       "prerun": "./src/hooks/prerun/environment-id-from-config"
+    },
+    "topics" : {
+      "cloudmanager": { "description": "interact with the Cloud Manager API to interact with programs, pipelines, and environments." },
+      "cloudmanager:current-execution" : { "description" : "commands to work with the current execution for a pipeline" },
+      "cloudmanager:execution" : { "description" : "commands to work with executions for a pipeline" },
+      "cloudmanager:environment" : { "description" : "commands to work with environments" },
+      "cloudmanager:pipeline" : { "description" : "commands to work with pipelines" },
+      "cloudmanager:program" : { "description" : "commands to work with programs" }
     }
   },
   "main": "src/index.js",
