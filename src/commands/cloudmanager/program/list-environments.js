@@ -42,17 +42,17 @@ class ListEnvironmentsCommand extends Command {
 
     cli.table(result, {
       id: {
-        header: 'Environment Id'
+        header: 'Environment Id',
       },
       name: {},
       type: {},
       description: {
         header: 'Description',
-        get: item => item.description ? item.description : ''
-      }
+        get: item => item.description ? item.description : '',
+      },
     }, {
       printLine: this.log,
-      output: getOutputFormat(flags)
+      output: getOutputFormat(flags),
     })
 
     return result
@@ -68,11 +68,11 @@ ListEnvironmentsCommand.description = 'lists environments available in a Cloud M
 ListEnvironmentsCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.outputFormat,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 ListEnvironmentsCommand.aliases = [
-  'cloudmanager:list-environments'
+  'cloudmanager:list-environments',
 ]
 
 module.exports = ListEnvironmentsCommand

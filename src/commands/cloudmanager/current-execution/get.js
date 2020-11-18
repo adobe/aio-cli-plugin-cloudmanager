@@ -54,15 +54,15 @@ GetCurrentExecutionCommand.description = 'get pipeline execution'
 GetCurrentExecutionCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseExecutionCommand.flags
+  ...BaseExecutionCommand.flags,
 }
 
 GetCurrentExecutionCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 GetCurrentExecutionCommand.aliases = [
-  'cloudmanager:get-current-execution'
+  'cloudmanager:get-current-execution',
 ]
 
 module.exports = GetCurrentExecutionCommand

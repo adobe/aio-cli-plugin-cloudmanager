@@ -13,5 +13,5 @@ governing permissions and limitations under the License.
 module.exports = {
   accessToken: () => {
     return Promise.resolve('fake-token')
-  }
+  },
 }

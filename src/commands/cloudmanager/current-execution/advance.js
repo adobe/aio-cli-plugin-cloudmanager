@@ -57,15 +57,15 @@ AdvanceCurrentExecutionCommand.description = 'advance current pipeline execution
 
 AdvanceCurrentExecutionCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 AdvanceCurrentExecutionCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 AdvanceCurrentExecutionCommand.aliases = [
-  'cloudmanager:advance-current-execution'
+  'cloudmanager:advance-current-execution',
 ]
 
 module.exports = AdvanceCurrentExecutionCommand

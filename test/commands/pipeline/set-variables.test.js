@@ -47,10 +47,10 @@ test('set-pipeline-variables - bad variable flag', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '5'
+    cloudmanager_programid: '5',
   })
 
   expect.assertions(2)
@@ -65,10 +65,10 @@ test('set-pipeline-variables - bad secret flag', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '5'
+    cloudmanager_programid: '5',
   })
 
   expect.assertions(2)
@@ -82,10 +82,10 @@ test('set-pipeline-variables - config', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '6'
+    cloudmanager_programid: '6',
   })
 
   expect.assertions(4)
@@ -104,10 +104,10 @@ test('set-pipeline-variables - variables only', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -122,11 +122,11 @@ test('set-pipeline-variables - variables only', async () => {
   await expect(mockSdk.setPipelineVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'string',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'string',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -135,10 +135,10 @@ test('set-pipeline-variables - secrets only', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -153,11 +153,11 @@ test('set-pipeline-variables - secrets only', async () => {
   await expect(mockSdk.setPipelineVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'secretString',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'secretString',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -166,10 +166,10 @@ test('set-pipeline-variables - secret and variable', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -184,11 +184,11 @@ test('set-pipeline-variables - secret and variable', async () => {
   await expect(mockSdk.setPipelineVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'string',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'secretString',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -197,10 +197,10 @@ test('set-pipeline-variables - delete', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -215,7 +215,7 @@ test('set-pipeline-variables - delete', async () => {
   await expect(mockSdk.setPipelineVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'KEY',
     type: 'string',
-    value: ''
+    value: '',
   }])
 })
 
@@ -224,10 +224,10 @@ test('set-pipeline-variables - delete secret', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -242,7 +242,7 @@ test('set-pipeline-variables - delete secret', async () => {
   await expect(mockSdk.setPipelineVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'I_AM_A_SECRET',
     type: 'secretString',
-    value: ''
+    value: '',
   }])
 })
 
@@ -251,10 +251,10 @@ test('set-pipeline-variables - delete not found', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(4)
@@ -273,10 +273,10 @@ test('set-pipeline-variables - second get fails', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(2)

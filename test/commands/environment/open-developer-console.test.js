@@ -48,10 +48,10 @@ test('open-developer-console - success', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(6)

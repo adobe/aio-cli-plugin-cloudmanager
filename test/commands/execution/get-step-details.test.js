@@ -41,9 +41,9 @@ test('get-execution-step-details - no result', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(6)
@@ -63,9 +63,9 @@ test('get-execution-step-details - result', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
   mockSdk.getExecution = jest.fn(() => execution1010)
 

@@ -48,10 +48,10 @@ test('list-available-logs - empty', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '6'
+    cloudmanager_programid: '6',
   })
 
   expect.assertions(6)
@@ -71,48 +71,48 @@ test('list-available-logs - some entries', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '6'
+    cloudmanager_programid: '6',
   })
   mockSdk.listAvailableLogOptions = jest.fn(() => [
     {
       service: 'author',
-      name: 'aemerror'
+      name: 'aemerror',
     },
     {
       service: 'author',
-      name: 'aemrequest'
+      name: 'aemrequest',
     },
     {
       service: 'author',
-      name: 'aemaccess'
+      name: 'aemaccess',
     },
     {
       service: 'publish',
-      name: 'aemerror'
+      name: 'aemerror',
     },
     {
       service: 'publish',
-      name: 'aemrequest'
+      name: 'aemrequest',
     },
     {
       service: 'publish',
-      name: 'aemaccess'
+      name: 'aemaccess',
     },
     {
       service: 'dispatcher',
-      name: 'httpdaccess'
+      name: 'httpdaccess',
     },
     {
       service: 'dispatcher',
-      name: 'httpderror'
+      name: 'httpderror',
     },
     {
       service: 'dispatcher',
-      name: 'aemdispatcher'
-    }
+      name: 'aemdispatcher',
+    },
   ])
 
   expect.assertions(8)

@@ -110,5 +110,5 @@ module.exports = {
   getOutputFormat,
   createKeyValueObjectFromFlag,
   sanitizeEnvironmentId,
-  getDefaultEnvironmentId
+  getDefaultEnvironmentId,
 }

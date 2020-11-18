@@ -56,12 +56,12 @@ TailLog.description = 'outputs a stream of log data for the specified environmen
 TailLog.args = [
   { name: 'environmentId', required: true, description: 'the environment id' },
   { name: 'service', required: true, description: 'the service' },
-  { name: 'name', required: true, description: 'the log name' }
+  { name: 'name', required: true, description: 'the log name' },
 ]
 
 TailLog.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 TailLog.aliases = ['cloudmanager:tail-logs', 'cloudmanager:tail-log']

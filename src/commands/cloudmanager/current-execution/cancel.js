@@ -57,15 +57,15 @@ CancelCurrentExecutionCommand.description = 'cancel current pipeline execution e
 
 CancelCurrentExecutionCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 CancelCurrentExecutionCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 CancelCurrentExecutionCommand.aliases = [
-  'cloudmanager:cancel-current-execution'
+  'cloudmanager:cancel-current-execution',
 ]
 
 module.exports = CancelCurrentExecutionCommand

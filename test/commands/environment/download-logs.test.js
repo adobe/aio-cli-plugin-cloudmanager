@@ -41,9 +41,9 @@ test('download-logs - success single', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(9)
@@ -68,15 +68,15 @@ test('download-logs - success multiple', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
   mockSdk.downloadLogs = jest.fn(() => Promise.resolve([{
-    path: './1-author-aemerror-2019-09-8.log'
+    path: './1-author-aemerror-2019-09-8.log',
   },
   {
-    path: './1-author-aemerror-2019-09-7.log'
+    path: './1-author-aemerror-2019-09-7.log',
   }]))
 
   expect.assertions(8)

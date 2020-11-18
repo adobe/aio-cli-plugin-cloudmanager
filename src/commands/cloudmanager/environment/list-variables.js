@@ -37,17 +37,17 @@ class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
 ListEnvironmentVariablesCommand.description = 'lists variables set on an environment'
 
 ListEnvironmentVariablesCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' }
+  { name: 'environmentId', required: true, description: 'the environment id' },
 ]
 
 ListEnvironmentVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.getterFlags
+  ...BaseVariablesCommand.getterFlags,
 }
 
 ListEnvironmentVariablesCommand.aliases = [
-  'cloudmanager:list-environment-variables'
+  'cloudmanager:list-environment-variables',
 ]
 
 module.exports = ListEnvironmentVariablesCommand

@@ -43,9 +43,9 @@ test('get-quality-gate-results - happy path', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(6)
@@ -67,9 +67,9 @@ test('get-quality-gate-results - no metrics', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
   mockSdk.getQualityGateResults = jest.fn(() => Promise.resolve({}))
 
@@ -89,9 +89,9 @@ test('get-quality-gate-results - experienceAudit', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(11)

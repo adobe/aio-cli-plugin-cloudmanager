@@ -41,17 +41,17 @@ class SetPipelineVariablesCommand extends BasePipelineVariablesCommand {
 SetPipelineVariablesCommand.description = 'sets variables set on a pipeline. These are build-time variables available during the build process. Use set-environment-variables to set runtime variables on a environment.'
 
 SetPipelineVariablesCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 SetPipelineVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.setterFlags
+  ...BaseVariablesCommand.setterFlags,
 }
 
 SetPipelineVariablesCommand.aliases = [
-  'cloudmanager:set-pipeline-variables'
+  'cloudmanager:set-pipeline-variables',
 ]
 
 module.exports = SetPipelineVariablesCommand

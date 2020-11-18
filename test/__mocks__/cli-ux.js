@@ -15,9 +15,9 @@ module.exports = {
     table: jest.fn(),
     action: {
       start: jest.fn(),
-      stop: jest.fn()
+      stop: jest.fn(),
     },
     info: jest.fn(),
-    open: jest.fn()
-  }
+    open: jest.fn(),
+  },
 }

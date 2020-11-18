@@ -75,27 +75,27 @@ class GetExecutionStepDetails extends Command {
       cli.table(stepStates, {
         action: {
           header: 'Action',
-          get: formatAction
+          get: formatAction,
         },
         status: {
           header: 'Status',
-          get: (stepState) => _.startCase(stepState.status.toLowerCase())
+          get: (stepState) => _.startCase(stepState.status.toLowerCase()),
         },
         startedAt: {
           header: 'Started At',
-          get: formatTime('startedAt')
+          get: formatTime('startedAt'),
         },
         finishedAt: {
           header: 'Finished At',
-          get: formatTime('finishedAt')
+          get: formatTime('finishedAt'),
         },
         duration: {
           header: 'Duration',
-          get: formatDuration
-        }
+          get: formatDuration,
+        },
       }, {
         printLine: this.log,
-        output: getOutputFormat(flags)
+        output: getOutputFormat(flags),
       })
 
       return stepStates
@@ -114,16 +114,16 @@ GetExecutionStepDetails.description = 'get execution step details'
 GetExecutionStepDetails.flags = {
   ...commonFlags.global,
   ...commonFlags.outputFormat,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 GetExecutionStepDetails.args = [
   { name: 'pipelineId', required: true, description: 'the pipeline id' },
-  { name: 'executionId', required: true, description: 'the execution id' }
+  { name: 'executionId', required: true, description: 'the execution id' },
 ]
 
 GetExecutionStepDetails.aliases = [
-  'cloudmanager:get-execution-step-details'
+  'cloudmanager:get-execution-step-details',
 ]
 
 module.exports = GetExecutionStepDetails

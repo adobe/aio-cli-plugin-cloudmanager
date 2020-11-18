@@ -41,9 +41,9 @@ test('update-pipeline - branch success', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(8)
@@ -58,7 +58,7 @@ test('update-pipeline - branch success', async () => {
   await expect(mockSdk.updatePipeline.mock.calls[0][0]).toEqual('5')
   await expect(mockSdk.updatePipeline.mock.calls[0][1]).toEqual('10')
   await expect(mockSdk.updatePipeline.mock.calls[0][2]).toMatchObject({
-    branch: 'develop'
+    branch: 'develop',
   })
   await expect(cli.action.stop.mock.calls[0][0]).toBe('updated pipeline ID 10')
 })
@@ -68,9 +68,9 @@ test('update-pipeline - repository and branch success', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(8)
@@ -86,7 +86,7 @@ test('update-pipeline - repository and branch success', async () => {
   await expect(mockSdk.updatePipeline.mock.calls[0][1]).toEqual('10')
   await expect(mockSdk.updatePipeline.mock.calls[0][2]).toMatchObject({
     branch: 'develop',
-    repositoryId: '4'
+    repositoryId: '4',
   })
   await expect(cli.action.stop.mock.calls[0][0]).toBe('updated pipeline ID 10')
 })
@@ -96,9 +96,9 @@ test('update-pipeline - both tag and branch', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(2)
@@ -113,9 +113,9 @@ test('update-pipeline - malformed tag', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(2)
@@ -130,9 +130,9 @@ test('update-pipeline - correct tag', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(8)
@@ -147,7 +147,7 @@ test('update-pipeline - correct tag', async () => {
   await expect(mockSdk.updatePipeline.mock.calls[0][0]).toEqual('5')
   await expect(mockSdk.updatePipeline.mock.calls[0][1]).toEqual('10')
   await expect(mockSdk.updatePipeline.mock.calls[0][2]).toMatchObject({
-    branch: 'refs/tags/foo'
+    branch: 'refs/tags/foo',
   })
   await expect(cli.action.stop.mock.calls[0][0]).toBe('updated pipeline ID 10')
 })

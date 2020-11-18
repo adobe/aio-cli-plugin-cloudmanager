@@ -40,10 +40,10 @@ test('list-environments - configured', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '6'
+    cloudmanager_programid: '6',
   })
 
   expect.assertions(7)

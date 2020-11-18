@@ -42,13 +42,13 @@ class ListPipelinesCommand extends Command {
 
     cli.table(result, {
       id: {
-        header: 'Pipeline Id'
+        header: 'Pipeline Id',
       },
       name: {},
-      status: {}
+      status: {},
     }, {
       printLine: this.log,
-      output: getOutputFormat(flags)
+      output: getOutputFormat(flags),
     })
 
     return result
@@ -64,11 +64,11 @@ ListPipelinesCommand.description = 'lists pipelines available in a Cloud Manager
 ListPipelinesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.outputFormat,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 ListPipelinesCommand.aliases = [
-  'cloudmanager:list-pipelines'
+  'cloudmanager:list-pipelines',
 ]
 
 module.exports = ListPipelinesCommand

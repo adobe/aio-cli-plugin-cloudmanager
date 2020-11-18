@@ -65,10 +65,10 @@ test('set-environment-variables - bad variable flag', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(2)
@@ -83,10 +83,10 @@ test('set-environment-variables - bad secret flag', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(2)
@@ -101,10 +101,10 @@ test('set-environment-variables - config', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '6'
+    cloudmanager_programid: '6',
   })
 
   expect.assertions(4)
@@ -123,10 +123,10 @@ test('set-environment-variables - variables only', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -141,11 +141,11 @@ test('set-environment-variables - variables only', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'string',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'string',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -154,10 +154,10 @@ test('set-environment-variables - secrets only', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -172,11 +172,11 @@ test('set-environment-variables - secrets only', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'secretString',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'secretString',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -185,10 +185,10 @@ test('set-environment-variables - secret and variable', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -203,11 +203,11 @@ test('set-environment-variables - secret and variable', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'string',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'secretString',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -216,10 +216,10 @@ test('set-environment-variables - delete', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -234,7 +234,7 @@ test('set-environment-variables - delete', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'KEY',
     type: 'string',
-    value: ''
+    value: '',
   }])
 })
 
@@ -243,10 +243,10 @@ test('set-environment-variables - delete secret', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(5)
@@ -261,7 +261,7 @@ test('set-environment-variables - delete secret', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'I_AM_A_SECRET',
     type: 'secretString',
-    value: ''
+    value: '',
   }])
 })
 
@@ -270,10 +270,10 @@ test('set-environment-variables - delete not found', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(4)
@@ -292,10 +292,10 @@ test('set-environment-variables - stdin - not JSON', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   getPipedData.mockResolvedValue('garbage')
@@ -313,10 +313,10 @@ test('set-environment-variables - file - not JSON', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   mockFileContent = 'garbage'
@@ -334,10 +334,10 @@ test('set-environment-variables - stdin - not array', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   getPipedData.mockResolvedValue(JSON.stringify({ foo: 'bar' }))
@@ -355,22 +355,22 @@ test('set-environment-variables - stdin - secret and variable', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   getPipedData.mockResolvedValue(JSON.stringify([
     {
       name: 'foo',
-      value: 'bar'
+      value: 'bar',
     },
     {
       name: 'foo2',
       value: 'bar2',
-      type: 'secretString'
-    }
+      type: 'secretString',
+    },
   ]))
 
   expect.assertions(5)
@@ -386,11 +386,11 @@ test('set-environment-variables - stdin - secret and variable', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'string',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'secretString',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -399,22 +399,22 @@ test('set-environment-variables - file - secret and variable', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   mockFileContent = JSON.stringify([
     {
       name: 'foo',
-      value: 'bar'
+      value: 'bar',
     },
     {
       name: 'foo2',
       value: 'bar2',
-      type: 'secretString'
-    }
+      type: 'secretString',
+    },
   ])
 
   expect.assertions(5)
@@ -430,11 +430,11 @@ test('set-environment-variables - file - secret and variable', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'string',
-    value: 'bar'
+    value: 'bar',
   }, {
     name: 'foo2',
     type: 'secretString',
-    value: 'bar2'
+    value: 'bar2',
   }])
 })
 
@@ -443,17 +443,17 @@ test('set-environment-variables - stdin - variable in flag overrides stdin', asy
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   getPipedData.mockResolvedValue(JSON.stringify([
     {
       name: 'foo',
-      value: 'baz'
-    }
+      value: 'baz',
+    },
   ]))
 
   expect.assertions(5)
@@ -469,7 +469,7 @@ test('set-environment-variables - stdin - variable in flag overrides stdin', asy
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
     type: 'string',
-    value: 'bar'
+    value: 'bar',
   }])
 })
 
@@ -478,17 +478,17 @@ test('set-environment-variables - stdin - delete from stream', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   getPipedData.mockResolvedValue(JSON.stringify([
     {
       name: 'I_AM_A_SECRET',
-      value: ''
-    }
+      value: '',
+    },
   ]))
 
   expect.assertions(5)
@@ -504,7 +504,7 @@ test('set-environment-variables - stdin - delete from stream', async () => {
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'I_AM_A_SECRET',
     type: 'secretString',
-    value: ''
+    value: '',
   }])
 })
 
@@ -513,16 +513,16 @@ test('set-environment-variables - stdin - missing name', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   getPipedData.mockResolvedValue(JSON.stringify([
     {
-      value: 'somesecret'
-    }
+      value: 'somesecret',
+    },
   ]))
 
   expect.assertions(4)
@@ -542,10 +542,10 @@ test('set-environment-variables - both jsonStdin and jsonFile', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
   expect.assertions(2)
 

@@ -46,13 +46,13 @@ class ListAvailableLogOptionsCommand extends Command {
       cli.table(result, {
         id: {
           header: 'Environment Id',
-          get: () => environmentId
+          get: () => environmentId,
         },
         service: {},
-        name: {}
+        name: {},
       }, {
         printLine: this.log,
-        output: getOutputFormat(flags)
+        output: getOutputFormat(flags),
       })
     } else {
       cli.info(`No log options are available for environmentId ${environmentId}`)
@@ -69,17 +69,17 @@ class ListAvailableLogOptionsCommand extends Command {
 ListAvailableLogOptionsCommand.description = 'lists available log options for an environment in a Cloud Manager program'
 
 ListAvailableLogOptionsCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' }
+  { name: 'environmentId', required: true, description: 'the environment id' },
 ]
 
 ListAvailableLogOptionsCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.outputFormat,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 ListAvailableLogOptionsCommand.aliases = [
-  'cloudmanager:list-available-log-options'
+  'cloudmanager:list-available-log-options',
 ]
 
 module.exports = ListAvailableLogOptionsCommand

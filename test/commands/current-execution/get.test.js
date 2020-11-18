@@ -41,9 +41,9 @@ test('get-current-execution - configured', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
 
   expect.assertions(7)

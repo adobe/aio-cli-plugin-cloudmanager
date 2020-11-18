@@ -23,7 +23,7 @@ async function _listCurrentExecutions (programId, passphrase) {
   const baseUrl = await getBaseUrl()
   const sdk = await init(orgId, apiKey, accessToken, baseUrl)
   const pipelines = await sdk.listPipelines(programId, {
-    busy: true
+    busy: true,
   })
   return await Promise.all(pipelines.map(async pipeline => await sdk.getCurrentExecution(programId, pipeline.id)))
 }
@@ -57,11 +57,11 @@ ListCurrentExecutionsCommand.description = 'list running pipeline executions'
 ListCurrentExecutionsCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseExecutionCommand.flags
+  ...BaseExecutionCommand.flags,
 }
 
 ListCurrentExecutionsCommand.aliases = [
-  'cloudmanager:list-current-executions'
+  'cloudmanager:list-current-executions',
 ]
 
 module.exports = ListCurrentExecutionsCommand

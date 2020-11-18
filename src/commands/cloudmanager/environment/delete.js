@@ -58,15 +58,15 @@ DeleteEnvironmentCommand.description = 'delete environment'
 
 DeleteEnvironmentCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 DeleteEnvironmentCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' }
+  { name: 'environmentId', required: true, description: 'the environment id' },
 ]
 
 DeleteEnvironmentCommand.aliases = [
-  'cloudmanager:delete-environment'
+  'cloudmanager:delete-environment',
 ]
 
 module.exports = DeleteEnvironmentCommand

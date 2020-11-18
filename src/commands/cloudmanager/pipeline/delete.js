@@ -56,15 +56,15 @@ DeletePipelineCommand.description = 'delete pipeline'
 
 DeletePipelineCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 DeletePipelineCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 DeletePipelineCommand.aliases = [
-  'cloudmanager:delete-pipeline'
+  'cloudmanager:delete-pipeline',
 ]
 
 module.exports = DeletePipelineCommand

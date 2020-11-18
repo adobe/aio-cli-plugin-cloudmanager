@@ -41,12 +41,12 @@ test('start-execution - some url', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
   mockSdk.createExecution = jest.fn(() => Promise.resolve({
-    id: '5000'
+    id: '5000',
   }))
 
   expect.assertions(6)

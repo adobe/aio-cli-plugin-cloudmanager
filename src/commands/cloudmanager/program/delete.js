@@ -53,15 +53,15 @@ class DeleteProgramCommand extends Command {
 DeleteProgramCommand.description = 'delete program'
 
 DeleteProgramCommand.flags = {
-  ...commonFlags.global
+  ...commonFlags.global,
 }
 
 DeleteProgramCommand.args = [
-  { name: 'programId', required: true, description: 'the program id' }
+  { name: 'programId', required: true, description: 'the program id' },
 ]
 
 DeleteProgramCommand.aliases = [
-  'cloudmanager:delete-program'
+  'cloudmanager:delete-program',
 ]
 
 module.exports = DeleteProgramCommand

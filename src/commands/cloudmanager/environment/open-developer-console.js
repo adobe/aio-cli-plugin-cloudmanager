@@ -55,16 +55,16 @@ class OpenDeveloperConsoleCommand extends Command {
 OpenDeveloperConsoleCommand.description = 'opens the Developer Console, if available, in a browser'
 
 OpenDeveloperConsoleCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' }
+  { name: 'environmentId', required: true, description: 'the environment id' },
 ]
 
 OpenDeveloperConsoleCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 OpenDeveloperConsoleCommand.aliases = [
-  'cloudmanager:open-developer-console'
+  'cloudmanager:open-developer-console',
 ]
 
 module.exports = OpenDeveloperConsoleCommand

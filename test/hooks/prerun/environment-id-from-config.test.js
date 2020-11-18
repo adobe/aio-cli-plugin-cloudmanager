@@ -26,7 +26,7 @@ test('hook -- no args and no config', async () => {
 
   await hook({
     Command: FixtureWithNoArgs,
-    argv: []
+    argv: [],
   })
   new FixtureWithNoArgs().parse(FixtureWithNoArgs, [])
   expect(parse.mock.calls.length).toEqual(1)
@@ -37,7 +37,7 @@ test('hook -- environmentId args and no config', async () => {
 
   await hook({
     Command: FixtureWithEnvironmentIdArg,
-    argv: []
+    argv: [],
   })
   new FixtureWithNoArgs().parse(FixtureWithEnvironmentIdArg, [])
   expect(parse.mock.calls.length).toEqual(1)
@@ -45,7 +45,7 @@ test('hook -- environmentId args and no config', async () => {
 
 test('hook -- environmentId args with config', async () => {
   setStore({
-    cloudmanager_environmentid: '4321'
+    cloudmanager_environmentid: '4321',
   })
 
   parse = jest.fn().mockImplementationOnce(() => {
@@ -56,7 +56,7 @@ test('hook -- environmentId args with config', async () => {
 
   await hook({
     Command: FixtureWithEnvironmentIdArg,
-    argv: []
+    argv: [],
   })
   new FixtureWithEnvironmentIdArg().parse(FixtureWithEnvironmentIdArg, [])
   expect(parse.mock.calls.length).toEqual(2)
@@ -65,7 +65,7 @@ test('hook -- environmentId args with config', async () => {
 
 test('hook -- multiple missing args with config', async () => {
   setStore({
-    cloudmanager_environmentid: '4321'
+    cloudmanager_environmentid: '4321',
   })
 
   parse = jest.fn().mockImplementationOnce(() => {
@@ -76,7 +76,7 @@ test('hook -- multiple missing args with config', async () => {
 
   await hook({
     Command: FixtureWithOtherArgs,
-    argv: []
+    argv: [],
   })
   expect(() => new FixtureWithOtherArgs().parse(FixtureWithOtherArgs, [])).toThrow(RequiredArgsError)
   expect(parse.mock.calls.length).toEqual(1)
@@ -84,7 +84,7 @@ test('hook -- multiple missing args with config', async () => {
 
 test('hook -- different error', async () => {
   setStore({
-    cloudmanager_environmentid: '4321'
+    cloudmanager_environmentid: '4321',
   })
 
   parse = jest.fn().mockImplementationOnce(() => {
@@ -95,7 +95,7 @@ test('hook -- different error', async () => {
 
   await hook({
     Command: FixtureWithEnvironmentIdArg,
-    argv: []
+    argv: [],
   })
   expect(() => new FixtureWithEnvironmentIdArg().parse(FixtureWithEnvironmentIdArg, [])).toThrow(RequiredFlagError)
   expect(parse.mock.calls.length).toEqual(1)
@@ -114,7 +114,7 @@ class FixtureWithEnvironmentIdArg {
 }
 
 FixtureWithEnvironmentIdArg.args = [
-  { name: 'environmentId' }
+  { name: 'environmentId' },
 ]
 
 class FixtureWithOtherArgs {
@@ -125,5 +125,5 @@ class FixtureWithOtherArgs {
 
 FixtureWithOtherArgs.args = [
   { name: 'pipelineId' },
-  { name: 'environmentId' }
+  { name: 'environmentId' },
 ]

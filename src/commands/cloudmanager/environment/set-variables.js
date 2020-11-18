@@ -42,17 +42,17 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
 SetEnvironmentVariablesCommand.description = 'sets variables set on an environment. These are runtime variables available to components running inside the runtime environment. Use set-pipeline-variables to set build-time variables on a pipeline.'
 
 SetEnvironmentVariablesCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' }
+  { name: 'environmentId', required: true, description: 'the environment id' },
 ]
 
 SetEnvironmentVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.setterFlags
+  ...BaseVariablesCommand.setterFlags,
 }
 
 SetEnvironmentVariablesCommand.aliases = [
-  'cloudmanager:set-environment-variables'
+  'cloudmanager:set-environment-variables',
 ]
 
 module.exports = SetEnvironmentVariablesCommand

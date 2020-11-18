@@ -32,9 +32,9 @@ test('list-programs - args', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
   expect.assertions(5)
 
@@ -51,9 +51,9 @@ test('list-programs - enabled only', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
-    })
+        iss: 'good',
+      },
+    }),
   })
   expect.assertions(5)
 

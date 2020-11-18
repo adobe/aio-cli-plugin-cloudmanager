@@ -48,10 +48,10 @@ test('list-pipeline-variables - success', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '5'
+    cloudmanager_programid: '5',
   })
 
   expect.assertions(6)
@@ -67,6 +67,6 @@ test('list-pipeline-variables - success', async () => {
 
   await expect(cli.table.mock.calls[0][1].value.get({
     name: 'I_AM_A_SECRET',
-    type: 'secretString'
+    type: 'secretString',
   })).toBe('****')
 })

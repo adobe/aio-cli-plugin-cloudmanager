@@ -48,10 +48,10 @@ test('list-environment-variables - success', async () => {
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(7)
@@ -66,12 +66,12 @@ test('list-environment-variables - success', async () => {
   await expect(mockSdk.getEnvironmentVariables).toHaveBeenCalledWith('4', '1')
   await expect(cli.table.mock.calls[0][1].value.get({
     name: 'I_AM_A_SECRET',
-    type: 'secretString'
+    type: 'secretString',
   })).toBe('****')
   await expect(cli.table.mock.calls[0][1].value.get({
     name: 'KEY',
     type: 'string',
-    value: 'value'
+    value: 'value',
   })).toBe('value')
 })
 
@@ -80,10 +80,10 @@ test('list-environment-variables for "e" prefixed env id - success', async () =>
     'jwt-auth': JSON.stringify({
       client_id: '1234',
       jwt_payload: {
-        iss: 'good'
-      }
+        iss: 'good',
+      },
     }),
-    cloudmanager_programid: '4'
+    cloudmanager_programid: '4',
   })
 
   expect.assertions(2)
@@ -93,9 +93,9 @@ test('list-environment-variables for "e" prefixed env id - success', async () =>
   await expect(runResult).resolves.toMatchObject([{
     name: 'KEY',
     type: 'string',
-    value: 'value'
+    value: 'value',
   }, {
     name: 'I_AM_A_SECRET',
-    type: 'secretString'
+    type: 'secretString',
   }])
 })

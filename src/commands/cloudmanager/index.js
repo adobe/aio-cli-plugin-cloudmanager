@@ -68,7 +68,7 @@ CloudManagerCommand.examples = [
   '$ aio cloudmanager:environment:download-logs --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME DAYS',
 
   '$ aio cloudmanager:environment:tail-log ENVIRONMENT_ID SERVICE NAME',
-  '$ aio cloudmanager:environment:tail-log --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME'
+  '$ aio cloudmanager:environment:tail-log --programId=PROGRAM_ID ENVIRONMENT_ID SERVICE NAME',
 ]
 
 CloudManagerCommand.flags = commonFlags.global

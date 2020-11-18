@@ -59,5 +59,5 @@ module.exports = {
   'set-environment-variables': new SetEnvironmentVariables().setVariables,
   'list-pipeline-variables': new ListPipelineVariables().getVariables,
   'set-pipeline-variables': new SetPipelineVariables().setVariables,
-  'delete-environment': new DeleteEnvironment().deleteEnvironment
+  'delete-environment': new DeleteEnvironment().deleteEnvironment,
 }

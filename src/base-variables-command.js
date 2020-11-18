@@ -27,10 +27,10 @@ class BaseVariablesCommand extends Command {
       name: {},
       type: {},
       value: {
-        get: (item) => item.type === 'secretString' ? '****' : item.value
-      }
+        get: (item) => item.type === 'secretString' ? '****' : item.value,
+      },
     }, {
-      output: getOutputFormat(flags)
+      output: getOutputFormat(flags),
     })
   }
 
@@ -74,7 +74,7 @@ class BaseVariablesCommand extends Command {
         variables.push({
           name: key,
           value: parsedVariables[key],
-          type: 'string'
+          type: 'string',
         })
       }
     }
@@ -84,7 +84,7 @@ class BaseVariablesCommand extends Command {
         variables.push({
           name: key,
           value: parsedSecrets[key],
-          type: 'secretString'
+          type: 'secretString',
         })
       }
     }
@@ -94,7 +94,7 @@ class BaseVariablesCommand extends Command {
           variables.push({
             name: key,
             type: currentVariableTypes[key],
-            value: ''
+            value: '',
           })
         } else {
           this.warn(`Variable ${key} not found. Will not try to delete.`)
@@ -144,31 +144,31 @@ BaseVariablesCommand.setterFlags = {
   variable: flags.string({
     char: 'v',
     description: 'variable values in KEY VALUE format',
-    multiple: true
+    multiple: true,
   }),
   secret: flags.string({
     char: 's',
     description: 'secret values in KEY VALUE format',
-    multiple: true
+    multiple: true,
   }),
   delete: flags.string({
     char: 'd',
     description: 'variables/secrets to delete',
-    multiple: true
+    multiple: true,
   }),
   jsonStdin: flags.boolean({
     default: false,
-    description: 'if set, read variables from a JSON array provided as standard input; variables set through --variable or --secret flag will take precedence'
+    description: 'if set, read variables from a JSON array provided as standard input; variables set through --variable or --secret flag will take precedence',
   }),
   jsonFile: flags.string({
     description: 'if set, read variables from a JSON array provided as a file; variables set through --variable or --secret flag will take precedence',
-    exclusive: ['jsonStdin']
+    exclusive: ['jsonStdin'],
   }),
-  ...commonFlags.outputFormat
+  ...commonFlags.outputFormat,
 }
 
 BaseVariablesCommand.getterFlags = {
-  ...commonFlags.outputFormat
+  ...commonFlags.outputFormat,
 }
 
 module.exports = BaseVariablesCommand

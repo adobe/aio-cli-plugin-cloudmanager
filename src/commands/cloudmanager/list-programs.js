@@ -43,13 +43,13 @@ class ListProgramsCommand extends Command {
 
     cli.table(result, {
       id: {
-        header: 'Program Id'
+        header: 'Program Id',
       },
       name: {},
-      enabled: {}
+      enabled: {},
     }, {
       printLine: this.log,
-      output: getOutputFormat(flags)
+      output: getOutputFormat(flags),
     })
 
     return result
@@ -65,7 +65,7 @@ ListProgramsCommand.description = 'lists programs available in Cloud Manager'
 ListProgramsCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.outputFormat,
-  enabledonly: flags.boolean({ char: 'e', description: 'only output Cloud Manager-enabled programs' })
+  enabledonly: flags.boolean({ char: 'e', description: 'only output Cloud Manager-enabled programs' }),
 }
 
 module.exports = ListProgramsCommand

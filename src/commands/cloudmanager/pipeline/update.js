@@ -71,15 +71,15 @@ UpdatePipelineCommand.flags = {
   ...commonFlags.programId,
   branch: flags.string({ description: 'the new branch' }),
   tag: flags.string({ description: 'the new tag' }),
-  repositoryId: flags.string({ description: 'the new repositoryId' })
+  repositoryId: flags.string({ description: 'the new repositoryId' }),
 }
 
 UpdatePipelineCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 UpdatePipelineCommand.aliases = [
-  'cloudmanager:update-pipeline'
+  'cloudmanager:update-pipeline',
 ]
 
 module.exports = UpdatePipelineCommand

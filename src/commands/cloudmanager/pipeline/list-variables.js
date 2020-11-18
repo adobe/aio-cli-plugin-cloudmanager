@@ -37,17 +37,17 @@ class ListPipelineVariablesCommand extends BasePipelineVariablesCommand {
 ListPipelineVariablesCommand.description = 'lists variables set on an pipeline'
 
 ListPipelineVariablesCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 ListPipelineVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.getterFlags
+  ...BaseVariablesCommand.getterFlags,
 }
 
 ListPipelineVariablesCommand.aliases = [
-  'cloudmanager:list-pipeline-variables'
+  'cloudmanager:list-pipeline-variables',
 ]
 
 module.exports = ListPipelineVariablesCommand

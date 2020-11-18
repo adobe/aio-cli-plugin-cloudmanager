@@ -57,11 +57,11 @@ StartExecutionCommand.description = 'start pipeline execution'
 
 StartExecutionCommand.flags = {
   ...commonFlags.global,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 StartExecutionCommand.args = [
-  { name: 'pipelineId', required: true, description: 'the pipeline id' }
+  { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
 StartExecutionCommand.aliases = ['cloudmanager:create-execution', 'cloudmanager:start-execution']

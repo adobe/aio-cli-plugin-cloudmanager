@@ -19,61 +19,61 @@ function createDefaultMock () {
       enabled: false,
       _links: {
         self: {
-          href: '/api/program/6'
-        }
-      }
+          href: '/api/program/6',
+        },
+      },
     }, {
       id: '7',
       name: 'test3',
       enabled: true,
       _links: {
         self: {
-          href: '/api/program/7'
-        }
-      }
+          href: '/api/program/7',
+        },
+      },
     }])),
     listPipelines: jest.fn(() => Promise.resolve([
       {
-        id: '10'
-      }
+        id: '10',
+      },
     ])),
     createExecution: jest.fn(() => Promise.resolve()),
     getCurrentExecution: jest.fn(() => Promise.resolve()),
     getExecution: jest.fn(() => Promise.resolve()),
     getQualityGateResults: jest.fn(() => Promise.resolve({
-      metrics: []
+      metrics: [],
     })),
     cancelCurrentExecution: jest.fn(() => Promise.resolve()),
     advanceCurrentExecution: jest.fn(() => Promise.resolve()),
     listEnvironments: jest.fn(() => Promise.resolve([{
       id: '1',
       name: 'TestProgram_prod',
-      type: 'prod'
+      type: 'prod',
     },
     {
       id: '2',
       name: 'TestProgram_stage',
-      type: 'stage'
+      type: 'stage',
     },
     {
       id: '3',
       name: 'TestProgram_dev',
-      type: 'dev'
+      type: 'dev',
     },
     {
       id: '10',
       name: 'TestProgram_dev2',
-      type: 'dev'
+      type: 'dev',
     },
     {
       id: '11',
       name: 'TestProgram_dev3',
-      type: 'dev'
+      type: 'dev',
     }])),
     getExecutionStepLog: jest.fn(() => Promise.resolve()),
     listAvailableLogOptions: jest.fn(() => Promise.resolve([])),
     downloadLogs: jest.fn(() => Promise.resolve([{
-      path: './1-author-aemerror-2019-09-8.log'
+      path: './1-author-aemerror-2019-09-8.log',
     }])),
     deletePipeline: jest.fn(() => Promise.resolve()),
     updatePipeline: jest.fn(() => Promise.resolve()),
@@ -81,24 +81,24 @@ function createDefaultMock () {
     getEnvironmentVariables: jest.fn(() => Promise.resolve([{
       name: 'KEY',
       type: 'string',
-      value: 'value'
+      value: 'value',
     }, {
       name: 'I_AM_A_SECRET',
-      type: 'secretString'
+      type: 'secretString',
     }])),
     setEnvironmentVariables: jest.fn(() => Promise.resolve()),
     getPipelineVariables: jest.fn(() => Promise.resolve([{
       name: 'KEY',
       type: 'string',
-      value: 'value'
+      value: 'value',
     }, {
       name: 'I_AM_A_SECRET',
-      type: 'secretString'
+      type: 'secretString',
     }])),
     setPipelineVariables: jest.fn(() => Promise.resolve()),
     deleteProgram: jest.fn(() => Promise.resolve()),
     deleteEnvironment: jest.fn(() => Promise.resolve()),
-    tailLog: jest.fn(() => Promise.resolve())
+    tailLog: jest.fn(() => Promise.resolve()),
   }
 }
 
@@ -111,5 +111,5 @@ module.exports = {
   },
   init: jest.fn(() => mock),
   mockSdk: mock,
-  getCurrentStep: getCurrentStep
+  getCurrentStep: getCurrentStep,
 }

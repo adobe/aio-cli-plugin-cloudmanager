@@ -20,28 +20,28 @@ class BaseExecutionCommand extends Command {
   outputTable (result, flags) {
     cli.table(result, {
       pipelineId: {
-        header: 'Pipeline Id'
+        header: 'Pipeline Id',
       },
       id: {
-        header: 'Execution Id'
+        header: 'Execution Id',
       },
       currentStep: {
         header: 'Current Step Action',
-        get: item => getCurrentStep(item).action
+        get: item => getCurrentStep(item).action,
       },
       currentStepStatus: {
         header: 'Current Step Status',
-        get: item => getCurrentStep(item).status
-      }
+        get: item => getCurrentStep(item).status,
+      },
     }, {
       printLine: this.log,
-      output: getOutputFormat(flags)
+      output: getOutputFormat(flags),
     })
   }
 }
 
 BaseExecutionCommand.flags = {
-  ...commonFlags.outputFormat
+  ...commonFlags.outputFormat,
 }
 
 module.exports = BaseExecutionCommand

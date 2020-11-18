@@ -57,8 +57,8 @@ class DownloadLogs extends Command {
       index: {},
       date: {},
       path: {
-        get: row => path.resolve(row.path)
-      }
+        get: row => path.resolve(row.path),
+      },
     })
 
     return result
@@ -75,17 +75,17 @@ DownloadLogs.args = [
   { name: 'environmentId', required: true, description: 'the environment id' },
   { name: 'service', required: true, description: 'the service' },
   { name: 'name', required: true, description: 'the log name' },
-  { name: 'days', required: false, description: 'the number of days', default: '1' }
+  { name: 'days', required: false, description: 'the number of days', default: '1' },
 ]
 
 DownloadLogs.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  outputDirectory: flags.string({ char: 'o', description: 'the output directory. If not set, defaults to the current directory.' })
+  outputDirectory: flags.string({ char: 'o', description: 'the output directory. If not set, defaults to the current directory.' }),
 }
 
 DownloadLogs.aliases = [
-  'cloudmanager:download-logs'
+  'cloudmanager:download-logs',
 ]
 
 module.exports = DownloadLogs

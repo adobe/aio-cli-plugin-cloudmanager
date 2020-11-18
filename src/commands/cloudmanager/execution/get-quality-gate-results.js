@@ -65,25 +65,25 @@ class GetQualityGateResults extends Command {
     cli.table(result, {
       severity: {
         header: 'Severity',
-        get: item => _.upperFirst(item.severity)
+        get: item => _.upperFirst(item.severity),
       },
       kpi: {
         header: 'Metric',
-        get: item => formatMetricName(item.kpi)
+        get: item => formatMetricName(item.kpi),
       },
       expectedValue: {
-        header: 'Expected Value'
+        header: 'Expected Value',
       },
       actualValue: {
-        header: 'Actual Value'
+        header: 'Actual Value',
       },
       passed: {
         header: 'Passed?',
-        get: item => item.passed ? 'Yes' : 'No'
-      }
+        get: item => item.passed ? 'Yes' : 'No',
+      },
     }, {
       printLine: this.log,
-      output: getOutputFormat(flags)
+      output: getOutputFormat(flags),
     })
 
     return result
@@ -99,7 +99,7 @@ GetQualityGateResults.description = 'get quality gate results'
 GetQualityGateResults.flags = {
   ...commonFlags.global,
   ...commonFlags.outputFormat,
-  ...commonFlags.programId
+  ...commonFlags.programId,
 }
 
 GetQualityGateResults.args = [
@@ -114,13 +114,13 @@ GetQualityGateResults.args = [
       'security',
       'performance',
       'contentAudit',
-      'experienceAudit'
-    ]
-  }
+      'experienceAudit',
+    ],
+  },
 ]
 
 GetQualityGateResults.aliases = [
-  'cloudmanager:get-quality-gate-results'
+  'cloudmanager:get-quality-gate-results',
 ]
 
 module.exports = GetQualityGateResults

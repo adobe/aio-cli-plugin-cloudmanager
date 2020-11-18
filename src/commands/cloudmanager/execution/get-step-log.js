@@ -65,7 +65,7 @@ GetExecutionStepLogs.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
   output: flags.string({ char: 'o', description: 'the output file. If not set, uses standard output.' }),
-  file: flags.string({ char: 'f', description: 'the alternative log file name. currently only `sonarLogFile` is available (for the codeQuality step)' })
+  file: flags.string({ char: 'f', description: 'the alternative log file name. currently only `sonarLogFile` is available (for the codeQuality step)' }),
 }
 
 GetExecutionStepLogs.args = [
@@ -81,13 +81,13 @@ GetExecutionStepLogs.args = [
       'devDeploy',
       'stageDeploy',
       'prodDeploy',
-      'buildImage'
-    ]
-  }
+      'buildImage',
+    ],
+  },
 ]
 
 GetExecutionStepLogs.aliases = [
-  'cloudmanager:get-execution-step-log'
+  'cloudmanager:get-execution-step-log',
 ]
 
 module.exports = GetExecutionStepLogs

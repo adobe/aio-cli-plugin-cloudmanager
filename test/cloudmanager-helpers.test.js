@@ -33,7 +33,7 @@ test('getApiKey', async () => {
   jest.spyOn(Config, 'get').mockImplementation(k => {
     if (k === 'jwt-auth') {
       return JSON.stringify({
-        client_id: '...'
+        client_id: '...',
       })
     }
   })
@@ -56,8 +56,8 @@ test('getOrgId', async () => {
     if (k === 'jwt-auth') {
       return JSON.stringify({
         jwt_payload: {
-          iss: '...'
-        }
+          iss: '...',
+        },
       })
     }
   })

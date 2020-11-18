@@ -15,5 +15,5 @@ let mockStore = {}
 module.exports = {
   get: jest.fn(k => mockStore[k]),
   setStore: (s) => (mockStore = s),
-  getPipedData: jest.fn()
+  getPipedData: jest.fn(),
 }
