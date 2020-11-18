@@ -1,7 +1,7 @@
 {
   "name": "@adobe/aio-cli-plugin-cloudmanager",
   "description": "Cloud Manager commands for the Adobe I/O CLI",
-  "version": "0.18.0",
+  "version": "0.18.1",
   "author": "Adobe Inc.",
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
@@ -65,13 +65,25 @@
     "hooks": {
       "prerun": "./src/hooks/prerun/environment-id-from-config"
     },
-    "topics" : {
-      "cloudmanager": { "description": "interact with the Cloud Manager API to interact with programs, pipelines, and environments." },
-      "cloudmanager:current-execution" : { "description" : "commands to work with the current execution for a pipeline" },
-      "cloudmanager:execution" : { "description" : "commands to work with executions for a pipeline" },
-      "cloudmanager:environment" : { "description" : "commands to work with environments" },
-      "cloudmanager:pipeline" : { "description" : "commands to work with pipelines" },
-      "cloudmanager:program" : { "description" : "commands to work with programs" }
+    "topics": {
+      "cloudmanager": {
+        "description": "interact with the Cloud Manager API to interact with programs, pipelines, and environments."
+      },
+      "cloudmanager:current-execution": {
+        "description": "commands to work with the current execution for a pipeline"
+      },
+      "cloudmanager:execution": {
+        "description": "commands to work with executions for a pipeline"
+      },
+      "cloudmanager:environment": {
+        "description": "commands to work with environments"
+      },
+      "cloudmanager:pipeline": {
+        "description": "commands to work with pipelines"
+      },
+      "cloudmanager:program": {
+        "description": "commands to work with programs"
+      }
     }
   },
   "main": "src/index.js",

@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.18.0...0.18.1) (2020-11-18)
+
+
+### Bug Fixes
+
+* **help:** improve help output. fixes [#165](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/165) ([25ee085](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/25ee085b69dbad040d937f8f60a9c4aeedf8140f))
+
 # [0.18.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.17.0...0.18.0) (2020-11-17)
 
 
