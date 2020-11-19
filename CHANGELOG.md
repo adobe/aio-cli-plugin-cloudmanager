@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.18.1...0.18.2) (2020-11-19)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @oclif/plugin-help to v3 ([ed9ad22](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/ed9ad222cb28bddfdfd5a1a975209eb4eedbfedf))
+
 ## [0.18.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.18.0...0.18.1) (2020-11-18)
 
 
