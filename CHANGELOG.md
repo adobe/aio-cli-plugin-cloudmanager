@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.18.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.18.2...0.18.3) (2021-01-12)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/aio-lib-core-config to v2 ([f004835](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/f004835a2030d51c8c5fd49687c03b2baf314ace))
+
 ## [0.18.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.18.1...0.18.2) (2020-11-19)
 
 
