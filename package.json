@@ -39,7 +39,7 @@
     "jest": "24.9.0",
     "jest-extended": "0.11.5",
     "jest-junit": "12.0.0",
-    "semantic-release": "17.3.6",
+    "semantic-release": "17.3.7",
     "stdout-stderr": "0.1.13",
     "tmp": "0.2.1"
   },
