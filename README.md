@@ -899,8 +899,12 @@ $ cat variables.json | aio cloudmanager:pipeline:set-variables 1 --jsonStdin
 Or
 
 ```
-$ aio cloudmanager:pipeline:set-variables 1 --jsonFile variables.json
+$ aio cloudmanager:pipeline:set-variables 1 --jsonFile=variables.json
 ```
+
+# Alternative Flag Inputs
+
+Adobe I/O CLI is based on [oclif](https://oclif.io/) which supports a variety of patterns for passing flags to commands. See [oclif documentation](https://oclif.io/docs/flags#alternative-flag-inputs) for more information.
 
 # Development
 
