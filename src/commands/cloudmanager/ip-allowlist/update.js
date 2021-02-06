@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command, flags } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _updateIpAllowlist (programId, ipAllowlistId, blocks, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.updateIpAllowlist(programId, ipAllowlistId, blocks)
-}
 
 class UpdateIPAllowlist extends Command {
   async run () {
@@ -37,7 +26,7 @@ class UpdateIPAllowlist extends Command {
     let result
 
     try {
-      result = await this.updateIpAllowlist(programId, args.ipAllowlistId, flags.cidr, flags.passphrase)
+      result = await this.updateIpAllowlist(programId, args.ipAllowlistId, flags.cidr, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -47,8 +36,9 @@ class UpdateIPAllowlist extends Command {
     return result
   }
 
-  async updateIpAllowlist (programId, ipAllowlistId, blocks, passphrase = null) {
-    return _updateIpAllowlist(programId, ipAllowlistId, blocks, passphrase)
+  async updateIpAllowlist (programId, ipAllowlistId, blocks, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.updateIpAllowlist(programId, ipAllowlistId, blocks)
   }
 }
 

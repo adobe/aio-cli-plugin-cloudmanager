@@ -10,12 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const TailLog = require('../../../src/commands/cloudmanager/environment/tail-log')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('tail-log - missing arg', async () => {
@@ -31,18 +31,11 @@ test('tail-log - missing config', async () => {
 
   const runResult = TailLog.run(['5', 'author', 'aemerror', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('tail-log - config', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(5)
 
@@ -50,7 +43,7 @@ test('tail-log - config', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.tailLog.mock.calls.length).toEqual(1)
   await expect(mockSdk.tailLog).toHaveBeenCalledWith('5', '17', 'author', 'aemerror', process.stdout)
 })

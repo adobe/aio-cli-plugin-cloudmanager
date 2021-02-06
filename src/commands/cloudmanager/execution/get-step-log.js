@@ -13,19 +13,8 @@ governing permissions and limitations under the License.
 const { Command, flags } = require('@oclif/command')
 const fs = require('fs')
 const { cli } = require('cli-ux')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
-const { init } = require('@adobe/aio-lib-cloudmanager')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
-
-async function _getExecutionStepLog (programId, pipelineId, executionId, action, logFile, outputStream, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.getExecutionStepLog(programId, pipelineId, executionId, action, logFile, outputStream)
-}
 
 class GetExecutionStepLogs extends Command {
   async run () {
@@ -42,7 +31,7 @@ class GetExecutionStepLogs extends Command {
     let result
 
     try {
-      result = await this.getExecutionStepLog(programId, args.pipelineId, args.executionId, args.action, flags.file, outputStream, flags.passphrase)
+      result = await this.getExecutionStepLog(programId, args.pipelineId, args.executionId, args.action, flags.file, outputStream, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -54,8 +43,9 @@ class GetExecutionStepLogs extends Command {
     return result
   }
 
-  async getExecutionStepLog (programId, pipelineId, executionId, action, outputStream, passphrase = null) {
-    return _getExecutionStepLog(programId, pipelineId, executionId, action, outputStream, passphrase)
+  async getExecutionStepLog (programId, pipelineId, executionId, action, logFile, outputStream, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.getExecutionStepLog(programId, pipelineId, executionId, action, logFile, outputStream)
   }
 }
 

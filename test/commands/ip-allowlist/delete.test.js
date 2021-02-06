@@ -12,20 +12,13 @@ governing permissions and limitations under the License.
 
 const DeleteIpAllowlist = require('../../../src/commands/cloudmanager/ip-allowlist/delete')
 
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { generateNewMock } = require('@adobe/aio-lib-cloudmanager')
 
 let mockSdk
 
 beforeEach(() => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
   mockSdk = generateNewMock()
 })
 

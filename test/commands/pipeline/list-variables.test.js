@@ -12,11 +12,12 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const ListPipelineVariablesCommand = require('../../../src/commands/cloudmanager/pipeline/list-variables')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('list-pipeline-variables - missing arg', async () => {
@@ -40,17 +41,12 @@ test('list-pipeline-variables - missing config', async () => {
 
   const runResult = ListPipelineVariablesCommand.run(['1', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('list-pipeline-variables - success', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '5',
   })
 
@@ -61,7 +57,7 @@ test('list-pipeline-variables - success', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getPipelineVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.getPipelineVariables).toHaveBeenCalledWith('5', '50')
 

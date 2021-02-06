@@ -12,11 +12,11 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const DeletePipelineCommand = require('../../../src/commands/cloudmanager/pipeline/delete')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('delete-pipeline - missing arg', async () => {
@@ -33,18 +33,11 @@ test('delete-pipeline - missing config', async () => {
   const runResult = DeletePipelineCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.toEqual(undefined)
-  await expect(cli.action.stop.mock.calls[0][0]).toBe('missing config data: jwt-auth')
+  await expect(cli.action.stop.mock.calls[0][0]).toBe('Unable to find IMS context aio-cli-plugin-cloudmanager')
 })
 
 test('delete-pipeline - configured', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(5)
 
@@ -52,7 +45,7 @@ test('delete-pipeline - configured', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.deletePipeline.mock.calls.length).toEqual(1)
   await expect(mockSdk.deletePipeline).toHaveBeenCalledWith('5', '7')
 })

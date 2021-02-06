@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 const fs = require('fs')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { setStore, getPipedData } = require('@adobe/aio-lib-core-config')
 const SetEnvironmentVariablesCommand = require('../../../src/commands/cloudmanager/environment/set-variables')
 
@@ -33,7 +34,7 @@ fs.readFile = jest.fn((fileName, encoding, callback) => {
 })
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('set-environment-variables - missing arg', async () => {
@@ -57,17 +58,12 @@ test('set-environment-variables - missing config', async () => {
 
   const runResult = SetEnvironmentVariablesCommand.run(['1', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('set-environment-variables - bad variable flag', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -79,13 +75,8 @@ test('set-environment-variables - bad variable flag', async () => {
 })
 
 test('set-environment-variables - bad secret flag', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -97,13 +88,8 @@ test('set-environment-variables - bad secret flag', async () => {
 })
 
 test('set-environment-variables - config', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '6',
   })
 
@@ -114,18 +100,13 @@ test('set-environment-variables - config', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(2)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(0)
 })
 
 test('set-environment-variables - variables only', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -136,7 +117,7 @@ test('set-environment-variables - variables only', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
@@ -150,13 +131,8 @@ test('set-environment-variables - variables only', async () => {
 })
 
 test('set-environment-variables - secrets only', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -167,7 +143,7 @@ test('set-environment-variables - secrets only', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
@@ -181,13 +157,8 @@ test('set-environment-variables - secrets only', async () => {
 })
 
 test('set-environment-variables - secret and variable', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -198,7 +169,7 @@ test('set-environment-variables - secret and variable', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
@@ -212,13 +183,8 @@ test('set-environment-variables - secret and variable', async () => {
 })
 
 test('set-environment-variables - delete', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -229,7 +195,7 @@ test('set-environment-variables - delete', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'KEY',
@@ -239,13 +205,8 @@ test('set-environment-variables - delete', async () => {
 })
 
 test('set-environment-variables - delete secret', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -256,7 +217,7 @@ test('set-environment-variables - delete secret', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'I_AM_A_SECRET',
@@ -266,13 +227,8 @@ test('set-environment-variables - delete secret', async () => {
 })
 
 test('set-environment-variables - delete not found', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -283,18 +239,13 @@ test('set-environment-variables - delete not found', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(2)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(0)
 })
 
 test('set-environment-variables - stdin - not JSON', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -309,13 +260,8 @@ test('set-environment-variables - stdin - not JSON', async () => {
 })
 
 test('set-environment-variables - file - not JSON', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -330,13 +276,8 @@ test('set-environment-variables - file - not JSON', async () => {
 })
 
 test('set-environment-variables - stdin - not array', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -351,13 +292,8 @@ test('set-environment-variables - stdin - not array', async () => {
 })
 
 test('set-environment-variables - stdin - secret and variable', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -381,7 +317,7 @@ test('set-environment-variables - stdin - secret and variable', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
@@ -395,13 +331,8 @@ test('set-environment-variables - stdin - secret and variable', async () => {
 })
 
 test('set-environment-variables - file - secret and variable', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -425,7 +356,7 @@ test('set-environment-variables - file - secret and variable', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
@@ -439,13 +370,8 @@ test('set-environment-variables - file - secret and variable', async () => {
 })
 
 test('set-environment-variables - stdin - variable in flag overrides stdin', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -464,7 +390,7 @@ test('set-environment-variables - stdin - variable in flag overrides stdin', asy
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'foo',
@@ -474,13 +400,8 @@ test('set-environment-variables - stdin - variable in flag overrides stdin', asy
 })
 
 test('set-environment-variables - stdin - delete from stream', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -499,7 +420,7 @@ test('set-environment-variables - stdin - delete from stream', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(3)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
   await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
     name: 'I_AM_A_SECRET',
@@ -509,13 +430,8 @@ test('set-environment-variables - stdin - delete from stream', async () => {
 })
 
 test('set-environment-variables - stdin - missing name', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -533,18 +449,13 @@ test('set-environment-variables - stdin - missing name', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(2)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(0)
 })
 
 test('set-environment-variables - both jsonStdin and jsonFile', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
   expect.assertions(2)

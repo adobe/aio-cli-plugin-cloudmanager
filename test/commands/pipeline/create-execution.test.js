@@ -12,11 +12,11 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const StartExecutionCommand = require('../../../src/commands/cloudmanager/pipeline/create-execution')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('start-execution - missing arg', async () => {
@@ -33,18 +33,11 @@ test('start-execution - missing config', async () => {
   const runResult = StartExecutionCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.toEqual(undefined)
-  await expect(cli.action.stop.mock.calls[0][0]).toBe('missing config data: jwt-auth')
+  await expect(cli.action.stop.mock.calls[0][0]).toBe('Unable to find IMS context aio-cli-plugin-cloudmanager')
 })
 
 test('start-execution - some url', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
   mockSdk.createExecution = jest.fn(() => Promise.resolve({
     id: '5000',
   }))
@@ -55,7 +48,7 @@ test('start-execution - some url', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.createExecution.mock.calls.length).toEqual(1)
   await expect(mockSdk.createExecution).toHaveBeenCalledWith('5', '10')
 

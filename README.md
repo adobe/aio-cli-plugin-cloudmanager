@@ -44,15 +44,19 @@ $ aio plugins:update
 At minimum, an integration must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service. You may also add other services to this integration
 if you want to use other Adobe I/O CLI plugins. For example, to use the [Console Plugin](https://github.com/adobe/aio-cli-plugin-console/), your integration needs to have the "I/O Management API" service.
 
-After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the `client_id` and `client_secret` values to the config file; if you navigate to the JWT tab in Console, you'll get the value for the `jwt_payload`.
+After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
 
 ```
 //config.json 
 {
   "client_id": "value from your CLI integration (String)",
   "client_secret": "value from your CLI integration (String)",
-  "jwt_payload": { value from your CLI integration (JSON Object Literal) },
-  "token_exchange_url": "https://ims-na1.adobelogin.com/ims/exchange/jwt"
+  "technical_account_id": "value from your CLI integration (String)",
+  "technical_account_email": "value from your CLI integration (String)",
+  "ims_org_id": "value from your CLI integration (String)",
+  "meta_scopes": [
+    "ent_cloudmgr_sdk"
+  ]
 }
 ```
 
@@ -61,16 +65,34 @@ The last bit you need to have at hand is the private certificate you've used to 
 First, configure the credentials:
 
 ```
-aio config:set jwt-auth PATH_TO_CONFIG_JSON_FILE --file --json
+aio config:set ims.contexts.aio-cli-plugin-cloudmanager PATH_TO_CONFIG_JSON_FILE --file --json
 ```
 
 Then, configure the private certificate:
 
 ```
-aio config:set jwt-auth.jwt_private_key PATH_TO_PRIVATE_KEY_FILE --file
+aio config:set ims.contexts.aio-cli-plugin-cloudmanager.private_key PATH_TO_PRIVATE_KEY_FILE --file
 ```
 
 > More information on setting up a Cloud Manager integration in the Adobe I/O console can be found [here](https://www.adobe.io/apis/experiencecloud/cloud-manager/docs.html#!AdobeDocs/cloudmanager-api-docs/master/create-api-integration.md).
+
+> More information on IMS contexts can be found in the documentation of [@adobe/aio-lib-ims](https://github.com/adobe/aio-lib-ims).
+
+### Old Configuration Migration
+
+Previous versions of this plugin used the configuration key `jwt-auth`. Upon execution, the plugin will automatically migrate these configurations. It will **not** delete the old configuration however and you may want to run
+
+```
+aio config:del jwt-auth
+```
+
+To clean up any dangling configuration unless it is necessary for other aio plugins.
+
+This migration process is silent by default. You can enable debug logging by running any command where the environment variable `LOG_LEVEL` is set to `debug`, e.g.
+
+```
+LOG_LEVEL=debug aio cloudmanager:list-programs
+```
 
 ## Set Default Program
 
@@ -150,8 +172,8 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:advance-current-execution
@@ -171,8 +193,8 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:cancel-current-execution
@@ -192,10 +214,10 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:get-current-execution
@@ -217,8 +239,8 @@ ARGUMENTS
   SERVICE        (author|publish) the service name
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/environment/bind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/bind-ip-allowlist.js)_
@@ -235,8 +257,8 @@ ARGUMENTS
   ENVIRONMENTID  the environment id
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:delete-environment
@@ -264,7 +286,7 @@ OPTIONS
   -p, --programId=programId              the programId. if not specified, defaults to 'cloudmanager_programid' config
                                          value
 
-  -r, --passphrase=passphrase            the passphrase for the private key
+  --imsContextName=imsContextName        the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:download-logs
@@ -284,10 +306,10 @@ ARGUMENTS
   ENVIRONMENTID  the environment id
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:list-available-log-options
@@ -307,10 +329,10 @@ ARGUMENTS
   ENVIRONMENTID  the environment id
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:environment:list-bound-ip-allowlists
@@ -330,10 +352,10 @@ ARGUMENTS
   ENVIRONMENTID  the environment id
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:list-environment-variables
@@ -353,8 +375,8 @@ ARGUMENTS
   ENVIRONMENTID  the environment id
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:open-developer-console
@@ -374,19 +396,19 @@ ARGUMENTS
   ENVIRONMENTID  the environment id
 
 OPTIONS
-  -d, --delete=delete          variables/secrets to delete
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -s, --secret=secret          secret values in KEY VALUE format
-  -v, --variable=variable      variable values in KEY VALUE format
-  -y, --yaml                   output in yaml format
+  -d, --delete=delete              variables/secrets to delete
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -s, --secret=secret              secret values in KEY VALUE format
+  -v, --variable=variable          variable values in KEY VALUE format
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
-  --jsonFile=jsonFile          if set, read variables from a JSON array provided as a file; variables set through
-                               --variable or --secret flag will take precedence
+  --jsonFile=jsonFile              if set, read variables from a JSON array provided as a file; variables set through
+                                   --variable or --secret flag will take precedence
 
-  --jsonStdin                  if set, read variables from a JSON array provided as standard input; variables set
-                               through --variable or --secret flag will take precedence
+  --jsonStdin                      if set, read variables from a JSON array provided as standard input; variables set
+                                   through --variable or --secret flag will take precedence
 
 ALIASES
   $ aio cloudmanager:set-environment-variables
@@ -408,8 +430,8 @@ ARGUMENTS
   NAME           the log name
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:tail-logs
@@ -432,8 +454,8 @@ ARGUMENTS
   SERVICE        (author|publish) the service name
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/environment/unbind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/unbind-ip-allowlist.js)_
@@ -452,10 +474,10 @@ ARGUMENTS
   ACTION       (codeQuality|security|performance|contentAudit|experienceAudit) the step action
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:get-quality-gate-results
@@ -476,10 +498,10 @@ ARGUMENTS
   EXECUTIONID  the execution id
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:get-execution-step-details
@@ -501,14 +523,14 @@ ARGUMENTS
   ACTION       (build|codeQuality|devDeploy|stageDeploy|prodDeploy|buildImage) the step action
 
 OPTIONS
-  -f, --file=file              the alternative log file name. currently only `sonarLogFile` is available (for the
-                               codeQuality step)
+  -f, --file=file                  the alternative log file name. currently only `sonarLogFile` is available (for the
+                                   codeQuality step)
 
-  -o, --output=output          the output file. If not set, uses standard output.
+  -o, --output=output              the output file. If not set, uses standard output.
 
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
 
-  -r, --passphrase=passphrase  the passphrase for the private key
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:get-execution-step-log
@@ -530,8 +552,8 @@ ARGUMENTS
   SERVICE        (author|publish) the service name
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/ip-allowlist/bind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/bind.js)_
@@ -548,9 +570,9 @@ ARGUMENTS
   NAME  the name to create
 
 OPTIONS
-  -c, --cidr=cidr              (required) a CIDR block
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -c, --cidr=cidr                  (required) a CIDR block
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/ip-allowlist/create.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/create.js)_
@@ -567,8 +589,8 @@ ARGUMENTS
   IPALLOWLISTID  the id of the allowlist to delete
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/ip-allowlist/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/delete.js)_
@@ -585,10 +607,10 @@ ARGUMENTS
   IPALLOWLISTID  the id of the allowlist
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/ip-allowlist/get-binding-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/get-binding-details.js)_
@@ -607,8 +629,8 @@ ARGUMENTS
   SERVICE        (author|publish) the service name
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/ip-allowlist/unbind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/unbind.js)_
@@ -625,11 +647,11 @@ ARGUMENTS
   IPALLOWLISTID  the id of the allowlist to update
 
 OPTIONS
-  -c, --cidr=cidr              (required) a CIDR block
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -c, --cidr=cidr                  (required) a CIDR block
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/ip-allowlist/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/update.js)_
@@ -643,10 +665,10 @@ USAGE
   $ aio cloudmanager:list-programs
 
 OPTIONS
-  -e, --enabledonly            only output Cloud Manager-enabled programs
-  -j, --json                   output in json format
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -e, --enabledonly                only output Cloud Manager-enabled programs
+  -j, --json                       output in json format
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/list-programs.js)_
@@ -663,8 +685,8 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:create-execution
@@ -685,8 +707,8 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:delete-pipeline
@@ -706,10 +728,10 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:list-pipeline-variables
@@ -729,19 +751,19 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -d, --delete=delete          variables/secrets to delete
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -s, --secret=secret          secret values in KEY VALUE format
-  -v, --variable=variable      variable values in KEY VALUE format
-  -y, --yaml                   output in yaml format
+  -d, --delete=delete              variables/secrets to delete
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -s, --secret=secret              secret values in KEY VALUE format
+  -v, --variable=variable          variable values in KEY VALUE format
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
-  --jsonFile=jsonFile          if set, read variables from a JSON array provided as a file; variables set through
-                               --variable or --secret flag will take precedence
+  --jsonFile=jsonFile              if set, read variables from a JSON array provided as a file; variables set through
+                                   --variable or --secret flag will take precedence
 
-  --jsonStdin                  if set, read variables from a JSON array provided as standard input; variables set
-                               through --variable or --secret flag will take precedence
+  --jsonStdin                      if set, read variables from a JSON array provided as standard input; variables set
+                                   through --variable or --secret flag will take precedence
 
 ALIASES
   $ aio cloudmanager:set-pipeline-variables
@@ -761,11 +783,11 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  --branch=branch              the new branch
-  --repositoryId=repositoryId  the new repositoryId
-  --tag=tag                    the new tag
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --branch=branch                  the new branch
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  --repositoryId=repositoryId      the new repositoryId
+  --tag=tag                        the new tag
 
 ALIASES
   $ aio cloudmanager:update-pipeline
@@ -785,7 +807,7 @@ ARGUMENTS
   PROGRAMID  the program id
 
 OPTIONS
-  -r, --passphrase=passphrase  the passphrase for the private key
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:delete-program
@@ -802,10 +824,10 @@ USAGE
   $ aio cloudmanager:program:list-current-executions
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:list-current-executions
@@ -822,10 +844,10 @@ USAGE
   $ aio cloudmanager:program:list-environments
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:list-environments
@@ -842,10 +864,10 @@ USAGE
   $ aio cloudmanager:program:list-ip-allowlists
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/program/list-ip-allowlists.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/program/list-ip-allowlists.js)_
@@ -859,10 +881,10 @@ USAGE
   $ aio cloudmanager:program:list-pipelines
 
 OPTIONS
-  -j, --json                   output in json format
-  -p, --programId=programId    the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -r, --passphrase=passphrase  the passphrase for the private key
-  -y, --yaml                   output in yaml format
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:list-pipelines

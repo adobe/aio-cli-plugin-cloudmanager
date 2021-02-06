@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command, flags } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _createIpAllowlist (programId, name, cidrBlocks, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.createIpAllowlist(programId, name, cidrBlocks)
-}
 
 class CreateIPAllowlist extends Command {
   async run () {
@@ -37,7 +26,7 @@ class CreateIPAllowlist extends Command {
     let result
 
     try {
-      result = await this.createIpAllowlist(programId, args.name, flags.cidr, flags.passphrase)
+      result = await this.createIpAllowlist(programId, args.name, flags.cidr, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -47,8 +36,9 @@ class CreateIPAllowlist extends Command {
     return result
   }
 
-  async createIpAllowlist (programId, name, blocks, passphrase = null) {
-    return _createIpAllowlist(programId, name, blocks, passphrase)
+  async createIpAllowlist (programId, name, cidrBlocks, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.createIpAllowlist(programId, name, cidrBlocks)
   }
 }
 

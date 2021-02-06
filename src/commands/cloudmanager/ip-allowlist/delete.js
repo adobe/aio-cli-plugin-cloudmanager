@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _deleteIpAllowlist (programId, ipAllowlistId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.deleteIpAllowlist(programId, ipAllowlistId)
-}
 
 class DeleteIPAllowlist extends Command {
   async run () {
@@ -37,7 +26,7 @@ class DeleteIPAllowlist extends Command {
     let result
 
     try {
-      result = await this.deleteIpAllowlist(programId, args.ipAllowlistId, flags.passphrase)
+      result = await this.deleteIpAllowlist(programId, args.ipAllowlistId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -47,8 +36,9 @@ class DeleteIPAllowlist extends Command {
     return result
   }
 
-  async deleteIpAllowlist (programId, ipAllowlistId, passphrase = null) {
-    return _deleteIpAllowlist(programId, ipAllowlistId, passphrase)
+  async deleteIpAllowlist (programId, ipAllowlistId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.deleteIpAllowlist(programId, ipAllowlistId)
   }
 }
 

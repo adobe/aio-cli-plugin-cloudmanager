@@ -10,78 +10,47 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const Config = require('@adobe/aio-lib-core-config')
-const { getApiKey, getOrgId, getBaseUrl, getOutputFormat, columnWithArray } = require('../src/cloudmanager-helpers')
+const { setCurrentOrgId } = require('@adobe/aio-lib-ims')
+const { setStore } = require('@adobe/aio-lib-core-config')
+const { initSdk, getOutputFormat, columnWithArray } = require('../src/cloudmanager-helpers')
+const { init } = require('@adobe/aio-lib-cloudmanager')
 
-beforeEach(() => {
-  jest.clearAllMocks()
-  jest.resetAllMocks()
-})
-
-test('getApiKey', async () => {
-  expect.assertions(3)
-
-  // no jwt-auth key
-  jest.spyOn(Config, 'get').mockImplementation(() => null)
-  await expect(getApiKey()).rejects.toEqual(new Error('missing config data: jwt-auth'))
-
-  // jwt-auth available
-  jest.spyOn(Config, 'get').mockImplementation(() => '{ "jwt-auth": {} }')
-  await expect(getApiKey()).rejects.toEqual(new Error('missing config data: jwt-auth.client_id'))
-
-  // jwt-auth, client_id available
-  jest.spyOn(Config, 'get').mockImplementation(k => {
-    if (k === 'jwt-auth') {
-      return JSON.stringify({
-        client_id: '...',
-      })
-    }
-  })
-  await expect(getApiKey()).resolves.toEqual('...')
-})
-
-test('getOrgId', async () => {
-  expect.assertions(3)
-
-  // no jwt-auth key
-  jest.spyOn(Config, 'get').mockImplementation(() => null)
-  await expect(getOrgId()).rejects.toEqual(new Error('missing config data: jwt-auth'))
-
-  // jwt-auth available
-  jest.spyOn(Config, 'get').mockImplementation(() => '{ "jwt-auth": {} }')
-  await expect(getOrgId()).rejects.toEqual(new Error('missing config data: jwt-auth.jwt_payload.iss'))
-
-  // jwt-auth, client_id available
-  jest.spyOn(Config, 'get').mockImplementation(k => {
-    if (k === 'jwt-auth') {
-      return JSON.stringify({
-        jwt_payload: {
-          iss: '...',
-        },
-      })
-    }
-  })
-  await expect(getOrgId()).resolves.toEqual('...')
-})
-
-test('getBaseUrl', async () => {
-  expect.assertions(4)
+test('initSdk - base url config -- no config', async () => {
+  setCurrentOrgId('good')
 
   // no cloudmanager key
-  jest.spyOn(Config, 'get').mockImplementation(() => null)
-  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+  setStore({})
+  await initSdk()
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+})
 
+test('initSdk - base url config -- number config', async () => {
+  setCurrentOrgId('good')
   // cloudmanager key available, but not a string
-  jest.spyOn(Config, 'get').mockImplementation(() => 42)
-  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
+  setStore({
+    cloudmanager: 42,
+  })
+  await initSdk()
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+})
+test('initSdk - base url config -- no base url config', async () => {
+  setCurrentOrgId('good')
+  // cloudmanager key available, but not a string
+  setStore({
+    cloudmanager: JSON.stringify({ foo: 'bar' }),
+  })
+  await initSdk()
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+})
 
-  // cloudmanager key, no base url
-  jest.spyOn(Config, 'get').mockImplementation(() => JSON.stringify({ foo: 'bar' }))
-  await expect(getBaseUrl()).resolves.toEqual('https://cloudmanager.adobe.io')
-
-  // cloudmanager key, some base url
-  jest.spyOn(Config, 'get').mockImplementation(() => JSON.stringify({ base_url: 'https://www.adobe.com' }))
-  await expect(getBaseUrl()).resolves.toEqual('https://www.adobe.com')
+test('initSdk - base url config -- good config', async () => {
+  setCurrentOrgId('good')
+  // cloudmanager key available, but not a string
+  setStore({
+    cloudmanager: JSON.stringify({ base_url: 'https://www.adobe.com' }),
+  })
+  await initSdk()
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://www.adobe.com')
 })
 
 test('getOutputFormat', () => {

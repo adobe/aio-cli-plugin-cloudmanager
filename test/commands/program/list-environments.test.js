@@ -12,11 +12,12 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const ListEnvironmentsCommand = require('../../../src/commands/cloudmanager/program/list-environments')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('list-environments - missing arg', async () => {
@@ -32,17 +33,12 @@ test('list-environments - missing config', async () => {
 
   const runResult = ListEnvironmentsCommand.run(['--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('list-environments - configured', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '6',
   })
 
@@ -53,7 +49,7 @@ test('list-environments - configured', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.listEnvironments.mock.calls.length).toEqual(1)
   await expect(mockSdk.listEnvironments).toHaveBeenCalledWith('6')
 

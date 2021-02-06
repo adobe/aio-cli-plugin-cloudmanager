@@ -11,13 +11,13 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const GetCurrentExecution = require('../../../src/commands/cloudmanager/current-execution/get')
 const execution1010 = require('../../data/execution1010.json')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('get-current-execution - missing arg', async () => {
@@ -33,18 +33,11 @@ test('get-current-execution - missing config', async () => {
 
   const runResult = GetCurrentExecution.run(['5', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('get-current-execution - configured', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(7)
 
@@ -52,7 +45,7 @@ test('get-current-execution - configured', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getCurrentExecution.mock.calls.length).toEqual(1)
   await expect(mockSdk.getCurrentExecution).toHaveBeenCalledWith('5', '5')
 

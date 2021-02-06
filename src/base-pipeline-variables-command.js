@@ -10,23 +10,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId } = require('./cloudmanager-helpers')
+const { initSdk } = require('./cloudmanager-helpers')
 const BaseVariablesCommand = require('./base-variables-command')
-const { init } = require('@adobe/aio-lib-cloudmanager')
-
-async function _getPipelineVariables (programId, pipelineId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.getPipelineVariables(programId, pipelineId)
-}
 
 class BasePipelineVariablesCommand extends BaseVariablesCommand {
-  async getVariables (programId, args, passphrase = null) {
-    return _getPipelineVariables(programId, args.pipelineId, passphrase)
+  async getVariables (programId, args, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.getPipelineVariables(programId, args.pipelineId)
   }
 }
 

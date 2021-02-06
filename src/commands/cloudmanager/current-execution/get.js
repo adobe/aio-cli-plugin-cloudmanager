@@ -10,20 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
-const { init } = require('@adobe/aio-lib-cloudmanager')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
 const BaseExecutionCommand = require('../../../base-execution-command')
-
-async function _getCurrentExecution (programId, pipelineId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.getCurrentExecution(programId, pipelineId)
-}
 
 class GetCurrentExecutionCommand extends BaseExecutionCommand {
   async run () {
@@ -34,7 +23,7 @@ class GetCurrentExecutionCommand extends BaseExecutionCommand {
     let result
 
     try {
-      result = await this.getCurrentExecution(programId, args.pipelineId, flags.passphrase)
+      result = await this.getCurrentExecution(programId, args.pipelineId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -44,8 +33,9 @@ class GetCurrentExecutionCommand extends BaseExecutionCommand {
     return result
   }
 
-  async getCurrentExecution (programId, pipelineId, passphrase = null) {
-    return _getCurrentExecution(programId, pipelineId, passphrase)
+  async getCurrentExecution (programId, pipelineId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.getCurrentExecution(programId, pipelineId)
   }
 }
 

@@ -11,23 +11,12 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const _ = require('lodash')
 const halfred = require('halfred')
 const moment = require('moment')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _getExecution (programId, pipelineId, executionId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.getExecution(programId, pipelineId, executionId)
-}
 
 function formatAction (stepState) {
   if (stepState.action === 'deploy') {
@@ -58,7 +47,7 @@ class GetExecutionStepDetails extends Command {
     let result
 
     try {
-      result = await this.getExecution(programId, args.pipelineId, args.executionId, flags.passphrase)
+      result = await this.getExecution(programId, args.pipelineId, args.executionId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -104,8 +93,9 @@ class GetExecutionStepDetails extends Command {
     return result
   }
 
-  async getExecution (programId, pipelineId, executionId, passphrase = null) {
-    return _getExecution(programId, pipelineId, executionId, passphrase)
+  async getExecution (programId, pipelineId, executionId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.getExecution(programId, pipelineId, executionId)
   }
 }
 

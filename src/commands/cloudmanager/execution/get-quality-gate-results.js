@@ -11,24 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const _ = require('lodash')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _getQualityGateResults (programId, pipelineId, executionId, action, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  if (action === 'experienceAudit') {
-    action = 'contentAudit'
-  }
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.getQualityGateResults(programId, pipelineId, executionId, action)
-}
 
 function formatMetricName (name) {
   switch (name) {
@@ -49,7 +35,7 @@ class GetQualityGateResults extends Command {
     let result
 
     try {
-      result = await this.getQualityGateResults(programId, args.pipelineId, args.executionId, args.action, flags.passphrase)
+      result = await this.getQualityGateResults(programId, args.pipelineId, args.executionId, args.action, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -89,8 +75,12 @@ class GetQualityGateResults extends Command {
     return result
   }
 
-  async getQualityGateResults (programId, pipelineId, executionId, action, passphrase = null) {
-    return _getQualityGateResults(programId, pipelineId, executionId, action, passphrase)
+  async getQualityGateResults (programId, pipelineId, executionId, action, imsContextName = null) {
+    if (action === 'experienceAudit') {
+      action = 'contentAudit'
+    }
+    const sdk = await initSdk(imsContextName)
+    return sdk.getQualityGateResults(programId, pipelineId, executionId, action)
   }
 }
 

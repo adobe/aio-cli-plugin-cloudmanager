@@ -11,11 +11,11 @@ governing permissions and limitations under the License.
 */
 
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const ListCurrentExecutions = require('../../../src/commands/cloudmanager/program/list-current-executions')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('list-current-executions - missing arg', async () => {
@@ -31,18 +31,11 @@ test('list-current-executions - missing config', async () => {
 
   const runResult = ListCurrentExecutions.run(['--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('list-current-executions - success', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(7)
 
@@ -50,7 +43,7 @@ test('list-current-executions - success', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.listPipelines.mock.calls.length).toEqual(1)
   await expect(mockSdk.listPipelines).toHaveBeenCalledWith('5', { busy: true })
   await expect(mockSdk.getCurrentExecution.mock.calls.length).toEqual(1)

@@ -12,19 +12,8 @@ governing permissions and limitations under the License.
 
 const BasePipelineVariablesCommand = require('../../../base-pipeline-variables-command')
 const BaseVariablesCommand = require('../../../base-variables-command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId } = require('../../../cloudmanager-helpers')
-const { init } = require('@adobe/aio-lib-cloudmanager')
+const { initSdk } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
-
-async function _setPipelineVariables (programId, pipelineId, variables, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.setPipelineVariables(programId, pipelineId, variables)
-}
 
 class SetPipelineVariablesCommand extends BasePipelineVariablesCommand {
   async run () {
@@ -33,8 +22,9 @@ class SetPipelineVariablesCommand extends BasePipelineVariablesCommand {
     return this.runSet(args, flags)
   }
 
-  async setVariables (programId, args, variables, passphrase = null) {
-    return _setPipelineVariables(programId, args.pipelineId, variables, passphrase)
+  async setVariables (programId, args, variables, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.setPipelineVariables(programId, args.pipelineId, variables)
   }
 }
 

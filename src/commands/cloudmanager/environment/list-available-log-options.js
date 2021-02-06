@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, sanitizeEnvironmentId, getOutputFormat } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, sanitizeEnvironmentId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _listAvailableLogOptions (programId, environmentId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.listAvailableLogOptions(programId, environmentId)
-}
 
 class ListAvailableLogOptionsCommand extends Command {
   async run () {
@@ -37,7 +26,7 @@ class ListAvailableLogOptionsCommand extends Command {
     let result
 
     try {
-      result = await this.listAvailableLogOptions(programId, environmentId, flags.passphrase)
+      result = await this.listAvailableLogOptions(programId, environmentId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -61,8 +50,9 @@ class ListAvailableLogOptionsCommand extends Command {
     return result
   }
 
-  async listAvailableLogOptions (programId, environmentId, passphrase = null) {
-    return _listAvailableLogOptions(programId, environmentId, passphrase)
+  async listAvailableLogOptions (programId, environmentId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.listAvailableLogOptions(programId, environmentId)
   }
 }
 

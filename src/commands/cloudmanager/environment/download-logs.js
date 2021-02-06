@@ -11,21 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const { Command, flags } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const path = require('path')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _downloadLogs (programId, environmentId, service, logName, days, outputDirectory, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.downloadLogs(programId, environmentId, service, logName, days, outputDirectory)
-}
 
 class DownloadLogs extends Command {
   async run () {
@@ -42,7 +31,7 @@ class DownloadLogs extends Command {
     let result
 
     try {
-      result = await this.downloadLogs(programId, environmentId, args.service, args.name, args.days, outputDirectory, flags.passphrase)
+      result = await this.downloadLogs(programId, environmentId, args.service, args.name, args.days, outputDirectory, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -64,8 +53,9 @@ class DownloadLogs extends Command {
     return result
   }
 
-  async downloadLogs (programId, environmentId, service, name, days, outputDirectory, passphrase = null) {
-    return _downloadLogs(programId, environmentId, service, name, days, outputDirectory, passphrase)
+  async downloadLogs (programId, environmentId, service, logName, days, outputDirectory, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.downloadLogs(programId, environmentId, service, logName, days, outputDirectory)
   }
 }
 
