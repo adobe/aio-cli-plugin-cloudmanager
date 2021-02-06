@@ -11,6 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-lib-core-config')
+const { init } = require('@adobe/aio-lib-cloudmanager')
+const { context, getToken } = require('@adobe/aio-lib-ims')
+
+const defaultContextName = 'aio-cli-plugin-cloudmanager'
 
 function toJson (item) {
   let c = item
@@ -19,33 +23,6 @@ function toJson (item) {
   }
 
   return c
-}
-
-async function getOrgId () {
-  const configData = await getJwtAuth()
-  if (!configData.jwt_payload || !configData.jwt_payload.iss) {
-    throw new Error('missing config data: jwt-auth.jwt_payload.iss')
-  }
-  return configData.jwt_payload.iss
-}
-
-async function getJwtAuth () {
-  const configStr = await Config.get('jwt-auth')
-  if (!configStr) {
-    return Promise.reject(new Error('missing config data: jwt-auth'))
-  }
-
-  const configData = toJson(configStr)
-
-  return configData
-}
-
-async function getApiKey () {
-  const configData = await getJwtAuth()
-  if (!configData.client_id) {
-    throw new Error('missing config data: jwt-auth.client_id')
-  }
-  return configData.client_id
 }
 
 async function getBaseUrl () {
@@ -118,14 +95,30 @@ async function getDefaultEnvironmentId (flags) {
   return await Config.get('cloudmanager_environmentid')
 }
 
+async function initSdk (contextName) {
+  contextName = contextName || defaultContextName
+  await context.setCurrent(contextName || defaultContextName)
+  const contextData = await context.get()
+  if (!contextData || !contextData.data) {
+    throw new Error(`Unable to find IMS context ${contextName}`)
+  }
+
+  const apiKey = contextData.data.client_id
+  const orgId = contextData.data.ims_org_id
+
+  const accessToken = await getToken(contextName)
+
+  const baseUrl = await getBaseUrl()
+  return await init(orgId, apiKey, accessToken, baseUrl)
+}
+
 module.exports = {
-  getBaseUrl,
-  getApiKey,
-  getOrgId,
+  defaultContextName,
   getProgramId,
   getOutputFormat,
   createKeyValueObjectFromFlag,
   sanitizeEnvironmentId,
   getDefaultEnvironmentId,
   columnWithArray,
+  initSdk,
 }

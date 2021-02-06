@@ -10,23 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
-const { init } = require('@adobe/aio-lib-cloudmanager')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
 const BaseExecutionCommand = require('../../../base-execution-command')
-
-async function _listCurrentExecutions (programId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  const pipelines = await sdk.listPipelines(programId, {
-    busy: true,
-  })
-  return await Promise.all(pipelines.map(async pipeline => await sdk.getCurrentExecution(programId, pipeline.id)))
-}
 
 class ListCurrentExecutionsCommand extends BaseExecutionCommand {
   async run () {
@@ -37,7 +23,7 @@ class ListCurrentExecutionsCommand extends BaseExecutionCommand {
     const programId = await getProgramId(flags)
 
     try {
-      result = await this.listCurrentExecutions(programId, flags.passphrase)
+      result = await this.listCurrentExecutions(programId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -47,8 +33,12 @@ class ListCurrentExecutionsCommand extends BaseExecutionCommand {
     return result
   }
 
-  async listCurrentExecutions (programId, passphrase = null) {
-    return _listCurrentExecutions(programId, passphrase)
+  async listCurrentExecutions (programId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    const pipelines = await sdk.listPipelines(programId, {
+      busy: true,
+    })
+    return await Promise.all(pipelines.map(async pipeline => await sdk.getCurrentExecution(programId, pipeline.id)))
   }
 }
 

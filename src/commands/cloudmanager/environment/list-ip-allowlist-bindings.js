@@ -26,7 +26,7 @@ class ListIPAllowlistBindings extends Command {
     let result
 
     try {
-      result = await new ListIpAllowlists().listIpAllowlists(programId, flags.passphrase)
+      result = await new ListIpAllowlists().listIpAllowlists(programId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }

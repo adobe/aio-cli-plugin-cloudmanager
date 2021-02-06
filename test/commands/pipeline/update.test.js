@@ -12,11 +12,11 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const UpdatePipelineCommand = require('../../../src/commands/cloudmanager/pipeline/update')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('update-pipeline - missing arg', async () => {
@@ -33,18 +33,11 @@ test('update-pipeline - missing config', async () => {
   const runResult = UpdatePipelineCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.toEqual(undefined)
-  await expect(cli.action.stop.mock.calls[0][0]).toBe('missing config data: jwt-auth')
+  await expect(cli.action.stop.mock.calls[0][0]).toBe('Unable to find IMS context aio-cli-plugin-cloudmanager')
 })
 
 test('update-pipeline - branch success', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(8)
 
@@ -53,7 +46,7 @@ test('update-pipeline - branch success', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.updatePipeline.mock.calls.length).toEqual(1)
   await expect(mockSdk.updatePipeline.mock.calls[0][0]).toEqual('5')
   await expect(mockSdk.updatePipeline.mock.calls[0][1]).toEqual('10')
@@ -64,14 +57,7 @@ test('update-pipeline - branch success', async () => {
 })
 
 test('update-pipeline - repository and branch success', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(8)
 
@@ -80,7 +66,7 @@ test('update-pipeline - repository and branch success', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.updatePipeline.mock.calls.length).toEqual(1)
   await expect(mockSdk.updatePipeline.mock.calls[0][0]).toEqual('5')
   await expect(mockSdk.updatePipeline.mock.calls[0][1]).toEqual('10')
@@ -92,14 +78,7 @@ test('update-pipeline - repository and branch success', async () => {
 })
 
 test('update-pipeline - both tag and branch', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(2)
 
@@ -109,14 +88,7 @@ test('update-pipeline - both tag and branch', async () => {
 })
 
 test('update-pipeline - malformed tag', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(2)
 
@@ -126,14 +98,7 @@ test('update-pipeline - malformed tag', async () => {
 })
 
 test('update-pipeline - correct tag', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(8)
 
@@ -142,7 +107,7 @@ test('update-pipeline - correct tag', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.updatePipeline.mock.calls.length).toEqual(1)
   await expect(mockSdk.updatePipeline.mock.calls[0][0]).toEqual('5')
   await expect(mockSdk.updatePipeline.mock.calls[0][1]).toEqual('10')

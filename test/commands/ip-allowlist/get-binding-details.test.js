@@ -11,21 +11,14 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { generateNewMock } = require('@adobe/aio-lib-cloudmanager')
 const ListIPAllowlistBindingDetails = require('../../../src/commands/cloudmanager/ip-allowlist/get-binding-details')
 
 let mockSdk
 
 beforeEach(() => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
   mockSdk = generateNewMock()
 })
 

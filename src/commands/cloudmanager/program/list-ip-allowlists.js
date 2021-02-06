@@ -11,21 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, getOutputFormat, columnWithArray } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, getOutputFormat, columnWithArray } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
 const ListEnvironmentsCommand = require('./list-environments')
-
-async function _listIpAllowlists (programId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.listIpAllowlists(programId)
-}
 
 class ListIPAllowlists extends Command {
   async run () {
@@ -36,14 +25,14 @@ class ListIPAllowlists extends Command {
     let result
 
     try {
-      result = await this.listIpAllowlists(programId, flags.passphrase)
+      result = await this.listIpAllowlists(programId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
 
     let environments
     try {
-      environments = await new ListEnvironmentsCommand().listEnvironments(programId, flags.passphrase)
+      environments = await new ListEnvironmentsCommand().listEnvironments(programId, flags.imsContextName)
     } catch (error) {
     }
 
@@ -90,8 +79,9 @@ class ListIPAllowlists extends Command {
     return result
   }
 
-  async listIpAllowlists (programId, passphrase = null) {
-    return _listIpAllowlists(programId, passphrase)
+  async listIpAllowlists (programId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.listIpAllowlists(programId)
   }
 }
 

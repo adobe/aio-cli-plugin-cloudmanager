@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _listPipelines (programId, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.listPipelines(programId)
-}
 
 class ListPipelinesCommand extends Command {
   async run () {
@@ -35,7 +24,7 @@ class ListPipelinesCommand extends Command {
     let result
 
     try {
-      result = await this.listPipelines(programId, flags.passphrase)
+      result = await this.listPipelines(programId, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -54,8 +43,9 @@ class ListPipelinesCommand extends Command {
     return result
   }
 
-  async listPipelines (programId, passphrase = null) {
-    return _listPipelines(programId, passphrase)
+  async listPipelines (programId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.listPipelines(programId)
   }
 }
 

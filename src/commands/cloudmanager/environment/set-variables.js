@@ -12,19 +12,8 @@ governing permissions and limitations under the License.
 
 const BaseEnvironmentVariablesCommand = require('../../../base-environment-variables-command')
 const BaseVariablesCommand = require('../../../base-variables-command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
-const { init } = require('@adobe/aio-lib-cloudmanager')
+const { initSdk, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
-
-async function _setEnvironmentVariables (programId, environmentId, variables, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.setEnvironmentVariables(programId, environmentId, variables)
-}
 
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   async run () {
@@ -33,9 +22,10 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
     return this.runSet(args, flags)
   }
 
-  async setVariables (programId, args, variables, passphrase = null) {
+  async setVariables (programId, args, variables, imsContextName = null) {
     const environmentId = sanitizeEnvironmentId(args.environmentId)
-    return _setEnvironmentVariables(programId, environmentId, variables, passphrase)
+    const sdk = await initSdk(imsContextName)
+    return sdk.setEnvironmentVariables(programId, environmentId, variables)
   }
 }
 

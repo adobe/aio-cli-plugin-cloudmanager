@@ -11,19 +11,8 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
-const { init } = require('@adobe/aio-lib-cloudmanager')
+const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
-
-async function _tailLog (programId, environmentId, service, logName, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.tailLog(programId, environmentId, service, logName, process.stdout)
-}
 
 class TailLog extends Command {
   async run () {
@@ -36,7 +25,7 @@ class TailLog extends Command {
     let result
 
     try {
-      result = await this.tailLog(programId, environmentId, args.service, args.name, flags.passphrase)
+      result = await this.tailLog(programId, environmentId, args.service, args.name, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -46,8 +35,9 @@ class TailLog extends Command {
     return result
   }
 
-  async tailLog (programId, environmentId, service, name, passphrase = null) {
-    return _tailLog(programId, environmentId, service, name, passphrase)
+  async tailLog (programId, environmentId, service, logName, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.tailLog(programId, environmentId, service, logName, process.stdout)
   }
 }
 

@@ -11,21 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
 const commonArgs = require('../../../common-args')
-
-async function _unbindIpAllowlist (programId, ipAllowlistId, environmentId, service, passphrase) {
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.removeIpAllowlistBinding(programId, ipAllowlistId, environmentId, service)
-}
 
 class UnbindIPAllowlist extends Command {
   async run () {
@@ -38,7 +27,7 @@ class UnbindIPAllowlist extends Command {
     let result
 
     try {
-      result = await this.unbindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.passphrase)
+      result = await this.unbindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
@@ -48,8 +37,9 @@ class UnbindIPAllowlist extends Command {
     return result
   }
 
-  async unbindIpAllowlist (programId, ipAllowlistId, environmentId, service, passphrase = null) {
-    return _unbindIpAllowlist(programId, ipAllowlistId, environmentId, service, passphrase)
+  async unbindIpAllowlist (programId, ipAllowlistId, environmentId, service, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.removeIpAllowlistBinding(programId, ipAllowlistId, environmentId, service)
   }
 }
 

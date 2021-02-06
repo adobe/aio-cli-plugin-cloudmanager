@@ -10,21 +10,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { generateNewMock } = require('@adobe/aio-lib-cloudmanager')
 const ListIPAllowlistBindings = require('../../../src/commands/cloudmanager/environment/list-ip-allowlist-bindings')
 
 let mockSdk
 
 beforeEach(() => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
   mockSdk = generateNewMock()
 })
 

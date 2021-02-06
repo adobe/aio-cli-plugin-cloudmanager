@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _deletePipeline (programId, pipelineId, passphrase) {
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.deletePipeline(programId, pipelineId)
-}
 
 class DeletePipelineCommand extends Command {
   async run () {
@@ -37,7 +26,7 @@ class DeletePipelineCommand extends Command {
     cli.action.start('deleting pipeline')
 
     try {
-      result = await this.deletePipeline(programId, args.pipelineId, flags.passphrase)
+      result = await this.deletePipeline(programId, args.pipelineId, flags.imsContextName)
       cli.action.stop(`deleted pipeline ID ${args.pipelineId}`)
     } catch (error) {
       cli.action.stop(error.message)
@@ -47,8 +36,9 @@ class DeletePipelineCommand extends Command {
     return result
   }
 
-  async deletePipeline (programId, pipelineId, passphrase = null) {
-    return _deletePipeline(programId, pipelineId, passphrase)
+  async deletePipeline (programId, pipelineId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.deletePipeline(programId, pipelineId)
   }
 }
 

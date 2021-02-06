@@ -12,11 +12,12 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const OpenDeveloperConsoleCommand = require('../../../src/commands/cloudmanager/environment/open-developer-console')
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
 })
 
 test('open-developer-console - missing arg', async () => {
@@ -40,17 +41,12 @@ test('open-developer-console - missing config', async () => {
 
   const runResult = OpenDeveloperConsoleCommand.run(['1', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('open-developer-console - success', async () => {
+  setCurrentOrgId('good')
   setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
     cloudmanager_programid: '4',
   })
 
@@ -60,7 +56,7 @@ test('open-developer-console - success', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getDeveloperConsoleUrl.mock.calls.length).toEqual(1)
   await expect(mockSdk.getDeveloperConsoleUrl).toHaveBeenCalledWith('4', '1')
   await expect(cli.open.mock.calls[0][0]).toBe('https://github.com/adobe/aio-cli-plugin-cloudmanager')

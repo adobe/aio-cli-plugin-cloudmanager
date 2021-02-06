@@ -24,7 +24,7 @@ class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
     let result
 
     try {
-      result = await this.getVariables(programId, args, flags.passphrase)
+      result = await this.getVariables(programId, args, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }

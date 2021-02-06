@@ -28,7 +28,7 @@ class BindIPAllowlist extends Command {
     let result
 
     try {
-      result = await new CoreBindIPAllowlist().bindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.passphrase)
+      result = await new CoreBindIPAllowlist().bindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }

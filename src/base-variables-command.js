@@ -37,13 +37,13 @@ class BaseVariablesCommand extends Command {
   async runSet (args, flags) {
     const programId = await getProgramId(flags)
 
-    const currentVariablesList = await this.getVariables(programId, args, flags.passphrase)
+    const currentVariablesList = await this.getVariables(programId, args, flags.imsContextName)
 
     const variables = await this.prepareVariableList(flags, currentVariablesList)
 
     if (variables.length > 0) {
       cli.action.start('setting variables')
-      await this.setVariables(programId, args, variables, flags.passphrase)
+      await this.setVariables(programId, args, variables, flags.imsContextName)
       cli.action.stop()
     } else {
       this.log('No variables to set or delete.')
@@ -52,7 +52,7 @@ class BaseVariablesCommand extends Command {
     let result
 
     try {
-      result = await this.getVariables(programId, args, flags.passphrase)
+      result = await this.getVariables(programId, args, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }

@@ -12,13 +12,13 @@ governing permissions and limitations under the License.
 
 const { cli } = require('cli-ux')
 const { init, generateNewMock } = require('@adobe/aio-lib-cloudmanager')
-const { setStore } = require('@adobe/aio-lib-core-config')
+const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const GetQualityGateResults = require('../../../src/commands/cloudmanager/execution/get-quality-gate-results')
 
 let mockSdk
 
 beforeEach(() => {
-  setStore({})
+  resetCurrentOrgId()
   mockSdk = generateNewMock()
 })
 
@@ -35,18 +35,11 @@ test('get-quality-gate-results - missing config', async () => {
 
   const runResult = GetQualityGateResults.run(['5', '--programId', '7', '1001', 'codeQuality'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('missing config data: jwt-auth'))
+  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
 
 test('get-quality-gate-results - happy path', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(6)
 
@@ -55,7 +48,7 @@ test('get-quality-gate-results - happy path', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getQualityGateResults.mock.calls.length).toEqual(1)
   await expect(mockSdk.getQualityGateResults).toHaveBeenCalledWith('15', '5', '1002', 'codeQuality')
 
@@ -63,14 +56,7 @@ test('get-quality-gate-results - happy path', async () => {
 })
 
 test('get-quality-gate-results - no metrics', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
   mockSdk.getQualityGateResults = jest.fn(() => Promise.resolve({}))
 
   expect.assertions(6)
@@ -79,20 +65,13 @@ test('get-quality-gate-results - no metrics', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('Metrics for action codeQuality on execution 1002 could not be found.'))
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getQualityGateResults.mock.calls.length).toEqual(1)
   await expect(mockSdk.getQualityGateResults).toHaveBeenCalledWith('15', '5', '1002', 'codeQuality')
 })
 
 test('get-quality-gate-results - experienceAudit', async () => {
-  setStore({
-    'jwt-auth': JSON.stringify({
-      client_id: '1234',
-      jwt_payload: {
-        iss: 'good',
-      },
-    }),
-  })
+  setCurrentOrgId('good')
 
   expect.assertions(11)
 
@@ -101,7 +80,7 @@ test('get-quality-gate-results - experienceAudit', async () => {
 
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
-  await expect(init).toHaveBeenCalledWith('good', '1234', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.getQualityGateResults.mock.calls.length).toEqual(1)
   await expect(mockSdk.getQualityGateResults).toHaveBeenCalledWith('15', '5', '1002', 'contentAudit')
 

@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _startExecution (programId, pipelineId, passphrase) {
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.createExecution(programId, pipelineId)
-}
 
 class StartExecutionCommand extends Command {
   async run () {
@@ -37,7 +26,7 @@ class StartExecutionCommand extends Command {
     cli.action.start('starting execution')
 
     try {
-      result = await this.startExecution(programId, args.pipelineId, flags.passphrase)
+      result = await this.startExecution(programId, args.pipelineId, flags.imsContextName)
     } catch (error) {
       cli.action.stop(error.message)
       return
@@ -48,8 +37,9 @@ class StartExecutionCommand extends Command {
     return result
   }
 
-  async startExecution (programId, pipelineId, passphrase = null) {
-    return _startExecution(programId, pipelineId, passphrase)
+  async startExecution (programId, pipelineId, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.createExecution(programId, pipelineId)
   }
 }
 

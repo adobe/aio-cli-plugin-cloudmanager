@@ -11,20 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const { Command, flags } = require('@oclif/command')
-const { accessToken: getAccessToken } = require('@adobe/aio-cli-plugin-jwt-auth')
-const { getApiKey, getBaseUrl, getOrgId, getProgramId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const { init } = require('@adobe/aio-lib-cloudmanager')
 const commonFlags = require('../../../common-flags')
-
-async function _updatePipeline (programId, pipelineId, changes, passphrase) {
-  const orgId = await getOrgId()
-  const baseUrl = await getBaseUrl()
-  const apiKey = await getApiKey()
-  const accessToken = await getAccessToken(passphrase)
-  const sdk = await init(orgId, apiKey, accessToken, baseUrl)
-  return sdk.updatePipeline(programId, pipelineId, changes)
-}
 
 class UpdatePipelineCommand extends Command {
   async run () {
@@ -49,7 +38,7 @@ class UpdatePipelineCommand extends Command {
     cli.action.start('updating pipeline')
 
     try {
-      result = await this.updatePipeline(programId, args.pipelineId, flags, flags.passphrase)
+      result = await this.updatePipeline(programId, args.pipelineId, flags, flags.imsContextName)
       cli.action.stop(`updated pipeline ID ${args.pipelineId}`)
     } catch (error) {
       cli.action.stop(error.message)
@@ -59,8 +48,9 @@ class UpdatePipelineCommand extends Command {
     return result
   }
 
-  async updatePipeline (programId, pipelineId, changes, passphrase = null) {
-    return _updatePipeline(programId, pipelineId, changes, passphrase)
+  async updatePipeline (programId, pipelineId, changes, imsContextName = null) {
+    const sdk = await initSdk(imsContextName)
+    return sdk.updatePipeline(programId, pipelineId, changes)
   }
 }
 

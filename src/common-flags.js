@@ -13,7 +13,7 @@ const { flags } = require('@oclif/command')
 
 module.exports = {
   global: {
-    passphrase: flags.string({ char: 'r', description: 'the passphrase for the private key' }),
+    imsContextName: flags.string({ description: 'the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager' }),
   },
   programId: {
     programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value" }),

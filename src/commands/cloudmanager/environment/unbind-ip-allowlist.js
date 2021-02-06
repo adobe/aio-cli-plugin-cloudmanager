@@ -28,7 +28,7 @@ class UnbindIPAllowlist extends Command {
     let result
 
     try {
-      result = await new CoreUnbindIPAllowlist().unbindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.passphrase)
+      result = await new CoreUnbindIPAllowlist().unbindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }

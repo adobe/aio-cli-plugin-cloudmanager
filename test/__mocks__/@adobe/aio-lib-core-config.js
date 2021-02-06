@@ -10,10 +10,20 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-let mockStore = {}
+const mockStores = {
+  general: {},
+  local: {},
+  global: {},
+}
 
 module.exports = {
-  get: jest.fn(k => mockStore[k]),
-  setStore: (s) => (mockStore = s),
+  get: jest.fn((k, scope) => {
+    scope = scope || 'general'
+    return mockStores[scope][k]
+  }),
+  setStore: (s) => (mockStores.general = s),
+  setGlobalStore: (s) => (mockStores.global = s),
+  setLocalStore: (s) => (mockStores.local = s),
   getPipedData: jest.fn(),
+  set: jest.fn(),
 }
