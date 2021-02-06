@@ -1,5 +1,17 @@
 # Changelog
 
+# [1.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.19.0...1.0.0) (2021-02-06)
+
+
+### Features
+
+* **auth:** replace Migrate from @adobe/aio-cli-plugin-jwt-auth to @adobe/aio-lib-ims ([84abb64](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/84abb641bd3e7b3f92ece3dfb57126c29ddc1079)), closes [#129](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/129)
+
+
+### BREAKING CHANGES
+
+* **auth:** private key passphrases are no longer supported
+
 # [0.19.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.18.3...0.19.0) (2021-01-13)
 
 

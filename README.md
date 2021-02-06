@@ -179,7 +179,7 @@ ALIASES
   $ aio cloudmanager:advance-current-execution
 ```
 
-_See code: [src/commands/cloudmanager/current-execution/advance.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/current-execution/advance.js)_
+_See code: [src/commands/cloudmanager/current-execution/advance.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/current-execution/advance.js)_
 
 ## `aio cloudmanager:current-execution:cancel PIPELINEID`
 
@@ -200,7 +200,7 @@ ALIASES
   $ aio cloudmanager:cancel-current-execution
 ```
 
-_See code: [src/commands/cloudmanager/current-execution/cancel.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/current-execution/cancel.js)_
+_See code: [src/commands/cloudmanager/current-execution/cancel.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/current-execution/cancel.js)_
 
 ## `aio cloudmanager:current-execution:get PIPELINEID`
 
@@ -223,7 +223,7 @@ ALIASES
   $ aio cloudmanager:get-current-execution
 ```
 
-_See code: [src/commands/cloudmanager/current-execution/get.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/current-execution/get.js)_
+_See code: [src/commands/cloudmanager/current-execution/get.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/current-execution/get.js)_
 
 ## `aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
 
@@ -243,7 +243,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/environment/bind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/bind-ip-allowlist.js)_
+_See code: [src/commands/cloudmanager/environment/bind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/bind-ip-allowlist.js)_
 
 ## `aio cloudmanager:environment:delete ENVIRONMENTID`
 
@@ -264,7 +264,7 @@ ALIASES
   $ aio cloudmanager:delete-environment
 ```
 
-_See code: [src/commands/cloudmanager/environment/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/delete.js)_
+_See code: [src/commands/cloudmanager/environment/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/delete.js)_
 
 ## `aio cloudmanager:environment:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`
 
@@ -292,7 +292,7 @@ ALIASES
   $ aio cloudmanager:download-logs
 ```
 
-_See code: [src/commands/cloudmanager/environment/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/download-logs.js)_
+_See code: [src/commands/cloudmanager/environment/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/download-logs.js)_
 
 ## `aio cloudmanager:environment:list-available-log-options ENVIRONMENTID`
 
@@ -315,7 +315,7 @@ ALIASES
   $ aio cloudmanager:list-available-log-options
 ```
 
-_See code: [src/commands/cloudmanager/environment/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/list-available-log-options.js)_
+_See code: [src/commands/cloudmanager/environment/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/list-available-log-options.js)_
 
 ## `aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID`
 
@@ -338,7 +338,7 @@ ALIASES
   $ aio cloudmanager:environment:list-bound-ip-allowlists
 ```
 
-_See code: [src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js)_
+_See code: [src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js)_
 
 ## `aio cloudmanager:environment:list-variables ENVIRONMENTID`
 
@@ -361,7 +361,7 @@ ALIASES
   $ aio cloudmanager:list-environment-variables
 ```
 
-_See code: [src/commands/cloudmanager/environment/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/list-variables.js)_
+_See code: [src/commands/cloudmanager/environment/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/list-variables.js)_
 
 ## `aio cloudmanager:environment:open-developer-console ENVIRONMENTID`
 
@@ -382,7 +382,7 @@ ALIASES
   $ aio cloudmanager:open-developer-console
 ```
 
-_See code: [src/commands/cloudmanager/environment/open-developer-console.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/open-developer-console.js)_
+_See code: [src/commands/cloudmanager/environment/open-developer-console.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/open-developer-console.js)_
 
 ## `aio cloudmanager:environment:set-variables ENVIRONMENTID`
 
@@ -414,7 +414,7 @@ ALIASES
   $ aio cloudmanager:set-environment-variables
 ```
 
-_See code: [src/commands/cloudmanager/environment/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/set-variables.js)_
+_See code: [src/commands/cloudmanager/environment/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/set-variables.js)_
 
 ## `aio cloudmanager:environment:tail-log ENVIRONMENTID SERVICE NAME`
 
@@ -438,7 +438,7 @@ ALIASES
   $ aio cloudmanager:tail-log
 ```
 
-_See code: [src/commands/cloudmanager/environment/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/tail-log.js)_
+_See code: [src/commands/cloudmanager/environment/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/tail-log.js)_
 
 ## `aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
 
@@ -458,7 +458,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/environment/unbind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/environment/unbind-ip-allowlist.js)_
+_See code: [src/commands/cloudmanager/environment/unbind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/environment/unbind-ip-allowlist.js)_
 
 ## `aio cloudmanager:execution:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
 
@@ -483,7 +483,7 @@ ALIASES
   $ aio cloudmanager:get-quality-gate-results
 ```
 
-_See code: [src/commands/cloudmanager/execution/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/execution/get-quality-gate-results.js)_
+_See code: [src/commands/cloudmanager/execution/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/execution/get-quality-gate-results.js)_
 
 ## `aio cloudmanager:execution:get-step-details PIPELINEID EXECUTIONID`
 
@@ -507,7 +507,7 @@ ALIASES
   $ aio cloudmanager:get-execution-step-details
 ```
 
-_See code: [src/commands/cloudmanager/execution/get-step-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/execution/get-step-details.js)_
+_See code: [src/commands/cloudmanager/execution/get-step-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/execution/get-step-details.js)_
 
 ## `aio cloudmanager:execution:get-step-log PIPELINEID EXECUTIONID ACTION`
 
@@ -536,7 +536,7 @@ ALIASES
   $ aio cloudmanager:get-execution-step-log
 ```
 
-_See code: [src/commands/cloudmanager/execution/get-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/execution/get-step-log.js)_
+_See code: [src/commands/cloudmanager/execution/get-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/execution/get-step-log.js)_
 
 ## `aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE`
 
@@ -556,7 +556,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/bind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/bind.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/bind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/ip-allowlist/bind.js)_
 
 ## `aio cloudmanager:ip-allowlist:create NAME`
 
@@ -575,7 +575,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/create.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/create.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/create.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/ip-allowlist/create.js)_
 
 ## `aio cloudmanager:ip-allowlist:delete IPALLOWLISTID`
 
@@ -593,7 +593,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/delete.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/ip-allowlist/delete.js)_
 
 ## `aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID`
 
@@ -613,7 +613,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/get-binding-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/get-binding-details.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/get-binding-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/ip-allowlist/get-binding-details.js)_
 
 ## `aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE`
 
@@ -633,7 +633,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/unbind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/unbind.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/unbind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/ip-allowlist/unbind.js)_
 
 ## `aio cloudmanager:ip-allowlist:update IPALLOWLISTID`
 
@@ -654,7 +654,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/ip-allowlist/update.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/ip-allowlist/update.js)_
 
 ## `aio cloudmanager:list-programs`
 
@@ -671,7 +671,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/list-programs.js)_
+_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/list-programs.js)_
 
 ## `aio cloudmanager:pipeline:create-execution PIPELINEID`
 
@@ -693,7 +693,7 @@ ALIASES
   $ aio cloudmanager:start-execution
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/create-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/pipeline/create-execution.js)_
+_See code: [src/commands/cloudmanager/pipeline/create-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/pipeline/create-execution.js)_
 
 ## `aio cloudmanager:pipeline:delete PIPELINEID`
 
@@ -714,7 +714,7 @@ ALIASES
   $ aio cloudmanager:delete-pipeline
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/pipeline/delete.js)_
+_See code: [src/commands/cloudmanager/pipeline/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/pipeline/delete.js)_
 
 ## `aio cloudmanager:pipeline:list-variables PIPELINEID`
 
@@ -737,7 +737,7 @@ ALIASES
   $ aio cloudmanager:list-pipeline-variables
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/pipeline/list-variables.js)_
+_See code: [src/commands/cloudmanager/pipeline/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/pipeline/list-variables.js)_
 
 ## `aio cloudmanager:pipeline:set-variables PIPELINEID`
 
@@ -769,7 +769,7 @@ ALIASES
   $ aio cloudmanager:set-pipeline-variables
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/pipeline/set-variables.js)_
+_See code: [src/commands/cloudmanager/pipeline/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/pipeline/set-variables.js)_
 
 ## `aio cloudmanager:pipeline:update PIPELINEID`
 
@@ -793,7 +793,7 @@ ALIASES
   $ aio cloudmanager:update-pipeline
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/pipeline/update.js)_
+_See code: [src/commands/cloudmanager/pipeline/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/pipeline/update.js)_
 
 ## `aio cloudmanager:program:delete PROGRAMID`
 
@@ -813,7 +813,7 @@ ALIASES
   $ aio cloudmanager:delete-program
 ```
 
-_See code: [src/commands/cloudmanager/program/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/program/delete.js)_
+_See code: [src/commands/cloudmanager/program/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/program/delete.js)_
 
 ## `aio cloudmanager:program:list-current-executions`
 
@@ -833,7 +833,7 @@ ALIASES
   $ aio cloudmanager:list-current-executions
 ```
 
-_See code: [src/commands/cloudmanager/program/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/program/list-current-executions.js)_
+_See code: [src/commands/cloudmanager/program/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/program/list-current-executions.js)_
 
 ## `aio cloudmanager:program:list-environments`
 
@@ -853,7 +853,7 @@ ALIASES
   $ aio cloudmanager:list-environments
 ```
 
-_See code: [src/commands/cloudmanager/program/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/program/list-environments.js)_
+_See code: [src/commands/cloudmanager/program/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/program/list-environments.js)_
 
 ## `aio cloudmanager:program:list-ip-allowlists`
 
@@ -870,7 +870,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/program/list-ip-allowlists.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/program/list-ip-allowlists.js)_
+_See code: [src/commands/cloudmanager/program/list-ip-allowlists.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/program/list-ip-allowlists.js)_
 
 ## `aio cloudmanager:program:list-pipelines`
 
@@ -890,7 +890,7 @@ ALIASES
   $ aio cloudmanager:list-pipelines
 ```
 
-_See code: [src/commands/cloudmanager/program/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/0.19.0/src/commands/cloudmanager/program/list-pipelines.js)_
+_See code: [src/commands/cloudmanager/program/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/program/list-pipelines.js)_
 <!-- commandsstop -->
 
 # Variables From Standard Input
