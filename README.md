@@ -151,6 +151,7 @@ $ aio config:set cloudmanager_environmentid 7
 * [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
 * [`aio cloudmanager:pipeline:create-execution PIPELINEID`](#aio-cloudmanagerpipelinecreate-execution-pipelineid)
 * [`aio cloudmanager:pipeline:delete PIPELINEID`](#aio-cloudmanagerpipelinedelete-pipelineid)
+* [`aio cloudmanager:pipeline:list-executions PIPELINEID`](#aio-cloudmanagerpipelinelist-executions-pipelineid)
 * [`aio cloudmanager:pipeline:list-variables PIPELINEID`](#aio-cloudmanagerpipelinelist-variables-pipelineid)
 * [`aio cloudmanager:pipeline:set-variables PIPELINEID`](#aio-cloudmanagerpipelineset-variables-pipelineid)
 * [`aio cloudmanager:pipeline:update PIPELINEID`](#aio-cloudmanagerpipelineupdate-pipelineid)
@@ -715,6 +716,27 @@ ALIASES
 ```
 
 _See code: [src/commands/cloudmanager/pipeline/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/pipeline/delete.js)_
+
+## `aio cloudmanager:pipeline:list-executions PIPELINEID`
+
+list pipeline executions
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:list-executions PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -j, --json                       output in json format
+  -l, --limit=limit                Specify number of executions to return (defaults to 20)
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/pipeline/list-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/1.0.0/src/commands/cloudmanager/pipeline/list-executions.js)_
 
 ## `aio cloudmanager:pipeline:list-variables PIPELINEID`
 

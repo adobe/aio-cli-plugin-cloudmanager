@@ -13,6 +13,8 @@ governing permissions and limitations under the License.
 const Config = require('@adobe/aio-lib-core-config')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { context, getToken } = require('@adobe/aio-lib-ims')
+const moment = require('moment')
+const _ = require('lodash')
 
 const defaultContextName = 'aio-cli-plugin-cloudmanager'
 
@@ -112,6 +114,30 @@ async function initSdk (contextName) {
   return await init(orgId, apiKey, accessToken, baseUrl)
 }
 
+function formatAction (stepState) {
+  if (stepState.action === 'deploy') {
+    return `${_.startCase(stepState.environmentType)} ${_.startCase(stepState.action)}`
+  } else if (stepState.action === 'contentAudit') {
+    return 'Experience Audit'
+  } else {
+    return _.startCase(stepState.action)
+  }
+}
+
+function formatTime (property) {
+  return (object) => object[property] ? moment(object[property]).format('LLL') : ''
+}
+
+function formatDuration (object) {
+  return object.startedAt && object.finishedAt
+    ? moment.duration(moment(object.finishedAt).diff(object.startedAt)).humanize()
+    : ''
+}
+
+function formatStatus (object) {
+  return _.startCase(object.status.toLowerCase())
+}
+
 module.exports = {
   defaultContextName,
   getProgramId,
@@ -121,4 +147,8 @@ module.exports = {
   getDefaultEnvironmentId,
   columnWithArray,
   initSdk,
+  formatAction,
+  formatTime,
+  formatDuration,
+  formatStatus,
 }

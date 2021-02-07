@@ -10,49 +10,49 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+const { flags } = require('@oclif/command')
 const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
 const BaseExecutionCommand = require('../../../base-execution-command')
 
-class GetCurrentExecutionCommand extends BaseExecutionCommand {
+const DEFAULT_LIMIT = 20
+
+class ListExecutionsCommand extends BaseExecutionCommand {
   async run () {
-    const { args, flags } = this.parse(GetCurrentExecutionCommand)
+    const { args, flags } = this.parse(ListExecutionsCommand)
 
     const programId = await getProgramId(flags)
 
     let result
 
     try {
-      result = await this.getCurrentExecution(programId, args.pipelineId, flags.imsContextName)
+      result = await this.listExecutions(programId, args.pipelineId, flags.limit || DEFAULT_LIMIT, flags.imsContextName)
     } catch (error) {
       this.error(error.message)
     }
 
-    this.outputTableAssumingAllAreRunning([result], flags)
+    this.outputCompleteTable(result, flags)
 
     return result
   }
 
-  async getCurrentExecution (programId, pipelineId, imsContextName = null) {
+  async listExecutions (programId, pipelineId, limit, imsContextName = null) {
     const sdk = await initSdk(imsContextName)
-    return sdk.getCurrentExecution(programId, pipelineId)
+    return sdk.listExecutions(programId, pipelineId, limit)
   }
 }
 
-GetCurrentExecutionCommand.description = 'get pipeline execution'
+ListExecutionsCommand.description = 'list pipeline executions'
 
-GetCurrentExecutionCommand.flags = {
+ListExecutionsCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseExecutionCommand.flags,
+  ...commonFlags.outputFormat,
+  limit: flags.integer({ char: 'l', description: 'Specify number of executions to return (defaults to 20)' }),
 }
 
-GetCurrentExecutionCommand.args = [
+ListExecutionsCommand.args = [
   { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
-GetCurrentExecutionCommand.aliases = [
-  'cloudmanager:get-current-execution',
-]
-
-module.exports = GetCurrentExecutionCommand
+module.exports = ListExecutionsCommand

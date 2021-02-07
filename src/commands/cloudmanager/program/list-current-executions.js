@@ -28,7 +28,7 @@ class ListCurrentExecutionsCommand extends BaseExecutionCommand {
       this.error(error.message)
     }
 
-    this.outputTable(result, flags)
+    this.outputTableAssumingAllAreRunning(result, flags)
 
     return result
   }

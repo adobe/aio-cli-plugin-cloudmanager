@@ -13,25 +13,63 @@ governing permissions and limitations under the License.
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { getCurrentStep } = require('@adobe/aio-lib-cloudmanager')
-const { getOutputFormat } = require('./cloudmanager-helpers')
+const { getOutputFormat, formatAction, formatTime } = require('./cloudmanager-helpers')
 const commonFlags = require('./common-flags')
 
+const getLastStepAction = item => {
+  const currentStep = getCurrentStep(item)
+  return currentStep ? formatAction(currentStep) : ''
+}
+
+const getLastStepStatus = item => {
+  const currentStep = getCurrentStep(item)
+  return currentStep ? currentStep.status : ''
+}
+
+const standardColumns = {
+  pipelineId: {
+    header: 'Pipeline Id',
+  },
+  id: {
+    header: 'Execution Id',
+  },
+  createdAt: {
+    header: 'Started At',
+    get: formatTime('createdAt'),
+  },
+  trigger: {},
+}
+
 class BaseExecutionCommand extends Command {
-  outputTable (result, flags) {
+  outputCompleteTable (result, flags) {
     cli.table(result, {
-      pipelineId: {
-        header: 'Pipeline Id',
-      },
-      id: {
-        header: 'Execution Id',
+      ...standardColumns,
+      status: {
       },
       currentStep: {
+        header: 'Current/Failing Step Action',
+        get: getLastStepAction,
+      },
+      currentStepStatus: {
+        header: 'Current/Failing Step Status',
+        get: getLastStepStatus,
+      },
+    }, {
+      printLine: this.log,
+      output: getOutputFormat(flags),
+    })
+  }
+
+  outputTableAssumingAllAreRunning (result, flags) {
+    cli.table(result, {
+      ...standardColumns,
+      currentStep: {
         header: 'Current Step Action',
-        get: item => getCurrentStep(item).action,
+        get: getLastStepAction,
       },
       currentStepStatus: {
         header: 'Current Step Status',
-        get: item => getCurrentStep(item).status,
+        get: getLastStepStatus,
       },
     }, {
       printLine: this.log,
