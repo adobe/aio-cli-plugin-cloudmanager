@@ -49,6 +49,6 @@ test('get-current-execution - configured', async () => {
   await expect(mockSdk.getCurrentExecution.mock.calls.length).toEqual(1)
   await expect(mockSdk.getCurrentExecution).toHaveBeenCalledWith('5', '5')
 
-  await expect(cli.table.mock.calls[0][1].currentStep.get(execution1010)).toEqual('deploy')
+  await expect(cli.table.mock.calls[0][1].currentStep.get(execution1010)).toEqual('Prod Deploy')
   await expect(cli.table.mock.calls[0][1].currentStepStatus.get(execution1010)).toEqual('WAITING')
 })

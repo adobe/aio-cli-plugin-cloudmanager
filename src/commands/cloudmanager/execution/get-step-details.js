@@ -11,32 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const { Command } = require('@oclif/command')
-const { initSdk, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, getOutputFormat, formatAction, formatTime, formatDuration, formatStatus } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
-const _ = require('lodash')
 const halfred = require('halfred')
-const moment = require('moment')
 const commonFlags = require('../../../common-flags')
-
-function formatAction (stepState) {
-  if (stepState.action === 'deploy') {
-    return `${_.startCase(stepState.environmentType)} ${_.startCase(stepState.action)}`
-  } else if (stepState.action === 'contentAudit') {
-    return 'Experience Audit'
-  } else {
-    return _.startCase(stepState.action)
-  }
-}
-
-function formatTime (property) {
-  return (stepState) => stepState[property] ? moment(stepState[property]).format('LLL') : ''
-}
-
-function formatDuration (stepState) {
-  return stepState.startedAt && stepState.finishedAt
-    ? moment.duration(moment(stepState.finishedAt).diff(stepState.startedAt)).humanize()
-    : ''
-}
 
 class GetExecutionStepDetails extends Command {
   async run () {
@@ -68,7 +46,7 @@ class GetExecutionStepDetails extends Command {
         },
         status: {
           header: 'Status',
-          get: (stepState) => _.startCase(stepState.status.toLowerCase()),
+          get: formatStatus,
         },
         startedAt: {
           header: 'Started At',
