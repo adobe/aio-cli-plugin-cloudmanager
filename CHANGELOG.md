@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.1.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.0.0...1.1.0) (2021-02-07)
+
+
+### Features
+
+* **pipeline:** add pipeline:list-executions. fixes [#201](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/201) ([a5968fc](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/a5968fc499d956ad55f85b9213071f1349a3926b))
+
 # [1.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/0.19.0...1.0.0) (2021-02-06)
 
 
