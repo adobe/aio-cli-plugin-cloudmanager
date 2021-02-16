@@ -15,7 +15,6 @@ let currentOrgId
 module.exports = {
   getToken: jest.fn(ctx => 'fake-token'),
   context: {
-    setCurrent: jest.fn(),
     get: jest.fn(() => {
       if (currentOrgId) {
         return {

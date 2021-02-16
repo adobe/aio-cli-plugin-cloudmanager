@@ -99,8 +99,7 @@ async function getDefaultEnvironmentId (flags) {
 
 async function initSdk (contextName) {
   contextName = contextName || defaultContextName
-  await context.setCurrent(contextName || defaultContextName)
-  const contextData = await context.get()
+  const contextData = await context.get(contextName)
   if (!contextData || !contextData.data) {
     throw new Error(`Unable to find IMS context ${contextName}`)
   }
