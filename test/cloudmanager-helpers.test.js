@@ -10,7 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { setCurrentOrgId } = require('@adobe/aio-lib-ims')
+const { setCurrentOrgId, context } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const { initSdk, getOutputFormat, columnWithArray } = require('../src/cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
@@ -65,4 +65,24 @@ test('columnWithArray', () => {
   ).toEqual('foo, bar')
   expect(columnWithArray('key', { header: 'Test' }, { json: true })).not.toHaveProperty('get')
   expect(columnWithArray('key', { header: 'Test' }, { yaml: true })).not.toHaveProperty('get')
+})
+
+test('initSdk - check context name -- default', async () => {
+  setCurrentOrgId('good')
+
+  // no cloudmanager key
+  setStore({})
+  await initSdk()
+  await expect(context.get).toHaveBeenCalledWith('aio-cli-plugin-cloudmanager')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+})
+
+test('initSdk - check context name -- non-default', async () => {
+  setCurrentOrgId('good')
+
+  // no cloudmanager key
+  setStore({})
+  await initSdk('somethingelse')
+  await expect(context.get).toHaveBeenCalledWith('somethingelse')
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
 })
