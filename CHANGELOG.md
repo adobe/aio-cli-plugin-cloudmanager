@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.1.0...1.1.1) (2021-02-16)
+
+
+### Bug Fixes
+
+* **auth:** do not create .aio file in local directory. fixes [#212](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/212) ([ec2a9c2](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/ec2a9c22764b941a5f18005c4bdd405ddc5a1d79))
+
 # [1.1.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.0.0...1.1.0) (2021-02-07)
 
 
