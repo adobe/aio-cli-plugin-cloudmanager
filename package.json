@@ -50,8 +50,12 @@
   },
   "files": [
     "/oclif.manifest.json",
-    "/src"
+    "/src",
+    "/bin/run"
   ],
+  "bin": {
+    "adobe-cloudmanager-cli": "./bin/run"
+  },
   "homepage": "https://github.com/adobe/aio-cli-plugin-cloudmanager",
   "keywords": [
     "oclif-plugin"
