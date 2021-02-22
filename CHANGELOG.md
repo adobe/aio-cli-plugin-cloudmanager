@@ -1,5 +1,19 @@
 # Changelog
 
+# [1.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.1.1...1.2.0) (2021-02-22)
+
+
+### Bug Fixes
+
+* **ci:** also ignoring max body length ([92430a8](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/92430a8c12e2f526c00eab4d2084cf25f496ed5f))
+* **ci:** another attempt to fix commitlint ([43a1e33](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/43a1e33b5e2da7d9635d476d840f7aab60ca0f48))
+* **ci:** disable footer-max-line-length commitlint rule ([ad2bfa6](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/ad2bfa69055d52a9a6ebc7d000d696a2302217fc))
+
+
+### Features
+
+* support standalone execution. fixes [#219](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/219) ([273d808](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/273d8084011adeebc8b5530f6c5098cda0f99fb7))
+
 ## [1.1.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.1.0...1.1.1) (2021-02-16)
 
 
