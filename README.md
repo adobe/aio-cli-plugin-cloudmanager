@@ -30,6 +30,8 @@ Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
     * 14.x -- currently incompatible due to lack of support from aio-cli.
     * Use with odd Node versions is *not* recommended.
 
+> Although not recommended for general use, it is possible to use this plugin outside of the Adobe I/O CLI. See [Standalone Use](#standalone-use) below.
+
 # Installation
 
 ```sh-session
@@ -997,3 +999,16 @@ npm install
 ```
 
 Of course this should not replace proper unit testing.
+
+# Standalone Use
+
+In rare circumstances, it may be useful to run this plugin separately from the Adobe I/O CLI. To do this, install this npm module directly, i.e.
+
+```
+npm install -g @adobe/aio-cli-plugin-cloudmanager
+```
+
+This will create an executable named `adobe-cloudmanager-cli` on your `PATH`. The arguments to this executable are the same as when used through Adobe I/O CLI. The following caveats apply:
+
+* You must still use Adobe I/O CLI for all configuration setting.
+* The help messages displayed will show the command as `aio` not `adobe-cloudmanager-cli`.
