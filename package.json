@@ -69,7 +69,10 @@
     ],
     "repositoryPrefix": "<%- repo %>/blob/<%- version %>/<%- commandPath %>",
     "hooks": {
-      "prerun": "./src/hooks/prerun/environment-id-from-config",
+      "prerun": [
+        "./src/hooks/prerun/check-ims-context-config",
+        "./src/hooks/prerun/environment-id-from-config"
+      ],
       "init": "./src/hooks/init/migrate-jwt-context-hook.js"
     },
     "topics": {
