@@ -58,7 +58,6 @@ After you've created the integration, create a `config.json` file on your comput
   "client_id": "value from your CLI integration (String)",
   "client_secret": "value from your CLI integration (String)",
   "technical_account_id": "value from your CLI integration (String)",
-  "technical_account_email": "value from your CLI integration (String)",
   "ims_org_id": "value from your CLI integration (String)",
   "meta_scopes": [
     "ent_cloudmgr_sdk"
