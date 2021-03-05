@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.3.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.2.0...1.3.0) (2021-03-05)
+
+
+### Features
+
+* **config:** add hook for validation of the IMS context configuration. fixes [#233](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/233) and [#216](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/216) ([694523d](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/694523dc0f3e8d50510f15901c13caf4930c7a89))
+
 # [1.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.1.1...1.2.0) (2021-02-22)
 
 
