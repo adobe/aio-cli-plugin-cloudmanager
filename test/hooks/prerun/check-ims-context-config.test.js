@@ -16,12 +16,33 @@ beforeEach(() => {
   setStore({})
 })
 
-const invoke = () => {
-  return hook.apply({ error: (msg) => { throw new Error(msg) } })
+const invoke = (options) => {
+  return () => hook.apply({ error: (msg) => { throw new Error(msg) } }, [options || {}])
 }
 
 test('hook -- no config', async () => {
-  expect(invoke).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
+  expect(invoke()).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
+})
+
+test('hook -- no flag command, custom context and no config', async () => {
+  expect(invoke({
+    Command: FixtureWithNoFlags,
+    argv: [],
+  })).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
+})
+
+test('hook -- different flag command, custom context and no config', async () => {
+  expect(invoke({
+    Command: FixtureWithADifferentFlag,
+    argv: [],
+  })).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
+})
+
+test('hook -- flag command, custom context and no config', async () => {
+  expect(invoke({
+    Command: FixtureWithAContextFlag,
+    argv: [],
+  })).toThrowError('There is no IMS context configuration defined for ims.contexts.testContext.')
 })
 
 test('hook -- ok', async () => {
@@ -39,7 +60,7 @@ test('hook -- ok', async () => {
       private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
     },
   })
-  expect(invoke).not.toThrowError()
+  expect(invoke()).not.toThrowError()
 })
 
 test('hook -- missing some fields', async () => {
@@ -50,7 +71,7 @@ test('hook -- missing some fields', async () => {
       ims_org_id: 'someorg@AdobeOrg',
     },
   })
-  expect(invoke).toThrowError('One or more of the required fields in ims.contexts.aio-cli-plugin-cloudmanager were not set. Missing keys were technical_account_id, meta_scopes, private_key.')
+  expect(invoke()).toThrowError('One or more of the required fields in ims.contexts.aio-cli-plugin-cloudmanager were not set. Missing keys were technical_account_id, meta_scopes, private_key.')
 })
 
 test('hook -- missing scope', async () => {
@@ -67,7 +88,7 @@ test('hook -- missing scope', async () => {
       private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
     },
   })
-  expect(invoke).toThrowError('The configuration ims.contexts.aio-cli-plugin-cloudmanager is missing the required metascope ent_cloudmgr_sdk.')
+  expect(invoke()).toThrowError('The configuration ims.contexts.aio-cli-plugin-cloudmanager is missing the required metascope ent_cloudmgr_sdk.')
 })
 
 test('hook -- scope is a number', async () => {
@@ -82,5 +103,44 @@ test('hook -- scope is a number', async () => {
       private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
     },
   })
-  expect(invoke).toThrowError('The configuration ims.contexts.aio-cli-plugin-cloudmanager is missing the required metascope ent_cloudmgr_sdk.')
+  expect(invoke()).toThrowError('The configuration ims.contexts.aio-cli-plugin-cloudmanager is missing the required metascope ent_cloudmgr_sdk.')
 })
+
+class FixtureWithNoFlags {
+  parse (options, argv) {
+    return {
+      args: {},
+      flags: {},
+    }
+  }
+}
+
+class FixtureWithADifferentFlag {
+  parse (options, argv) {
+    return {
+      args: {},
+      flags: {
+        foo: 'bar',
+      },
+    }
+  }
+}
+
+FixtureWithADifferentFlag.flags = {
+  foo: {},
+}
+
+class FixtureWithAContextFlag {
+  parse (options, argv) {
+    return {
+      args: {},
+      flags: {
+        imsContextName: 'testContext',
+      },
+    }
+  }
+}
+
+FixtureWithAContextFlag.flags = {
+  imsContextName: {},
+}

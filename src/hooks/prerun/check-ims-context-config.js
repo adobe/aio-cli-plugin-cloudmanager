@@ -12,13 +12,21 @@ governing permissions and limitations under the License.
 const Config = require('@adobe/aio-lib-core-config')
 const { defaultContextName } = require('../../cloudmanager-helpers')
 
-const configKey = `ims.contexts.${defaultContextName}`
-
 const requiredKeys = ['client_id', 'client_secret', 'technical_account_id', 'meta_scopes', 'ims_org_id', 'private_key']
 
 const requiredMetaScope = 'ent_cloudmgr_sdk'
 
-module.exports = function () {
+function getContextName (options) {
+  if (options.Command && options.Command.flags && options.Command.flags.imsContextName) {
+    return options.Command.prototype.parse.call(this, options.Command, options.argv).flags.imsContextName
+  }
+}
+
+module.exports = function (hookOptions) {
+  const contextName = getContextName(hookOptions) || defaultContextName
+
+  const configKey = `ims.contexts.${contextName}`
+
   const config = Config.get(configKey)
 
   if (!config) {
