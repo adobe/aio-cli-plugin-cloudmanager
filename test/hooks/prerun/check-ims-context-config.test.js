@@ -17,18 +17,14 @@ beforeEach(() => {
 })
 
 const invoke = (options) => {
-  return () => hook.apply({ error: (msg) => { throw new Error(msg) } }, [options || {}])
+  return () => hook.apply({ error: (msg) => { throw new Error(msg) } }, [{
+    Command: FixtureWithNoFlags,
+    ...options,
+  }])
 }
 
 test('hook -- no config', async () => {
   expect(invoke()).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
-})
-
-test('hook -- no flag command, custom context and no config', async () => {
-  expect(invoke({
-    Command: FixtureWithNoFlags,
-    argv: [],
-  })).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
 })
 
 test('hook -- different flag command, custom context and no config', async () => {
@@ -43,6 +39,13 @@ test('hook -- flag command, custom context and no config', async () => {
     Command: FixtureWithAContextFlag,
     argv: [],
   })).toThrowError('There is no IMS context configuration defined for ims.contexts.testContext.')
+})
+
+test('hook -- command from other plugin', async () => {
+  expect(invoke({
+    Command: FixtureWithNoFlagsInADifferentPlugin,
+    argv: [],
+  })).not.toThrowError()
 })
 
 test('hook -- ok', async () => {
@@ -106,6 +109,10 @@ test('hook -- scope is a number', async () => {
   expect(invoke()).toThrowError('The configuration ims.contexts.aio-cli-plugin-cloudmanager is missing the required metascope ent_cloudmgr_sdk.')
 })
 
+const thisPlugin = {
+  name: '@adobe/aio-cli-plugin-cloudmanager',
+}
+
 class FixtureWithNoFlags {
   parse (options, argv) {
     return {
@@ -114,6 +121,7 @@ class FixtureWithNoFlags {
     }
   }
 }
+FixtureWithNoFlags.plugin = thisPlugin
 
 class FixtureWithADifferentFlag {
   parse (options, argv) {
@@ -129,6 +137,7 @@ class FixtureWithADifferentFlag {
 FixtureWithADifferentFlag.flags = {
   foo: {},
 }
+FixtureWithADifferentFlag.plugin = thisPlugin
 
 class FixtureWithAContextFlag {
   parse (options, argv) {
@@ -143,4 +152,20 @@ class FixtureWithAContextFlag {
 
 FixtureWithAContextFlag.flags = {
   imsContextName: {},
+}
+FixtureWithAContextFlag.plugin = thisPlugin
+
+class FixtureWithNoFlagsInADifferentPlugin {
+  parse (options, argv) {
+    return {
+      args: {},
+      flags: {
+        imsContextName: 'testContext',
+      },
+    }
+  }
+}
+
+FixtureWithNoFlagsInADifferentPlugin.plugin = {
+  name: 'somethingelse',
 }
