@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.1...1.3.2) (2021-03-08)
+
+
+### Bug Fixes
+
+* **hook:** only check ims context on commands for this plugin ([6365e14](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/6365e146595eacbaf62e1ac0dc249fe9a3e2d328))
+
 ## [1.3.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.0...1.3.1) (2021-03-08)
 
 
