@@ -17,12 +17,16 @@ const requiredKeys = ['client_id', 'client_secret', 'technical_account_id', 'met
 const requiredMetaScope = 'ent_cloudmgr_sdk'
 
 function getContextName (options) {
-  if (options.Command && options.Command.flags && options.Command.flags.imsContextName) {
+  if (options.Command.flags && options.Command.flags.imsContextName) {
     return options.Command.prototype.parse.call(this, options.Command, options.argv).flags.imsContextName
   }
 }
 
 module.exports = function (hookOptions) {
+  const pluginName = hookOptions.Command.plugin.name
+  if (pluginName !== '@adobe/aio-cli-plugin-cloudmanager') {
+    return
+  }
   const contextName = getContextName(hookOptions) || defaultContextName
 
   const configKey = `ims.contexts.${contextName}`
