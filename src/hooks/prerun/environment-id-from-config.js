@@ -11,6 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { getDefaultEnvironmentId } = require('../../cloudmanager-helpers')
+const { isThisPlugin } = require('../../cloudmanager-hook-helpers')
 
 const { RequiredArgsError } = require('@oclif/parser/lib/errors')
 
@@ -19,6 +20,10 @@ function hasEnvironmentIdAsFirstArg (options) {
 }
 
 module.exports = async function (hookOptions) {
+  if (!isThisPlugin(hookOptions)) {
+    return
+  }
+
   if (hasEnvironmentIdAsFirstArg(hookOptions)) {
     const environmentId = await getDefaultEnvironmentId()
     if (environmentId) {

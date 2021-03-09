@@ -101,11 +101,32 @@ test('hook -- different error', async () => {
   expect(parse.mock.calls.length).toEqual(1)
 })
 
+test('hook -- environmentId args but wrong plugin with config', async () => {
+  setStore({
+    cloudmanager_environmentid: '4321',
+  })
+
+  expect.assertions(2)
+
+  await hook({
+    Command: FixtureWithEnvironmentIdArgFromOtherPlugin,
+    argv: [],
+  })
+  new FixtureWithEnvironmentIdArgFromOtherPlugin().parse(FixtureWithEnvironmentIdArgFromOtherPlugin, [])
+  expect(parse.mock.calls.length).toEqual(1)
+  expect(parse.mock.calls[0][1]).toEqual([])
+})
+
+const thisPlugin = {
+  name: '@adobe/aio-cli-plugin-cloudmanager',
+}
+
 class FixtureWithNoArgs {
   parse (options, argv) {
     parse(options, argv)
   }
 }
+FixtureWithNoArgs.plugin = thisPlugin
 
 class FixtureWithEnvironmentIdArg {
   parse (options, argv) {
@@ -116,6 +137,20 @@ class FixtureWithEnvironmentIdArg {
 FixtureWithEnvironmentIdArg.args = [
   { name: 'environmentId' },
 ]
+FixtureWithEnvironmentIdArg.plugin = thisPlugin
+
+class FixtureWithEnvironmentIdArgFromOtherPlugin {
+  parse (options, argv) {
+    parse(options, argv)
+  }
+}
+
+FixtureWithEnvironmentIdArgFromOtherPlugin.args = [
+  { name: 'environmentId' },
+]
+FixtureWithEnvironmentIdArgFromOtherPlugin.plugin = {
+  name: 'somethingelse',
+}
 
 class FixtureWithOtherArgs {
   parse (options, argv) {
@@ -127,3 +162,4 @@ FixtureWithOtherArgs.args = [
   { name: 'pipelineId' },
   { name: 'environmentId' },
 ]
+FixtureWithOtherArgs.plugin = thisPlugin
