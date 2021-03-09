@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.2...1.3.3) (2021-03-09)
+
+
+### Bug Fixes
+
+* **hook:** check plugin from hookOptions in environment id hook. fixes [#242](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/242) ([6c28117](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/6c28117e269e600cec535c8e3380b06518e18826))
+
 ## [1.3.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.1...1.3.2) (2021-03-08)
 
 
