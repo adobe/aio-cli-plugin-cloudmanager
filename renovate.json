@@ -2,5 +2,15 @@
   "extends": [
     "config:js-lib",
     ":semanticCommits"
+  ],
+  "packageRules": [
+    {
+      "packageNames": ["husky"],
+      "allowedVersions": "<6.0"
+    },
+    {
+      "matchDepTypes": ["devDependencies"],
+      "automerge": true
+    }
   ]
 }
