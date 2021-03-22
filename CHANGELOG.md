@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.4](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.3...1.3.4) (2021-03-22)
+
+
+### Bug Fixes
+
+* **variables:** fix how numeric values are parsed. fixes [#253](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/253) ([5b9771f](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/5b9771f2b0eb653f5dc7877d93cff3713f8f7273))
+
 ## [1.3.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.2...1.3.3) (2021-03-09)
 
 
