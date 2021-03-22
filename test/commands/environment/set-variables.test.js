@@ -130,6 +130,28 @@ test('set-environment-variables - variables only', async () => {
   }])
 })
 
+test('set-environment-variables - long numeric value', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  expect.assertions(5)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--variable', 'foo', '4566206088344615922'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'foo',
+    type: 'string',
+    value: '4566206088344615922',
+  }])
+})
+
 test('set-environment-variables - secrets only', async () => {
   setCurrentOrgId('good')
   setStore({

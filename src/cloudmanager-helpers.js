@@ -74,6 +74,9 @@ function createKeyValueObjectFromFlag (flag) {
       try {
         // assume it is JSON, there is only 1 way to find out
         tempObj[flag[i]] = JSON.parse(flag[i + 1])
+        if (typeof tempObj[flag[i]] === 'number') {
+          throw new Error('parsed flag value as a number')
+        }
       } catch (ex) {
         // hmm ... not json, treat as string
         tempObj[flag[i]] = flag[i + 1]
