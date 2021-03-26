@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.5](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.4...1.3.5) (2021-03-26)
+
+
+### Bug Fixes
+
+* **deps:** force the use of @adobe/aio-lib-ims-jwt higher than 2.1.1 ([de8d6f9](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/de8d6f9ee51ba188bbbf73696dd40b9b7f373a67)), closes [#256](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/256)
+
 ## [1.3.4](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.3...1.3.4) (2021-03-22)
 
 
