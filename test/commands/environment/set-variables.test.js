@@ -19,18 +19,20 @@ const SetEnvironmentVariablesCommand = require('../../../src/commands/cloudmanag
 const mockFileName = 'test-input'
 let mockFileContent = ''
 
-const originalReadFile = fs.readFile
+beforeAll(() => {
+  const originalReadFile = fs.readFile
 
-fs.readFile = jest.fn((fileName, encoding, callback) => {
-  if (fileName === mockFileName) {
-    if (!callback) {
-      callback = encoding
-      encoding = undefined
+  fs.readFile = jest.fn((fileName, encoding, callback) => {
+    if (fileName === mockFileName) {
+      if (!callback) {
+        callback = encoding
+        encoding = undefined
+      }
+      callback(null, mockFileContent)
+    } else {
+      originalReadFile(fileName, encoding, callback)
     }
-    callback(null, mockFileContent)
-  } else {
-    originalReadFile(fileName, encoding, callback)
-  }
+  })
 })
 
 beforeEach(() => {
