@@ -70,7 +70,7 @@ test('set-environment-variables - missing config', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
 })
-/*
+
 test('set-environment-variables - bad variable flag', async () => {
   setCurrentOrgId('good')
   setStore({
@@ -274,7 +274,7 @@ test('set-environment-variables - delete not found', async () => {
   await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(0)
 })
-
+/*
 test('set-environment-variables - stdin - not JSON', async () => {
   setCurrentOrgId('good')
   setStore({
