@@ -290,7 +290,7 @@ test('set-environment-variables - stdin - not JSON', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('Unable to parse variables from provided data.')
 })
-/*
+
 test('set-environment-variables - file - not JSON', async () => {
   setCurrentOrgId('good')
   setStore({
@@ -361,7 +361,7 @@ test('set-environment-variables - stdin - secret and variable', async () => {
     value: 'bar2',
   }])
 })
-
+/*
 test('set-environment-variables - file - secret and variable', async () => {
   setCurrentOrgId('good')
   setStore({
