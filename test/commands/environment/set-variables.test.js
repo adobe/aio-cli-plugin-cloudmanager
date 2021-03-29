@@ -22,6 +22,8 @@ let mockFileContent = ''
 beforeAll(() => {
   const originalReadFile = fs.readFile
 
+  console.log('mocking fs.readFile')
+
   fs.readFile = jest.fn((fileName, encoding, callback) => {
     if (fileName === mockFileName) {
       if (!callback) {
