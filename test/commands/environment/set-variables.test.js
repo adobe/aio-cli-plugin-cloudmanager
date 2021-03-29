@@ -484,7 +484,7 @@ test('set-environment-variables - stdin - missing name', async () => {
   await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(0)
 })
-/*
+
 test('set-environment-variables - both jsonStdin and jsonFile', async () => {
   setCurrentOrgId('good')
   setStore({
@@ -498,4 +498,3 @@ test('set-environment-variables - both jsonStdin and jsonFile', async () => {
 
   await expect(runResult).rejects.toThrow('--jsonStdin= cannot also be provided when using --jsonFile=')
 })
-*/
