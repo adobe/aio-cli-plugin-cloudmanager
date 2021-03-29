@@ -274,7 +274,7 @@ test('set-environment-variables - delete not found', async () => {
   await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(0)
 })
-/*
+
 test('set-environment-variables - stdin - not JSON', async () => {
   setCurrentOrgId('good')
   setStore({
@@ -290,7 +290,7 @@ test('set-environment-variables - stdin - not JSON', async () => {
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('Unable to parse variables from provided data.')
 })
-
+/*
 test('set-environment-variables - file - not JSON', async () => {
   setCurrentOrgId('good')
   setStore({
