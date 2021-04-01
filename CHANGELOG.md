@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.6](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.5...1.3.6) (2021-04-01)
+
+
+### Bug Fixes
+
+* **variables:** ensure that variables validation errors are output. fixes [#262](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/262) ([36a5e1f](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/36a5e1f072c2f35bca4ce821d9c2e3e4fc422378))
+
 ## [1.3.5](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.4...1.3.5) (2021-03-26)
 
 
