@@ -494,3 +494,191 @@ test('set-environment-variables - both jsonStdin and jsonFile', async () => {
 
   await expect(runResult).rejects.toThrow('--jsonStdin= cannot also be provided when using --jsonFile=')
 })
+
+test('set-environment-variables - author variable', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  expect.assertions(5)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--authorVariable', 'foo', 'bar'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'foo',
+    service: 'author',
+    type: 'string',
+    value: 'bar',
+  }])
+})
+
+test('set-environment-variables - delete author secret', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  expect.assertions(5)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--authorDelete', 'AUTHOR_SECRET'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'AUTHOR_SECRET',
+    type: 'secretString',
+    value: '',
+    service: 'author',
+  }])
+})
+
+test('set-environment-variables - file - author secret and variable', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  mockFileContent = JSON.stringify([
+    {
+      name: 'foo',
+      value: 'bar',
+      service: 'author',
+    },
+    {
+      name: 'foo2',
+      value: 'bar2',
+      type: 'secretString',
+      service: 'author',
+    },
+  ])
+
+  expect.assertions(5)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--jsonFile', mockFileName])
+
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'foo',
+    type: 'string',
+    value: 'bar',
+    service: 'author',
+  }, {
+    name: 'foo2',
+    type: 'secretString',
+    value: 'bar2',
+    service: 'author',
+  }])
+})
+
+test('set-environment-variables - stdin - variable in flag does not overwrite stdin when different services', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  getPipedData.mockResolvedValue(JSON.stringify([
+    {
+      name: 'foo',
+      value: 'baz',
+      service: 'publish',
+    },
+  ]))
+
+  expect.assertions(5)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--jsonStdin', '--authorVariable', 'foo', 'bar'])
+
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'foo',
+    type: 'string',
+    value: 'bar',
+    service: 'author',
+  }, {
+    name: 'foo',
+    type: 'string',
+    value: 'baz',
+    service: 'publish',
+  }])
+})
+
+test('set-environment-variables - stdin - delete from stream without service does not delete service variable', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  getPipedData.mockResolvedValue(JSON.stringify([
+    {
+      name: 'AUTHOR_SECRET',
+      value: '',
+    },
+  ]))
+
+  expect.assertions(5)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--jsonStdin'])
+
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'AUTHOR_SECRET',
+    type: 'string',
+    value: '',
+  }])
+})
+
+test('set-environment-variables - stdin - delete from stream with service deletes service variable', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  getPipedData.mockResolvedValue(JSON.stringify([
+    {
+      name: 'AUTHOR_SECRET',
+      value: '',
+      service: 'author',
+    },
+  ]))
+
+  expect.assertions(5)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--jsonStdin'])
+
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'AUTHOR_SECRET',
+    type: 'secretString',
+    value: '',
+    service: 'author',
+  }])
+})
