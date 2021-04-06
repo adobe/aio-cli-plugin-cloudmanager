@@ -85,6 +85,11 @@ function createDefaultMock () {
     }, {
       name: 'I_AM_A_SECRET',
       type: 'secretString',
+    }, {
+      name: 'AUTHOR_SECRET',
+      value: 'something',
+      service: 'author',
+      type: 'secretString',
     }])),
     setEnvironmentVariables: jest.fn(() => Promise.resolve()),
     getPipelineVariables: jest.fn(() => Promise.resolve([{

@@ -14,6 +14,14 @@ const { initSdk, sanitizeEnvironmentId } = require('./cloudmanager-helpers')
 const BaseVariablesCommand = require('./base-variables-command')
 
 class BaseEnvironmentVariablesCommand extends BaseVariablesCommand {
+  outputTable (result, flags) {
+    super.outputTable(result, flags, {
+      service: {
+        get: (item) => item.service || '',
+      },
+    })
+  }
+
   async getVariables (programId, args, imsContextName = null) {
     const environmentId = sanitizeEnvironmentId(args.environmentId)
     const sdk = await initSdk(imsContextName)

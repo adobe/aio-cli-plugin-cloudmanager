@@ -402,19 +402,28 @@ ARGUMENTS
   ENVIRONMENTID  the environment id
 
 OPTIONS
-  -d, --delete=delete              variables/secrets to delete
-  -j, --json                       output in json format
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -s, --secret=secret              secret values in KEY VALUE format
-  -v, --variable=variable          variable values in KEY VALUE format
-  -y, --yaml                       output in yaml format
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -d, --delete=delete                variables/secrets to delete
+  -j, --json                         output in json format
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -s, --secret=secret                secret values in KEY VALUE format
+  -v, --variable=variable            variable values in KEY VALUE format
+  -y, --yaml                         output in yaml format
+  --authorDelete=authorDelete        variables/secrets to delete for author service
+  --authorSecret=authorSecret        secret values in KEY VALUE format for author service
+  --authorVariable=authorVariable    variable values in KEY VALUE format for author service
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
-  --jsonFile=jsonFile              if set, read variables from a JSON array provided as a file; variables set through
-                                   --variable or --secret flag will take precedence
+  --jsonFile=jsonFile                if set, read variables from a JSON array provided as a file; variables set through
+                                     --variable or --secret flag will take precedence
 
-  --jsonStdin                      if set, read variables from a JSON array provided as standard input; variables set
-                                   through --variable or --secret flag will take precedence
+  --jsonStdin                        if set, read variables from a JSON array provided as standard input; variables set
+                                     through --variable or --secret flag will take precedence
+
+  --publishDelete=publishDelete      variables/secrets to delete for publish service
+
+  --publishSecret=publishSecret      secret values in KEY VALUE format for publish service
+
+  --publishVariable=publishVariable  variable values in KEY VALUE format for publish service
 
 ALIASES
   $ aio cloudmanager:set-environment-variables

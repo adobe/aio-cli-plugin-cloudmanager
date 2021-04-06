@@ -22,13 +22,28 @@ const { getPipedData } = require('@adobe/aio-lib-core-config')
 const _ = require('lodash')
 
 class BaseVariablesCommand extends Command {
-  outputTable (result, flags) {
+  getFlagDefs () {
+    return {
+      variable: {
+        type: 'string',
+      },
+      secret: {
+        type: 'secretString',
+      },
+      delete: {
+        action: 'delete',
+      },
+    }
+  }
+
+  outputTable (result, flags, extraColumns = {}) {
     cli.table(result, {
       name: {},
       type: {},
       value: {
         get: (item) => item.type === 'secretString' ? '****' : item.value,
       },
+      ...extraColumns,
     }, {
       output: getOutputFormat(flags),
     })
@@ -63,44 +78,55 @@ class BaseVariablesCommand extends Command {
 
   async prepareVariableList (flags, currentVariablesList) {
     const currentVariableTypes = {}
-    currentVariablesList.forEach(variable => (currentVariableTypes[variable.name] = variable.type))
+    currentVariablesList.forEach(variable => {
+      const tempName = variable.service ? `${variable.service}:${variable.name}` : variable.name
+      currentVariableTypes[tempName] = variable.type
+    })
 
     const variables = []
-    if (flags.variable) {
-      // each --param flag expects two values ( a key and a value ). Multiple --parm flags can be passed
-      // For example : aio runtime:action:create --param name "foo" --param city "bar"
-      const parsedVariables = createKeyValueObjectFromFlag(flags.variable)
-      for (const key in parsedVariables) {
-        variables.push({
-          name: key,
-          value: parsedVariables[key],
-          type: 'string',
-        })
+
+    const flagDefs = this.getFlagDefs()
+
+    Object.keys(flagDefs).forEach(flagName => {
+      const flagDef = flagDefs[flagName]
+      if (!flags[flagName]) {
+        return
       }
-    }
-    if (flags.secret) {
-      const parsedSecrets = createKeyValueObjectFromFlag(flags.secret)
-      for (const key in parsedSecrets) {
-        variables.push({
-          name: key,
-          value: parsedSecrets[key],
-          type: 'secretString',
-        })
-      }
-    }
-    if (flags.delete) {
-      flags.delete.forEach(key => {
-        if (currentVariableTypes[key]) {
-          variables.push({
-            name: key,
-            type: currentVariableTypes[key],
-            value: '',
+      switch (flagDef.action) {
+        case 'delete':
+          flags[flagName].forEach(key => {
+            const currentVariableKey = flagDef.service ? `${flagDef.service}:${key}` : key
+            if (currentVariableTypes[currentVariableKey]) {
+              const newVar = {
+                name: key,
+                type: currentVariableTypes[currentVariableKey],
+                value: '',
+              }
+              if (flagDef.service) {
+                newVar.service = flagDef.service
+              }
+              variables.push(newVar)
+            } else {
+              this.warn(`Variable ${key} not found. Will not try to delete.`)
+            }
           })
-        } else {
-          this.warn(`Variable ${key} not found. Will not try to delete.`)
+          break
+        default: {
+          const parsedFlag = createKeyValueObjectFromFlag(flags[flagName])
+          for (const key in parsedFlag) {
+            const newVar = {
+              name: key,
+              value: parsedFlag[key],
+              type: flagDef.type,
+            }
+            if (flagDef.service) {
+              newVar.service = flagDef.service
+            }
+            variables.push(newVar)
+          }
         }
-      })
-    }
+      }
+    })
 
     if (flags.jsonStdin) {
       const rawStdinData = await getPipedData()
@@ -129,10 +155,11 @@ class BaseVariablesCommand extends Command {
         if (!item.type) {
           item.type = 'string'
         }
-        if (currentVariableTypes[item.name] && !item.value) {
-          item.type = currentVariableTypes[item.name]
+        const currentVariableKey = item.service ? `${item.service}:${item.name}` : item.name
+        if (currentVariableTypes[currentVariableKey] && !item.value) {
+          item.type = currentVariableTypes[currentVariableKey]
         }
-        if (!variables.find(variable => variable.name === item.name)) {
+        if (!variables.find(variable => variable.name === item.name && variables.services === item.service)) {
           variables.push(item)
         }
       }
@@ -140,7 +167,7 @@ class BaseVariablesCommand extends Command {
   }
 }
 
-BaseVariablesCommand.setterFlags = {
+BaseVariablesCommand.coreSetterFlags = {
   variable: flags.string({
     char: 'v',
     description: 'variable values in KEY VALUE format',
@@ -156,6 +183,10 @@ BaseVariablesCommand.setterFlags = {
     description: 'variables/secrets to delete',
     multiple: true,
   }),
+}
+
+BaseVariablesCommand.setterFlags = {
+  ...BaseVariablesCommand.coreSetterFlags,
   jsonStdin: flags.boolean({
     default: false,
     description: 'if set, read variables from a JSON array provided as standard input; variables set through --variable or --secret flag will take precedence',

@@ -13,9 +13,30 @@ governing permissions and limitations under the License.
 const BaseEnvironmentVariablesCommand = require('../../../base-environment-variables-command')
 const BaseVariablesCommand = require('../../../base-variables-command')
 const { initSdk, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
+const { flags } = require('@oclif/command')
+const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
 
+const services = ['author', 'publish']
+
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
+  getFlagDefs () {
+    const coreFlagDefs = super.getFlagDefs()
+    const result = {
+      ...coreFlagDefs,
+    }
+    services.forEach(service => {
+      Object.keys(coreFlagDefs).forEach(coreFlagKey => {
+        const flagName = _.camelCase(`${service} ${coreFlagKey}`)
+        result[flagName] = {
+          ...coreFlagDefs[coreFlagKey],
+          service,
+        }
+      })
+    })
+    return result
+  }
+
   async run () {
     const { args, flags } = this.parse(SetEnvironmentVariablesCommand)
 
@@ -40,6 +61,17 @@ SetEnvironmentVariablesCommand.flags = {
   ...commonFlags.programId,
   ...BaseVariablesCommand.setterFlags,
 }
+
+services.forEach(service => {
+  Object.keys(BaseVariablesCommand.coreSetterFlags).forEach(coreFlagKey => {
+    const coreFlag = BaseVariablesCommand.coreSetterFlags[coreFlagKey]
+    const flagName = _.camelCase(`${service} ${coreFlagKey}`)
+    SetEnvironmentVariablesCommand.flags[flagName] = flags.string({
+      description: `${coreFlag.description} for ${service} service`,
+      multiple: true,
+    })
+  })
+})
 
 SetEnvironmentVariablesCommand.aliases = [
   'cloudmanager:set-environment-variables',
