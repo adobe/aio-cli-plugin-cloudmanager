@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.4.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.6...1.4.0) (2021-04-08)
+
+
+### Features
+
+* **variables:** support service-specific environment variables. fixes [#268](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/268) ([d0a93ac](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/d0a93ace41df356250e752155d2d2273623e0e20))
+
 ## [1.3.6](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.5...1.3.6) (2021-04-01)
 
 
