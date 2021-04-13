@@ -69,8 +69,8 @@ test('list-executions -- success', async () => {
     'pipelineId',
     'id',
     'createdAt',
-    'trigger',
     'status',
+    'trigger',
     'currentStep',
     'currentStepStatus',
   ])

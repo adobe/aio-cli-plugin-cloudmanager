@@ -39,7 +39,7 @@ test('get-current-execution - missing config', async () => {
 test('get-current-execution - configured', async () => {
   setCurrentOrgId('good')
 
-  expect.assertions(7)
+  expect.assertions(8)
 
   const runResult = GetCurrentExecution.run(['5', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -49,6 +49,15 @@ test('get-current-execution - configured', async () => {
   await expect(mockSdk.getCurrentExecution.mock.calls.length).toEqual(1)
   await expect(mockSdk.getCurrentExecution).toHaveBeenCalledWith('5', '5')
 
+  await expect(Object.keys(cli.table.mock.calls[0][1])).toEqual([
+    'pipelineId',
+    'id',
+    'createdAt',
+    'status',
+    'trigger',
+    'currentStep',
+    'currentStepStatus',
+  ])
   await expect(cli.table.mock.calls[0][1].currentStep.get(execution1010)).toEqual('Prod Deploy')
   await expect(cli.table.mock.calls[0][1].currentStepStatus.get(execution1010)).toEqual('WAITING')
 })
