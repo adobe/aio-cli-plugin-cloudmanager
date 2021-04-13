@@ -37,6 +37,9 @@ const standardColumns = {
     header: 'Started At',
     get: formatTime('createdAt'),
   },
+  status: {
+    header: 'Execution Status',
+  },
   trigger: {},
 }
 
@@ -44,8 +47,6 @@ class BaseExecutionCommand extends Command {
   outputCompleteTable (result, flags) {
     cli.table(result, {
       ...standardColumns,
-      status: {
-      },
       currentStep: {
         header: 'Current/Failing Step Action',
         get: getLastStepAction,
