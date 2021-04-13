@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.5.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.4.0...1.5.0) (2021-04-13)
+
+
+### Features
+
+* **execution:** add execution status to current-execution:get. fixes [#275](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/275) ([c1cfd75](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/c1cfd75a9db67f8077a7a8bd1b43f8c1412b6184))
+
 # [1.4.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.3.6...1.4.0) (2021-04-08)
 
 
