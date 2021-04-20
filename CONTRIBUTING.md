@@ -16,7 +16,7 @@ All third-party contributions to this project must be accompanied by a signed co
 
 All submissions should come in the form of pull requests and need to be reviewed by project committers. Read [GitHub's pull request documentation](https://help.github.com/articles/about-pull-requests/) for more information on sending pull requests.
 
-Lastly, please follow the [pull request template](PULL_REQUEST_TEMPLATE.md) when submitting a pull request!
+Please follow the [pull request template](PULL_REQUEST_TEMPLATE.md) when submitting a pull request. Following the requirements for semantic releases (as described in the next section), each pull request should contain a single change and be comprised of a single commit.
 
 ## Commits and Releasing
 
@@ -36,4 +36,4 @@ feat(scope): <description>
 [optional content]
 ```
 
-In general, the scope should be the command name or topic, but there may be exceptions.
+In general, the scope should be the command name or topic, but there may be exceptions. The description of feature and fix issues should contain a reference to a github issue, e.g. Fixes #200.
