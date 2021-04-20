@@ -19,7 +19,7 @@ const requiredMetaScope = 'ent_cloudmgr_sdk'
 
 function getContextName (options) {
   if (options.Command.flags && options.Command.flags.imsContextName) {
-    return options.Command.prototype.parse.call(this, options.Command, options.argv).flags.imsContextName
+    return options.Command.prototype.parse.call({ argv: options.argv }, options.Command).flags.imsContextName
   }
 }
 
