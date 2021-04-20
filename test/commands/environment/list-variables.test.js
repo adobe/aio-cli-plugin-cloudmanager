@@ -105,5 +105,11 @@ test('list-environment-variables for "e" prefixed env id - success', async () =>
     type: 'secretString',
     value: 'something',
   },
+  {
+    name: 'VARIABLE',
+    value: 'something',
+    type: 'string',
+    status: 'created'
+  },
   ])
 })
