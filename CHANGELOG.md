@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.5.0...1.5.1) (2021-04-20)
+
+
+### Bug Fixes
+
+* **hooks:** restore behavior of default environment id. fixes [#280](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/280) ([797f0dd](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/797f0dd18110a012af91fcc2d08b16775afa25da))
+
 # [1.5.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.4.0...1.5.0) (2021-04-13)
 
 
