@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.6.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.5.1...1.6.0) (2021-04-21)
+
+
+### Features
+
+* **variables:** show status on list variables table. fixes [#279](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/279) ([76bce13](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/76bce13f00223403bb408121e0de7a6f2e446400))
+
 ## [1.5.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.5.0...1.5.1) (2021-04-20)
 
 
