@@ -19,6 +19,9 @@ class BaseEnvironmentVariablesCommand extends BaseVariablesCommand {
       service: {
         get: (item) => item.service || '',
       },
+      status: {
+        get: (item) => item.status || '',
+      },
     })
   }
 

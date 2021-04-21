@@ -90,6 +90,12 @@ function createDefaultMock () {
       value: 'something',
       service: 'author',
       type: 'secretString',
+    },
+    {
+      name: 'VARIABLE',
+      value: 'something',
+      type: 'string',
+      status: 'created',
     }])),
     setEnvironmentVariables: jest.fn(() => Promise.resolve()),
     getPipelineVariables: jest.fn(() => Promise.resolve([{
