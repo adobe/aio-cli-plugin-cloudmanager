@@ -21,7 +21,7 @@ class BaseEnvironmentVariablesCommand extends BaseVariablesCommand {
       },
       status: {
         get: (item) => item.status || '',
-      }
+      },
     })
   }
 
