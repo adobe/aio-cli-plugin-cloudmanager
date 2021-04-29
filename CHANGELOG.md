@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.0...1.6.1) (2021-04-29)
+
+
+### Bug Fixes
+
+* **hook:** check-ims-config is not correctly throwing errors. fixes [#295](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/295) ([#297](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/297)) ([f2a5768](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/f2a57683531d0dac1368cba038714686ff34b7de))
+
 # [1.6.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.5.1...1.6.0) (2021-04-21)
 
 
