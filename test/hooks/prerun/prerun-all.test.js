@@ -9,6 +9,12 @@ beforeEach(() => {
   parse = jest.fn()
 })
 
+const invoke = (options) => {
+  return () => hook.apply({ error: (msg) => { throw new Error(msg) } }, [{
+    ...options,
+  }])
+}
+
 test('hook -- environmentId args with config', async () => {
   setStore({
     cloudmanager_environmentid: '4321',
@@ -32,13 +38,39 @@ test('hook -- environmentId args with config', async () => {
 
   expect.assertions(2)
 
-  await hook({
+  invoke({
     Command: FixtureWithEnvironmentIdArg,
     argv: [],
-  })
+  })()
   new FixtureWithEnvironmentIdArg().parse(FixtureWithEnvironmentIdArg, [])
   expect(parse.mock.calls.length).toEqual(2)
   expect(parse.mock.calls[1][1]).toEqual(['4321'])
+})
+
+test('hook -- bad configuration', async () => {
+  setStore({
+    cloudmanager_environmentid: '4321',
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+    },
+  })
+
+  parse = jest.fn().mockImplementationOnce(() => true)
+
+  expect.assertions(1)
+
+  expect(invoke({
+    Command: FixtureWithEnvironmentIdArg,
+    argv: [],
+  })).toThrowError('One or more of the required fields in ims.contexts.aio-cli-plugin-cloudmanager were not set. Missing keys were private_key.')
 })
 
 const thisPlugin = {
