@@ -19,7 +19,7 @@ class UpdatePipelineCommand extends Command {
   async run () {
     const { args, flags } = this.parse(UpdatePipelineCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     if (flags.tag && flags.branch) {
       throw new Error('Both branch and tag cannot be specified.')

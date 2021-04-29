@@ -19,7 +19,7 @@ class AdvanceCurrentExecutionCommand extends Command {
   async run () {
     const { args, flags } = this.parse(AdvanceCurrentExecutionCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

@@ -20,7 +20,7 @@ class GetExecutionStepLogs extends Command {
   async run () {
     const { args, flags } = this.parse(GetExecutionStepLogs)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     const outputStream = flags.output ? fs.createWriteStream(flags.output) : process.stdout
 

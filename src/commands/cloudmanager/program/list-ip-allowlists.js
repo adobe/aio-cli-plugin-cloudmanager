@@ -20,7 +20,7 @@ class ListIPAllowlists extends Command {
   async run () {
     const { flags } = this.parse(ListIPAllowlists)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

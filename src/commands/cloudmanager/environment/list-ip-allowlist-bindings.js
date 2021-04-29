@@ -21,7 +21,7 @@ class ListIPAllowlistBindings extends Command {
   async run () {
     const { flags, args } = this.parse(ListIPAllowlistBindings)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

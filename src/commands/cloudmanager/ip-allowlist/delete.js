@@ -19,7 +19,7 @@ class DeleteIPAllowlist extends Command {
   async run () {
     const { flags, args } = this.parse(DeleteIPAllowlist)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     cli.action.start('deleting allowlist')
 

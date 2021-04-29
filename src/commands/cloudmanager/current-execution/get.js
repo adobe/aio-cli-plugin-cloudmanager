@@ -18,7 +18,7 @@ class GetCurrentExecutionCommand extends BaseExecutionCommand {
   async run () {
     const { args, flags } = this.parse(GetCurrentExecutionCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

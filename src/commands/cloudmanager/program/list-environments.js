@@ -19,7 +19,7 @@ class ListEnvironmentsCommand extends Command {
   async run () {
     const { flags } = this.parse(ListEnvironmentsCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

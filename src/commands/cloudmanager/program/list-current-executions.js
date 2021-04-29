@@ -20,7 +20,7 @@ class ListCurrentExecutionsCommand extends BaseExecutionCommand {
 
     let result
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     try {
       result = await this.listCurrentExecutions(programId, flags.imsContextName)
