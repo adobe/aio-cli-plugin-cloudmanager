@@ -19,7 +19,7 @@ class ListPipelineVariablesCommand extends BasePipelineVariablesCommand {
   async run () {
     const { args, flags } = this.parse(ListPipelineVariablesCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

@@ -19,13 +19,13 @@ function hasEnvironmentIdAsFirstArg (options) {
   return options.Command.args && options.Command.args[0].name === 'environmentId'
 }
 
-module.exports = async function (hookOptions) {
+module.exports = function (hookOptions) {
   if (!isThisPlugin(hookOptions)) {
     return
   }
 
   if (hasEnvironmentIdAsFirstArg(hookOptions)) {
-    const environmentId = await getDefaultEnvironmentId()
+    const environmentId = getDefaultEnvironmentId()
     if (environmentId) {
       const originalParse = hookOptions.Command.prototype.parse
       hookOptions.Command.prototype.parse = function (options) {

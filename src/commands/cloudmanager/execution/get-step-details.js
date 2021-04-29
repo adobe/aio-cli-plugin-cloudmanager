@@ -20,7 +20,7 @@ class GetExecutionStepDetails extends Command {
   async run () {
     const { args, flags } = this.parse(GetExecutionStepDetails)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

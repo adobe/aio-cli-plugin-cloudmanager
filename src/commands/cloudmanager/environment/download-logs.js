@@ -20,7 +20,7 @@ class DownloadLogs extends Command {
   async run () {
     const { args, flags } = this.parse(DownloadLogs)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     const environmentId = sanitizeEnvironmentId(args.environmentId)
 

@@ -21,7 +21,7 @@ class BindIPAllowlist extends Command {
   async run () {
     const { flags, args } = this.parse(BindIPAllowlist)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     cli.action.start(`binding IP allowlist ${args.ipAllowlistId} to environment ${args.environmentId} (${args.service})`)
 

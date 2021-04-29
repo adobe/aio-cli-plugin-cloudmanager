@@ -19,7 +19,7 @@ class CreateIPAllowlist extends Command {
   async run () {
     const { flags, args } = this.parse(CreateIPAllowlist)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     cli.action.start('creating allowlist')
 

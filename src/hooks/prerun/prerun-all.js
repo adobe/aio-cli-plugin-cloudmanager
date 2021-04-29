@@ -13,7 +13,7 @@ governing permissions and limitations under the License.
  * Prerun hooks in a specific order.
  */
 
-module.exports = async function (hookOptions) {
-  await require('./environment-id-from-config')(hookOptions)
-  await require('./check-ims-context-config')(hookOptions)
+module.exports = function (hookOptions) {
+  require('./environment-id-from-config')(hookOptions)
+  require('./check-ims-context-config')(hookOptions)
 }

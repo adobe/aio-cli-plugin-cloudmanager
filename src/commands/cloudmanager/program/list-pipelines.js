@@ -19,7 +19,7 @@ class ListPipelinesCommand extends Command {
   async run () {
     const { flags } = this.parse(ListPipelinesCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

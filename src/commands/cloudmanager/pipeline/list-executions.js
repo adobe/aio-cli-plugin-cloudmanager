@@ -21,7 +21,7 @@ class ListExecutionsCommand extends BaseExecutionCommand {
   async run () {
     const { args, flags } = this.parse(ListExecutionsCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

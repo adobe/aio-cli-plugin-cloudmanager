@@ -50,7 +50,7 @@ class BaseVariablesCommand extends Command {
   }
 
   async runSet (args, flags) {
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     const currentVariablesList = await this.getVariables(programId, args, flags.imsContextName)
 

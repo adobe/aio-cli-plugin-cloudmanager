@@ -19,7 +19,7 @@ class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   async run () {
     const { args, flags } = this.parse(ListEnvironmentVariablesCommand)
 
-    const programId = await getProgramId(flags)
+    const programId = getProgramId(flags)
 
     let result
 

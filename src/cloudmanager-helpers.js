@@ -27,14 +27,14 @@ function toJson (item) {
   return c
 }
 
-async function getBaseUrl () {
-  const configStr = await Config.get('cloudmanager')
+function getBaseUrl () {
+  const configStr = Config.get('cloudmanager')
 
   return (configStr && toJson(configStr).base_url) || 'https://cloudmanager.adobe.io'
 }
 
-async function getProgramId (flags) {
-  const programId = flags.programId || await Config.get('cloudmanager_programid')
+function getProgramId (flags) {
+  const programId = flags.programId || Config.get('cloudmanager_programid')
   if (!programId) {
     throw new Error('Program ID must be specified either as --programId flag or through cloudmanager_programid config value')
   }
@@ -96,8 +96,8 @@ function sanitizeEnvironmentId (environmentId) {
   return envId
 }
 
-async function getDefaultEnvironmentId (flags) {
-  return await Config.get('cloudmanager_environmentid')
+function getDefaultEnvironmentId (flags) {
+  return Config.get('cloudmanager_environmentid')
 }
 
 async function initSdk (contextName) {
@@ -112,7 +112,7 @@ async function initSdk (contextName) {
 
   const accessToken = await getToken(contextName)
 
-  const baseUrl = await getBaseUrl()
+  const baseUrl = getBaseUrl()
   return await init(orgId, apiKey, accessToken, baseUrl)
 }
 
