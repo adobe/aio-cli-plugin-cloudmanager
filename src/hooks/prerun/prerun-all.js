@@ -14,6 +14,6 @@ governing permissions and limitations under the License.
  */
 
 module.exports = function (hookOptions) {
-  require('./environment-id-from-config')(hookOptions)
-  require('./check-ims-context-config')(hookOptions)
+  require('./environment-id-from-config').apply(this, [hookOptions])
+  require('./check-ims-context-config').apply(this, [hookOptions])
 }
