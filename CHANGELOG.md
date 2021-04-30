@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.1...1.6.2) (2021-04-30)
+
+
+### Bug Fixes
+
+* **deps:** update aio-lib-cloudmanager for log error message fix. fixes [#300](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/300) ([#301](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/301)) ([9e47144](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/9e47144f559a03604805c4edada8176a071ba8fd))
+
 ## [1.6.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.0...1.6.1) (2021-04-29)
 
 
