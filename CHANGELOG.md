@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.2...1.6.3) (2021-05-05)
+
+
+### Bug Fixes
+
+* **variables:** passing an empty variable value should throw an error. fixes [#305](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/305) ([#306](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/306)) ([91031f1](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/91031f14decd57715b8e80dc87043a965e153f53))
+
 ## [1.6.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.1...1.6.2) (2021-04-30)
 
 
