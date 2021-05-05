@@ -82,6 +82,9 @@ function createKeyValueObjectFromFlag (flag) {
         tempObj[flag[i]] = flag[i + 1]
       }
     }
+    if (Object.values(tempObj).filter(v => v === '').length) {
+      throw new Error('Blank variable values are not allowed. Use the proper flag if you intend to delete a variable.')
+    }
     return tempObj
   } else {
     throw (new Error('Please provide correct values for flags'))
