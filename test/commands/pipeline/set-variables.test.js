@@ -56,6 +56,19 @@ test('set-pipeline-variables - bad variable flag', async () => {
   await expect(runResult).rejects.toEqual(new Error('Please provide correct values for flags'))
 })
 
+test('set-pipeline-variables - empty variable flag', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '5',
+  })
+
+  expect.assertions(2)
+
+  const runResult = SetPipelineVariablesCommand.run(['8', '--variable', 'foo', ''])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toEqual(new Error('Blank variable values are not allowed. Use the proper flag if you intend to delete a variable.'))
+})
+
 test('set-pipeline-variables - bad secret flag', async () => {
   setCurrentOrgId('good')
   setStore({
