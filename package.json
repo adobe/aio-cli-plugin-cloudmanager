@@ -30,7 +30,7 @@
     "codecov": "3.8.2",
     "eslint": "7.26.0",
     "eslint-config-standard": "16.0.2",
-    "eslint-plugin-import": "2.23.2",
+    "eslint-plugin-import": "2.23.3",
     "eslint-plugin-jest": "24.3.6",
     "eslint-plugin-jsdoc": "34.8.2",
     "eslint-plugin-node": "11.1.0",
