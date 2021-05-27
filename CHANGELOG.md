@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.7.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.3...1.7.0) (2021-05-27)
+
+
+### Features
+
+* **variables:** support preview as an additional service. fixes [#335](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/335) ([#336](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/336)) ([7dc893e](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/7dc893ecd439594ce5e492ff6399e989c6382c18))
+
 ## [1.6.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.2...1.6.3) (2021-05-05)
 
 
