@@ -17,7 +17,7 @@ const { flags } = require('@oclif/command')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
 
-const services = ['author', 'publish']
+const services = ['author', 'publish', 'preview']
 
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   getFlagDefs () {
