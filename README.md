@@ -47,8 +47,28 @@ $ aio plugins:update
 
 ## Authentication
 
-At minimum, an integration must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service. You may also add other services to this integration
-if you want to use other Adobe I/O CLI plugins. For example, to use the [Console Plugin](https://github.com/adobe/aio-cli-plugin-console/), your integration needs to have the "I/O Management API" service.
+This CLI supports two modes of authentication: Browser-based and Service Account. The key distinction between these is that when using browser-based authentication, the API calls made through the CLI are done as *you* and use your permissions whereas when using Service Account authentication, a separate service account is needed and that account may have separate permissions than you personally would when logging into the Cloud Manager UI. In general, Service Account authentication should be primarily used in a scripting context where there is no opportunity to authenticate with a browser, although there may be other situations where the Service Account method is more appropriate even for interactive usage.
+
+### Browser-Based Authentication
+
+Browser-based authentication starts by running this command
+
+```
+aio auth:login
+```
+
+More options for this command are available and are described [here](https://github.com/adobe/aio-cli-plugin-auth#aio-authlogin).
+
+This command will open a browser window in which you will authenticate using your Adobe Identity.
+
+In addition to the authentication, the CLI needs to know the Adobe Organization Identifer (OrgId). There are two ways to do this:
+
+1. By running `aio console:org:select` and use the interactive menu.
+2. By setting the identifier as the configuration `cloudmanager_orgid`, i.e. `aio config:set cloudmanager_orgid <myorgid>`
+
+### Service Account Authentication
+
+To use a service account authentication, an integration must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service. You may also add other services to this integration if you want to use other Adobe I/O CLI plugins.
 
 After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
 
@@ -83,7 +103,7 @@ aio config:set ims.contexts.aio-cli-plugin-cloudmanager.private_key PATH_TO_PRIV
 
 > More information on IMS contexts can be found in the documentation of [@adobe/aio-lib-ims](https://github.com/adobe/aio-lib-ims).
 
-### Old Configuration Migration
+#### Old Service Account Configuration Migration
 
 Previous versions of this plugin used the configuration key `jwt-auth`. Upon execution, the plugin will automatically migrate these configurations. It will **not** delete the old configuration however and you may want to run
 

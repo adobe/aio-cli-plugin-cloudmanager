@@ -10,7 +10,8 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-lib-core-config')
-const { defaultContextName } = require('../../cloudmanager-helpers')
+const { CLI } = require('@adobe/aio-lib-ims/src/context')
+const { defaultContextName, enableCliAuth, getCliOrgId } = require('../../cloudmanager-helpers')
 const { isThisPlugin } = require('../../cloudmanager-hook-helpers')
 
 const requiredKeys = ['client_id', 'client_secret', 'technical_account_id', 'meta_scopes', 'ims_org_id', 'private_key']
@@ -24,34 +25,65 @@ function getContextName (options) {
 }
 
 module.exports = function (hookOptions) {
+  const checkContext = (contextName, isDefault) => {
+    const configKey = `ims.contexts.${contextName}`
+
+    const config = Config.get(configKey)
+
+    if (!config) {
+      // in the future we might have a command that doesn't require configuration in which case this should change
+      if (isDefault) {
+        this.error(`There is no IMS context configuration defined for ${configKey}. Either define this context configuration or authenticate using "aio auth:login".`)
+      } else {
+        this.error(`There is no IMS context configuration defined for ${configKey}.`)
+      }
+    }
+
+    const missingKeys = []
+
+    requiredKeys.forEach(key => {
+      if (!config[key]) {
+        missingKeys.push(key)
+      }
+    })
+
+    if (missingKeys.length > 0) {
+      this.error(`One or more of the required fields in ${configKey} were not set. Missing keys were ${missingKeys.join(', ')}.`)
+    }
+
+    const metaScopes = config.meta_scopes
+    if (!metaScopes.includes || !metaScopes.includes(requiredMetaScope)) {
+      this.error(`The configuration ${configKey} is missing the required metascope ${requiredMetaScope}.`)
+    }
+  }
+
   if (!isThisPlugin(hookOptions)) {
     return
   }
-  const contextName = getContextName(hookOptions) || defaultContextName
+  const contextName = getContextName(hookOptions)
 
-  const configKey = `ims.contexts.${contextName}`
-
-  const config = Config.get(configKey)
-
-  if (!config) {
-    // in the future we might have a command that doesn't require configuration in which case this should change
-    this.error(`There is no IMS context configuration defined for ${configKey}.`)
-  }
-
-  const missingKeys = []
-
-  requiredKeys.forEach(key => {
-    if (!config[key]) {
-      missingKeys.push(key)
+  if (contextName) {
+    if (contextName === CLI) {
+      const cliConfig = Config.get(`ims.contexts.${CLI}`)
+      if (!cliConfig || !cliConfig.access_token) {
+        this.error('cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.')
+      }
+      const orgId = getCliOrgId()
+      if (!orgId) {
+        this.error('cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio console:org:select"')
+      }
+      enableCliAuth()
+    } else {
+      checkContext(contextName)
     }
-  })
+  } else {
+    const cliConfig = Config.get(`ims.contexts.${CLI}`)
+    const orgId = getCliOrgId()
+    if (cliConfig && cliConfig.access_token && orgId) {
+      enableCliAuth()
+      return
+    }
 
-  if (missingKeys.length > 0) {
-    this.error(`One or more of the required fields in ${configKey} were not set. Missing keys were ${missingKeys.join(', ')}.`)
-  }
-
-  const metaScopes = config.meta_scopes
-  if (!metaScopes.includes || !metaScopes.includes(requiredMetaScope)) {
-    this.error(`The configuration ${configKey} is missing the required metascope ${requiredMetaScope}.`)
+    checkContext(defaultContextName, true)
   }
 }

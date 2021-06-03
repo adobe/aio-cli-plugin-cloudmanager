@@ -12,14 +12,17 @@ governing permissions and limitations under the License.
 
 const { setCurrentOrgId, context } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
-const { initSdk, getOutputFormat, columnWithArray } = require('../src/cloudmanager-helpers')
+const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth } = require('../src/cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
+
+beforeEach(() => {
+  disableCliAuth()
+  setStore({})
+})
 
 test('initSdk - base url config -- no config', async () => {
   setCurrentOrgId('good')
 
-  // no cloudmanager key
-  setStore({})
   await initSdk()
   await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
 })
@@ -70,8 +73,6 @@ test('columnWithArray', () => {
 test('initSdk - check context name -- default', async () => {
   setCurrentOrgId('good')
 
-  // no cloudmanager key
-  setStore({})
   await initSdk()
   await expect(context.get).toHaveBeenCalledWith('aio-cli-plugin-cloudmanager')
   await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
@@ -80,9 +81,28 @@ test('initSdk - check context name -- default', async () => {
 test('initSdk - check context name -- non-default', async () => {
   setCurrentOrgId('good')
 
-  // no cloudmanager key
-  setStore({})
   await initSdk('somethingelse')
   await expect(context.get).toHaveBeenCalledWith('somethingelse')
   await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+})
+
+test('initSdk - cli context', async () => {
+  enableCliAuth()
+
+  setStore({
+    cloudmanager_orgid: 'something',
+  })
+  await initSdk()
+  await expect(init).toHaveBeenCalledWith('something', 'aio-cli-console-auth', 'fake-token', 'https://cloudmanager.adobe.io')
+})
+
+test('initSdk - cli context stage env', async () => {
+  enableCliAuth()
+
+  setStore({
+    cloudmanager_orgid: 'something',
+    'cli.env': 'stage',
+  })
+  await initSdk()
+  await expect(init).toHaveBeenCalledWith('something', 'aio-cli-console-auth-stage', 'fake-token', 'https://cloudmanager.adobe.io')
 })

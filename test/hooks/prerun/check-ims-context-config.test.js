@@ -10,6 +10,7 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const { setStore } = require('@adobe/aio-lib-core-config')
+const { isCliAuthEnabled } = require('../../../src/cloudmanager-helpers')
 const hook = require('../../../src/hooks/prerun/check-ims-context-config')
 
 beforeEach(() => {
@@ -24,21 +25,21 @@ const invoke = (options) => {
 }
 
 test('hook -- no config', async () => {
-  expect(invoke()).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
+  expect(invoke()).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login".'))
 })
 
 test('hook -- different flag command, custom context and no config', async () => {
   expect(invoke({
     Command: FixtureWithADifferentFlag,
     argv: [],
-  })).toThrowError('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager.')
+  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login".'))
 })
 
 test('hook -- flag command, custom context and no config', async () => {
   expect(invoke({
     Command: FixtureWithAContextFlag,
     argv: [],
-  })).toThrowError('There is no IMS context configuration defined for ims.contexts.testContext.')
+  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.testContext.'))
 })
 
 test('hook -- command from other plugin', async () => {
@@ -64,6 +65,155 @@ test('hook -- ok', async () => {
     },
   })
   expect(invoke()).not.toThrowError()
+})
+
+test('hook -- fully configured cli auth enables cli auth mode', async () => {
+  setStore({
+    'ims.contexts.cli': {
+      access_token: {
+        token: 'something',
+      },
+    },
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+      private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+    cloudmanager_orgid: 'someorg',
+  })
+  expect(invoke()).not.toThrowError()
+  expect(isCliAuthEnabled()).toBe(true)
+})
+
+test('hook -- fully configured cli auth implicitly enables cli auth mode; org id from console select', async () => {
+  setStore({
+    'ims.contexts.cli': {
+      access_token: {
+        token: 'something',
+      },
+    },
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+      private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+    'console.org.code': 'someorg',
+  })
+  expect(invoke()).not.toThrowError()
+  expect(isCliAuthEnabled()).toBe(true)
+})
+
+test('hook -- explicitly enabled cli validates that context exists', async () => {
+  setStore({
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+      private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+    'console.org.code': 'someorg',
+  })
+  expect(invoke({
+    Command: FixtureWithCliContext,
+    argv: [],
+  })).toThrowError(new Error('cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.'))
+})
+
+test('hook -- explicitly enabled cli validates that access token exists', async () => {
+  setStore({
+    'ims.contexts.cli': {},
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+      private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+    'console.org.code': 'someorg',
+  })
+  expect(invoke({
+    Command: FixtureWithCliContext,
+    argv: [],
+  })).toThrowError(new Error('cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.'))
+})
+
+test('hook -- explicitly enabled cli validates the org id is set', async () => {
+  setStore({
+    'ims.contexts.cli': {
+      access_token: {
+        token: 'something',
+      },
+    },
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+      private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+  })
+  expect(invoke({
+    Command: FixtureWithCliContext,
+    argv: [],
+  })).toThrowError(new Error('cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio console:org:select"'))
+})
+
+test('hook -- explicitly enabled cli and set org id works', async () => {
+  setStore({
+    'ims.contexts.cli': {
+      access_token: {
+        token: 'something',
+      },
+    },
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+      private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+    'console.org.code': 'someorg',
+  })
+  expect(invoke({
+    Command: FixtureWithCliContext,
+    argv: [],
+  })).not.toThrowError()
+  expect(isCliAuthEnabled()).toBe(true)
 })
 
 test('hook -- missing some fields', async () => {
@@ -169,3 +319,19 @@ class FixtureWithNoFlagsInADifferentPlugin {
 FixtureWithNoFlagsInADifferentPlugin.plugin = {
   name: 'somethingelse',
 }
+
+class FixtureWithCliContext {
+  parse (options, argv) {
+    return {
+      args: {},
+      flags: {
+        imsContextName: 'cli',
+      },
+    }
+  }
+}
+
+FixtureWithCliContext.flags = {
+  imsContextName: {},
+}
+FixtureWithCliContext.plugin = thisPlugin
