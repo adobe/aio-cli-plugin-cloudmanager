@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.8.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.7.0...1.8.0) (2021-06-04)
+
+
+### Features
+
+* **auth:** enable the use of browser-based authentication. fixes [#346](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/346) ([#347](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/347)) ([e149906](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/e1499060ab0dfa6f26fe185d935fec3acbe205b3))
+
 # [1.7.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.6.3...1.7.0) (2021-05-27)
 
 
