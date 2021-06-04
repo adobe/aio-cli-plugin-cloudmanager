@@ -13,10 +13,22 @@ governing permissions and limitations under the License.
 const Config = require('@adobe/aio-lib-core-config')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { context, getToken } = require('@adobe/aio-lib-ims')
+const { getCliEnv, DEFAULT_ENV } = require('@adobe/aio-lib-env')
 const moment = require('moment')
 const _ = require('lodash')
+const { CLI } = require('@adobe/aio-lib-ims/src/context')
 
 const defaultContextName = 'aio-cli-plugin-cloudmanager'
+
+const SERVICE_ACCOUNT = 'service_account'
+const CLI_AUTH = 'cli_auth'
+
+const CLI_API_KEYS = {
+  prod: 'aio-cli-console-auth',
+  stage: 'aio-cli-console-auth-stage',
+}
+
+let authMode = SERVICE_ACCOUNT
 
 function toJson (item) {
   let c = item
@@ -103,19 +115,33 @@ function getDefaultEnvironmentId (flags) {
   return Config.get('cloudmanager_environmentid')
 }
 
-async function initSdk (contextName) {
-  contextName = contextName || defaultContextName
-  const contextData = await context.get(contextName)
-  if (!contextData || !contextData.data) {
-    throw new Error(`Unable to find IMS context ${contextName}`)
-  }
+function getCliOrgId () {
+  return Config.get('cloudmanager_orgid') || Config.get('console.org.code')
+}
 
-  const apiKey = contextData.data.client_id
-  const orgId = contextData.data.ims_org_id
+async function initSdk (contextName) {
+  let apiKey
+  let orgId
+
+  if (isCliAuthEnabled()) {
+    const imsEnv = getCliEnv() || DEFAULT_ENV
+    apiKey = CLI_API_KEYS[imsEnv]
+    contextName = CLI
+    orgId = getCliOrgId()
+  } else {
+    contextName = contextName || defaultContextName
+    const contextData = await context.get(contextName)
+    if (!contextData || !contextData.data) {
+      throw new Error(`Unable to find IMS context ${contextName}`)
+    }
+    apiKey = contextData.data.client_id
+    orgId = contextData.data.ims_org_id
+  }
 
   const accessToken = await getToken(contextName)
 
   const baseUrl = getBaseUrl()
+
   return await init(orgId, apiKey, accessToken, baseUrl)
 }
 
@@ -143,6 +169,18 @@ function formatStatus (object) {
   return _.startCase(object.status.toLowerCase())
 }
 
+function enableCliAuth () {
+  authMode = CLI_AUTH
+}
+
+function disableCliAuth () {
+  authMode = undefined
+}
+
+function isCliAuthEnabled () {
+  return authMode === CLI_AUTH
+}
+
 module.exports = {
   defaultContextName,
   getProgramId,
@@ -156,4 +194,8 @@ module.exports = {
   formatTime,
   formatDuration,
   formatStatus,
+  enableCliAuth,
+  disableCliAuth,
+  isCliAuthEnabled,
+  getCliOrgId,
 }

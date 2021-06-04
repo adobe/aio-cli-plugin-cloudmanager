@@ -8,6 +8,7 @@
     "@adobe/aio-lib-cloudmanager": "^0.3.3",
     "@adobe/aio-lib-core-config": "^2.0.0",
     "@adobe/aio-lib-core-logging": "^1.2.0",
+    "@adobe/aio-lib-env": "^1.1.0",
     "@adobe/aio-lib-ims": "^4.1.1",
     "@adobe/aio-lib-ims-jwt": "^2.1.1",
     "@oclif/command": "^1.6.1",
