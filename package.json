@@ -16,7 +16,9 @@
     "@oclif/parser": "^3.8.5",
     "@oclif/plugin-help": "^3.0.0",
     "cli-ux": "^5.4.6",
+    "figures": "^3.2.0",
     "halfred": "^2.0.0",
+    "inquirer": "^8.1.0",
     "lodash": "^4.17.15",
     "moment": "^2.29.0"
   },
@@ -92,6 +94,9 @@
       },
       "cloudmanager:program": {
         "description": "commands to work with programs"
+      },
+      "cloudmanager:org": {
+        "description": "commands to work with organizational authentication"
       }
     }
   },

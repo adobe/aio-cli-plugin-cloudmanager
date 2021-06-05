@@ -63,7 +63,7 @@ This command will open a browser window in which you will authenticate using you
 
 In addition to the authentication, the CLI needs to know the Adobe Organization Identifer (OrgId). There are two ways to do this:
 
-1. By running `aio console:org:select` and use the interactive menu.
+1. By running `aio cloudmanager:org:select` and use the interactive menu. By default this will store the selected organization in the current working directory, but the selection can also be stored globally by passing `--global` (see full command documentation below)
 2. By setting the identifier as the configuration `cloudmanager_orgid`, i.e. `aio config:set cloudmanager_orgid <myorgid>`
 
 ### Service Account Authentication

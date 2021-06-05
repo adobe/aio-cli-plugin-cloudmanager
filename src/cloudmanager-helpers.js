@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const Config = require('@adobe/aio-lib-core-config')
 const { init } = require('@adobe/aio-lib-cloudmanager')
-const { context, getToken } = require('@adobe/aio-lib-ims')
+const { context, getToken, Ims } = require('@adobe/aio-lib-ims')
 const { getCliEnv, DEFAULT_ENV } = require('@adobe/aio-lib-env')
 const moment = require('moment')
 const _ = require('lodash')
@@ -27,6 +27,19 @@ const CLI_API_KEYS = {
   prod: 'aio-cli-console-auth',
   stage: 'aio-cli-console-auth-stage',
 }
+
+const GROUP_DISPLAY_NAMES_TO_FRIENDLY_NAME_MAPPING = {
+  CM_CS_DEPLOYMENT_MANAGER_ROLE_PROFILE: 'Deployment Manager',
+  CM_DEPLOYMENT_MANAGER_ROLE_PROFILE: 'Deployment Manager',
+  CM_CS_BUSINESS_OWNER_ROLE_PROFILE: 'Business Owner',
+  CM_BUSINESS_OWNER_ROLE_PROFILE: 'Business Owner',
+  CM_CS_DEVELOPER_ROLE_PROFILE: 'Developer',
+  CM_DEVELOPER_ROLE_PROFILE: 'Developer',
+  CM_CS_PROGRAM_MANAGER_ROLE_PROFILE: 'Program Manager',
+  CM_PROGRAM_MANAGER_ROLE_PROFILE: 'Program Manager',
+}
+
+const GROUP_DISPLAY_NAMES = Object.keys(GROUP_DISPLAY_NAMES_TO_FRIENDLY_NAME_MAPPING)
 
 let authMode = SERVICE_ACCOUNT
 
@@ -73,7 +86,10 @@ function columnWithArray (key, options, flags) {
   } else {
     return {
       ...options,
-      get: item => item[key].map(mapperFunction).join(', '),
+      get: item => {
+        const value = (typeof key === 'function') ? key(item) : item[key]
+        return value.map(mapperFunction).join(', ')
+      },
     }
   }
 }
@@ -117,6 +133,10 @@ function getDefaultEnvironmentId (flags) {
 
 function getCliOrgId () {
   return Config.get('cloudmanager_orgid') || Config.get('console.org.code')
+}
+
+function setCliOrgId (orgId, local) {
+  Config.set('cloudmanager_orgid', orgId, local)
 }
 
 async function initSdk (contextName) {
@@ -181,6 +201,49 @@ function isCliAuthEnabled () {
   return authMode === CLI_AUTH
 }
 
+async function getAllOrganizations (contextName) {
+  if (isCliAuthEnabled()) {
+    contextName = CLI
+  } else {
+    contextName = contextName || defaultContextName
+  }
+
+  const accessToken = await getToken(contextName)
+
+  const ims = await Ims.fromToken(accessToken)
+  return ims.ims.getOrganizations(accessToken)
+}
+
+async function getCloudManagerAuthorizedOrganizations (contextName) {
+  const allOrganizations = await getAllOrganizations(contextName)
+  return allOrganizations.filter(org => org.groups && org.groups.map(group => group.groupDisplayName).some(isCloudManagerGroupDisplayName))
+}
+
+function isCloudManagerGroupDisplayName (groupDisplayName) {
+  return GROUP_DISPLAY_NAMES.includes(groupDisplayName)
+}
+
+function getCloudManagerRoles (org) {
+  if (!org.groups) {
+    return []
+  }
+  const roles = org.groups.map(group => group.groupDisplayName).filter(isCloudManagerGroupDisplayName).map(groupDisplayName => GROUP_DISPLAY_NAMES_TO_FRIENDLY_NAME_MAPPING[groupDisplayName])
+  return _.uniq(roles)
+}
+
+async function getActiveOrganizationId (contextName) {
+  if (isCliAuthEnabled()) {
+    return getCliOrgId()
+  } else {
+    contextName = contextName || defaultContextName
+    const contextData = await context.get(contextName)
+    if (!contextData || !contextData.data) {
+      throw new Error(`Unable to find IMS context ${contextName}`)
+    }
+    return contextData.data.ims_org_id
+  }
+}
+
 module.exports = {
   defaultContextName,
   getProgramId,
@@ -198,4 +261,8 @@ module.exports = {
   disableCliAuth,
   isCliAuthEnabled,
   getCliOrgId,
+  setCliOrgId,
+  getCloudManagerAuthorizedOrganizations,
+  getCloudManagerRoles,
+  getActiveOrganizationId,
 }
