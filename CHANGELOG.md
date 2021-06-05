@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.9.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.8.0...1.9.0) (2021-06-05)
+
+
+### Features
+
+* **environment-variables:** add warn/error for internal variables. fixes [#285](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/285) ([#350](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/350)) ([2ee1ad2](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/2ee1ad24f689ffb9633315be23d7f6e84fd7f73a))
+
 # [1.8.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.7.0...1.8.0) (2021-06-04)
 
 
