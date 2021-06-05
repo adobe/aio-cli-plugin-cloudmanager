@@ -14,6 +14,7 @@ const BaseEnvironmentVariablesCommand = require('../../../base-environment-varia
 const BaseVariablesCommand = require('../../../base-variables-command')
 const { initSdk, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const { flags } = require('@oclif/command')
+const Config = require('@adobe/aio-lib-core-config')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
 
@@ -48,6 +49,22 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
     const sdk = await initSdk(imsContextName)
     return sdk.setEnvironmentVariables(programId, environmentId, variables)
   }
+
+  strictValidationEnabled (flags) {
+    return flags.strict || Config.get('cloudmanager.environmentVariables.strictValidation')
+  }
+
+  validateVariables (flags, variables) {
+    variables.forEach(variable => {
+      if (variable.name && variable.name.startsWith('INTERNAL_')) {
+        if (this.strictValidationEnabled(flags)) {
+          this.error(`The variable name ${variable.name} is reserved for internal usage and will be ignored.`)
+        } else {
+          this.warn(`The variable name ${variable.name} is reserved for internal usage and will be ignored.`)
+        }
+      }
+    })
+  }
 }
 
 SetEnvironmentVariablesCommand.description = 'sets variables set on an environment. These are runtime variables available to components running inside the runtime environment. Use set-pipeline-variables to set build-time variables on a pipeline.'
@@ -60,6 +77,7 @@ SetEnvironmentVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
   ...BaseVariablesCommand.setterFlags,
+  strict: flags.boolean({ description: 'performs strict validation of internal variables. Can also be enabled by setting configuration property cloudmanager.environmentVariables.strictValidation to a truthy value.' }),
 }
 
 services.forEach(service => {
