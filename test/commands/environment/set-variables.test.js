@@ -21,6 +21,8 @@ let mockFileContent = ''
 
 const originalReadFile = fs.readFile
 
+let warn
+
 beforeAll(() => {
   fs.readFile = jest.fn((fileName, encoding, callback) => {
     if (fileName === mockFileName) {
@@ -37,6 +39,8 @@ beforeAll(() => {
 
 beforeEach(() => {
   resetCurrentOrgId()
+  warn = jest.fn()
+  SetEnvironmentVariablesCommand.prototype.warn = warn
 })
 
 afterAll(() => {
@@ -681,4 +685,57 @@ test('set-environment-variables - stdin - delete from stream with service delete
     value: '',
     service: 'author',
   }])
+})
+
+test('set-environment-variables - internal name strict mode off', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  expect.assertions(7)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--variable', 'INTERNAL_foo', 'bar'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(3)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.setEnvironmentVariables.mock.calls.length).toEqual(1)
+  await expect(mockSdk.setEnvironmentVariables).toHaveBeenCalledWith('4', '1', [{
+    name: 'INTERNAL_foo',
+    type: 'string',
+    value: 'bar',
+  }])
+  await expect(warn.mock.calls.length).toEqual(1)
+  await expect(warn).toHaveBeenCalledWith('The variable name INTERNAL_foo is reserved for internal usage and will be ignored.')
+})
+
+test('set-environment-variables - internal name strict mode on via flag', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  expect.assertions(2)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--variable', 'INTERNAL_foo', 'bar', '--strict'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await expect(runResult).rejects.toSatisfy(err => err.message === 'The variable name INTERNAL_foo is reserved for internal usage and will be ignored.')
+})
+
+test('set-environment-variables - internal name strict mode on via config', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+    'cloudmanager.environmentVariables.strictValidation': true,
+  })
+
+  expect.assertions(2)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--variable', 'INTERNAL_foo', 'bar'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await expect(runResult).rejects.toSatisfy(err => err.message === 'The variable name INTERNAL_foo is reserved for internal usage and will be ignored.')
 })

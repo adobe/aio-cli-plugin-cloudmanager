@@ -56,6 +56,8 @@ class BaseVariablesCommand extends Command {
 
     const variables = await this.prepareVariableList(flags, currentVariablesList)
 
+    this.validateVariables(flags, variables)
+
     if (variables.length > 0) {
       cli.action.start('setting variables')
       await this.setVariables(programId, args, variables, flags.imsContextName)
@@ -165,6 +167,8 @@ class BaseVariablesCommand extends Command {
       }
     })
   }
+
+  validateVariables (flags, variables) { }
 }
 
 BaseVariablesCommand.coreSetterFlags = {
