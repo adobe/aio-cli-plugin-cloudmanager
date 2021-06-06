@@ -66,6 +66,8 @@ In addition to the authentication, the CLI needs to know the Adobe Organization 
 1. By running `aio cloudmanager:org:select` and use the interactive menu. By default this will store the selected organization in the current working directory, but the selection can also be stored globally by passing `--global` (see full command documentation below)
 2. By setting the identifier as the configuration `cloudmanager_orgid`, i.e. `aio config:set cloudmanager_orgid <myorgid>`
 
+Alternatively, if you have selected an organization using `aio console:org:select`, that organization will be used.
+
 ### Service Account Authentication
 
 To use a service account authentication, an integration must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service. You may also add other services to this integration if you want to use other Adobe I/O CLI plugins.
