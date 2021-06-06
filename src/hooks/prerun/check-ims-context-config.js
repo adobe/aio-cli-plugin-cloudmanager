@@ -70,7 +70,7 @@ module.exports = function (hookOptions) {
       }
       const orgId = getCliOrgId()
       if (!orgId) {
-        this.error('cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio console:org:select"')
+        this.error('cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio cloudmanager:org:select"')
       }
       enableCliAuth()
     } else {
@@ -78,10 +78,18 @@ module.exports = function (hookOptions) {
     }
   } else {
     const cliConfig = Config.get(`ims.contexts.${CLI}`)
-    const orgId = getCliOrgId()
-    if (cliConfig && cliConfig.access_token && orgId) {
-      enableCliAuth()
-      return
+
+    if (hookOptions.Command.skipOrgIdCheck) {
+      if (cliConfig && cliConfig.access_token) {
+        enableCliAuth()
+        return
+      }
+    } else {
+      const orgId = getCliOrgId()
+      if (cliConfig && cliConfig.access_token && orgId) {
+        enableCliAuth()
+        return
+      }
     }
 
     checkContext(defaultContextName, true)
