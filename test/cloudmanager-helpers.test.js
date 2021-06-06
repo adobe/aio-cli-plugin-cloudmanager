@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { setCurrentOrgId, context } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
-const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth } = require('../src/cloudmanager-helpers')
+const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth, formatDuration } = require('../src/cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 
 beforeEach(() => {
@@ -105,4 +105,20 @@ test('initSdk - cli context stage env', async () => {
   })
   await initSdk()
   await expect(init).toHaveBeenCalledWith('something', 'aio-cli-console-auth-stage', 'fake-token', 'https://cloudmanager.adobe.io')
+})
+
+test('formatDuration -- empty', async () => {
+  expect(formatDuration({})).toEqual('')
+})
+
+test('formatDuration -- only started', async () => {
+  expect(formatDuration({
+    startedAt: '2021-05-01',
+  })).toEqual('')
+})
+
+test('formatDuration -- only finished', async () => {
+  expect(formatDuration({
+    finishedAt: '2021-05-01',
+  })).toEqual('')
 })
