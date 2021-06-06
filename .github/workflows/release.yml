@@ -23,6 +23,8 @@ jobs:
         run: npm test
       - name: Codecov
         uses: codecov/codecov-action@v1.5.0
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
