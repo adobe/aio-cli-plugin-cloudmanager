@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.10.0...1.10.1) (2021-06-06)
+
+
+### Bug Fixes
+
+* **auth:** skip organization configuration check for org:select and org:list. fixes [#356](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/356) ([#357](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/357)) ([f385915](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/f385915bb689d65cf284cb29635870bb6aaad1d3))
+
 # [1.10.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.9.0...1.10.0) (2021-06-06)
 
 
