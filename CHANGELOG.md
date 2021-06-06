@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.10.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.9.0...1.10.0) (2021-06-06)
+
+
+### Features
+
+* **auth:** support selection and listing of Cloud Manager-authorized organizations. fixes [#351](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/351) ([#352](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/352)) ([cf46bee](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/cf46beed814a1cdcf87ef1c2f564b027d9973169))
+
 # [1.9.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.8.0...1.9.0) (2021-06-05)
 
 
