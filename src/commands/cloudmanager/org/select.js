@@ -65,4 +65,6 @@ OrgSelectCommand.flags = {
   global: flags.boolean({ description: 'stores selected organization in global configuration' }),
 }
 
+OrgSelectCommand.skipOrgIdCheck = true
+
 module.exports = OrgSelectCommand

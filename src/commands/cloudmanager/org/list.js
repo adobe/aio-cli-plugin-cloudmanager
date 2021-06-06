@@ -55,5 +55,6 @@ OrgListCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.outputFormat,
 }
+OrgListCommand.skipOrgIdCheck = true
 
 module.exports = OrgListCommand

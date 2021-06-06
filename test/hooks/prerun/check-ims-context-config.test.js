@@ -92,6 +92,40 @@ test('hook -- fully configured cli auth enables cli auth mode', async () => {
   expect(isCliAuthEnabled()).toBe(true)
 })
 
+test('hook -- no config and skipping org command still produces error', async () => {
+  expect(invoke({
+    Command: FixtureWithSkippingOrgCheck,
+    argv: [],
+  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login".'))
+})
+
+test('hook -- fully configured cli auth enables cli auth mode for command with skipping org', async () => {
+  setStore({
+    'ims.contexts.cli': {
+      access_token: {
+        token: 'something',
+      },
+    },
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secret: '5678',
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      meta_scopes: [
+        'ent_adobeio_sdk',
+        'ent_cloudmgr_sdk',
+      ],
+      private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+  })
+  expect(invoke({
+    Command: FixtureWithSkippingOrgCheck,
+    argv: [],
+  })).not.toThrowError()
+  expect(isCliAuthEnabled()).toBe(true)
+})
+
 test('hook -- fully configured cli auth implicitly enables cli auth mode; org id from console select', async () => {
   setStore({
     'ims.contexts.cli': {
@@ -185,7 +219,7 @@ test('hook -- explicitly enabled cli validates the org id is set', async () => {
   expect(invoke({
     Command: FixtureWithCliContext,
     argv: [],
-  })).toThrowError(new Error('cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio console:org:select"'))
+  })).toThrowError(new Error('cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio cloudmanager:org:select"'))
 })
 
 test('hook -- explicitly enabled cli and set org id works', async () => {
@@ -335,3 +369,14 @@ FixtureWithCliContext.flags = {
   imsContextName: {},
 }
 FixtureWithCliContext.plugin = thisPlugin
+
+class FixtureWithSkippingOrgCheck {
+  parse (options, argv) {
+    return {
+      args: {},
+      flags: {},
+    }
+  }
+}
+FixtureWithSkippingOrgCheck.plugin = thisPlugin
+FixtureWithSkippingOrgCheck.skipOrgIdCheck = true
