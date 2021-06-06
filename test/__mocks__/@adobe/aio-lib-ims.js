@@ -12,6 +12,8 @@ governing permissions and limitations under the License.
 
 let currentOrgId
 
+let organizations
+
 module.exports = {
   getToken: jest.fn(ctx => 'fake-token'),
   context: {
@@ -36,5 +38,18 @@ module.exports = {
   },
   resetCurrentOrgId: () => {
     currentOrgId = undefined
+  },
+  Ims: {
+    fromToken: jest.fn((token) => {
+      return {
+        token: token,
+        ims: {
+          getOrganizations: jest.fn(() => organizations),
+        },
+      }
+    }),
+  },
+  setOrganizations: (value) => {
+    organizations = value
   },
 }
