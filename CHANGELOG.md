@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.10.1...1.10.2) (2021-06-08)
+
+
+### Bug Fixes
+
+* **auth:** correct error message when access token exists but no org selected. fixes [#359](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/359) ([#360](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/360)) ([184e516](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/184e516dcc0b34fc82a953c5941266538e6639a7))
+
 ## [1.10.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.10.0...1.10.1) (2021-06-06)
 
 
