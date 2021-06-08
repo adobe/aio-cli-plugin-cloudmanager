@@ -25,14 +25,14 @@ const invoke = (options) => {
 }
 
 test('hook -- no config', async () => {
-  expect(invoke()).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login".'))
+  expect(invoke()).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
 })
 
 test('hook -- different flag command, custom context and no config', async () => {
   expect(invoke({
     Command: FixtureWithADifferentFlag,
     argv: [],
-  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login".'))
+  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
 })
 
 test('hook -- flag command, custom context and no config', async () => {
@@ -92,11 +92,22 @@ test('hook -- fully configured cli auth enables cli auth mode', async () => {
   expect(isCliAuthEnabled()).toBe(true)
 })
 
+test('hook -- cli auth configured without org id produces correct error message', async () => {
+  setStore({
+    'ims.contexts.cli': {
+      access_token: {
+        token: 'something',
+      },
+    },
+  })
+  expect(invoke()).toThrowError(new Error('The CLI has been authenticated, but no organization has been selected. To select an organization, run "aio cloudmanager:org:select". Alternatively, define the IMS context configuration ims.contexts.aio-cli-plugin-cloudmanager with a service account.'))
+})
+
 test('hook -- no config and skipping org command still produces error', async () => {
   expect(invoke({
     Command: FixtureWithSkippingOrgCheck,
     argv: [],
-  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login".'))
+  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
 })
 
 test('hook -- fully configured cli auth enables cli auth mode for command with skipping org', async () => {
