@@ -25,7 +25,7 @@ function getContextName (options) {
 }
 
 module.exports = function (hookOptions) {
-  const checkContext = (contextName, isDefault) => {
+  const checkContext = (contextName, isDefault, isCliConfigAvailable) => {
     const configKey = `ims.contexts.${contextName}`
 
     const config = Config.get(configKey)
@@ -33,7 +33,11 @@ module.exports = function (hookOptions) {
     if (!config) {
       // in the future we might have a command that doesn't require configuration in which case this should change
       if (isDefault) {
-        this.error(`There is no IMS context configuration defined for ${configKey}. Either define this context configuration or authenticate using "aio auth:login".`)
+        if (isCliConfigAvailable) {
+          this.error(`The CLI has been authenticated, but no organization has been selected. To select an organization, run "aio cloudmanager:org:select". Alternatively, define the IMS context configuration ${configKey} with a service account.`)
+        } else {
+          this.error(`There is no IMS context configuration defined for ${configKey}. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".`)
+        }
       } else {
         this.error(`There is no IMS context configuration defined for ${configKey}.`)
       }
@@ -78,20 +82,22 @@ module.exports = function (hookOptions) {
     }
   } else {
     const cliConfig = Config.get(`ims.contexts.${CLI}`)
+    const orgId = getCliOrgId()
+    const isCliConfigAvailable = cliConfig && cliConfig.access_token
 
     if (hookOptions.Command.skipOrgIdCheck) {
-      if (cliConfig && cliConfig.access_token) {
+      if (isCliConfigAvailable) {
         enableCliAuth()
-        return
+      } else {
+        checkContext(defaultContextName, true, isCliConfigAvailable)
       }
     } else {
-      const orgId = getCliOrgId()
-      if (cliConfig && cliConfig.access_token && orgId) {
+      if (isCliConfigAvailable && orgId) {
         enableCliAuth()
         return
       }
-    }
 
-    checkContext(defaultContextName, true)
+      checkContext(defaultContextName, true, isCliConfigAvailable)
+    }
   }
 }
