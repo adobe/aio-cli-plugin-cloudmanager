@@ -22,7 +22,7 @@ jobs:
       - name: Test
         run: npm test
       - name: Codecov
-        uses: codecov/codecov-action@v1.5.0
+        uses: codecov/codecov-action@v1.5.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Release
