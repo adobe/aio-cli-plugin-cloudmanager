@@ -31,7 +31,7 @@ test('bind -- bad service', async () => {
   const runResult = BindIpAllowlist.run(['--programId', '1', '2', '3', 'NONE'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
-  await expect(runResult).rejects.toThrow(/^Expected NONE to be one of: author, publish/)
+  await expect(runResult).rejects.toThrow(/^Expected NONE to be one of: author, publish, preview/)
   await expect(mockSdk.addIpAllowlistBinding.mock.calls.length).toEqual(0)
 })
 
