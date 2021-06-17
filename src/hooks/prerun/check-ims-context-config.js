@@ -11,8 +11,9 @@ governing permissions and limitations under the License.
 
 const Config = require('@adobe/aio-lib-core-config')
 const { CLI } = require('@adobe/aio-lib-ims/src/context')
-const { defaultContextName, enableCliAuth, getCliOrgId } = require('../../cloudmanager-helpers')
+const { enableCliAuth, getCliOrgId } = require('../../cloudmanager-helpers')
 const { isThisPlugin } = require('../../cloudmanager-hook-helpers')
+const { defaultImsContextName: defaultContextName } = require('../../constants')
 
 const requiredKeys = ['client_id', 'client_secret', 'technical_account_id', 'meta_scopes', 'ims_org_id', 'private_key']
 

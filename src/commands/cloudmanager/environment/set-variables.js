@@ -17,8 +17,7 @@ const { flags } = require('@oclif/command')
 const Config = require('@adobe/aio-lib-core-config')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
-
-const services = ['author', 'publish', 'preview']
+const { services } = require('../../../constants')
 
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   getFlagDefs () {

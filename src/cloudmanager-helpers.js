@@ -17,8 +17,7 @@ const { getCliEnv, DEFAULT_ENV } = require('@adobe/aio-lib-env')
 const moment = require('moment')
 const _ = require('lodash')
 const { CLI } = require('@adobe/aio-lib-ims/src/context')
-
-const defaultContextName = 'aio-cli-plugin-cloudmanager'
+const { defaultImsContextName: defaultContextName } = require('./constants')
 
 const SERVICE_ACCOUNT = 'service_account'
 const CLI_AUTH = 'cli_auth'
@@ -245,7 +244,6 @@ async function getActiveOrganizationId (contextName) {
 }
 
 module.exports = {
-  defaultContextName,
   getProgramId,
   getOutputFormat,
   createKeyValueObjectFromFlag,

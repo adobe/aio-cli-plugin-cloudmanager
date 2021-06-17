@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 const Config = require('@adobe/aio-lib-core-config')
 const loggerNamespace = '@adobe/aio-cli-plugin-cloudmanager:migrate-jwt-context-hook'
 const logger = require('@adobe/aio-lib-core-logging')(loggerNamespace, { level: process.env.LOG_LEVEL })
-const { defaultContextName } = require('../../cloudmanager-helpers')
+const { defaultImsContextName: defaultContextName } = require('../../constants')
 
 const oldConfigKey = 'jwt-auth'
 const newConfigKey = `ims.contexts.${defaultContextName}`
