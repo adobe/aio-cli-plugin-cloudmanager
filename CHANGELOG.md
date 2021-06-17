@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.11.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.10.2...1.11.0) (2021-06-17)
+
+
+### Features
+
+* **ip-allowlist:** support binding ip allowlists to preview. fixes [#335](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/335) ([#367](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/367)) ([03010a9](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/03010a9ea7b892751bee12b7f624f0a3ffb379d7))
+
 ## [1.10.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.10.1...1.10.2) (2021-06-08)
 
 
