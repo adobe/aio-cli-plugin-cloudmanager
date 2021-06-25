@@ -1,5 +1,17 @@
 # Changelog
 
+# [2.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.11.0...2.0.0) (2021-06-25)
+
+
+### Features
+
+* require node 12 as minimum version. fixes [#372](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/372) ([#373](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/373)) ([37336f0](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/37336f05d549865566ecc51886d978659fb90fa1))
+
+
+### BREAKING CHANGES
+
+* Installation on Node 10 will now fail
+
 # [1.11.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.10.2...1.11.0) (2021-06-17)
 
 
