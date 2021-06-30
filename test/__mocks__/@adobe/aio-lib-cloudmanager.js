@@ -110,6 +110,7 @@ function createDefaultMock () {
     deleteProgram: jest.fn(() => Promise.resolve()),
     deleteEnvironment: jest.fn(() => Promise.resolve()),
     tailLog: jest.fn(() => Promise.resolve()),
+    tailExecutionStepLog: jest.fn(() => Promise.resolve()),
   }
 }
 
