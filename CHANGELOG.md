@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.1.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.0.0...2.1.0) (2021-06-30)
+
+
+### Features
+
+* **execution:** add support for tailing step logs (limited to build). fixes [#377](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/377) ([#378](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/378)) ([fd7e49d](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/fd7e49d12a33cf0c045b3ae6cc2020445a01b6f9))
+
 # [2.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/1.11.0...2.0.0) (2021-06-25)
 
 
