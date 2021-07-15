@@ -15,7 +15,7 @@ jobs:
       with:
         node-version: 10.0.0
     - name: Publish if version has been updated
-      uses: justinedelson/npm-publish-action@8ebc2ccde8b1c95f4fabff1391369fd4ba841cb5
+      uses: justinedelson/npm-publish-action@c4315ef5790b7bcec2cbb75b34e37681a409d78d
       with: # All of theses inputs are optional
         tag_name: "%s"
         tag_message: "Release %s"
