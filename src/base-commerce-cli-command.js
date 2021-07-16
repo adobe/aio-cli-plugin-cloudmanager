@@ -13,8 +13,10 @@ governing permissions and limitations under the License.
 const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { initSdk } = require('./cloudmanager-helpers')
-class BaseCommerceCommand extends Command {
+class BaseCommerceCliCommand extends Command {
   async runSync (programId, environmentId, body, pollingInterval, command, imsContextName = null) {
+    this.warn('Commerce cli commands are in active development and may not be functional.')
+
     const sdk = await initSdk(imsContextName)
     const commandMessage = `Starting ${command}`
     cli.action.start(commandMessage)
@@ -42,4 +44,4 @@ class BaseCommerceCommand extends Command {
   }
 }
 
-module.exports = BaseCommerceCommand
+module.exports = BaseCommerceCliCommand

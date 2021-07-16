@@ -10,12 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const BaseCommerceCommand = require('../../../../../base-commerce-command')
+const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command')
 const { getProgramId } = require('../../../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../../../common-flags')
 
-class MaintenanceStatusCommand extends BaseCommerceCommand {
+class MaintenanceStatusCommand extends BaseCommerceCliCommand {
   async run () {
     const { args, flags } = this.parse(MaintenanceStatusCommand)
 
@@ -51,7 +51,7 @@ MaintenanceStatusCommand.args = [
 ]
 
 MaintenanceStatusCommand.aliases = [
-  'cloudmanager:magento:maintenance-status',
+  'cloudmanager:commerce:maintenance-status',
 ]
 
 module.exports = MaintenanceStatusCommand
