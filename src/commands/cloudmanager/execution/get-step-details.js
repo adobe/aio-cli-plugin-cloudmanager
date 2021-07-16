@@ -37,7 +37,9 @@ class GetExecutionStepDetails extends Command {
 
       const buildStep = stepStates.find(stepState => stepState.action === 'build')
       const codeQualityStep = stepStates.find(stepState => stepState.action === 'codeQuality')
-      codeQualityStep.startedAt = buildStep.finishedAt
+      if (buildStep.status === 'FINISHED') {
+        codeQualityStep.startedAt = buildStep.finishedAt
+      }
 
       cli.table(stepStates, {
         action: {
