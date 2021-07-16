@@ -19,5 +19,6 @@ module.exports = {
     },
     info: jest.fn(),
     open: jest.fn(),
+    wait: jest.fn(),
   },
 }
