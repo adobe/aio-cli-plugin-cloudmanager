@@ -15,6 +15,7 @@ const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const GetExecutionStepDetails = require('../../../src/commands/cloudmanager/execution/get-step-details')
 const execution1010 = require('../../data/execution1010.json')
+const execution1011 = require('../../data/execution1011.json')
 
 beforeEach(() => {
   resetCurrentOrgId()
@@ -55,7 +56,7 @@ test('get-execution-step-details - result', async () => {
   setCurrentOrgId('good')
   mockSdk.getExecution = jest.fn(() => execution1010)
 
-  expect.assertions(12)
+  expect.assertions(13)
 
   const runResult = GetExecutionStepDetails.run(['5', '--programId', '5', '1002'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -67,9 +68,30 @@ test('get-execution-step-details - result', async () => {
   await expect(mockSdk.getExecution).toHaveBeenCalledWith('5', '5', '1002')
   await expect(cli.table.mock.calls).toHaveLength(1)
 
+  await expect(cli.table.mock.calls[0][0][2].startedAt).toBeTruthy()
+
   await expect(cli.table.mock.calls[0][1].status.get({ status: 'RUNNING' })).toEqual('Running')
   await expect(cli.table.mock.calls[0][1].action.get({ action: 'codeQuality' })).toEqual('Code Quality')
   await expect(cli.table.mock.calls[0][1].action.get({ action: 'contentAudit' })).toEqual('Experience Audit')
   await expect(cli.table.mock.calls[0][1].action.get({ action: 'deploy', environmentType: 'dev' })).toEqual('Dev Deploy')
   await expect(cli.table.mock.calls[0][1].duration.get(execution1010._embedded.stepStates[1])).toEqual('7 minutes')
+})
+
+test('get-execution-step-details - cancelled build', async () => {
+  setCurrentOrgId('good')
+  mockSdk.getExecution = jest.fn(() => execution1011)
+
+  expect.assertions(8)
+
+  const runResult = GetExecutionStepDetails.run(['5', '--programId', '5', '1002'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await expect(runResult).resolves.toBeTruthy()
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecution).toHaveBeenCalledWith('5', '5', '1002')
+  await expect(cli.table.mock.calls).toHaveLength(1)
+
+  await expect(cli.table.mock.calls[0][0][2].startedAt).toBeUndefined()
 })

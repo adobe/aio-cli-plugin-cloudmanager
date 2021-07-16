@@ -1,0 +1,74 @@
+{
+  "_embedded": {
+    "stepStates": [
+      {
+        "id": "2266443",
+        "stepId": "1001998",
+        "phaseId": "568199",
+        "executionId": "5",
+        "pipelineId": "4",
+        "programId": "5",
+        "action": "validate",
+        "startedAt": "2021-04-07T14:09:25.655+0000",
+        "finishedAt": "2021-04-07T14:09:32.273+0000",
+        "updatedAt": "2021-04-07T14:09:32.493+0000",
+        "status": "FINISHED"
+      },
+      {
+        "id": "2266444",
+        "stepId": "1001999",
+        "phaseId": "568200",
+        "executionId": "5",
+        "pipelineId": "4",
+        "programId": "5",
+        "action": "build",
+        "repository": "XXX",
+        "branch": "dev",
+        "startedAt": "2021-04-07T14:09:34.464+0000",
+        "finishedAt": "2021-04-07T14:10:42.448+0000",
+        "updatedAt": "2021-04-07T14:10:42.936+0000",
+        "status": "CANCELLED",
+        "statusString": "Pipeline execution cancelled"
+      },
+      {
+        "id": "2266445",
+        "stepId": "1002000",
+        "phaseId": "568200",
+        "executionId": "5",
+        "pipelineId": "4",
+        "programId": "5",
+        "action": "codeQuality",
+        "repository": "XXX",
+        "branch": "dev",
+        "updatedAt": "2021-04-07T14:09:18.875+0000",
+        "status": "NOT_STARTED"
+      },
+      {
+        "id": "2266446",
+        "stepId": "1002001",
+        "phaseId": "568201",
+        "executionId": "5",
+        "pipelineId": "4",
+        "programId": "5",
+        "action": "buildImage",
+        "updatedAt": "2021-04-07T14:09:18.875+0000",
+        "status": "NOT_STARTED",
+        "aemReleaseVersion": "2021.03.5026.1615324047792"
+      },
+      {
+        "id": "2266447",
+        "stepId": "1002052",
+        "phaseId": "568252",
+        "executionId": "5",
+        "pipelineId": "4",
+        "programId": "5",
+        "action": "deploy",
+        "environment": "YYY",
+        "environmentType": "dev",
+        "environmentId": "9",
+        "updatedAt": "2021-04-07T14:09:18.875+0000",
+        "status": "NOT_STARTED"
+      }
+    ]
+  }
+}
