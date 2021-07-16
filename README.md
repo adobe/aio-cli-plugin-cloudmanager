@@ -150,6 +150,10 @@ $ aio config:set cloudmanager_environmentid 7
 
 > This only works for commands where the environmentId is the **first** argument.
 
+## Reporting Issues
+
+In general, issues with this plugin should be reported in this project using GitHub issues using one of the provided issue templates.
+
 # Commands
 <!-- commands -->
 * [`aio cloudmanager:commerce:bin-magento:maintenance:status ENVIRONMENTID`](#aio-cloudmanagercommercebin-magentomaintenancestatus-environmentid)
