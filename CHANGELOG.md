@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.1.0...2.2.0) (2021-07-16)
+
+
+### Features
+
+* **commerce:** add initial commerce maintenance:status command. fixes [#384](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/384) ([1a5b97b](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/1a5b97b6ba12dd9116ff62b1c6a0424173d7fb04))
+
 # [2.1.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.0.0...2.1.0) (2021-06-30)
 
 
