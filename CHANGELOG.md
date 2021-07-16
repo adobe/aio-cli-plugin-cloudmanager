@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.2.0...2.2.1) (2021-07-16)
+
+
+### Bug Fixes
+
+* **execution:** code quality step startedAt should only be overridden if build finished. fixes [#388](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/388) ([#389](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/389)) ([40dbade](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/40dbade348020fedfea2428baddd26b6634f0de4))
+
 # [2.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.1.0...2.2.0) (2021-07-16)
 
 
