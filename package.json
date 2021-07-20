@@ -89,6 +89,9 @@
       "cloudmanager:environment": {
         "description": "commands to work with environments"
       },
+      "cloudmanager:ip-allowlist": {
+        "description": "commands to work with IP allowlists"
+      },
       "cloudmanager:pipeline": {
         "description": "commands to work with pipelines"
       },
