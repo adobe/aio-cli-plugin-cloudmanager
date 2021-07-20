@@ -97,6 +97,15 @@
       },
       "cloudmanager:org": {
         "description": "commands to work with organizational authentication"
+      },
+      "cloudmanager:commerce": {
+        "description": "commands to work with commerce cli"
+      },
+      "cloudmanager:commerce:bin-magento": {
+        "description": "commands to work with bin-magento for commerce cli"
+      },
+      "cloudmanager:commerce:bin-magento:maintenance": {
+        "description": "commands to work with maintenance for bin-magento"
       }
     }
   },
