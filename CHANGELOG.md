@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.2.1...2.2.2) (2021-07-20)
+
+
+### Bug Fixes
+
+* **commerce:** add descriptions. fixes [#396](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/396) ([#399](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/399)) ([dcfcf06](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/dcfcf0616cd58d609ae6180195243b46c7162d75))
+* **help:** add proper description for ip-allowlist topic. fixes [#397](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/397) ([#398](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/398)) ([f011659](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/f0116596b14349a49d27dea3143b727280ea9552))
+
 ## [2.2.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.2.0...2.2.1) (2021-07-16)
 
 
