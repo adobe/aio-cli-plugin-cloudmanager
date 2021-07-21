@@ -14,3 +14,5 @@ junit.xml
 .vscode/
 /package-lock.json
 .aio
+src/commands/cloudmanager/commerce
+test/commands/commerce
