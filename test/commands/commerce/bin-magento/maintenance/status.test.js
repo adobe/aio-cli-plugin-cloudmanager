@@ -43,12 +43,12 @@ test('maintenance:status - missing config', async () => {
 test('maintenance:status', async () => {
   let counter = 0
   setCurrentOrgId('good')
-  mockSdk.postCLICommand = jest.fn(() =>
+  mockSdk.postCommerceCommandExecution = jest.fn(() =>
     Promise.resolve({
       id: '5000',
     }),
   )
-  mockSdk.getCLICommand = jest.fn(() => {
+  mockSdk.getCommerceCommandExecution = jest.fn(() => {
     counter++
     return counter < 3
       ? Promise.resolve({
@@ -73,22 +73,22 @@ test('maintenance:status', async () => {
     'fake-token',
     'https://cloudmanager.adobe.io',
   )
-  await expect(mockSdk.postCLICommand.mock.calls.length).toEqual(1)
-  await expect(mockSdk.postCLICommand).toHaveBeenCalledWith('5', '10', {
+  await expect(mockSdk.postCommerceCommandExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('5', '10', {
     type: 'bin/magento',
     command: 'maintenance:status',
   })
-  await expect(mockSdk.getCLICommand).toHaveBeenCalledWith('5', '10', '5000')
-  await expect(mockSdk.getCLICommand).toHaveBeenCalledTimes(3)
+  await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
+  await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
   await expect(cli.action.stop.mock.calls[0][0]).toEqual('maintenance enabled')
 })
 
 test('maintenance:status - api error', async () => {
   setCurrentOrgId('good')
-  mockSdk.postCLICommand = jest.fn(() =>
+  mockSdk.postCommerceCommandExecution = jest.fn(() =>
     Promise.reject(new Error('Command failed.')),
   )
-  mockSdk.getCLICommand = jest.fn()
+  mockSdk.getCommerceCommandExecution = jest.fn()
   const runResult = MaintenanceStatusCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult

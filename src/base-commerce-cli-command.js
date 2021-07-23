@@ -20,7 +20,7 @@ class BaseCommerceCliCommand extends Command {
     const sdk = await initSdk(imsContextName)
     const commandMessage = `Starting ${command}`
     cli.action.start(commandMessage)
-    const { id: commandId } = await sdk.postCLICommand(programId, environmentId, body)
+    const { id: commandId } = await sdk.postCommerceCommandExecution(programId, environmentId, body)
     let result = await this.callGet(sdk, programId, environmentId, commandId, command)
 
     while (result.status === 'RUNNING' || result.status === 'CREATING') {
@@ -33,7 +33,7 @@ class BaseCommerceCliCommand extends Command {
   }
 
   async callGet (sdk, programId, environmentId, commandId, command) {
-    const getResponse = await sdk.getCLICommand(programId, environmentId, commandId)
+    const getResponse = await sdk.getCommerceCommandExecution(programId, environmentId, commandId)
     const result = await getResponse
     cli.action.start(`${this.formatStatus(result.status)} ${command}`)
     return result
