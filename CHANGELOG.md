@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.3.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.2.2...2.3.0) (2021-07-23)
+
+
+### Features
+
+* **commerce:** update method names. fixes[#404](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/404) ([#405](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/405)) ([a999b61](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/a999b6156a35f6a31c573b065f3f0580333b299f))
+
 ## [2.2.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.2.1...2.2.2) (2021-07-20)
 
 
