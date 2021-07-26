@@ -67,7 +67,7 @@ test('maintenance:status', async () => {
     })
   })
 
-  expect.assertions(8)
+  expect.assertions(11)
 
   const runResult = MaintenanceStatusCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -86,6 +86,9 @@ test('maintenance:status', async () => {
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
+  await expect(cli.action.start.mock.calls[0][0]).toEqual('Starting maintenance:status')
+  await expect(cli.action.start.mock.calls[1][0]).toEqual('Starting maintenance:status')
+  await expect(cli.action.start.mock.calls[2][0]).toEqual('Running maintenance:status')
   await expect(cli.action.stop.mock.calls[0][0]).toEqual('maintenance enabled')
 })
 
