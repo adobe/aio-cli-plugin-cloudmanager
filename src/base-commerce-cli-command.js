@@ -23,7 +23,7 @@ class BaseCommerceCliCommand extends Command {
     const { id: commandId } = await sdk.postCommerceCommandExecution(programId, environmentId, body)
     let result = await this.callGet(sdk, programId, environmentId, commandId, command)
 
-    while (result.status === 'RUNNING' || result.status === 'CREATING') {
+    while (result.status === 'RUNNING' || result.status === 'PENDING') {
       await cli.wait(pollingInterval)
       result = await this.callGet(sdk, programId, environmentId, commandId, command)
     }

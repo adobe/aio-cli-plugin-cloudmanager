@@ -50,15 +50,21 @@ test('maintenance:status', async () => {
   )
   mockSdk.getCommerceCommandExecution = jest.fn(() => {
     counter++
-    return counter < 3
-      ? Promise.resolve({
+    if (counter === 1) {
+      return Promise.resolve({
+        status: 'PENDING',
+        message: 'running maintenance status',
+      })
+    } else if (counter < 3) {
+      return Promise.resolve({
         status: 'RUNNING',
         message: 'running maintenance status',
       })
-      : Promise.resolve({
-        status: 'COMPLETE',
-        message: 'maintenance enabled',
-      })
+    }
+    return Promise.resolve({
+      status: 'COMPLETE',
+      message: 'maintenance enabled',
+    })
   })
 
   expect.assertions(8)
