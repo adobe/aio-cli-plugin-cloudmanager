@@ -40,7 +40,7 @@ class BaseCommerceCliCommand extends Command {
   }
 
   formatStatus (status) {
-    return status === 'CREATING' ? 'Starting' : status[0].toUpperCase() + status.slice(1).toLowerCase()
+    return status === 'PENDING' ? 'Starting' : status[0].toUpperCase() + status.slice(1).toLowerCase()
   }
 }
 
