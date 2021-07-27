@@ -24,16 +24,16 @@ Commits (generally via merged pull requests) to the `main` branch of this reposi
 
 For bug fixes:
 ```
-fix(scope): <description>
+fix(scope): <description> fixes #<issue number>
 
 [optional content]
 ```
 
 For features:
 ```
-feat(scope): <description>
+feat(scope): <description> fixes #<issue number>
 
 [optional content]
 ```
 
-In general, the scope should be the command name or topic, but there may be exceptions. The description of feature and fix issues should contain a reference to a github issue, e.g. Fixes #200.
+In general, the scope should be the command name or topic, but there may be exceptions. The description of feature and fix issues should contain a reference to a github issue, e.g. fixes #200.
