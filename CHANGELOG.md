@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.0...2.4.1) (2021-07-27)
+
+
+### Bug Fixes
+
+* **commerce:** change status to pending. fixes [#411](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/411) ([#414](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/414)) ([4babfe7](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/4babfe7336a8a68692d26a59248ee5879392c961))
+
 # [2.4.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.3.0...2.4.0) (2021-07-26)
 
 
