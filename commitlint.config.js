@@ -24,6 +24,7 @@ module.exports = {
     ],
     'reference-check': [2, 'always'],
   },
+  parserPreset: './commitlint.parser-config',
   plugins: [
     {
       rules: {
