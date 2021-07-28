@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.2...2.4.3) (2021-07-28)
+
+
+### Bug Fixes
+
+* **auth:** org:list and org:select should include all AEM-entitled organizations. fixes [#423](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/423) ([#424](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/424)) ([63d924e](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/63d924e5a7419712a359783cf35b6c037d4b553c))
+
 ## [2.4.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.1...2.4.2) (2021-07-28)
 
 

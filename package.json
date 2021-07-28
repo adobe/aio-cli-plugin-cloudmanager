@@ -1,7 +1,7 @@
 {
   "name": "@adobe/aio-cli-plugin-cloudmanager",
   "description": "Cloud Manager commands for the Adobe I/O CLI",
-  "version": "2.4.2",
+  "version": "2.4.3",
   "author": "Adobe Inc.",
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
