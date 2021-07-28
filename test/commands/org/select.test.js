@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const Config = require('@adobe/aio-lib-core-config')
-const { setOrganizations } = require('@adobe/aio-lib-ims')
+const { setOrganizations, setProfile } = require('@adobe/aio-lib-ims')
 const { prompt, setAnswers } = require('inquirer')
 const { enableCliAuth, disableCliAuth } = require('../../../src/cloudmanager-helpers')
 const OrgSelectCommand = require('../../../src/commands/cloudmanager/org/select')
@@ -19,6 +19,7 @@ const OrgSelectCommand = require('../../../src/commands/cloudmanager/org/select'
 beforeEach(() => {
   enableCliAuth()
   setOrganizations([])
+  setProfile({})
 })
 
 test('org-select -- nonCliMode', async () => {
@@ -67,26 +68,42 @@ test('org-select -- some organizations', async () => {
       },
     },
     {
-      orgName: 'myorg-emptygroups',
+      orgName: 'myorg-auth1',
       orgRef: {
         ident: 'def',
         authSrc: 'AdobeOrg',
       },
-      groups: [],
     },
     {
-      orgName: 'myorg-auth',
+      orgName: 'myorg-auth2',
       orgRef: {
         ident: 'ghi',
         authSrc: 'AdobeOrg',
       },
-      groups: [
-        {
-          groupDisplayName: 'CM_BUSINESS_OWNER_ROLE_PROFILE',
-        },
-      ],
     },
   ])
+  setProfile({
+    projectedProductContext: [
+      {
+        prodCtx: {
+          owningEntity: 'abc@AdobeOrg',
+          serviceCode: 'dma_analytics',
+        },
+      },
+      {
+        prodCtx: {
+          owningEntity: 'def@AdobeOrg',
+          serviceCode: 'dma_aem_ams',
+        },
+      },
+      {
+        prodCtx: {
+          owningEntity: 'ghi@AdobeOrg',
+          serviceCode: 'dma_aem_cloud',
+        },
+      },
+    ],
+  })
   setAnswers({
     orgId: 'ghi@AdobeOrg',
   })
@@ -102,7 +119,11 @@ test('org-select -- some organizations', async () => {
   expect(prompt.mock.calls.length).toEqual(1)
   expect(prompt.mock.calls[0][0][0].choices).toEqual([
     {
-      name: 'myorg-auth',
+      name: 'myorg-auth1',
+      value: 'def@AdobeOrg',
+    },
+    {
+      name: 'myorg-auth2',
       value: 'ghi@AdobeOrg',
     },
   ])
