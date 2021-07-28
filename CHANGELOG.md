@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.1...2.4.2) (2021-07-28)
+
+
+### Bug Fixes
+
+* **commerce:** update minimum version of lib. fixes [#421](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/421) ([#422](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/422)) ([b672392](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/b672392377de27fca8814ebe949208b8e811438a))
+
 ## [2.4.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.0...2.4.1) (2021-07-27)
 
 
