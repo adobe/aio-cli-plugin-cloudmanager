@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { Command, flags } = require('@oclif/command')
 const { prompt } = require('inquirer')
-const { isCliAuthEnabled, getCloudManagerAuthorizedOrganizations, setCliOrgId } = require('../../../cloudmanager-helpers')
+const { isCliAuthEnabled, getCloudManagerAuthorizedOrganizations, setCliOrgId, getFullOrgIdentity } = require('../../../cloudmanager-helpers')
 
 class OrgSelectCommand extends Command {
   async run () {
@@ -40,7 +40,7 @@ class OrgSelectCommand extends Command {
           choices: organizations.map(org => {
             return {
               name: org.orgName,
-              value: `${org.orgRef.ident}@${org.orgRef.authSrc}`,
+              value: getFullOrgIdentity(org),
             }
           }),
         },

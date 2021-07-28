@@ -11,13 +11,14 @@ governing permissions and limitations under the License.
 */
 
 const { cli } = require('cli-ux')
-const { setOrganizations, setCurrentOrgId, resetCurrentOrgId } = require('@adobe/aio-lib-ims')
+const { setOrganizations, setCurrentOrgId, resetCurrentOrgId, setProfile } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const OrgListCommand = require('../../../src/commands/cloudmanager/org/list')
 const { enableCliAuth, disableCliAuth } = require('../../../src/cloudmanager-helpers')
 
 beforeEach(() => {
   setOrganizations([])
+  setProfile({})
   disableCliAuth()
   resetCurrentOrgId()
 })

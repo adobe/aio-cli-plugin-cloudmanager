@@ -27,6 +27,11 @@ const CLI_API_KEYS = {
   stage: 'aio-cli-console-auth-stage',
 }
 
+const SERVICE_CODES = [
+  'dma_aem_cloud',
+  'dma_aem_ams',
+]
+
 const GROUP_DISPLAY_NAMES_TO_FRIENDLY_NAME_MAPPING = {
   CM_CS_DEPLOYMENT_MANAGER_ROLE_PROFILE: 'Deployment Manager',
   CM_DEPLOYMENT_MANAGER_ROLE_PROFILE: 'Deployment Manager',
@@ -200,7 +205,7 @@ function isCliAuthEnabled () {
   return authMode === CLI_AUTH
 }
 
-async function getAllOrganizations (contextName) {
+async function getCloudManagerAuthorizedOrganizations (contextName) {
   if (isCliAuthEnabled()) {
     contextName = CLI
   } else {
@@ -210,12 +215,19 @@ async function getAllOrganizations (contextName) {
   const accessToken = await getToken(contextName)
 
   const ims = await Ims.fromToken(accessToken)
-  return ims.ims.getOrganizations(accessToken)
-}
+  const allOrganizations = await ims.ims.getOrganizations(accessToken)
 
-async function getCloudManagerAuthorizedOrganizations (contextName) {
-  const allOrganizations = await getAllOrganizations(contextName)
-  return allOrganizations.filter(org => org.groups && org.groups.map(group => group.groupDisplayName).some(isCloudManagerGroupDisplayName))
+  const profile = await ims.ims.get('/ims/profile/v1', accessToken)
+
+  const organizationsWithCorrectServiceCode = profile.projectedProductContext
+    ? profile.projectedProductContext.map(ppc => ppc.prodCtx)
+      .filter(ctx => SERVICE_CODES.includes(ctx.serviceCode)).map(ctx => ctx.owningEntity)
+    : []
+
+  return allOrganizations.filter(org => {
+    const orgIdentity = getFullOrgIdentity(org)
+    return organizationsWithCorrectServiceCode.includes(orgIdentity)
+  })
 }
 
 function isCloudManagerGroupDisplayName (groupDisplayName) {
@@ -228,6 +240,10 @@ function getCloudManagerRoles (org) {
   }
   const roles = org.groups.map(group => group.groupDisplayName).filter(isCloudManagerGroupDisplayName).map(groupDisplayName => GROUP_DISPLAY_NAMES_TO_FRIENDLY_NAME_MAPPING[groupDisplayName])
   return _.uniq(roles)
+}
+
+function getFullOrgIdentity (org) {
+  return `${org.orgRef.ident}@${org.orgRef.authSrc}`
 }
 
 async function getActiveOrganizationId (contextName) {
@@ -263,4 +279,5 @@ module.exports = {
   getCloudManagerAuthorizedOrganizations,
   getCloudManagerRoles,
   getActiveOrganizationId,
+  getFullOrgIdentity,
 }

@@ -14,6 +14,8 @@ let currentOrgId
 
 let organizations
 
+let profile
+
 module.exports = {
   getToken: jest.fn(ctx => 'fake-token'),
   context: {
@@ -45,11 +47,15 @@ module.exports = {
         token: token,
         ims: {
           getOrganizations: jest.fn(() => organizations),
+          get: jest.fn(() => profile),
         },
       }
     }),
   },
   setOrganizations: (value) => {
     organizations = value
+  },
+  setProfile: (value) => {
+    profile = value
   },
 }
