@@ -12,7 +12,6 @@ governing permissions and limitations under the License.
 
 const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command')
 const { getProgramId } = require('../../../../../cloudmanager-helpers')
-const { cli } = require('cli-ux')
 const commonFlags = require('../../../../../common-flags')
 
 class MaintenanceStatusCommand extends BaseCommerceCliCommand {
@@ -21,19 +20,12 @@ class MaintenanceStatusCommand extends BaseCommerceCliCommand {
 
     const programId = getProgramId(flags)
 
-    let result
-
-    try {
-      result = await this.runSync(programId, args.environmentId,
-        {
-          type: 'bin/magento',
-          command: 'maintenance:status',
-        },
-        1000, 'maintenance:status')
-    } catch (error) {
-      cli.action.stop(error.message)
-      return
-    }
+    const result = await this.runSync(programId, args.environmentId,
+      {
+        type: 'bin/magento',
+        command: 'maintenance:status',
+      },
+      1000, 'maintenance:status')
 
     return result
   }

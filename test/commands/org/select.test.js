@@ -28,7 +28,7 @@ test('org-select -- nonCliMode', async () => {
   const runResult = OrgSelectCommand.run(['abc'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
-  await expect(runResult).rejects.toSatisfy(err => err.message === 'This command is only intended to be used with a user token, not a service account. The org id for a service account must be provided in the service account configuration.')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:CLI_ONLY_COMMAND] This command is only intended to be used with a user token, not a service account. The org id for a service account must be provided in the service account configuration.')
 })
 
 test('org-select -- orgId arg', async () => {
@@ -55,7 +55,7 @@ test('org-select -- no organizations', async () => {
   const runResult = OrgSelectCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
 
-  await expect(runResult).rejects.toSatisfy(err => err.message === 'No Cloud Manager authorized organizations found.')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_CM_ORGS] No Cloud Manager authorized organizations found.')
 })
 
 test('org-select -- some organizations', async () => {

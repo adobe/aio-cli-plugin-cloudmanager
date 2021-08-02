@@ -18,6 +18,12 @@ All submissions should come in the form of pull requests and need to be reviewed
 
 Please follow the [pull request template](PULL_REQUEST_TEMPLATE.md) when submitting a pull request. Following the requirements for semantic releases (as described in the next section), each pull request should contain a single change and be comprised of a single commit.
 
+## Error Handling
+
+In order to ensure proper error handling, individual commands should generally *not* handle errors themselves. Commands should throw errors and allow them to be caught by the `catch` method in `BaseCommand`. There may be exceptions specifically around errors that are non-fatal. Thrown errors should be defined in either `ValidationErrors` or `ConfigurationErrors`.
+
+Hooks should work in a similar fashion -- see the prerun `check-ims-context-config` hook as a point of reference.
+
 ## Commits and Releasing
 
 Commits (generally via merged pull requests) to the `main` branch of this repository will automatically generate [semantically versioned releases](https://github.com/semantic-release). To accomplish this, commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) syntax, specifically:

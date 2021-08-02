@@ -28,12 +28,11 @@ test('update-pipeline - missing arg', async () => {
 })
 
 test('update-pipeline - missing config', async () => {
-  expect.assertions(3)
+  expect.assertions(2)
 
   const runResult = UpdatePipelineCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).resolves.toEqual(undefined)
-  await expect(cli.action.stop.mock.calls[0][0]).toBe('Unable to find IMS context aio-cli-plugin-cloudmanager')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('update-pipeline - branch success', async () => {
@@ -84,7 +83,7 @@ test('update-pipeline - both tag and branch', async () => {
 
   const runResult = UpdatePipelineCommand.run(['--programId', '5', '5', '--branch', 'develop', '--tag', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Both branch and tag cannot be specified') === 0)
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:BOTH_BRANCH_AND_TAG_PROVIDED] Both branch and tag cannot be specified.')
 })
 
 test('update-pipeline - malformed tag', async () => {
@@ -94,7 +93,7 @@ test('update-pipeline - malformed tag', async () => {
 
   const runResult = UpdatePipelineCommand.run(['--programId', '5', '5', '--tag', 'refs/tags/foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('tag flag should not be specified with "refs/tags/" prefix. Value provided was refs/tags/foo') === 0)
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:INVALID_TAG_SYNTAX] tag flag should not be specified with "refs/tags/" prefix. Value provided was refs/tags/foo')
 })
 
 test('update-pipeline - correct tag', async () => {

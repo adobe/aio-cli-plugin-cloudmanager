@@ -60,7 +60,7 @@ test('set-environment-variables - missing programId', async () => {
 
   const runResult = SetEnvironmentVariablesCommand.run(['1'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Program ID must be specified either as --programId flag or through cloudmanager_programid') === 0)
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
 })
 
 test('set-environment-variables - missing config', async () => {
@@ -68,7 +68,7 @@ test('set-environment-variables - missing config', async () => {
 
   const runResult = SetEnvironmentVariablesCommand.run(['1', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('set-environment-variables - bad variable flag', async () => {
@@ -81,7 +81,7 @@ test('set-environment-variables - bad variable flag', async () => {
 
   const runResult = SetEnvironmentVariablesCommand.run(['1', '--variable', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('Please provide correct values for flags'))
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
 })
 
 test('set-environment-variables - bad secret flag', async () => {
@@ -94,7 +94,7 @@ test('set-environment-variables - bad secret flag', async () => {
 
   const runResult = SetEnvironmentVariablesCommand.run(['1', '--secret', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('Please provide correct values for flags'))
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
 })
 
 test('set-environment-variables - config', async () => {
@@ -722,7 +722,7 @@ test('set-environment-variables - internal name strict mode on via flag', async 
   const runResult = SetEnvironmentVariablesCommand.run(['1', '--variable', 'INTERNAL_foo', 'bar', '--strict'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
-  await expect(runResult).rejects.toSatisfy(err => err.message === 'The variable name INTERNAL_foo is reserved for internal usage and will be ignored.')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:INTERNAL_VARIABLE_USAGE] The variable name INTERNAL_foo is reserved for internal usage and will be ignored.')
 })
 
 test('set-environment-variables - internal name strict mode on via config', async () => {
@@ -737,5 +737,5 @@ test('set-environment-variables - internal name strict mode on via config', asyn
   const runResult = SetEnvironmentVariablesCommand.run(['1', '--variable', 'INTERNAL_foo', 'bar'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
-  await expect(runResult).rejects.toSatisfy(err => err.message === 'The variable name INTERNAL_foo is reserved for internal usage and will be ignored.')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:INTERNAL_VARIABLE_USAGE] The variable name INTERNAL_foo is reserved for internal usage and will be ignored.')
 })

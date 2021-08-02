@@ -10,10 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { initSdk } = require('./cloudmanager-helpers')
-class BaseCommerceCliCommand extends Command {
+const BaseCommand = require('./base-command')
+
+class BaseCommerceCliCommand extends BaseCommand {
   async runSync (programId, environmentId, body, pollingInterval, command, imsContextName = null) {
     this.warn('Commerce cli commands are in active development and may not be functional.')
 

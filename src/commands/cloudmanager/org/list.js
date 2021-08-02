@@ -10,13 +10,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const figures = require('figures')
+const BaseCommand = require('../../../base-command')
 const { getCloudManagerAuthorizedOrganizations, getOutputFormat, columnWithArray, getCloudManagerRoles, getActiveOrganizationId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
 
-class OrgListCommand extends Command {
+class OrgListCommand extends BaseCommand {
   async run () {
     const { flags } = this.parse(OrgListCommand)
 

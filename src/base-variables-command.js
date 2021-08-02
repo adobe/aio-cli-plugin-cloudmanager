@@ -13,15 +13,16 @@ governing permissions and limitations under the License.
 const { promisify } = require('util')
 const fs = require('fs')
 
-const { Command } = require('@oclif/command')
+const BaseCommand = require('./base-command')
 const { cli } = require('cli-ux')
 const { flags } = require('@oclif/command')
 const { getProgramId, createKeyValueObjectFromFlag, getOutputFormat } = require('./cloudmanager-helpers')
 const commonFlags = require('./common-flags')
 const { getPipedData } = require('@adobe/aio-lib-core-config')
 const _ = require('lodash')
+const { codes: validationCodes } = require('./ValidationErrors')
 
-class BaseVariablesCommand extends Command {
+class BaseVariablesCommand extends BaseCommand {
   getFlagDefs () {
     return {
       variable: {
@@ -66,13 +67,8 @@ class BaseVariablesCommand extends Command {
       this.log('No variables to set or delete.')
     }
 
-    let result
+    const result = await this.getVariables(programId, args, flags.imsContextName)
 
-    try {
-      result = await this.getVariables(programId, args, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
     this.outputTable(result, flags)
 
     return result
@@ -147,10 +143,10 @@ class BaseVariablesCommand extends Command {
     try {
       data = JSON.parse(rawData)
     } catch (e) {
-      this.error('Unable to parse variables from provided data.')
+      throw new validationCodes.VARIABLES_JSON_PARSE_ERROR()
     }
     if (!_.isArray(data)) {
-      this.error('Provided variables input was not an array.')
+      throw new validationCodes.VARIABLES_JSON_NOT_ARRAY()
     }
     data.forEach(item => {
       if (item.name && !_.isUndefined(item.value)) {

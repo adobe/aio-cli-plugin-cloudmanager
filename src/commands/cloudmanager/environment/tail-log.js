@@ -10,11 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
+const BaseCommand = require('../../../base-command')
 const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
 
-class TailLog extends Command {
+class TailLog extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(TailLog)
 
@@ -22,13 +22,7 @@ class TailLog extends Command {
 
     const environmentId = sanitizeEnvironmentId(args.environmentId)
 
-    let result
-
-    try {
-      result = await this.tailLog(programId, environmentId, args.service, args.name, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.tailLog(programId, environmentId, args.service, args.name, flags.imsContextName)
 
     this.log()
 

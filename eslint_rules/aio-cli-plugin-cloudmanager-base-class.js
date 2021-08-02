@@ -9,17 +9,21 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { handleError } = require('../../cloudmanager-helpers')
-
-/**
- * Prerun hooks in a specific order.
- */
-
-module.exports = function (hookOptions) {
-  try {
-    require('./environment-id-from-config').apply(this, [hookOptions])
-    require('./check-ims-context-config').apply(this, [hookOptions])
-  } catch (err) {
-    handleError(err, this.error)
-  }
+module.exports = {
+  create: function (context) {
+    return {
+      ClassDeclaration: (node) => {
+        const superClass = node.superClass && node.superClass.name
+        if (superClass === 'Command') {
+          context.report({
+            node: node,
+            message: 'Class {{ className }} extends Command, not BaseCommand.',
+            data: {
+              className: node.id.name,
+            },
+          })
+        }
+      },
+    }
+  },
 }

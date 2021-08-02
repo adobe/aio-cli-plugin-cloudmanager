@@ -10,13 +10,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command, flags } = require('@oclif/command')
+const { flags } = require('@oclif/command')
 const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const path = require('path')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
 
-class DownloadLogs extends Command {
+class DownloadLogs extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(DownloadLogs)
 
@@ -28,13 +29,7 @@ class DownloadLogs extends Command {
 
     cli.action.start('downloading logs')
 
-    let result
-
-    try {
-      result = await this.downloadLogs(programId, environmentId, args.service, args.name, args.days, outputDirectory, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.downloadLogs(programId, environmentId, args.service, args.name, args.days, outputDirectory, flags.imsContextName)
 
     cli.action.stop(`downloaded ${result.length} file${result.length > 1 ? 's' : ''} to ${path.resolve(outputDirectory)}`)
 

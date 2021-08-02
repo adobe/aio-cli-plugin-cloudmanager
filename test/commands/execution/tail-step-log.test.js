@@ -31,7 +31,7 @@ test('tail-execution-step-log - missing config', async () => {
 
   const runResult = TailExecutionStepLog.run(['5', '--programId', '7'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toEqual(new Error('Unable to find IMS context aio-cli-plugin-cloudmanager'))
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('tail-execution-step-log - stdout', async () => {

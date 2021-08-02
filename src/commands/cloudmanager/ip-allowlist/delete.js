@@ -10,12 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
 
-class DeleteIPAllowlist extends Command {
+class DeleteIPAllowlist extends BaseCommand {
   async run () {
     const { flags, args } = this.parse(DeleteIPAllowlist)
 
@@ -23,13 +23,7 @@ class DeleteIPAllowlist extends Command {
 
     cli.action.start('deleting allowlist')
 
-    let result
-
-    try {
-      result = await this.deleteIpAllowlist(programId, args.ipAllowlistId, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.deleteIpAllowlist(programId, args.ipAllowlistId, flags.imsContextName)
 
     cli.action.stop('deleted')
 

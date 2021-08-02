@@ -10,40 +10,36 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command, flags } = require('@oclif/command')
+const { flags } = require('@oclif/command')
 const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
+const { codes: validationCodes } = require('../../../ValidationErrors')
 
-class UpdatePipelineCommand extends Command {
+class UpdatePipelineCommand extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(UpdatePipelineCommand)
 
     const programId = getProgramId(flags)
 
     if (flags.tag && flags.branch) {
-      throw new Error('Both branch and tag cannot be specified.')
+      throw new validationCodes.BOTH_BRANCH_AND_TAG_PROVIDED()
     }
 
     if (flags.tag && flags.tag.startsWith('refs/tags/')) {
-      throw new Error(`tag flag should not be specified with "refs/tags/" prefix. Value provided was ${flags.tag}`)
+      throw new validationCodes.INVALID_TAG_SYNTAX({ messageValues: flags.tag })
     }
 
     if (flags.tag) {
       flags.branch = `refs/tags/${flags.tag}`
     }
 
-    let result
-
     cli.action.start('updating pipeline')
 
-    try {
-      result = await this.updatePipeline(programId, args.pipelineId, flags, flags.imsContextName)
-      cli.action.stop(`updated pipeline ID ${args.pipelineId}`)
-    } catch (error) {
-      cli.action.stop(error.message)
-      return
-    }
+    const result = await this.updatePipeline(programId, args.pipelineId, flags, flags.imsContextName)
+
+    cli.action.stop(`updated pipeline ID ${args.pipelineId}`)
 
     return result
   }
