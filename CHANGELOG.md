@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.5.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.3...2.5.0) (2021-08-03)
+
+
+### Features
+
+* **errors:** implement consistent error codes and exit codes. fixes [#215](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/215) ([#428](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/428)) ([e6a796c](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/e6a796ca2c43b2e88a57acbde2e06c6bbb7ac6c9))
+
 ## [2.4.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.2...2.4.3) (2021-07-28)
 
 
