@@ -10,14 +10,14 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
 const commonArgs = require('../../../common-args')
 const CoreBindIPAllowlist = require('../ip-allowlist/bind.js')
+const BaseCommand = require('../../../base-command')
 
-class BindIPAllowlist extends Command {
+class BindIPAllowlist extends BaseCommand {
   async run () {
     const { flags, args } = this.parse(BindIPAllowlist)
 
@@ -25,13 +25,7 @@ class BindIPAllowlist extends Command {
 
     cli.action.start(`binding IP allowlist ${args.ipAllowlistId} to environment ${args.environmentId} (${args.service})`)
 
-    let result
-
-    try {
-      result = await new CoreBindIPAllowlist().bindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await new CoreBindIPAllowlist().bindIpAllowlist(programId, args.ipAllowlistId, args.environmentId, args.service, flags.imsContextName)
 
     cli.action.stop('bound')
 

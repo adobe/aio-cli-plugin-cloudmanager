@@ -10,14 +10,16 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command, flags } = require('@oclif/command')
+const { flags } = require('@oclif/command')
 const { prompt } = require('inquirer')
+const BaseCommand = require('../../../base-command')
 const { isCliAuthEnabled, getCloudManagerAuthorizedOrganizations, setCliOrgId, getFullOrgIdentity } = require('../../../cloudmanager-helpers')
+const { codes: configurationCodes } = require('../../../ConfigurationErrors')
 
-class OrgSelectCommand extends Command {
+class OrgSelectCommand extends BaseCommand {
   async run () {
     if (!isCliAuthEnabled()) {
-      this.error('This command is only intended to be used with a user token, not a service account. The org id for a service account must be provided in the service account configuration.')
+      throw new configurationCodes.CLI_ONLY_COMMAND()
     }
 
     const { args, flags } = this.parse(OrgSelectCommand)
@@ -29,7 +31,7 @@ class OrgSelectCommand extends Command {
     if (!orgId) {
       const organizations = await getCloudManagerAuthorizedOrganizations(flags.imsContextName)
       if (organizations.length === 0) {
-        this.error('No Cloud Manager authorized organizations found.')
+        throw new configurationCodes.NO_CM_ORGS()
       }
 
       const answers = await prompt([

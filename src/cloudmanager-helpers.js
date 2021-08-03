@@ -12,12 +12,15 @@ governing permissions and limitations under the License.
 
 const Config = require('@adobe/aio-lib-core-config')
 const { init } = require('@adobe/aio-lib-cloudmanager')
+const { cli } = require('cli-ux')
 const { context, getToken, Ims } = require('@adobe/aio-lib-ims')
 const { getCliEnv, DEFAULT_ENV } = require('@adobe/aio-lib-env')
 const moment = require('moment')
 const _ = require('lodash')
 const { CLI } = require('@adobe/aio-lib-ims/src/context')
-const { defaultImsContextName: defaultContextName } = require('./constants')
+const { defaultImsContextName: defaultContextName, exitCodes } = require('./constants')
+const { codes: validationCodes } = require('./ValidationErrors')
+const { codes: configurationCodes } = require('./ConfigurationErrors')
 
 const SERVICE_ACCOUNT = 'service_account'
 const CLI_AUTH = 'cli_auth'
@@ -65,7 +68,7 @@ function getBaseUrl () {
 function getProgramId (flags) {
   const programId = flags.programId || Config.get('cloudmanager_programid')
   if (!programId) {
-    throw new Error('Program ID must be specified either as --programId flag or through cloudmanager_programid config value')
+    throw new validationCodes.MISSING_PROGRAM_ID()
   }
   return programId
 }
@@ -107,7 +110,7 @@ function createKeyValueObjectFromFlag (flag) {
         // assume it is JSON, there is only 1 way to find out
         tempObj[flag[i]] = JSON.parse(flag[i + 1])
         if (typeof tempObj[flag[i]] === 'number') {
-          throw new Error('parsed flag value as a number')
+          throw new validationCodes.JSON_PARSE_NUMBER()
         }
       } catch (ex) {
         // hmm ... not json, treat as string
@@ -115,11 +118,11 @@ function createKeyValueObjectFromFlag (flag) {
       }
     }
     if (Object.values(tempObj).filter(v => v === '').length) {
-      throw new Error('Blank variable values are not allowed. Use the proper flag if you intend to delete a variable.')
+      throw new validationCodes.BLANK_VARIABLE_VALUE()
     }
     return tempObj
   } else {
-    throw (new Error('Please provide correct values for flags'))
+    throw new validationCodes.MALFORMED_NAME_VALUE_PAIR()
   }
 }
 
@@ -156,7 +159,7 @@ async function initSdk (contextName) {
     contextName = contextName || defaultContextName
     const contextData = await context.get(contextName)
     if (!contextData || !contextData.data) {
-      throw new Error(`Unable to find IMS context ${contextName}`)
+      throw new configurationCodes.NO_IMS_CONTEXT({ messageValues: contextName })
     }
     apiKey = contextData.data.client_id
     orgId = contextData.data.ims_org_id
@@ -253,10 +256,34 @@ async function getActiveOrganizationId (contextName) {
     contextName = contextName || defaultContextName
     const contextData = await context.get(contextName)
     if (!contextData || !contextData.data) {
-      throw new Error(`Unable to find IMS context ${contextName}`)
+      throw new configurationCodes.NO_IMS_CONTEXT({ messageValues: contextName })
     }
     return contextData.data.ims_org_id
   }
+}
+
+function handleError (_error, errorFn) {
+  if (cli.action.running) {
+    cli.action.stop('failed')
+  }
+
+  let exitCode = exitCodes.GENERAL
+  switch (_error.name) {
+    case 'CloudManagerError':
+      exitCode = exitCodes.SDK
+      break
+    case 'CloudManagerCLIValidationError':
+      exitCode = exitCodes.VALIDATION
+      break
+    case 'CloudManagerCLIConfigurationError':
+      exitCode = exitCodes.CONFIGURATION
+      break
+  }
+
+  errorFn(_error.message, {
+    code: _error.code,
+    exit: exitCode,
+  })
 }
 
 module.exports = {
@@ -280,4 +307,5 @@ module.exports = {
   getCloudManagerRoles,
   getActiveOrganizationId,
   getFullOrgIdentity,
+  handleError,
 }

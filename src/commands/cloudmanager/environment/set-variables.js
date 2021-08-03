@@ -18,6 +18,7 @@ const Config = require('@adobe/aio-lib-core-config')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
 const { services } = require('../../../constants')
+const { codes: validationCodes } = require('../../../ValidationErrors')
 
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   getFlagDefs () {
@@ -57,7 +58,7 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
     variables.forEach(variable => {
       if (variable.name && variable.name.startsWith('INTERNAL_')) {
         if (this.strictValidationEnabled(flags)) {
-          this.error(`The variable name ${variable.name} is reserved for internal usage and will be ignored.`)
+          throw new validationCodes.INTERNAL_VARIABLE_USAGE({ messageValues: variable.name })
         } else {
           this.warn(`The variable name ${variable.name} is reserved for internal usage and will be ignored.`)
         }

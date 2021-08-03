@@ -10,31 +10,26 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { initSdk, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
 const ListEnvironmentsCommand = require('./../program/list-environments')
+const BaseCommand = require('../../../base-command')
+const { codes: validationCodes } = require('../../../ValidationErrors')
 
-class ListIPAllowlistBindingDetails extends Command {
+class ListIPAllowlistBindingDetails extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(ListIPAllowlistBindingDetails)
 
     const programId = getProgramId(flags)
 
-    let result
-
-    try {
-      result = await this.listIpAllowlists(programId, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.listIpAllowlists(programId, flags.imsContextName)
 
     const allowList = result.find(allowList => allowList.id === args.ipAllowlistId)
 
     if (!allowList) {
-      this.error(`Could not find IP Allowlist with id ${args.ipAllowlistId} in program id ${programId}.`)
+      throw new validationCodes.IP_ALLOWLIST_NOT_FOUND({ messageValues: [args.ipAllowlistId, programId] })
     }
 
     const bindings = allowList.bindings

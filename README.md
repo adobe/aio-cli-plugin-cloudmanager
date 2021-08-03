@@ -150,6 +150,15 @@ $ aio config:set cloudmanager_environmentid 7
 
 > This only works for commands where the environmentId is the **first** argument.
 
+## Exit Codes
+
+Primarily for scripting application purposes, the following exit codes are used:
+
+1 - A generic error has occurred
+2 - A configuration error has occurred
+3 - A validation error with the supplied flags or arguments has occurred
+30 - An error emanating from the Cloud Manager SDK has occurred
+
 ## Reporting Issues
 
 In general, issues with this plugin should be reported in this project using GitHub issues using one of the provided issue templates.

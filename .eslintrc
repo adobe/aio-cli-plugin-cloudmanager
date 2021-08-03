@@ -10,6 +10,23 @@
           "imports": "always-multiline",
           "exports": "always-multiline",
           "functions": "always-multiline"
-        }]
-    }
+        }],
+        "aio-cli-plugin-cloudmanager-base-class": "error",
+        "aio-cli-plugin-cloudmanager-error-usage": "error",
+        "aio-cli-plugin-cloudmanager-stop-usage": "error"
+    },
+    "overrides": [
+      {
+        "files" : ["src/base-command.js"],
+        "rules" : {
+          "aio-cli-plugin-cloudmanager-base-class": "off"
+        }
+      },
+      {
+        "files" : ["test/**/*.js"],
+        "rules" : {
+          "aio-cli-plugin-cloudmanager-error-usage": "off"
+        }
+      }
+    ]
 }

@@ -112,11 +112,11 @@ test('org-list - service account auth', async () => {
 test('org-list - no org', async () => {
   const runResult = OrgListCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === 'Unable to find IMS context aio-cli-plugin-cloudmanager')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('org-list - alt context', async () => {
   const runResult = OrgListCommand.run(['--imsContextName', 'something-else'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === 'Unable to find IMS context something-else')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context something-else.')
 })

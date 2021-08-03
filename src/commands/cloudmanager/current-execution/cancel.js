@@ -10,27 +10,20 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
 
-class CancelCurrentExecutionCommand extends Command {
+class CancelCurrentExecutionCommand extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(CancelCurrentExecutionCommand)
 
     const programId = getProgramId(flags)
 
-    let result
-
     cli.action.start('cancelling execution')
 
-    try {
-      result = await this.cancelCurrentExecution(programId, args.pipelineId, flags.imsContextName)
-    } catch (error) {
-      cli.action.stop(error.message)
-      return
-    }
+    const result = await this.cancelCurrentExecution(programId, args.pipelineId, flags.imsContextName)
 
     cli.action.stop('cancelled')
 

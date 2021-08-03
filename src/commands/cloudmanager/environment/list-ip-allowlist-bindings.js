@@ -10,26 +10,20 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { getProgramId, getOutputFormat, columnWithArray } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
 const ListIpAllowlists = require('../program/list-ip-allowlists')
+const BaseCommand = require('../../../base-command')
 
-class ListIPAllowlistBindings extends Command {
+class ListIPAllowlistBindings extends BaseCommand {
   async run () {
     const { flags, args } = this.parse(ListIPAllowlistBindings)
 
     const programId = getProgramId(flags)
 
-    let result
-
-    try {
-      result = await new ListIpAllowlists().listIpAllowlists(programId, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    let result = await new ListIpAllowlists().listIpAllowlists(programId, flags.imsContextName)
 
     result = result.filter(ipAllowlist => ipAllowlist.bindings.find(binding => binding.environmentId === args.environmentId))
 

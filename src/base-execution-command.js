@@ -10,11 +10,11 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { cli } = require('cli-ux')
 const { getCurrentStep } = require('@adobe/aio-lib-cloudmanager')
 const { getOutputFormat, formatAction, formatTime } = require('./cloudmanager-helpers')
 const commonFlags = require('./common-flags')
+const BaseCommand = require('./base-command')
 
 const getLastStepAction = item => {
   const currentStep = getCurrentStep(item)
@@ -43,7 +43,7 @@ const standardColumns = {
   trigger: {},
 }
 
-class BaseExecutionCommand extends Command {
+class BaseExecutionCommand extends BaseCommand {
   outputCompleteTable (result, flags) {
     cli.table(result, {
       ...standardColumns,

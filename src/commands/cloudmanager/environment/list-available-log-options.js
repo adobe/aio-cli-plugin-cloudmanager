@@ -10,12 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { initSdk, getProgramId, sanitizeEnvironmentId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
 
-class ListAvailableLogOptionsCommand extends Command {
+class ListAvailableLogOptionsCommand extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(ListAvailableLogOptionsCommand)
 
@@ -23,13 +23,7 @@ class ListAvailableLogOptionsCommand extends Command {
 
     const environmentId = sanitizeEnvironmentId(args.environmentId)
 
-    let result
-
-    try {
-      result = await this.listAvailableLogOptions(programId, environmentId, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.listAvailableLogOptions(programId, environmentId, flags.imsContextName)
 
     if (result.length > 0) {
       cli.table(result, {

@@ -10,26 +10,20 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { initSdk } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
 
-class DeleteProgramCommand extends Command {
+class DeleteProgramCommand extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(DeleteProgramCommand)
 
-    let result
-
     cli.action.start('deleting program')
 
-    try {
-      result = await this.deleteProgram(args.programId, flags.imsContextName)
-      cli.action.stop(`deleted program ID ${args.programId}`)
-    } catch (error) {
-      cli.action.stop(error.message)
-      return
-    }
+    const result = await this.deleteProgram(args.programId, flags.imsContextName)
+
+    cli.action.stop(`deleted program ID ${args.programId}`)
 
     return result
   }

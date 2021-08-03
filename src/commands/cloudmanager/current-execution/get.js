@@ -20,13 +20,7 @@ class GetCurrentExecutionCommand extends BaseExecutionCommand {
 
     const programId = getProgramId(flags)
 
-    let result
-
-    try {
-      result = await this.getCurrentExecution(programId, args.pipelineId, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.getCurrentExecution(programId, args.pipelineId, flags.imsContextName)
 
     this.outputTableAssumingAllAreRunning([result], flags)
 

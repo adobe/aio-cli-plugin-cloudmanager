@@ -28,12 +28,11 @@ test('start-execution - missing arg', async () => {
 })
 
 test('start-execution - missing config', async () => {
-  expect.assertions(3)
+  expect.assertions(2)
 
   const runResult = StartExecutionCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).resolves.toEqual(undefined)
-  await expect(cli.action.stop.mock.calls[0][0]).toBe('Unable to find IMS context aio-cli-plugin-cloudmanager')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('start-execution - some url', async () => {

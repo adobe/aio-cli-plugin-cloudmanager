@@ -23,13 +23,7 @@ class ListExecutionsCommand extends BaseExecutionCommand {
 
     const programId = getProgramId(flags)
 
-    let result
-
-    try {
-      result = await this.listExecutions(programId, args.pipelineId, flags.limit || DEFAULT_LIMIT, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.listExecutions(programId, args.pipelineId, flags.limit || DEFAULT_LIMIT, flags.imsContextName)
 
     this.outputCompleteTable(result, flags)
 

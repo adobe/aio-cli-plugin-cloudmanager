@@ -10,12 +10,13 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command, flags } = require('@oclif/command')
+const { flags } = require('@oclif/command')
 const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
 
-class UpdateIPAllowlist extends Command {
+class UpdateIPAllowlist extends BaseCommand {
   async run () {
     const { flags, args } = this.parse(UpdateIPAllowlist)
 
@@ -23,13 +24,7 @@ class UpdateIPAllowlist extends Command {
 
     cli.action.start(`updating allowlist ${args.ipAllowlistId}`)
 
-    let result
-
-    try {
-      result = await this.updateIpAllowlist(programId, args.ipAllowlistId, flags.cidr, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.updateIpAllowlist(programId, args.ipAllowlistId, flags.cidr, flags.imsContextName)
 
     cli.action.stop('updated')
 

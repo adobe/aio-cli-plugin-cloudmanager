@@ -10,25 +10,19 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { initSdk, getProgramId, getOutputFormat, formatAction, formatTime, formatDuration, formatStatus } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const halfred = require('halfred')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
 
-class GetExecutionStepDetails extends Command {
+class GetExecutionStepDetails extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(GetExecutionStepDetails)
 
     const programId = getProgramId(flags)
 
-    let result
-
-    try {
-      result = await this.getExecution(programId, args.pipelineId, args.executionId, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    let result = await this.getExecution(programId, args.pipelineId, args.executionId, flags.imsContextName)
 
     if (result) {
       result = halfred.parse(result)

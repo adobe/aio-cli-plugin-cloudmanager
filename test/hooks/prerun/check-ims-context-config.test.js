@@ -25,21 +25,21 @@ const invoke = (options) => {
 }
 
 test('hook -- no config', async () => {
-  expect(invoke()).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
+  expect(invoke()).toThrowError(new Error('[CloudManagerCLI:NO_DEFAULT_IMS_CONTEXT] There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
 })
 
 test('hook -- different flag command, custom context and no config', async () => {
   expect(invoke({
     Command: FixtureWithADifferentFlag,
     argv: [],
-  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
+  })).toThrowError(new Error('[CloudManagerCLI:NO_DEFAULT_IMS_CONTEXT] There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
 })
 
 test('hook -- flag command, custom context and no config', async () => {
   expect(invoke({
     Command: FixtureWithAContextFlag,
     argv: [],
-  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.testContext.'))
+  })).toThrowError(new Error('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context ims.contexts.testContext.'))
 })
 
 test('hook -- command from other plugin', async () => {
@@ -100,14 +100,14 @@ test('hook -- cli auth configured without org id produces correct error message'
       },
     },
   })
-  expect(invoke()).toThrowError(new Error('The CLI has been authenticated, but no organization has been selected. To select an organization, run "aio cloudmanager:org:select". Alternatively, define the IMS context configuration ims.contexts.aio-cli-plugin-cloudmanager with a service account.'))
+  expect(invoke()).toThrowError(new Error('[CloudManagerCLI:CLI_AUTH_NO_ORG] The CLI has been authenticated, but no organization has been selected. To select an organization, run "aio cloudmanager:org:select". Alternatively, define the IMS context configuration ims.contexts.aio-cli-plugin-cloudmanager with a service account.'))
 })
 
 test('hook -- no config and skipping org command still produces error', async () => {
   expect(invoke({
     Command: FixtureWithSkippingOrgCheck,
     argv: [],
-  })).toThrowError(new Error('There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
+  })).toThrowError(new Error('[CloudManagerCLI:NO_DEFAULT_IMS_CONTEXT] There is no IMS context configuration defined for ims.contexts.aio-cli-plugin-cloudmanager. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".'))
 })
 
 test('hook -- fully configured cli auth enables cli auth mode for command with skipping org', async () => {
@@ -181,7 +181,7 @@ test('hook -- explicitly enabled cli validates that context exists', async () =>
   expect(invoke({
     Command: FixtureWithCliContext,
     argv: [],
-  })).toThrowError(new Error('cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.'))
+  })).toThrowError(new Error('[CloudManagerCLI:CLI_AUTH_EXPLICIT_NO_AUTH] cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.'))
 })
 
 test('hook -- explicitly enabled cli validates that access token exists', async () => {
@@ -204,7 +204,7 @@ test('hook -- explicitly enabled cli validates that access token exists', async 
   expect(invoke({
     Command: FixtureWithCliContext,
     argv: [],
-  })).toThrowError(new Error('cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.'))
+  })).toThrowError(new Error('[CloudManagerCLI:CLI_AUTH_EXPLICIT_NO_AUTH] cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.'))
 })
 
 test('hook -- explicitly enabled cli validates the org id is set', async () => {
@@ -230,7 +230,7 @@ test('hook -- explicitly enabled cli validates the org id is set', async () => {
   expect(invoke({
     Command: FixtureWithCliContext,
     argv: [],
-  })).toThrowError(new Error('cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio cloudmanager:org:select"'))
+  })).toThrowError(new Error('[CloudManagerCLI:CLI_AUTH_EXPLICIT_NO_ORG] cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio cloudmanager:org:select"'))
 })
 
 test('hook -- explicitly enabled cli and set org id works', async () => {

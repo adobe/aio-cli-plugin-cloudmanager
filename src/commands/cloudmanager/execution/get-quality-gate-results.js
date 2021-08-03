@@ -10,11 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { Command } = require('@oclif/command')
 const { initSdk, getProgramId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
+const BaseCommand = require('../../../base-command')
+const { codes: validationCodes } = require('../../../ValidationErrors')
 
 function formatMetricName (name) {
   switch (name) {
@@ -26,24 +27,18 @@ function formatMetricName (name) {
   }
 }
 
-class GetQualityGateResults extends Command {
+class GetQualityGateResults extends BaseCommand {
   async run () {
     const { args, flags } = this.parse(GetQualityGateResults)
 
     const programId = getProgramId(flags)
 
-    let result
-
-    try {
-      result = await this.getQualityGateResults(programId, args.pipelineId, args.executionId, args.action, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    let result = await this.getQualityGateResults(programId, args.pipelineId, args.executionId, args.action, flags.imsContextName)
 
     result = result.metrics
 
     if (!result) {
-      throw new Error(`Metrics for action ${args.action} on execution ${args.executionId} could not be found.`)
+      throw new validationCodes.MISSING_METRICS({ messageValues: [args.action, args.executionId] })
     }
 
     result = _.sortBy(result, 'severity')

@@ -10,7 +10,6 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const AdvanceCurrentExecution = require('../../../src/commands/cloudmanager/current-execution/advance')
@@ -28,12 +27,11 @@ test('advance-current-execution - missing arg', async () => {
 })
 
 test('advance-current-execution - missing config', async () => {
-  expect.assertions(3)
+  expect.assertions(2)
 
   const runResult = AdvanceCurrentExecution.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).resolves.toEqual(undefined)
-  await expect(cli.action.stop.mock.calls[0][0]).toBe('Unable to find IMS context aio-cli-plugin-cloudmanager')
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('advance-current-execution - configured', async () => {

@@ -30,14 +30,11 @@ test('maintenance:status - missing arg', async () => {
 })
 
 test('maintenance:status - missing config', async () => {
-  expect.assertions(3)
+  expect.assertions(2)
 
   const runResult = MaintenanceStatusCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).resolves.toEqual(undefined)
-  await expect(cli.action.stop.mock.calls[0][0]).toBe(
-    'Unable to find IMS context aio-cli-plugin-cloudmanager',
-  )
+  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('maintenance:status', async () => {
@@ -100,6 +97,5 @@ test('maintenance:status - api error', async () => {
   mockSdk.getCommerceCommandExecution = jest.fn()
   const runResult = MaintenanceStatusCommand.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await runResult
-  await expect(cli.action.stop.mock.calls[0][0]).toEqual('Command failed.')
+  await expect(runResult).rejects.toEqual(new Error('Command failed.'))
 })

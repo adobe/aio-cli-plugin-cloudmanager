@@ -18,15 +18,9 @@ class ListCurrentExecutionsCommand extends BaseExecutionCommand {
   async run () {
     const { flags } = this.parse(ListCurrentExecutionsCommand)
 
-    let result
-
     const programId = getProgramId(flags)
 
-    try {
-      result = await this.listCurrentExecutions(programId, flags.imsContextName)
-    } catch (error) {
-      this.error(error.message)
-    }
+    const result = await this.listCurrentExecutions(programId, flags.imsContextName)
 
     this.outputTableAssumingAllAreRunning(result, flags)
 
