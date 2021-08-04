@@ -25,14 +25,14 @@ test('download-logs - missing arg', async () => {
 
   const runResult = DownloadLogs.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 3 required args') === 0)
+  await expect(runResult).rejects.toThrow(/^Missing 3 required args/)
 })
 
 test('download-logs - missing config', async () => {
   expect.assertions(1)
 
   const runResult = DownloadLogs.run(['5', 'author', 'aemerror', '--programId', '5'])
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('download-logs - success single', async () => {

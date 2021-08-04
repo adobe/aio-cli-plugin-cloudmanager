@@ -24,7 +24,7 @@ test('set-pipeline-variables - missing arg', async () => {
 
   const runResult = SetPipelineVariablesCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') > -1)
+  await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
 
 test('set-pipeline-variables - missing programId', async () => {
@@ -32,7 +32,7 @@ test('set-pipeline-variables - missing programId', async () => {
 
   const runResult = SetPipelineVariablesCommand.run(['1'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
 })
 
 test('set-pipeline-variables - missing config', async () => {
@@ -40,7 +40,7 @@ test('set-pipeline-variables - missing config', async () => {
 
   const runResult = SetPipelineVariablesCommand.run(['1', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('set-pipeline-variables - bad variable flag', async () => {
@@ -53,7 +53,7 @@ test('set-pipeline-variables - bad variable flag', async () => {
 
   const runResult = SetPipelineVariablesCommand.run(['8', '--variable', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
 })
 
 test('set-pipeline-variables - empty variable flag', async () => {
@@ -66,7 +66,7 @@ test('set-pipeline-variables - empty variable flag', async () => {
 
   const runResult = SetPipelineVariablesCommand.run(['8', '--variable', 'foo', ''])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:BLANK_VARIABLE_VALUE] Blank variable values are not allowed. Use the proper flag if you intend to delete a variable.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:BLANK_VARIABLE_VALUE] Blank variable values are not allowed. Use the proper flag if you intend to delete a variable.')
 })
 
 test('set-pipeline-variables - bad secret flag', async () => {
@@ -79,7 +79,7 @@ test('set-pipeline-variables - bad secret flag', async () => {
 
   const runResult = SetPipelineVariablesCommand.run(['8', '--secret', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
 })
 test('set-pipeline-variables - config', async () => {
   setCurrentOrgId('good')

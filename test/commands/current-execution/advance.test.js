@@ -23,7 +23,7 @@ test('advance-current-execution - missing arg', async () => {
 
   const runResult = AdvanceCurrentExecution.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') === 0)
+  await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
 
 test('advance-current-execution - missing config', async () => {
@@ -31,7 +31,7 @@ test('advance-current-execution - missing config', async () => {
 
   const runResult = AdvanceCurrentExecution.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('advance-current-execution - configured', async () => {

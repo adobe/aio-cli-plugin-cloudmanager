@@ -24,7 +24,7 @@ test('list-execution - missing arg', async () => {
 
   const runResult = ListExecutionsCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') === 0)
+  await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
 
 test('list-execution - missing config', async () => {
