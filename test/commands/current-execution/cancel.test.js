@@ -23,7 +23,7 @@ test('cancel-current-execution - missing arg', async () => {
 
   const runResult = CancelCurrentExecution.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') === 0)
+  await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
 
 test('cancel-current-execution - missing config', async () => {
@@ -31,7 +31,7 @@ test('cancel-current-execution - missing config', async () => {
 
   const runResult = CancelCurrentExecution.run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('cancel-current-execution - configured', async () => {

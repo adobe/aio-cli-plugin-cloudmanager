@@ -25,7 +25,7 @@ test('list-available-logs - missing arg', async () => {
 
   const runResult = ListAvailableLogOptionsCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') > -1)
+  await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
 
 test('list-available-logs - missing programId', async () => {
@@ -33,14 +33,14 @@ test('list-available-logs - missing programId', async () => {
 
   const runResult = ListAvailableLogOptionsCommand.run(['1'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
 })
 
 test('list-available-logs - missing config', async () => {
   expect.assertions(1)
 
   const runResult = ListAvailableLogOptionsCommand.run(['1', '--programId', '5'])
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('list-available-logs - empty', async () => {

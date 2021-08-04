@@ -25,7 +25,7 @@ test('list-pipeline-variables - missing arg', async () => {
 
   const runResult = ListPipelineVariablesCommand.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 1 required arg') > -1)
+  await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
 
 test('list-pipeline-variables - missing programId', async () => {
@@ -33,7 +33,7 @@ test('list-pipeline-variables - missing programId', async () => {
 
   const runResult = ListPipelineVariablesCommand.run(['1'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
 })
 
 test('list-pipeline-variables - missing config', async () => {
@@ -41,7 +41,7 @@ test('list-pipeline-variables - missing config', async () => {
 
   const runResult = ListPipelineVariablesCommand.run(['1', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('list-pipeline-variables - success', async () => {

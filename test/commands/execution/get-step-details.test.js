@@ -26,7 +26,7 @@ test('get-execution-step-details - missing arg', async () => {
 
   const runResult = GetExecutionStepDetails.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message.indexOf('Missing 2 required args') === 0)
+  await expect(runResult).rejects.toThrow(/^Missing 2 required args/)
 })
 
 test('get-execution-step-details - missing config', async () => {
@@ -34,7 +34,7 @@ test('get-execution-step-details - missing config', async () => {
 
   const runResult = GetExecutionStepDetails.run(['5', '--programId', '7', '1001'])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
 test('get-execution-step-details - no result', async () => {
