@@ -278,6 +278,11 @@ function handleError (_error, errorFn) {
     case 'CloudManagerCLIConfigurationError':
       exitCode = exitCodes.CONFIGURATION
       break
+    case 'IMSSDK':
+    case 'IMSJWTSDK':
+    case 'IMSOAuthSDK':
+      exitCode = exitCodes.IMS
+      break
   }
 
   errorFn(_error.message, {
