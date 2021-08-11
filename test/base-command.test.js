@@ -70,3 +70,12 @@ test('catch -- configuration (no action running)', async () => {
   await expect(error).toHaveBeenCalledWith('msg', { exit: 2 })
   await expect(cli.action.stop).not.toHaveBeenCalled()
 })
+
+test('catch -- imssdk (no action running)', async () => {
+  const err = new Error('msg')
+  err.name = 'IMSSDK'
+
+  await fixture.catch(err)
+  await expect(error).toHaveBeenCalledWith('msg', { exit: 10 })
+  await expect(cli.action.stop).not.toHaveBeenCalled()
+})

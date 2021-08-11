@@ -17,6 +17,7 @@ module.exports = {
     GENERAL: 1,
     CONFIGURATION: 2,
     VALIDATION: 3,
+    IMS: 10,
     SDK: 30,
   },
 }
