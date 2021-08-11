@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.6.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.5.0...2.6.0) (2021-08-11)
+
+
+### Features
+
+* **errors:** add specific exit code for aio-lib-ims-*. fixes [#431](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/431) ([#432](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/432)) ([06ef4c7](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/06ef4c7e7d01ad8fb9c2003e6ea715774c5d5e75))
+
 # [2.5.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.4.3...2.5.0) (2021-08-03)
 
 
