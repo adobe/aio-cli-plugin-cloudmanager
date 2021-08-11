@@ -29,5 +29,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.ADOBE_BOT_NPM_TOKEN }}
-          HUSKY_DEBUG: true
+          HUSKY_DEBUG: '1'
         run: npm run semantic-release
