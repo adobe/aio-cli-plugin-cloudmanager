@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.7.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.6.0...2.7.0) (2021-08-12)
+
+
+### Features
+
+* **pipeline:** add support for pipeline cache invalidation. fixes [#434](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/434) ([#435](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/435)) ([b850a3f](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/b850a3f281a802a054973433babf17e5e11ac4e9))
+
 # [2.6.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.5.0...2.6.0) (2021-08-11)
 
 
