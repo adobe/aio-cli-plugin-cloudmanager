@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.8.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.7.0...2.8.0) (2021-08-18)
+
+
+### Features
+
+* **commerce:** add get-command fixes [#437](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/437) ([#438](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/438)) ([8b77e11](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/8b77e11ce9277238a5750c13f62c95d3891bbab0))
+
 # [2.7.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.6.0...2.7.0) (2021-08-12)
 
 
