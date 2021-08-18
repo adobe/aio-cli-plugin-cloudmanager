@@ -19,7 +19,7 @@ beforeEach(() => {
   resetCurrentOrgId()
 })
 
-test('get-command (commerce) - missing arg', async () => {
+test('get-command-execution (commerce) - missing arg', async () => {
   expect.assertions(4)
 
   const runResultOne = GetCommandExecutionCommand.run([])
@@ -34,7 +34,7 @@ test('get-command (commerce) - missing arg', async () => {
   )
 })
 
-test('get-command (commerce) - missing config', async () => {
+test('get-command-execution (commerce) - missing config', async () => {
   expect.assertions(2)
 
   const runResult = GetCommandExecutionCommand.run(['--programId', '5', '10', '20'])
@@ -42,7 +42,7 @@ test('get-command (commerce) - missing config', async () => {
   await expect(runResult).rejects.toSatisfy(err => err.message === '[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
-test('get-command (commerce)', async () => {
+test('get-command-execution (commerce)', async () => {
   setCurrentOrgId('good')
   mockSdk.getCommerceCommandExecution = jest.fn(() => {
     return Promise.resolve({
@@ -59,7 +59,7 @@ test('get-command (commerce)', async () => {
     })
   })
 
-  // expect.assertions(9)
+  expect.assertions(9)
 
   const runResult = GetCommandExecutionCommand.run(['--programId', '5', '10', '100'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -79,7 +79,7 @@ test('get-command (commerce)', async () => {
   await expect(cli.action.stop).toHaveBeenCalled()
 })
 
-test('get-command (commerce) - api error', async () => {
+test('get-command-execution (commerce) - api error', async () => {
   setCurrentOrgId('good')
   mockSdk.getCommerceCommandExecution = jest.fn(() =>
     Promise.reject(new Error('Command failed.')),

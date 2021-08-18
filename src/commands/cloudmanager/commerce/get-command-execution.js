@@ -44,11 +44,11 @@ class GetCommandExecutionCommand extends BaseCommand {
       },
       startedAt: {
         header: 'Started At',
-        get: formatTime(startedAt),
+        get: formatTime('startedAt'),
       },
       completedAt: {
         header: 'Completed At',
-        get: formatTime(completedAt),
+        get: formatTime('completedAt'),
       },
       status: {},
     })
