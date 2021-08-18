@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.8.0...2.8.1) (2021-08-18)
+
+
+### Bug Fixes
+
+* **commerce:** fix formatTime handling for get-command-execution implementation. fixes [#441](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/441) ([#442](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/442)) ([2b11301](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/2b1130104aee57164deaeecf33607f9f4d31a878))
+
 # [2.8.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.7.0...2.8.0) (2021-08-18)
 
 
