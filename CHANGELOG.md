@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.8.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.8.1...2.8.2) (2021-08-19)
+
+
+### Bug Fixes
+
+* **hook:** default environment id does not work when the command has multiple args. fixes [#443](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/443) ([#445](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/445)) ([032710d](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/032710dfb225bdaa40d32761d3163245c771233b))
+
 ## [2.8.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.8.0...2.8.1) (2021-08-18)
 
 
