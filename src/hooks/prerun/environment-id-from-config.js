@@ -32,7 +32,7 @@ module.exports = function (hookOptions) {
         try {
           return originalParse.call(this, options)
         } catch (e) {
-          if (e instanceof RequiredArgsError && e.args && e.args.length === 1 && e.args[0].name === 'environmentId') {
+          if (e instanceof RequiredArgsError && e.args && e.args.length === 1) {
             return originalParse.call(this, options, [environmentId, ...hookOptions.argv])
           } else {
             throw e

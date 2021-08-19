@@ -39,7 +39,18 @@ test('hook -- environmentId args and no config', async () => {
     Command: FixtureWithEnvironmentIdArg,
     argv: [],
   })
-  new FixtureWithNoArgs().parse(FixtureWithEnvironmentIdArg, [])
+  new FixtureWithEnvironmentIdArg().parse(FixtureWithEnvironmentIdArg, [])
+  expect(parse.mock.calls.length).toEqual(1)
+})
+
+test('hook -- two args and no config', async () => {
+  expect.assertions(1)
+
+  await hook({
+    Command: FixtureWithEnvironmentIdArgAndAnotherArg,
+    argv: [],
+  })
+  new FixtureWithEnvironmentIdArgAndAnotherArg().parse(FixtureWithEnvironmentIdArgAndAnotherArg, [])
   expect(parse.mock.calls.length).toEqual(1)
 })
 
@@ -61,6 +72,26 @@ test('hook -- environmentId args with config', async () => {
   new FixtureWithEnvironmentIdArg().parse(FixtureWithEnvironmentIdArg, [])
   expect(parse.mock.calls.length).toEqual(2)
   expect(parse.mock.calls[1][1]).toEqual(['4321'])
+})
+
+test('hook -- two args with config', async () => {
+  setStore({
+    cloudmanager_environmentid: '4321',
+  })
+
+  parse = jest.fn().mockImplementationOnce(() => {
+    throw new RequiredArgsError({ args: [{ name: 'environmentId' }] })
+  }).mockImplementationOnce(() => true)
+
+  expect.assertions(2)
+
+  await hook({
+    Command: FixtureWithEnvironmentIdArgAndAnotherArg,
+    argv: ['abcd'],
+  })
+  new FixtureWithEnvironmentIdArgAndAnotherArg().parse(FixtureWithEnvironmentIdArgAndAnotherArg, [])
+  expect(parse.mock.calls.length).toEqual(2)
+  expect(parse.mock.calls[1][1]).toEqual(['4321', 'abcd'])
 })
 
 test('hook -- multiple missing args with config', async () => {
@@ -138,6 +169,18 @@ FixtureWithEnvironmentIdArg.args = [
   { name: 'environmentId' },
 ]
 FixtureWithEnvironmentIdArg.plugin = thisPlugin
+
+class FixtureWithEnvironmentIdArgAndAnotherArg {
+  parse (options, argv) {
+    parse(options, argv)
+  }
+}
+
+FixtureWithEnvironmentIdArgAndAnotherArg.args = [
+  { name: 'environmentId' },
+  { name: 'somethingElse' },
+]
+FixtureWithEnvironmentIdArgAndAnotherArg.plugin = thisPlugin
 
 class FixtureWithEnvironmentIdArgFromOtherPlugin {
   parse (options, argv) {
