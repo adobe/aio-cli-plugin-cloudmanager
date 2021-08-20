@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.9.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.8.2...2.9.0) (2021-08-20)
+
+
+### Features
+
+* **commerce:** list command executions fixes [#440](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/440) ([#444](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/444)) ([9f85efb](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/9f85efb5db54e7028db45ab3e53892b1855de95a))
+
 ## [2.8.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.8.1...2.8.2) (2021-08-19)
 
 
