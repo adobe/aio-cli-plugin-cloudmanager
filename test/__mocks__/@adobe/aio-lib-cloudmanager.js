@@ -112,6 +112,7 @@ function createDefaultMock () {
     tailLog: jest.fn(() => Promise.resolve()),
     tailExecutionStepLog: jest.fn(() => Promise.resolve()),
     invalidatePipelineCache: jest.fn(() => Promise.resolve()),
+    tailCommerceCommandExecutionLog: jest.fn(() => Promise.resolve()),
   }
 }
 
