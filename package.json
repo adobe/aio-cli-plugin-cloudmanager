@@ -45,7 +45,7 @@
     "jest-extended": "0.11.5",
     "jest-junit": "12.2.0",
     "pinst": "2.1.6",
-    "semantic-release": "17.4.6",
+    "semantic-release": "17.4.7",
     "stdout-stderr": "0.1.13",
     "tmp": "0.2.1"
   },
