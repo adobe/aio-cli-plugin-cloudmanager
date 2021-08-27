@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.10.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.9.0...2.10.0) (2021-08-27)
+
+
+### Features
+
+* **commerce:** add indexer:reindex fixes [#455](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/455) ([#456](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/456)) ([2bc0c21](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/2bc0c2159ece4be2da7abde0cbdaa6fe8cafd5e2))
+
 # [2.9.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.8.2...2.9.0) (2021-08-20)
 
 
