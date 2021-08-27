@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 const BaseCommand = require('../../../base-command')
 
 class DeleteEnvironmentCommand extends BaseCommand {
@@ -46,7 +47,7 @@ DeleteEnvironmentCommand.flags = {
 }
 
 DeleteEnvironmentCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 DeleteEnvironmentCommand.aliases = [

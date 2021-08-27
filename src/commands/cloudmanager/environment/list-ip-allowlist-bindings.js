@@ -14,6 +14,7 @@ const { getProgramId, getOutputFormat, columnWithArray } = require('../../../clo
 const { cli } = require('cli-ux')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 const ListIpAllowlists = require('../program/list-ip-allowlists')
 const BaseCommand = require('../../../base-command')
 
@@ -55,7 +56,7 @@ class ListIPAllowlistBindings extends BaseCommand {
 ListIPAllowlistBindings.description = 'lists IP Allowlists bound to an environment'
 
 ListIPAllowlistBindings.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 ListIPAllowlistBindings.flags = {

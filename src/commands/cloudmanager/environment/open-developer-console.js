@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 const BaseCommand = require('../../../base-command')
 
 class OpenDeveloperConsoleCommand extends BaseCommand {
@@ -39,7 +40,7 @@ class OpenDeveloperConsoleCommand extends BaseCommand {
 OpenDeveloperConsoleCommand.description = 'opens the Developer Console, if available, in a browser'
 
 OpenDeveloperConsoleCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 OpenDeveloperConsoleCommand.flags = {

@@ -15,6 +15,7 @@ const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloud
 const { cli } = require('cli-ux')
 const path = require('path')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 const BaseCommand = require('../../../base-command')
 
 class DownloadLogs extends BaseCommand {
@@ -57,7 +58,7 @@ class DownloadLogs extends BaseCommand {
 DownloadLogs.description = 'downloads log files for the specified environment, service and log name for one or more days'
 
 DownloadLogs.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
   { name: 'service', required: true, description: 'the service' },
   { name: 'name', required: true, description: 'the log name' },
   { name: 'days', required: false, description: 'the number of days', default: '1' },

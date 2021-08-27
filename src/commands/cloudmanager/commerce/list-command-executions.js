@@ -19,6 +19,7 @@ const {
 const { cli } = require('cli-ux')
 const { flags } = require('@oclif/command')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 
 class ListCommandExecutionsCommand extends BaseCommand {
   async run () {
@@ -128,7 +129,7 @@ ListCommandExecutionsCommand.flags = {
 }
 
 ListCommandExecutionsCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 module.exports = ListCommandExecutionsCommand

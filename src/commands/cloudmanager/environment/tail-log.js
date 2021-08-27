@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 const BaseCommand = require('../../../base-command')
 const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 
 class TailLog extends BaseCommand {
   async run () {
@@ -38,7 +39,7 @@ class TailLog extends BaseCommand {
 TailLog.description = 'outputs a stream of log data for the specified environment, service and log name'
 
 TailLog.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
   { name: 'service', required: true, description: 'the service' },
   { name: 'name', required: true, description: 'the log name' },
 ]
