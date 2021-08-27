@@ -107,6 +107,9 @@
       "cloudmanager:commerce:bin-magento": {
         "description": "commands to work with bin-magento for commerce cli"
       },
+      "cloudmanager:commerce:bin-magento:indexer": {
+        "description": "commands to work with indexer for bin-magento"
+      },
       "cloudmanager:commerce:bin-magento:maintenance": {
         "description": "commands to work with maintenance for bin-magento"
       }
