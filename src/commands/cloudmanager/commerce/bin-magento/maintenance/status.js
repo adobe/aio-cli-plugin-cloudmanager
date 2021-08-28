@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command')
 const { getProgramId } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
+const commonArgs = require('../../../../../common-args')
 
 class MaintenanceStatusCommand extends BaseCommerceCliCommand {
   async run () {
@@ -39,7 +40,7 @@ MaintenanceStatusCommand.flags = {
 }
 
 MaintenanceStatusCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 MaintenanceStatusCommand.aliases = [

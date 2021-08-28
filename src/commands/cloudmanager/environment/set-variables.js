@@ -17,6 +17,7 @@ const { flags } = require('@oclif/command')
 const Config = require('@adobe/aio-lib-core-config')
 const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 const { services } = require('../../../constants')
 const { codes: validationCodes } = require('../../../ValidationErrors')
 
@@ -70,7 +71,7 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
 SetEnvironmentVariablesCommand.description = 'sets variables set on an environment. These are runtime variables available to components running inside the runtime environment. Use set-pipeline-variables to set build-time variables on a pipeline.'
 
 SetEnvironmentVariablesCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 SetEnvironmentVariablesCommand.flags = {

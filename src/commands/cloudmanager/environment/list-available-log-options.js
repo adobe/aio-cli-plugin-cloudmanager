@@ -13,6 +13,7 @@ governing permissions and limitations under the License.
 const { initSdk, getProgramId, sanitizeEnvironmentId, getOutputFormat } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 const BaseCommand = require('../../../base-command')
 
 class ListAvailableLogOptionsCommand extends BaseCommand {
@@ -53,7 +54,7 @@ class ListAvailableLogOptionsCommand extends BaseCommand {
 ListAvailableLogOptionsCommand.description = 'lists available log options for an environment in a Cloud Manager program'
 
 ListAvailableLogOptionsCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 ListAvailableLogOptionsCommand.flags = {

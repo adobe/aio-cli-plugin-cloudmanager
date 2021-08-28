@@ -14,6 +14,7 @@ const BaseCommand = require('../../../base-command')
 const { initSdk, formatTime, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 
 class GetCommandExecutionCommand extends BaseCommand {
   async run () {
@@ -76,7 +77,7 @@ GetCommandExecutionCommand.flags = {
 }
 
 GetCommandExecutionCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
   { name: 'commandExecutionId', required: true, description: 'the command execution id' },
 ]
 

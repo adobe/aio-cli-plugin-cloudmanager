@@ -14,6 +14,7 @@ const BaseEnvironmentVariablesCommand = require('../../../base-environment-varia
 const BaseVariablesCommand = require('../../../base-variables-command')
 const { getProgramId } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
+const commonArgs = require('../../../common-args')
 
 class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   async run () {
@@ -32,7 +33,7 @@ class ListEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
 ListEnvironmentVariablesCommand.description = 'lists variables set on an environment'
 
 ListEnvironmentVariablesCommand.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
 ]
 
 ListEnvironmentVariablesCommand.flags = {

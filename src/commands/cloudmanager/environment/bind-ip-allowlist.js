@@ -36,7 +36,7 @@ class BindIPAllowlist extends BaseCommand {
 BindIPAllowlist.description = 'Bind an IP Allowlist to an environment'
 
 BindIPAllowlist.args = [
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
   { name: 'ipAllowlistId', required: true, description: 'the IP allowlist id' },
   commonArgs.service,
 ]

@@ -14,4 +14,5 @@ const { services } = require('./constants')
 
 module.exports = {
   service: { name: 'service', required: true, options: services, description: 'the service name' },
+  environmentId: { name: 'environmentId', required: true, description: 'the environment id' },
 }

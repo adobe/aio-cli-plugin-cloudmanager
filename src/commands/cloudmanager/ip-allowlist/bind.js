@@ -43,7 +43,7 @@ BindIPAllowlist.strict = false
 
 BindIPAllowlist.args = [
   { name: 'ipAllowlistId', required: true, description: 'the IP allowlist id' },
-  { name: 'environmentId', required: true, description: 'the environment id' },
+  commonArgs.environmentId,
   commonArgs.service,
 ]
 
