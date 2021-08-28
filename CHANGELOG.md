@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.10.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.10.0...2.10.1) (2021-08-28)
+
+
+### Bug Fixes
+
+* **environmentId:** make environmentId a common arg fixes [#457](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/457) ([#458](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/458)) ([ab85b41](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/ab85b41a902e280b701797cfe74e89466d868103))
+
 # [2.10.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.9.0...2.10.0) (2021-08-27)
 
 
