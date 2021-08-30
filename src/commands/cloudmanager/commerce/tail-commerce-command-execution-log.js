@@ -47,6 +47,4 @@ TailCommerceCommandExecutionLog.flags = {
   ...commonFlags.programId,
 }
 
-TailCommerceCommandExecutionLog.aliases = ['cloudmanager:tail-logs', 'cloudmanager:tail-log']
-
 module.exports = TailCommerceCommandExecutionLog
