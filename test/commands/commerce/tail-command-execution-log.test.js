@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
-const TailCommerceCommandExecutionLog = require('../../../src/commands/cloudmanager/commerce/tail-commerce-command-execution-log')
+const TailCommandExecutionLog = require('../../../src/commands/cloudmanager/commerce/tail-command-execution-log')
 
 beforeEach(() => {
   resetCurrentOrgId()
@@ -21,7 +21,7 @@ beforeEach(() => {
 test('commerce-tail-log - missing arg', async () => {
   expect.assertions(2)
 
-  const runResult = TailCommerceCommandExecutionLog.run([])
+  const runResult = TailCommandExecutionLog.run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow(/^Missing 2 required arg/)
 })
@@ -29,7 +29,7 @@ test('commerce-tail-log - missing arg', async () => {
 test('commerce-tail-log - missing config', async () => {
   expect.assertions(2)
 
-  const runResult = TailCommerceCommandExecutionLog.run(['5', '123', '--programId', '5'])
+  const runResult = TailCommandExecutionLog.run(['5', '123', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
@@ -39,7 +39,7 @@ test('commerce-tail-log - config', async () => {
 
   expect.assertions(5)
 
-  const runResult = TailCommerceCommandExecutionLog.run(['17', '123', '--programId', '5'])
+  const runResult = TailCommandExecutionLog.run(['17', '123', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
