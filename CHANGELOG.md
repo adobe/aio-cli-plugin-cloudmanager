@@ -1,5 +1,15 @@
 # Changelog
 
+# [2.12.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.11.0...2.12.0) (2021-08-31)
+
+
+### Features
+
+* **commerce:** add cache:clean fixes [#460](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/460) ([#461](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/461)) ([552e11b](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/552e11bd8c0cb707c82dd161a4d6728550fb939a))
+* **commerce:** add cache:flush fixes [#462](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/462) ([#463](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/463)) ([4751e68](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/4751e68811c2dceceb4930872007d25ad551181f))
+* **commerce:** add maintenance:disable fixes [#466](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/466) ([#467](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/467)) ([daf0970](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/daf0970991cf5bbef8861bdcc1b5a97bed700fdb))
+* **commerce:** add maintenance:enable fixes [#464](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/464) ([#465](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/465)) ([2534463](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/253446382c5dbb4586662aeba5d46e1d515f7e16))
+
 # [2.11.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.10.1...2.11.0) (2021-08-30)
 
 
