@@ -100,7 +100,7 @@ Then, configure the private certificate:
 aio config:set ims.contexts.aio-cli-plugin-cloudmanager.private_key PATH_TO_PRIVATE_KEY_FILE --file
 ```
 
-> More information on setting up a Cloud Manager integration in the Adobe I/O console can be found [here](https://www.adobe.io/apis/experiencecloud/cloud-manager/docs.html#!AdobeDocs/cloudmanager-api-docs/master/create-api-integration.md).
+> More information on setting up a Cloud Manager integration in the Adobe I/O console can be found [here](https://www.adobe.io/experience-cloud/cloud-manager/guides/getting-started/create-api-integration/).
 
 > More information on IMS contexts can be found in the documentation of [@adobe/aio-lib-ims](https://github.com/adobe/aio-lib-ims).
 
