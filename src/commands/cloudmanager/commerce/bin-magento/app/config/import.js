@@ -25,6 +25,7 @@ class AppConfigImportCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'app:config:import',
+        options: ['-n']
       },
       1000, 'app:config:import')
 
@@ -32,7 +33,7 @@ class AppConfigImportCommand extends BaseCommerceCliCommand {
   }
 }
 
-AppConfigImportCommand.description = 'commerce config flush'
+AppConfigImportCommand.description = 'commerce config import'
 
 AppConfigImportCommand.flags = {
   ...commonFlags.global,
