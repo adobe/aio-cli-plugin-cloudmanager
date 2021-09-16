@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.13.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.12.0...2.13.0) (2021-09-16)
+
+
+### Features
+
+* **app:config:import:** add app:config:import commerce command fixes [#473](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/473) ([#475](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/475)) ([5de7681](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/5de76815f6a96f363fd5ea477a704fff8be5ff54))
+
 # [2.12.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.11.0...2.12.0) (2021-08-31)
 
 
