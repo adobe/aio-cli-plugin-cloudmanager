@@ -48,7 +48,7 @@
     "jest-junit": "12.2.0",
     "node-wget": "0.4.3",
     "pinst": "2.1.6",
-    "semantic-release": "17.4.7",
+    "semantic-release": "18.0.0",
     "stdout-stderr": "0.1.13",
     "tmp": "0.2.1"
   },
