@@ -108,4 +108,6 @@ GetQualityGateResults.aliases = [
   'cloudmanager:get-quality-gate-results',
 ]
 
+GetQualityGateResults.permissionInfo = {}
+
 module.exports = GetQualityGateResults

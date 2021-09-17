@@ -17,6 +17,7 @@ const { handleError } = require('../../cloudmanager-helpers')
 
 module.exports = function (hookOptions) {
   try {
+    require('./permission-info').apply(this, [hookOptions])
     require('./environment-id-from-config').apply(this, [hookOptions])
     require('./check-ims-context-config').apply(this, [hookOptions])
   } catch (err) {

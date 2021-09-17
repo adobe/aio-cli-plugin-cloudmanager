@@ -54,4 +54,8 @@ CreateIPAllowlist.flags = {
   }),
 }
 
+CreateIPAllowlist.permissionInfo = {
+  operation: 'createIPAllowlist',
+}
+
 module.exports = CreateIPAllowlist

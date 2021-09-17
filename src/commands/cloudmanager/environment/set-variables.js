@@ -96,4 +96,8 @@ SetEnvironmentVariablesCommand.aliases = [
   'cloudmanager:set-environment-variables',
 ]
 
+SetEnvironmentVariablesCommand.permissionInfo = {
+  operation: 'patchEnvironmentVariables',
+}
+
 module.exports = SetEnvironmentVariablesCommand

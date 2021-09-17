@@ -87,4 +87,6 @@ ListIPAllowlists.flags = {
   ...commonFlags.programId,
 }
 
+ListIPAllowlists.permissionInfo = {}
+
 module.exports = ListIPAllowlists

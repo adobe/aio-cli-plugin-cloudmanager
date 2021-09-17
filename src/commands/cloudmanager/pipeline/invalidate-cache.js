@@ -47,4 +47,8 @@ InvalidatePipelineCacheCommand.args = [
   { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
+InvalidatePipelineCacheCommand.permissionInfo = {
+  operation: 'invalidateCache',
+}
+
 module.exports = InvalidatePipelineCacheCommand

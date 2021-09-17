@@ -46,4 +46,8 @@ BindIPAllowlist.flags = {
   ...commonFlags.programId,
 }
 
+BindIPAllowlist.permissionInfo = {
+  operation: 'createIPAllowlistBinding',
+}
+
 module.exports = BindIPAllowlist

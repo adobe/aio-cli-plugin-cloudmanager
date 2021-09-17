@@ -53,4 +53,6 @@ TailExecutionStepLog.args = [
   },
 ]
 
+TailExecutionStepLog.permissionInfo = {}
+
 module.exports = TailExecutionStepLog

@@ -46,4 +46,6 @@ ListEnvironmentVariablesCommand.aliases = [
   'cloudmanager:list-environment-variables',
 ]
 
+ListEnvironmentVariablesCommand.permissionInfo = {}
+
 module.exports = ListEnvironmentVariablesCommand

@@ -54,4 +54,8 @@ DeleteEnvironmentCommand.aliases = [
   'cloudmanager:delete-environment',
 ]
 
+DeleteEnvironmentCommand.permissionInfo = {
+  operation: 'deleteEnvironment',
+}
+
 module.exports = DeleteEnvironmentCommand

@@ -55,4 +55,6 @@ ListPipelinesCommand.aliases = [
   'cloudmanager:list-pipelines',
 ]
 
+ListPipelinesCommand.permissionInfo = {}
+
 module.exports = ListPipelinesCommand

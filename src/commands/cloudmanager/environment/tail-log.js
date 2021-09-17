@@ -51,4 +51,6 @@ TailLog.flags = {
 
 TailLog.aliases = ['cloudmanager:tail-logs', 'cloudmanager:tail-log']
 
+TailLog.permissionInfo = {}
+
 module.exports = TailLog

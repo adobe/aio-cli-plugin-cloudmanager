@@ -52,4 +52,8 @@ UnbindIPAllowlist.flags = {
   ...commonFlags.programId,
 }
 
+UnbindIPAllowlist.permissionInfo = {
+  operation: 'deleteIPAllowlistBinding',
+}
+
 module.exports = UnbindIPAllowlist

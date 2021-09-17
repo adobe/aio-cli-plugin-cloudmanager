@@ -11,9 +11,18 @@ governing permissions and limitations under the License.
 */
 
 function isThisPlugin (hookOptions) {
-  return hookOptions.Command.plugin.name === '@adobe/aio-cli-plugin-cloudmanager'
+  if (hookOptions && hookOptions.Command) {
+    return hookOptions.Command.plugin.name === '@adobe/aio-cli-plugin-cloudmanager'
+  } else if (hookOptions && hookOptions.id) {
+    return hookOptions.id.startsWith('cloudmanager:')
+  }
+}
+
+function isPermissionsRequest (hookOptions) {
+  return hookOptions.argv && hookOptions.argv.length === 1 && hookOptions.argv[0] === '--permissions'
 }
 
 module.exports = {
   isThisPlugin,
+  isPermissionsRequest,
 }

@@ -67,4 +67,6 @@ ListAvailableLogOptionsCommand.aliases = [
   'cloudmanager:list-available-log-options',
 ]
 
+ListAvailableLogOptionsCommand.permissionInfo = {}
+
 module.exports = ListAvailableLogOptionsCommand

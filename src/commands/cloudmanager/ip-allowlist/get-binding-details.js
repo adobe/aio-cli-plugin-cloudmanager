@@ -89,4 +89,6 @@ ListIPAllowlistBindingDetails.flags = {
   ...commonFlags.programId,
 }
 
+ListIPAllowlistBindingDetails.permissionInfo = {}
+
 module.exports = ListIPAllowlistBindingDetails

@@ -53,4 +53,6 @@ ListProgramsCommand.flags = {
   enabledonly: flags.boolean({ char: 'e', description: 'only output Cloud Manager-enabled programs' }),
 }
 
+ListProgramsCommand.permissionInfo = {}
+
 module.exports = ListProgramsCommand
