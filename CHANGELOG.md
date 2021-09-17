@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.14.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.13.0...2.14.0) (2021-09-17)
+
+
+### Features
+
+* add permissions virtual flag. fixes [#175](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/175) ([#478](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/478)) ([a150865](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/a1508656a524a0cf3965224bf1aa267fcf729694))
+
 # [2.13.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.12.0...2.13.0) (2021-09-16)
 
 
