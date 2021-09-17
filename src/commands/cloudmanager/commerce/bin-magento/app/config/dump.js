@@ -15,33 +15,36 @@ const { getProgramId } = require('../../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../../common-flags')
 const commonArgs = require('../../../../../../common-args')
 
-class AppConfigImportCommand extends BaseCommerceCliCommand {
+class AppConfigDumpCommand extends BaseCommerceCliCommand {
+  static strict = false
+
   async run () {
-    const { args, flags } = this.parse(AppConfigImportCommand)
+    const { args, flags, argv } = this.parse(AppConfigDumpCommand)
 
     const programId = getProgramId(flags)
+    const configTypes = argv.slice(1)
 
     const result = await this.runSync(programId, args.environmentId,
       {
         type: 'bin/magento',
-        command: 'app:config:import',
-        options: ['-n'],
+        command: 'app:config:dump',
+        options: ['-n', ...configTypes],
       },
-      1000, 'app:config:import')
+      1000, 'app:config:dump')
 
     return result
   }
 }
 
-AppConfigImportCommand.description = 'commerce config import'
+AppConfigDumpCommand.description = 'commerce config dump'
 
-AppConfigImportCommand.flags = {
+AppConfigDumpCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
 }
 
-AppConfigImportCommand.args = [
+AppConfigDumpCommand.args = [
   commonArgs.environmentId,
 ]
 
-module.exports = AppConfigImportCommand
+module.exports = AppConfigDumpCommand

@@ -89,6 +89,7 @@ test('app:config:import - success', async () => {
   await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('3', '60', {
     type: 'bin/magento',
     command: 'app:config:import',
+    options: ['-n'],
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('3', '60', '6000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
