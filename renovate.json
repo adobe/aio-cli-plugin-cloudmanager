@@ -9,6 +9,10 @@
       "allowedVersions": "<6.0"
     },
     {
+      "packageNames": ["semantic-release"],
+      "allowedVersions": "<18.0"
+    },
+    {
       "matchDepTypes": ["devDependencies"],
       "automerge": true
     }
