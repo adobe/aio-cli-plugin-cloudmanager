@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.15.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.14.0...2.15.0) (2021-09-17)
+
+
+### Features
+
+* **auth:** enable dma_commerce_cloud in org:list and org:select. fixes [#481](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/481) ([#482](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/482)) ([cf0c077](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/cf0c077b0a35d7ea22928c6775a01185b24669d0))
+
 # [2.14.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.13.0...2.14.0) (2021-09-17)
 
 
