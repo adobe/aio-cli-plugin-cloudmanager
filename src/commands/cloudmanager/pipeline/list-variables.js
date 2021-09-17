@@ -45,4 +45,8 @@ ListPipelineVariablesCommand.aliases = [
   'cloudmanager:list-pipeline-variables',
 ]
 
+ListPipelineVariablesCommand.permissionInfo = {
+  operation: 'getPipelineVariables',
+}
+
 module.exports = ListPipelineVariablesCommand

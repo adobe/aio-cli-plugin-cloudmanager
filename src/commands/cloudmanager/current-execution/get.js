@@ -49,4 +49,6 @@ GetCurrentExecutionCommand.aliases = [
   'cloudmanager:get-current-execution',
 ]
 
+GetCurrentExecutionCommand.permissionInfo = {}
+
 module.exports = GetCurrentExecutionCommand

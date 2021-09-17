@@ -57,4 +57,8 @@ UpdateIPAllowlist.flags = {
   }),
 }
 
+UpdateIPAllowlist.permissionInfo = {
+  operation: 'updateIPAllowlist',
+}
+
 module.exports = UpdateIPAllowlist

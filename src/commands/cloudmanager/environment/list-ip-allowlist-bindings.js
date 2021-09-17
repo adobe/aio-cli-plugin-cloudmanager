@@ -69,4 +69,6 @@ ListIPAllowlistBindings.aliases = [
   'cloudmanager:environment:list-bound-ip-allowlists',
 ]
 
+ListIPAllowlistBindings.permissionInfo = {}
+
 module.exports = ListIPAllowlistBindings

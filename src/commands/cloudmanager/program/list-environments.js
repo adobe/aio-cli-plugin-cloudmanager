@@ -59,4 +59,6 @@ ListEnvironmentsCommand.aliases = [
   'cloudmanager:list-environments',
 ]
 
+ListEnvironmentsCommand.permissionInfo = {}
+
 module.exports = ListEnvironmentsCommand

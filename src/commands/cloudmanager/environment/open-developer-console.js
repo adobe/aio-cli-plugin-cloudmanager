@@ -52,4 +52,6 @@ OpenDeveloperConsoleCommand.aliases = [
   'cloudmanager:open-developer-console',
 ]
 
+OpenDeveloperConsoleCommand.permissionInfo = {}
+
 module.exports = OpenDeveloperConsoleCommand

@@ -1272,6 +1272,16 @@ ALIASES
 _See code: [src/commands/cloudmanager/program/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.13.0/src/commands/cloudmanager/program/list-pipelines.js)_
 <!-- commandsstop -->
 
+# Permissions
+
+Information about Cloud Manager API permissions can be found on https://www.adobe.io/experience-cloud/cloud-manager/guides/getting-started/permissions/. To see the
+permissions required for a specific command, you can also run any command with the flag `--permissions`, e.g.
+
+```
+$ aio cloudmanager:current-execution:advance --permissions
+To execute cloudmanager:current-execution:advance, one of the following product profiles is required: Business Owner, Deployment Manager, Program Manager
+```
+
 # Variables From Standard Input
 
 The `environment:set-variables` and `pipeline:set-variables` commands allow for variables to be passed both as flags to the command and as a JSON array provided as standard input or as a file. The objects in this array are expected to have a `name`, `value`, and `type` keys following the same syntax as the Cloud Manager API. Deleting a variable can be done by passing an empty `value`. For example, given a file named `variables.json` that contains this:

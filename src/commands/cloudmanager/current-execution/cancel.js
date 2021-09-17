@@ -51,4 +51,8 @@ CancelCurrentExecutionCommand.aliases = [
   'cloudmanager:cancel-current-execution',
 ]
 
+CancelCurrentExecutionCommand.permissionInfo = {
+  operation: 'cancelPipelineExecutionStep',
+}
+
 module.exports = CancelCurrentExecutionCommand

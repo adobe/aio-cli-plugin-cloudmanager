@@ -51,4 +51,8 @@ DeletePipelineCommand.aliases = [
   'cloudmanager:delete-pipeline',
 ]
 
+DeletePipelineCommand.permissionInfo = {
+  operation: 'deletePipeline',
+}
+
 module.exports = DeletePipelineCommand

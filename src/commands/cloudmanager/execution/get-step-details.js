@@ -90,4 +90,6 @@ GetExecutionStepDetails.aliases = [
   'cloudmanager:get-execution-step-details',
 ]
 
+GetExecutionStepDetails.permissionInfo = {}
+
 module.exports = GetExecutionStepDetails

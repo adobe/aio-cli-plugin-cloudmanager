@@ -49,4 +49,8 @@ DeleteIPAllowlist.flags = {
   ...commonFlags.programId,
 }
 
+DeleteIPAllowlist.permissionInfo = {
+  operation: 'deleteIPAllowlist',
+}
+
 module.exports = DeleteIPAllowlist

@@ -49,4 +49,8 @@ StartExecutionCommand.args = [
 
 StartExecutionCommand.aliases = ['cloudmanager:create-execution', 'cloudmanager:start-execution']
 
+StartExecutionCommand.permissionInfo = {
+  operation: 'startPipeline',
+}
+
 module.exports = StartExecutionCommand

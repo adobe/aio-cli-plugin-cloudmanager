@@ -44,4 +44,8 @@ SetPipelineVariablesCommand.aliases = [
   'cloudmanager:set-pipeline-variables',
 ]
 
+SetPipelineVariablesCommand.permissionInfo = {
+  operation: 'patchPipelineVariables',
+}
+
 module.exports = SetPipelineVariablesCommand

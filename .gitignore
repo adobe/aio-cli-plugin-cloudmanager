@@ -14,3 +14,4 @@ junit.xml
 .vscode/
 /package-lock.json
 .aio
+permissions.json

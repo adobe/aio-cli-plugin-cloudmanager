@@ -68,4 +68,8 @@ UpdatePipelineCommand.aliases = [
   'cloudmanager:update-pipeline',
 ]
 
+UpdatePipelineCommand.permissionInfo = {
+  operation: 'patchPipeline',
+}
+
 module.exports = UpdatePipelineCommand

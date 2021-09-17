@@ -24,6 +24,13 @@ In order to ensure proper error handling, individual commands should generally *
 
 Hooks should work in a similar fashion -- see the prerun `check-ims-context-config` hook as a point of reference.
 
+## Custom Command Class Properties
+
+In addition to the standard [oclif command properties](https://oclif.io/docs/commands), commands in this plugin may define these extra properties:
+
+* `skipOrgIdCheck` -- This should be set to `true` if the command does *not* require an IMS Organization ID to be configured in the current IMS context. This is primarily used when using browser-based authentication as service account authentication will always have an organization ID.
+* `permissionInfo` -- This is used to output information to the CLI user about the permissions required to execute a particular command. This must be an object. Currently a single key is supported `operation` which must correspond to one of the operations defined in https://raw.githubusercontent.com/AdobeDocs/cloudmanager-api-docs/main/src/data/permissions.json. If a command doesn't require specific permissions (e.g. is a read-only operation), this should be set to an empty object.
+
 ## Commits and Releasing
 
 Commits (generally via merged pull requests) to the `main` branch of this repository will automatically generate [semantically versioned releases](https://github.com/semantic-release). To accomplish this, commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) syntax, specifically:

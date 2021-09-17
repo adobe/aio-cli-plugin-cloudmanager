@@ -48,4 +48,6 @@ ListCurrentExecutionsCommand.aliases = [
   'cloudmanager:list-current-executions',
 ]
 
+ListCurrentExecutionsCommand.permissionInfo = {}
+
 module.exports = ListCurrentExecutionsCommand

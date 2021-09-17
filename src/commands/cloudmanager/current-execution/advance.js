@@ -51,4 +51,8 @@ AdvanceCurrentExecutionCommand.aliases = [
   'cloudmanager:advance-current-execution',
 ]
 
+AdvanceCurrentExecutionCommand.permissionInfo = {
+  operation: 'advancePipelineExecution',
+}
+
 module.exports = AdvanceCurrentExecutionCommand

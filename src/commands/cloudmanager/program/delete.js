@@ -48,4 +48,8 @@ DeleteProgramCommand.aliases = [
   'cloudmanager:delete-program',
 ]
 
+DeleteProgramCommand.permissionInfo = {
+  operation: 'deleteProgram',
+}
+
 module.exports = DeleteProgramCommand

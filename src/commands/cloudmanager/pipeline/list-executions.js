@@ -49,4 +49,6 @@ ListExecutionsCommand.args = [
   { name: 'pipelineId', required: true, description: 'the pipeline id' },
 ]
 
+ListExecutionsCommand.permissionInfo = {}
+
 module.exports = ListExecutionsCommand

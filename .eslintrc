@@ -27,6 +27,18 @@
         "rules" : {
           "aio-cli-plugin-cloudmanager-error-usage": "off"
         }
+      },
+      {
+        "files" : ["src/commands/**/*.js"],
+        "rules" : {
+          "aio-cli-plugin-cloudmanager-command-permissions": "error"
+        }
+      },
+      {
+        "files" : ["src/commands/cloudmanager/commerce/**/*.js"],
+        "rules" : {
+          "aio-cli-plugin-cloudmanager-command-permissions": "off"
+        }
       }
     ]
 }

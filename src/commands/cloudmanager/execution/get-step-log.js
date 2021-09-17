@@ -75,4 +75,6 @@ GetExecutionStepLogs.aliases = [
   'cloudmanager:get-execution-step-log',
 ]
 
+GetExecutionStepLogs.permissionInfo = {}
+
 module.exports = GetExecutionStepLogs
