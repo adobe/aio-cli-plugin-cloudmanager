@@ -1,6 +1,5 @@
 {
     "extends": ["@adobe/eslint-config-aio-lib-config"],
-    "parser": "babel-eslint",
     "rules" : {
         "jsdoc/require-jsdoc": 0,
         "jsdoc/require-param": 0,

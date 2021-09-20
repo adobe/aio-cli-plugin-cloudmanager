@@ -16,8 +16,6 @@ const commonFlags = require('../../../../../../common-flags')
 const commonArgs = require('../../../../../../common-args')
 
 class AppConfigDumpCommand extends BaseCommerceCliCommand {
-  static strict = false
-
   async run () {
     const { args, flags, argv } = this.parse(AppConfigDumpCommand)
 
@@ -35,6 +33,8 @@ class AppConfigDumpCommand extends BaseCommerceCliCommand {
     return result
   }
 }
+
+AppConfigDumpCommand.strict = false
 
 AppConfigDumpCommand.description = 'commerce config dump'
 
