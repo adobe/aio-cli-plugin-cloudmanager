@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.16.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.15.0...2.16.0) (2021-09-20)
+
+
+### Features
+
+* **commerce:** add app:config:dump command fixes [#474](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/474) ([#477](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/477)) ([61bce1f](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/61bce1fb3e8c44c3c1aa2bb3e1d9de61b706a248))
+
 # [2.15.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.14.0...2.15.0) (2021-09-17)
 
 
