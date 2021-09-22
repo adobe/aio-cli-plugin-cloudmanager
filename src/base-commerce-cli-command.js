@@ -19,29 +19,32 @@ class BaseCommerceCliCommand extends BaseCommand {
     this.warn('Commerce cli commands are in active development and may not be functional.')
 
     const sdk = await initSdk(imsContextName)
-    const commandMessage = `Starting ${command}`
-    cli.action.start(commandMessage)
     const { id: commandId } = await sdk.postCommerceCommandExecution(programId, environmentId, body)
     let result = await this.callGet(sdk, programId, environmentId, commandId, command)
+    let hasLoggedStatusRunning = false
+
+    this.log(`To stream logs : aio cloudmanager:commerce:tail-command-execution-log ${environmentId} ${commandId}`)
+    this.log('STATUS: ', result.status)
 
     while (result.status === 'RUNNING' || result.status === 'PENDING') {
       await cli.wait(pollingInterval)
+      if (result.status === 'RUNNING') {
+        if (!hasLoggedStatusRunning) {
+          this.log('STATUS: ', result.status)
+          hasLoggedStatusRunning = true
+        }
+        await sdk.tailCommerceCommandExecutionLog(programId, environmentId, commandId, process.stdout)
+      }
       result = await this.callGet(sdk, programId, environmentId, commandId, command)
     }
-    cli.action.start(`${this.formatStatus(result.status)} ${command}`)
-    cli.action.stop(result.message)
+    this.log('STATUS: ', result.status)
     return result
   }
 
   async callGet (sdk, programId, environmentId, commandId, command) {
     const getResponse = await sdk.getCommerceCommandExecution(programId, environmentId, commandId)
     const result = await getResponse
-    cli.action.start(`${this.formatStatus(result.status)} ${command}`)
     return result
-  }
-
-  formatStatus (status) {
-    return status === 'PENDING' ? 'Starting' : status[0].toUpperCase() + status.slice(1).toLowerCase()
   }
 }
 
