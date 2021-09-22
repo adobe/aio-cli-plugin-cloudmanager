@@ -14,23 +14,28 @@ const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command
 const { getProgramId } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
 const commonArgs = require('../../../../../common-args')
+const commonCommerceArgs = require('../../../../../common-commerce-args')
 
 class CacheCleanCommand extends BaseCommerceCliCommand {
   async run () {
     const { args, flags } = this.parse(CacheCleanCommand)
 
     const programId = getProgramId(flags)
+    const cacheTypes = args.slice(1)
 
     const result = await this.runSync(programId, args.environmentId,
       {
         type: 'bin/magento',
         command: 'cache:clean',
+        options: ['-n', ...cacheTypes],
       },
       1000, 'cache:clean')
 
     return result
   }
 }
+
+CacheCleanCommand.strict = false
 
 CacheCleanCommand.description = 'commerce cache clean'
 
@@ -41,6 +46,7 @@ CacheCleanCommand.flags = {
 
 CacheCleanCommand.args = [
   commonArgs.environmentId,
+  commonCommerceArgs.cacheType,
 ]
 
 CacheCleanCommand.aliases = [
