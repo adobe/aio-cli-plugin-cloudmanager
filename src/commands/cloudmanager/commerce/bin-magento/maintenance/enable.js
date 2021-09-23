@@ -14,6 +14,7 @@ const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command
 const { getProgramId } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
 const commonArgs = require('../../../../../common-args')
+const commerceFlags = require('../../../../../commerce-flags')
 
 class MaintenanceEnableCommand extends BaseCommerceCliCommand {
   async run () {
@@ -37,6 +38,7 @@ MaintenanceEnableCommand.description = 'commerce maintenance enable'
 MaintenanceEnableCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commerceFlags.maintenance,
 }
 
 MaintenanceEnableCommand.args = [

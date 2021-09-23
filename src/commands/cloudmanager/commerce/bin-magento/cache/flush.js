@@ -14,6 +14,7 @@ const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command
 const { getProgramId } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
 const commonArgs = require('../../../../../common-args')
+const commerceFlags = require('../../../../../commerce-flags')
 
 class CacheFlushCommand extends BaseCommerceCliCommand {
   async run () {
@@ -37,6 +38,7 @@ CacheFlushCommand.description = 'commerce cache flush'
 CacheFlushCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commerceFlags.cache,
 }
 
 CacheFlushCommand.args = [

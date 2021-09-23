@@ -87,6 +87,33 @@ function getOutputFormat (flags) {
   }
 }
 
+function getIP (flags) {
+  const ip = flags.ip || []
+  if (!ip) {
+    throw new validationCodes.MISSING_IP()
+  }
+
+  return ip
+}
+
+function getMagentoInitParams (flags) {
+  const magentoInitParams = flags.magentoInitParams
+  if (!magentoInitParams) {
+    throw new validationCodes.MISSING_MAGENTO_INIT_PARAMS()
+  }
+
+  return magentoInitParams
+}
+
+function getBootstrap (flags) {
+  const bootstrap = flags.bootstrap
+  if (!bootstrap) {
+    throw new validationCodes.MISSING_BOOTSTRAP()
+  }
+
+  return bootstrap
+}
+
 /*
  * This doesn't work quite correctly -- when output in both JSON and YAML, the result is a JSON-encoded array in a string whereas one
  * would expect a JSON or YAML. This seems like a bug in oclif that will hopefully get addressed.
@@ -299,6 +326,9 @@ function handleError (_error, errorFn) {
 module.exports = {
   getProgramId,
   getOutputFormat,
+  getIP,
+  getMagentoInitParams,
+  getBootstrap,
   createKeyValueObjectFromFlag,
   sanitizeEnvironmentId,
   getDefaultEnvironmentId,

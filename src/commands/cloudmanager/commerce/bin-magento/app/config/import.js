@@ -14,6 +14,7 @@ const BaseCommerceCliCommand = require('../../../../../../base-commerce-cli-comm
 const { getProgramId } = require('../../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../../common-flags')
 const commonArgs = require('../../../../../../common-args')
+const commerceFlags = require('../../../../../../commerce-flags')
 
 class AppConfigImportCommand extends BaseCommerceCliCommand {
   async run () {
@@ -38,6 +39,7 @@ AppConfigImportCommand.description = 'commerce config import'
 AppConfigImportCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commerceFlags,
 }
 
 AppConfigImportCommand.args = [
