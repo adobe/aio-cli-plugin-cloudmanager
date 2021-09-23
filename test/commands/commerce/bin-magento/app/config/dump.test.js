@@ -14,14 +14,25 @@ const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const AppConfigDumpCommand = require('../../../../../../src/commands/cloudmanager/commerce/bin-magento/app/config/dump')
 
+let warn
+let log
+
 beforeEach(() => {
   resetCurrentOrgId()
+  warn = jest.fn()
+  log = jest.fn()
 })
 
+const run = (argv) => {
+  const cmd = new AppConfigDumpCommand(argv)
+  cmd.warn = warn
+  cmd.log = log
+  return cmd.run()
+}
 test('app:config:dump - missing environmentId', async () => {
   expect.assertions(2)
 
-  const runResult = AppConfigDumpCommand.run([])
+  const runResult = run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
@@ -29,7 +40,7 @@ test('app:config:dump - missing environmentId', async () => {
 test('app:config:dump - missing IMS Context', async () => {
   expect.assertions(2)
 
-  const runResult = AppConfigDumpCommand.run(['--programId', '3', '60'])
+  const runResult = run(['--programId', '3', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
@@ -40,7 +51,7 @@ test('app:config:dump - api error', async () => {
     Promise.reject(new Error('Command failed.')),
   )
   mockSdk.getCommerceCommandExecution = jest.fn()
-  const runResult = AppConfigDumpCommand.run(['--programId', '3', '60'])
+  const runResult = run(['--programId', '3', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('Command failed.'))
 })
@@ -74,7 +85,7 @@ test('app:config:dump - success with config types', async () => {
 
   expect.assertions(7)
 
-  const runResult = AppConfigDumpCommand.run(['--programId', '3', '60', 'i18n', 'scopes', '-q'])
+  const runResult = run(['--programId', '3', '60', 'i18n', 'scopes', '-q'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -123,7 +134,7 @@ test('app:config:dump - success without config types', async () => {
 
   expect.assertions(7)
 
-  const runResult = AppConfigDumpCommand.run(['--programId', '3', '60'])
+  const runResult = run(['--programId', '3', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)

@@ -14,14 +14,26 @@ const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const CacheFlushCommand = require('../../../../../src/commands/cloudmanager/commerce/bin-magento/cache/flush')
 
+let warn
+let log
+
 beforeEach(() => {
   resetCurrentOrgId()
+  warn = jest.fn()
+  log = jest.fn()
 })
+
+const run = (argv) => {
+  const cmd = new CacheFlushCommand(argv)
+  cmd.warn = warn
+  cmd.log = log
+  return cmd.run()
+}
 
 test('cache:flush - missing arg', async () => {
   expect.assertions(2)
 
-  const runResult = CacheFlushCommand.run([])
+  const runResult = run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
@@ -29,7 +41,7 @@ test('cache:flush - missing arg', async () => {
 test('maintenance:status - missing config', async () => {
   expect.assertions(2)
 
-  const runResult = CacheFlushCommand.run(['--programId', '5', '10'])
+  const runResult = run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
@@ -63,7 +75,7 @@ test('maintenance:status', async () => {
 
   expect.assertions(7)
 
-  const runResult = CacheFlushCommand.run(['--programId', '5', '10', '--no-ansi'])
+  const runResult = run(['--programId', '5', '10', '--no-ansi'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -89,7 +101,7 @@ test('cache:flush - api error', async () => {
     Promise.reject(new Error('Command failed.')),
   )
   mockSdk.getCommerceCommandExecution = jest.fn()
-  const runResult = CacheFlushCommand.run(['--programId', '5', '10'])
+  const runResult = run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('Command failed.'))
 })

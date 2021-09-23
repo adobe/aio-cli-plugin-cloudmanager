@@ -14,14 +14,26 @@ const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const AppConfigImportCommand = require('../../../../../../src/commands/cloudmanager/commerce/bin-magento/app/config/import')
 
+let warn
+let log
+
 beforeEach(() => {
   resetCurrentOrgId()
+  warn = jest.fn()
+  log = jest.fn()
 })
+
+const run = (argv) => {
+  const cmd = new AppConfigImportCommand(argv)
+  cmd.warn = warn
+  cmd.log = log
+  return cmd.run()
+}
 
 test('app:config:import - missing environmentId', async () => {
   expect.assertions(2)
 
-  const runResult = AppConfigImportCommand.run([])
+  const runResult = run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
@@ -29,7 +41,7 @@ test('app:config:import - missing environmentId', async () => {
 test('app:config:import - missing IMS Context', async () => {
   expect.assertions(2)
 
-  const runResult = AppConfigImportCommand.run(['--programId', '3', '60'])
+  const runResult = run(['--programId', '3', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
@@ -40,7 +52,7 @@ test('app:config:import - api error', async () => {
     Promise.reject(new Error('Command failed.')),
   )
   mockSdk.getCommerceCommandExecution = jest.fn()
-  const runResult = AppConfigImportCommand.run(['--programId', '3', '60'])
+  const runResult = run(['--programId', '3', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('Command failed.'))
 })
@@ -74,7 +86,7 @@ test('app:config:import - success', async () => {
 
   expect.assertions(7)
 
-  const runResult = AppConfigImportCommand.run(['--programId', '3', '60', '-v'])
+  const runResult = run(['--programId', '3', '60', '-v'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)

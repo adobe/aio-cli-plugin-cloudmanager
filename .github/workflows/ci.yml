@@ -24,6 +24,7 @@ jobs:
     - run: npm version
     - run: npm install
     - run: npm test
+    - run: npm run semantic-release-dry-run
     - name: Codecov
       uses: codecov/codecov-action@v2.1.0
       with:
