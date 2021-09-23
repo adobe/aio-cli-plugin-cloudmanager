@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.17.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.16.0...2.17.0) (2021-09-23)
+
+
+### Features
+
+* **commerce-base-command:** commerce commands now auto-tail execution log. fixes [#487](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/487) ([46729ae](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/46729aef88b9d8578afe05121274f5300d6a37c1))
+
 # [2.16.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.15.0...2.16.0) (2021-09-20)
 
 
