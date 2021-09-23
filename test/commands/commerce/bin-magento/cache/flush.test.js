@@ -15,18 +15,18 @@ const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const CacheFlushCommand = require('../../../../../src/commands/cloudmanager/commerce/bin-magento/cache/flush')
 
 let warn
-let info
+let log
 
 beforeEach(() => {
   resetCurrentOrgId()
   warn = jest.fn()
-  info = jest.fn()
+  log = jest.fn()
 })
 
 const run = (argv) => {
   const cmd = new CacheFlushCommand(argv)
   cmd.warn = warn
-  cmd.info = info
+  cmd.log = log
   return cmd.run()
 }
 
