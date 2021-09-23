@@ -77,6 +77,7 @@ test('maintenance:status', async () => {
   await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('5', '10', {
     type: 'bin/magento',
     command: 'indexer:reindex',
+    options: ['-n'],
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)

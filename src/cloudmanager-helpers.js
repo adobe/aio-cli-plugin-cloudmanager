@@ -296,6 +296,16 @@ function handleError (_error, errorFn) {
   })
 }
 
+function getFormattedFlags (flags) {
+  return Object.keys(flags).filter(flag => flag !== 'programId').map(flag => {
+    if (flags[flag]) {
+      return `--${flag}`
+    } else {
+      return `--no-${flag}`
+    }
+  })
+}
+
 module.exports = {
   getProgramId,
   getOutputFormat,
@@ -318,4 +328,5 @@ module.exports = {
   getActiveOrganizationId,
   getFullOrgIdentity,
   handleError,
+  getFormattedFlags,
 }

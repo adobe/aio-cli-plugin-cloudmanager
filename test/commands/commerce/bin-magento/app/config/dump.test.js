@@ -74,7 +74,7 @@ test('app:config:dump - success with config types', async () => {
 
   expect.assertions(7)
 
-  const runResult = AppConfigDumpCommand.run(['--programId', '3', '60', 'i18n', 'scopes'])
+  const runResult = AppConfigDumpCommand.run(['--programId', '3', '60', 'i18n', 'scopes', '-q'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -88,7 +88,7 @@ test('app:config:dump - success with config types', async () => {
   await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('3', '60', {
     type: 'bin/magento',
     command: 'app:config:dump',
-    options: ['-n', 'i18n', 'scopes'],
+    options: ['-n', 'i18n', 'scopes', '--quiet'],
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('3', '60', '6000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)

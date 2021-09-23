@@ -9,8 +9,25 @@ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTA
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
+const { flags } = require('@oclif/command')
 
 module.exports = {
-  cacheType: { name: 'cacheType', required: false, description: 'the cache type' },
-  indexType: { name: 'indexType', required: false, description: 'the index type' },
+  global: {
+    imsContextName: flags.string({ description: 'the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager' }),
+  },
+  programId: {
+    programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value" }),
+  },
+  quiet: {
+    quiet: flags.boolean({ char: 'q' }),
+  },
+  verbose: {
+    verbose: flags.boolean({ char: 'v' }),
+  },
+  version: {
+    version: flags.boolean({ char: 'V' }),
+  },
+  ansi: {
+    ansi: flags.boolean({ allowNo: true }),
+  },
 }

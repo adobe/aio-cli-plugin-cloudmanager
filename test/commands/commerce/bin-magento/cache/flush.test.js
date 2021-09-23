@@ -63,7 +63,7 @@ test('maintenance:status', async () => {
 
   expect.assertions(7)
 
-  const runResult = CacheFlushCommand.run(['--programId', '5', '10'])
+  const runResult = CacheFlushCommand.run(['--programId', '5', '10', '--no-ansi'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -77,6 +77,7 @@ test('maintenance:status', async () => {
   await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('5', '10', {
     type: 'bin/magento',
     command: 'cache:flush',
+    options: ['-n', '--no-ansi'],
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)

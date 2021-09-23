@@ -11,9 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const BaseCommerceCliCommand = require('../../../../../../base-commerce-cli-command')
-const { getProgramId } = require('../../../../../../cloudmanager-helpers')
+const { getProgramId, getFormattedFlags } = require('../../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../../common-flags')
 const commonArgs = require('../../../../../../common-args')
+const commonCommerceFlags = require('../../../../../../common-commerce-flags')
 
 class AppConfigDumpCommand extends BaseCommerceCliCommand {
   async run () {
@@ -26,7 +27,7 @@ class AppConfigDumpCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'app:config:dump',
-        options: ['-n', ...configTypes],
+        options: ['-n', ...configTypes, ...getFormattedFlags(flags)],
       },
       1000, 'app:config:dump')
 
@@ -41,6 +42,10 @@ AppConfigDumpCommand.description = 'commerce config dump'
 AppConfigDumpCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.quiet,
+  ...commonCommerceFlags.verbose,
+  ...commonCommerceFlags.version,
+  ...commonCommerceFlags.ansi,
 }
 
 AppConfigDumpCommand.args = [

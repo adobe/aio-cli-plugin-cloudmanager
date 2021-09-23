@@ -74,7 +74,7 @@ test('app:config:import - success', async () => {
 
   expect.assertions(7)
 
-  const runResult = AppConfigImportCommand.run(['--programId', '3', '60'])
+  const runResult = AppConfigImportCommand.run(['--programId', '3', '60', '-v'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -88,7 +88,7 @@ test('app:config:import - success', async () => {
   await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('3', '60', {
     type: 'bin/magento',
     command: 'app:config:import',
-    options: ['-n'],
+    options: ['-n', '--verbose'],
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('3', '60', '6000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)

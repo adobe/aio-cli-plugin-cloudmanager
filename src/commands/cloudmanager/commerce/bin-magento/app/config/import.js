@@ -11,9 +11,10 @@ governing permissions and limitations under the License.
 */
 
 const BaseCommerceCliCommand = require('../../../../../../base-commerce-cli-command')
-const { getProgramId } = require('../../../../../../cloudmanager-helpers')
+const { getProgramId, getFormattedFlags } = require('../../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../../common-flags')
 const commonArgs = require('../../../../../../common-args')
+const commonCommerceFlags = require('../../../../../../common-commerce-flags')
 
 class AppConfigImportCommand extends BaseCommerceCliCommand {
   async run () {
@@ -25,7 +26,7 @@ class AppConfigImportCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'app:config:import',
-        options: ['-n'],
+        options: ['-n', ...getFormattedFlags(flags)],
       },
       1000, 'app:config:import')
 
@@ -38,6 +39,10 @@ AppConfigImportCommand.description = 'commerce config import'
 AppConfigImportCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.quiet,
+  ...commonCommerceFlags.verbose,
+  ...commonCommerceFlags.version,
+  ...commonCommerceFlags.ansi,
 }
 
 AppConfigImportCommand.args = [

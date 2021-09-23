@@ -11,23 +11,24 @@ governing permissions and limitations under the License.
 */
 
 const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command')
-const { getProgramId } = require('../../../../../cloudmanager-helpers')
+const { getProgramId, getFormattedFlags } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
 const commonArgs = require('../../../../../common-args')
+const commonCommerceFlags = require('../../../../../common-commerce-flags')
 const commonCommerceArgs = require('../../../../../common-commerce-args')
 
 class CacheFlushCommand extends BaseCommerceCliCommand {
   async run () {
-    const { args, flags } = this.parse(CacheFlushCommand)
+    const { args, flags, argv } = this.parse(CacheFlushCommand)
 
     const programId = getProgramId(flags)
-    const cacheTypes = args.slice(1)
+    const cacheTypes = argv.slice(1)
 
     const result = await this.runSync(programId, args.environmentId,
       {
         type: 'bin/magento',
         command: 'cache:flush',
-        options: ['-n', ...cacheTypes]
+        options: ['-n', ...cacheTypes, ...getFormattedFlags(flags)],
       },
       1000, 'cache:flush')
 
@@ -42,6 +43,10 @@ CacheFlushCommand.description = 'commerce cache flush'
 CacheFlushCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.quiet,
+  ...commonCommerceFlags.verbose,
+  ...commonCommerceFlags.version,
+  ...commonCommerceFlags.ansi,
 }
 
 CacheFlushCommand.args = [
