@@ -84,7 +84,7 @@ test('app:config:import - success', async () => {
     })
   })
 
-  expect.assertions(7)
+  expect.assertions(11)
 
   const runResult = run(['--programId', '3', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -104,4 +104,8 @@ test('app:config:import - success', async () => {
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('3', '60', '6000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
+  await expect(log.mock.calls[0]).toEqual(['To stream logs : aio cloudmanager:commerce:tail-command-execution-log 60 6000'])
+  await expect(log.mock.calls[1]).toEqual(['STATUS: ', 'PENDING'])
+  await expect(log.mock.calls[2]).toEqual(['STATUS: ', 'RUNNING'])
+  await expect(log.mock.calls[3]).toEqual(['STATUS: ', 'COMPLETE'])
 })

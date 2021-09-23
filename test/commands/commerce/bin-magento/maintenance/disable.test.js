@@ -73,7 +73,7 @@ test('maintenance:disable', async () => {
     })
   })
 
-  expect.assertions(7)
+  expect.assertions(11)
 
   const runResult = run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -92,6 +92,10 @@ test('maintenance:disable', async () => {
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
+  await expect(log.mock.calls[0]).toEqual(['To stream logs : aio cloudmanager:commerce:tail-command-execution-log 10 5000'])
+  await expect(log.mock.calls[1]).toEqual(['STATUS: ', 'PENDING'])
+  await expect(log.mock.calls[2]).toEqual(['STATUS: ', 'RUNNING'])
+  await expect(log.mock.calls[3]).toEqual(['STATUS: ', 'COMPLETE'])
 })
 
 test('maintenance:disable - api error', async () => {
