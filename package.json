@@ -141,6 +141,7 @@
     "version": "oclif-dev readme && git add README.md",
     "e2e": "jest --collectCoverage=false --testRegex './e2e/e2e.js'",
     "semantic-release": "semantic-release",
+    "semantic-release-dry-run": "semantic-release --dry-run",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
     "postpublish": "pinst --enable"
