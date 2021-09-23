@@ -10,24 +10,23 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const AppConfigDumpCommand = require('../../../../../../src/commands/cloudmanager/commerce/bin-magento/app/config/dump')
 
 let warn
-let info
+let log
 
 beforeEach(() => {
   resetCurrentOrgId()
   warn = jest.fn()
-  info = jest.fn()
+  log = jest.fn()
 })
 
 const run = (argv) => {
   const cmd = new AppConfigDumpCommand(argv)
   cmd.warn = warn
-  cmd.info = info
+  cmd.log = log
   return cmd.run()
 }
 test('app:config:dump - missing environmentId', async () => {
@@ -84,7 +83,7 @@ test('app:config:dump - success with config types', async () => {
     })
   })
 
-  expect.assertions(11)
+  expect.assertions(7)
 
   const runResult = run(['--programId', '3', '60', 'i18n', 'scopes'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -104,10 +103,6 @@ test('app:config:dump - success with config types', async () => {
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('3', '60', '6000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
-  await expect(cli.action.start.mock.calls[0][0]).toEqual('Starting app:config:dump')
-  await expect(cli.action.start.mock.calls[1][0]).toEqual('Starting app:config:dump')
-  await expect(cli.action.start.mock.calls[2][0]).toEqual('Running app:config:dump')
-  await expect(cli.action.stop.mock.calls[0][0]).toEqual('done')
 })
 
 test('app:config:dump - success without config types', async () => {
@@ -137,7 +132,7 @@ test('app:config:dump - success without config types', async () => {
     })
   })
 
-  expect.assertions(11)
+  expect.assertions(7)
 
   const runResult = run(['--programId', '3', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -157,8 +152,4 @@ test('app:config:dump - success without config types', async () => {
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('3', '60', '6000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
-  await expect(cli.action.start.mock.calls[0][0]).toEqual('Starting app:config:dump')
-  await expect(cli.action.start.mock.calls[1][0]).toEqual('Starting app:config:dump')
-  await expect(cli.action.start.mock.calls[2][0]).toEqual('Running app:config:dump')
-  await expect(cli.action.stop.mock.calls[0][0]).toEqual('done')
 })

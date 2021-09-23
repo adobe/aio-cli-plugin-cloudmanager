@@ -10,24 +10,23 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { cli } = require('cli-ux')
 const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const MaintenanceEnableCommand = require('../../../../../src/commands/cloudmanager/commerce/bin-magento/maintenance/enable')
 
 let warn
-let info
+let log
 
 beforeEach(() => {
   resetCurrentOrgId()
   warn = jest.fn()
-  info = jest.fn()
+  log = jest.fn()
 })
 
 const run = (argv) => {
   const cmd = new MaintenanceEnableCommand(argv)
   cmd.warn = warn
-  cmd.info = info
+  cmd.log = log
   return cmd.run()
 }
 
@@ -74,7 +73,7 @@ test('maintenance:enable', async () => {
     })
   })
 
-  expect.assertions(11)
+  expect.assertions(7)
 
   const runResult = run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
@@ -93,10 +92,6 @@ test('maintenance:enable', async () => {
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
-  await expect(cli.action.start.mock.calls[0][0]).toEqual('Starting maintenance:enable')
-  await expect(cli.action.start.mock.calls[1][0]).toEqual('Starting maintenance:enable')
-  await expect(cli.action.start.mock.calls[2][0]).toEqual('Running maintenance:enable')
-  await expect(cli.action.stop.mock.calls[0][0]).toEqual('maintenance enabled')
 })
 
 test('maintenance:enable - api error', async () => {
