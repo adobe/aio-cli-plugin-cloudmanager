@@ -15,14 +15,26 @@ const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const SetPipelineVariablesCommand = require('../../../src/commands/cloudmanager/pipeline/set-variables')
 
+let warn
+let info
+
 beforeEach(() => {
   resetCurrentOrgId()
+  warn = jest.fn()
+  info = jest.fn()
 })
+
+const run = (argv) => {
+  const cmd = new SetPipelineVariablesCommand(argv)
+  cmd.warn = warn
+  cmd.info = info
+  return cmd.run()
+}
 
 test('set-pipeline-variables - missing arg', async () => {
   expect.assertions(2)
 
-  const runResult = SetPipelineVariablesCommand.run([])
+  const runResult = run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
@@ -30,7 +42,7 @@ test('set-pipeline-variables - missing arg', async () => {
 test('set-pipeline-variables - missing programId', async () => {
   expect.assertions(2)
 
-  const runResult = SetPipelineVariablesCommand.run(['1'])
+  const runResult = run(['1'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:MISSING_PROGRAM_ID] Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
 })
@@ -38,7 +50,7 @@ test('set-pipeline-variables - missing programId', async () => {
 test('set-pipeline-variables - missing config', async () => {
   expect.assertions(2)
 
-  const runResult = SetPipelineVariablesCommand.run(['1', '--programId', '5'])
+  const runResult = run(['1', '--programId', '5'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
@@ -51,7 +63,7 @@ test('set-pipeline-variables - bad variable flag', async () => {
 
   expect.assertions(2)
 
-  const runResult = SetPipelineVariablesCommand.run(['8', '--variable', 'foo'])
+  const runResult = run(['8', '--variable', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
 })
@@ -64,7 +76,7 @@ test('set-pipeline-variables - empty variable flag', async () => {
 
   expect.assertions(2)
 
-  const runResult = SetPipelineVariablesCommand.run(['8', '--variable', 'foo', ''])
+  const runResult = run(['8', '--variable', 'foo', ''])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:BLANK_VARIABLE_VALUE] Blank variable values are not allowed. Use the proper flag if you intend to delete a variable.')
 })
@@ -77,7 +89,7 @@ test('set-pipeline-variables - bad secret flag', async () => {
 
   expect.assertions(2)
 
-  const runResult = SetPipelineVariablesCommand.run(['8', '--secret', 'foo'])
+  const runResult = run(['8', '--secret', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:MALFORMED_NAME_VALUE_PAIR] Please provide correct values for flags')
 })
@@ -89,7 +101,7 @@ test('set-pipeline-variables - config', async () => {
 
   expect.assertions(4)
 
-  const runResult = SetPipelineVariablesCommand.run(['1'])
+  const runResult = run(['1'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
   await runResult
@@ -106,7 +118,7 @@ test('set-pipeline-variables - variables only', async () => {
 
   expect.assertions(5)
 
-  const runResult = SetPipelineVariablesCommand.run(['1', '--variable', 'foo', 'bar', '--variable', 'foo2', 'bar2'])
+  const runResult = run(['1', '--variable', 'foo', 'bar', '--variable', 'foo2', 'bar2'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
   await runResult
@@ -132,7 +144,7 @@ test('set-pipeline-variables - secrets only', async () => {
 
   expect.assertions(5)
 
-  const runResult = SetPipelineVariablesCommand.run(['1', '--secret', 'foo', 'bar', '--secret', 'foo2', 'bar2'])
+  const runResult = run(['1', '--secret', 'foo', 'bar', '--secret', 'foo2', 'bar2'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
   await runResult
@@ -158,7 +170,7 @@ test('set-pipeline-variables - secret and variable', async () => {
 
   expect.assertions(5)
 
-  const runResult = SetPipelineVariablesCommand.run(['1', '--variable', 'foo', 'bar', '--secret', 'foo2', 'bar2'])
+  const runResult = run(['1', '--variable', 'foo', 'bar', '--secret', 'foo2', 'bar2'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
   await runResult
@@ -184,7 +196,7 @@ test('set-pipeline-variables - delete', async () => {
 
   expect.assertions(5)
 
-  const runResult = SetPipelineVariablesCommand.run(['1', '--delete', 'KEY'])
+  const runResult = run(['1', '--delete', 'KEY'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
   await runResult
@@ -206,7 +218,7 @@ test('set-pipeline-variables - delete secret', async () => {
 
   expect.assertions(5)
 
-  const runResult = SetPipelineVariablesCommand.run(['1', '--delete', 'I_AM_A_SECRET'])
+  const runResult = run(['1', '--delete', 'I_AM_A_SECRET'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
   await runResult
@@ -228,7 +240,7 @@ test('set-pipeline-variables - delete not found', async () => {
 
   expect.assertions(4)
 
-  const runResult = SetPipelineVariablesCommand.run(['1', '--delete', 'foo'])
+  const runResult = run(['1', '--delete', 'foo'])
   await expect(runResult instanceof Promise).toBeTruthy()
 
   await runResult
@@ -252,7 +264,7 @@ test('set-pipeline-variables - second get fails', async () => {
   let thrown = false
 
   try {
-    await SetPipelineVariablesCommand.run(['1', '--variable', 'foo', 'bar', '--variable', 'foo2', 'bar2'])
+    await run(['1', '--variable', 'foo', 'bar', '--variable', 'foo2', 'bar2'])
   } catch (err) {
     thrown = err
   }

@@ -15,14 +15,26 @@ const { init, mockSdk } = require('@adobe/aio-lib-cloudmanager')
 const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const MaintenanceEnableCommand = require('../../../../../src/commands/cloudmanager/commerce/bin-magento/maintenance/enable')
 
+let warn
+let info
+
 beforeEach(() => {
   resetCurrentOrgId()
+  warn = jest.fn()
+  info = jest.fn()
 })
+
+const run = (argv) => {
+  const cmd = new MaintenanceEnableCommand(argv)
+  cmd.warn = warn
+  cmd.info = info
+  return cmd.run()
+}
 
 test('maintenance:enable - missing arg', async () => {
   expect.assertions(2)
 
-  const runResult = MaintenanceEnableCommand.run([])
+  const runResult = run([])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
 })
@@ -30,7 +42,7 @@ test('maintenance:enable - missing arg', async () => {
 test('maintenance:enable - missing config', async () => {
   expect.assertions(2)
 
-  const runResult = MaintenanceEnableCommand.run(['--programId', '5', '10'])
+  const runResult = run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
@@ -64,7 +76,7 @@ test('maintenance:enable', async () => {
 
   expect.assertions(11)
 
-  const runResult = MaintenanceEnableCommand.run(['--programId', '5', '10'])
+  const runResult = run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -93,7 +105,7 @@ test('maintenance:enable - api error', async () => {
     Promise.reject(new Error('Command failed.')),
   )
   mockSdk.getCommerceCommandExecution = jest.fn()
-  const runResult = MaintenanceEnableCommand.run(['--programId', '5', '10'])
+  const runResult = run(['--programId', '5', '10'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('Command failed.'))
 })
