@@ -28,7 +28,7 @@ class CacheFlushCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'cache:flush',
-        options: ['-n', ...cacheTypes, ...getFormattedFlags(flags)],
+        options: ['-n', ...cacheTypes, ...getFormattedFlags(flags, CacheFlushCommand)],
       },
       1000, 'cache:flush')
 

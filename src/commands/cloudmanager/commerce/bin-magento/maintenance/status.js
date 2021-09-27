@@ -26,7 +26,7 @@ class MaintenanceStatusCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'maintenance:status',
-        options: [...getFormattedFlags(flags)],
+        options: [...getFormattedFlags(flags, MaintenanceStatusCommand)],
       },
       1000, 'maintenance:status')
 

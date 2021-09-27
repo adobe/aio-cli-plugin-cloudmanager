@@ -26,7 +26,7 @@ class AppConfigImportCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'app:config:import',
-        options: ['-n', ...getFormattedFlags(flags)],
+        options: ['-n', ...getFormattedFlags(flags, AppConfigImportCommand)],
       },
       1000, 'app:config:import')
 

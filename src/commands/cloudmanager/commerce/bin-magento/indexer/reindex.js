@@ -28,7 +28,7 @@ class IndexerReindexCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'indexer:reindex',
-        options: ['-n', ...indexTypes, ...getFormattedFlags(flags)],
+        options: ['-n', ...indexTypes, ...getFormattedFlags(flags, IndexerReindexCommand)],
       },
       1000, 'indexer:reindex')
 

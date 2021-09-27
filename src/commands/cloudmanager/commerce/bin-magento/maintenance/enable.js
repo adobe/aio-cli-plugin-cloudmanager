@@ -26,7 +26,7 @@ class MaintenanceEnableCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'maintenance:enable',
-        options: [...getFormattedFlags(flags)],
+        options: [...getFormattedFlags(flags, MaintenanceEnableCommand)],
       },
       1000, 'maintenance:enable')
 
