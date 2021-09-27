@@ -28,7 +28,7 @@ class CacheCleanCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'cache:clean',
-        options: ['-n', ...cacheTypes, ...getFormattedFlags(flags)],
+        options: ['-n', ...cacheTypes, ...getFormattedFlags(flags, CacheCleanCommand)],
       },
       1000, 'cache:clean')
 

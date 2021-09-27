@@ -27,7 +27,7 @@ class AppConfigDumpCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'app:config:dump',
-        options: ['-n', ...configTypes, ...getFormattedFlags(flags)],
+        options: ['-n', ...configTypes, ...getFormattedFlags(flags, AppConfigDumpCommand)],
       },
       1000, 'app:config:dump')
 

@@ -296,8 +296,10 @@ function handleError (_error, errorFn) {
   })
 }
 
-function getFormattedFlags (flags) {
-  return Object.keys(flags).filter(flag => flag !== 'programId').map(flag => {
+function getFormattedFlags (flags, Command) {
+  const commonFlagKeys = (Command && Command.flags) ? Object.keys(Command.flags).filter(flag => Command.flags[flag].common) : []
+
+  return Object.keys(flags).filter(flag => !commonFlagKeys.includes(flag)).map(flag => {
     if (flags[flag]) {
       return `--${flag}`
     } else {
