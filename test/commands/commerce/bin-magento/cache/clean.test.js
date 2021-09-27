@@ -75,7 +75,7 @@ test('maintenance:status', async () => {
 
   expect.assertions(7)
 
-  const runResult = run(['--programId', '5', '10'])
+  const runResult = run(['--programId', '5', '10', '-V', '--ansi'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -89,6 +89,7 @@ test('maintenance:status', async () => {
   await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('5', '10', {
     type: 'bin/magento',
     command: 'cache:clean',
+    options: ['-n', '--version', '--ansi'],
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)

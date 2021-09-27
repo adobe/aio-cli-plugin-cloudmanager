@@ -296,6 +296,18 @@ function handleError (_error, errorFn) {
   })
 }
 
+function getFormattedFlags (flags, Command) {
+  const commonFlagKeys = (Command && Command.flags) ? Object.keys(Command.flags).filter(flag => Command.flags[flag].common) : []
+
+  return Object.keys(flags).filter(flag => !commonFlagKeys.includes(flag)).map(flag => {
+    if (flags[flag]) {
+      return `--${flag}`
+    } else {
+      return `--no-${flag}`
+    }
+  })
+}
+
 module.exports = {
   getProgramId,
   getOutputFormat,
@@ -318,4 +330,5 @@ module.exports = {
   getActiveOrganizationId,
   getFullOrgIdentity,
   handleError,
+  getFormattedFlags,
 }

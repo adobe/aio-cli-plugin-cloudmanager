@@ -12,14 +12,16 @@ governing permissions and limitations under the License.
 const { flags } = require('@oclif/command')
 
 module.exports = {
-  global: {
-    imsContextName: flags.string({ description: 'the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager', common: true }),
+  quiet: {
+    quiet: flags.boolean({ char: 'q' }),
   },
-  programId: {
-    programId: flags.string({ char: 'p', description: "the programId. if not specified, defaults to 'cloudmanager_programid' config value", common: true }),
+  verbose: {
+    verbose: flags.boolean({ char: 'v' }),
   },
-  outputFormat: {
-    json: flags.boolean({ char: 'j', description: 'output in json format', exclusive: ['yaml'], common: true }),
-    yaml: flags.boolean({ char: 'y', description: 'output in yaml format', common: true }),
+  version: {
+    version: flags.boolean({ char: 'V' }),
+  },
+  ansi: {
+    ansi: flags.boolean({ allowNo: true }),
   },
 }

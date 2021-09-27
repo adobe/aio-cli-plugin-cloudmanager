@@ -11,20 +11,24 @@ governing permissions and limitations under the License.
 */
 
 const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command')
-const { getProgramId } = require('../../../../../cloudmanager-helpers')
+const { getProgramId, getFormattedFlags } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
 const commonArgs = require('../../../../../common-args')
+const commonCommerceFlags = require('../../../../../common-commerce-flags')
+const commonCommerceArgs = require('../../../../../common-commerce-args')
 
 class IndexerReindexCommand extends BaseCommerceCliCommand {
   async run () {
-    const { args, flags } = this.parse(IndexerReindexCommand)
+    const { args, flags, argv } = this.parse(IndexerReindexCommand)
 
     const programId = getProgramId(flags)
+    const indexTypes = argv.slice(1)
 
     const result = await this.runSync(programId, args.environmentId,
       {
         type: 'bin/magento',
         command: 'indexer:reindex',
+        options: ['-n', ...indexTypes, ...getFormattedFlags(flags, IndexerReindexCommand)],
       },
       1000, 'indexer:reindex')
 
@@ -32,15 +36,22 @@ class IndexerReindexCommand extends BaseCommerceCliCommand {
   }
 }
 
+IndexerReindexCommand.strict = false
+
 IndexerReindexCommand.description = 'commerce indexer reindex'
 
 IndexerReindexCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.quiet,
+  ...commonCommerceFlags.verbose,
+  ...commonCommerceFlags.version,
+  ...commonCommerceFlags.ansi,
 }
 
 IndexerReindexCommand.args = [
   commonArgs.environmentId,
+  commonCommerceArgs.indexType,
 ]
 
 IndexerReindexCommand.aliases = [

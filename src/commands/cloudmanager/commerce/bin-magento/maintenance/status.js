@@ -11,8 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command')
-const { getProgramId } = require('../../../../../cloudmanager-helpers')
+const { getProgramId, getFormattedFlags } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
+const commonCommerceFlags = require('../../../../../common-commerce-flags')
 const commonArgs = require('../../../../../common-args')
 
 class MaintenanceStatusCommand extends BaseCommerceCliCommand {
@@ -25,6 +26,7 @@ class MaintenanceStatusCommand extends BaseCommerceCliCommand {
       {
         type: 'bin/magento',
         command: 'maintenance:status',
+        options: [...getFormattedFlags(flags, MaintenanceStatusCommand)],
       },
       1000, 'maintenance:status')
 
@@ -37,6 +39,10 @@ MaintenanceStatusCommand.description = 'commerce maintenance status'
 MaintenanceStatusCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.quiet,
+  ...commonCommerceFlags.verbose,
+  ...commonCommerceFlags.version,
+  ...commonCommerceFlags.ansi,
 }
 
 MaintenanceStatusCommand.args = [
