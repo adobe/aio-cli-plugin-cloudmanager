@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.18.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.17.0...2.18.0) (2021-09-27)
+
+
+### Features
+
+* **commerce:** add support for additional args and flags for commerce commands. fixes [#489](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/489). fixes [#493](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/493) ([dc09c0b](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/dc09c0b78b70d58bc9d0e4378fe33053b69bcdea)), closes [#487](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/487)
+
 # [2.17.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.16.0...2.17.0) (2021-09-23)
 
 
