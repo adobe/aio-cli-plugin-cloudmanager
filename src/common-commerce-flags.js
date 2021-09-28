@@ -13,15 +13,15 @@ const { flags } = require('@oclif/command')
 
 module.exports = {
   quiet: {
-    quiet: flags.boolean({ char: 'q' }),
+    quiet: flags.boolean({ char: 'q', description: 'do not output any message' }),
   },
   verbose: {
-    verbose: flags.boolean({ char: 'v' }),
+    verbose: flags.boolean({ char: 'v', description: 'increase the verbosity of messages for debugging' }),
   },
   version: {
-    version: flags.boolean({ char: 'V' }),
+    version: flags.boolean({ char: 'V', description: 'displays this applications version' }),
   },
   ansi: {
-    ansi: flags.boolean({ allowNo: true }),
+    ansi: flags.boolean({ allowNo: true, description: 'force/disable ANSI output' }),
   },
 }
