@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.18.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.18.0...2.18.1) (2021-09-28)
+
+
+### Bug Fixes
+
+* **commerce:** Added descriptions to Commerce flags. fixes [#499](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/499) ([5312d89](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/5312d895c2ed7142ee2f44a2d5f080c34e32e737))
+
 # [2.18.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.17.0...2.18.0) (2021-09-27)
 
 
