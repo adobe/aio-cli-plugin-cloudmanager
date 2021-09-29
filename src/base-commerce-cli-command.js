@@ -15,6 +15,14 @@ const { initSdk } = require('./cloudmanager-helpers')
 const BaseCommand = require('./base-command')
 
 class BaseCommerceCliCommand extends BaseCommand {
+  async init () {
+    const { argv } = this.parse(this.constructor)
+
+    if (argv.includes('-h')) {
+      return this._help()
+    }
+  }
+
   async runSync (programId, environmentId, body, pollingInterval, command, imsContextName = null) {
     this.warn('Commerce cli commands are in active development and may not be functional.')
 
