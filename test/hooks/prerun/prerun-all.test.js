@@ -3,14 +3,16 @@ const { RequiredArgsError } = require('@oclif/parser/lib/errors')
 const hook = require('../../../src/hooks/prerun/prerun-all')
 
 let parse
+let error
 
 beforeEach(() => {
   setStore({})
   parse = jest.fn()
+  error = jest.fn()
 })
 
 const invoke = (options) => {
-  return () => hook.apply({ error: (msg) => { throw new Error(msg) } }, [{
+  return () => hook.apply({ error }, [{
     ...options,
   }])
 }
@@ -65,12 +67,23 @@ test('hook -- bad configuration', async () => {
 
   parse = jest.fn().mockImplementationOnce(() => true)
 
+  expect.assertions(2)
+
+  invoke({
+    Command: FixtureWithEnvironmentIdArg,
+    argv: [],
+  })()
+  expect(error.mock.calls.length).toBe(1)
+  expect(error.mock.calls[0][0]).toBe('[CloudManagerCLI:IMS_CONTEXT_MISSING_FIELDS] One or more of the required fields in ims.contexts.aio-cli-plugin-cloudmanager were not set. Missing keys were private_key.')
+})
+
+test('hook -- exit error is not handled', async () => {
   expect.assertions(1)
 
   expect(invoke({
-    Command: FixtureWithEnvironmentIdArg,
-    argv: [],
-  })).toThrowError('One or more of the required fields in ims.contexts.aio-cli-plugin-cloudmanager were not set. Missing keys were private_key.')
+    Command: HelpFixture,
+    argv: ['-h'],
+  })).toThrowError('')
 })
 
 const thisPlugin = {
@@ -87,3 +100,12 @@ FixtureWithEnvironmentIdArg.args = [
   { name: 'environmentId' },
 ]
 FixtureWithEnvironmentIdArg.plugin = thisPlugin
+
+class HelpFixture {
+  _help () {
+    const err = new Error()
+    err.code = 'EEXIT'
+    throw err
+  }
+}
+HelpFixture.plugin = thisPlugin
