@@ -5,6 +5,10 @@
   ],
   "packageRules": [
     {
+      "packageNames": ["@adobe/aio-lib-cloudmanager"],
+      "rangeStrategy": "bump"
+    },
+    {
       "packageNames": ["husky"],
       "allowedVersions": "<6.0"
     },
@@ -22,7 +26,8 @@
     },
     {
       "matchDepTypes": ["devDependencies"],
-      "automerge": true
+      "automerge": true,
+      "rangeStrategy": "pin"
     }
   ]
 }
