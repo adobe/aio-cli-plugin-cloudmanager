@@ -3,28 +3,20 @@ Copyright 2021 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
+
 Unless required by applicable law or agreed to in writing, software distributed under
 the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
 OF ANY KIND, either express or implied. See the License for the specific language
 governing permissions and limitations under the License.
 */
 
-const { handleError } = require('../../cloudmanager-helpers')
-
-/**
- * Prerun hooks in a specific order.
- */
+const { isThisPlugin } = require('../../cloudmanager-hook-helpers')
 
 module.exports = function (hookOptions) {
-  try {
-    require('./help-override').apply(this, [hookOptions])
-    require('./permission-info').apply(this, [hookOptions])
-    require('./environment-id-from-config').apply(this, [hookOptions])
-    require('./check-ims-context-config').apply(this, [hookOptions])
-  } catch (err) {
-    if (err.code && err.code === 'EEXIT') { // code from @oclif/errors - ExitError
-      throw err
-    }
-    handleError(err, this.error)
+  if (!isThisPlugin(hookOptions)) {
+    return
+  }
+  if (hookOptions && hookOptions.argv && hookOptions.argv.includes('-h')) {
+    new hookOptions.Command(hookOptions.argv, hookOptions.config)._help()
   }
 }
