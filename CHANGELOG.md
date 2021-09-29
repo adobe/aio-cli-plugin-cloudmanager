@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.18.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.18.2...2.18.3) (2021-09-29)
+
+
+### Bug Fixes
+
+* ensure that -h works for all commands. fixes [#506](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/506) ([#507](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/507)) ([cf62ba7](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/cf62ba73ebeb338ef09b04e634e3b2b3a56b65f0))
+
 ## [2.18.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.18.1...2.18.2) (2021-09-29)
 
 
