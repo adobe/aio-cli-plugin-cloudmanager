@@ -13,11 +13,18 @@ governing permissions and limitations under the License.
 const { getDefaultEnvironmentId } = require('../../cloudmanager-helpers')
 const { isThisPlugin } = require('../../cloudmanager-hook-helpers')
 
-const { RequiredArgsError } = require('@oclif/parser/lib/errors')
-
 function hasEnvironmentIdAsFirstArg (options) {
   return options.Command.args && options.Command.args[0].name === 'environmentId'
 }
+
+function isValidEnvId (value) {
+  try {
+    const appearsValid = Number.isInteger(Number(value))
+    return appearsValid
+  } catch {
+    return false
+  }
+} 
 
 module.exports = function (hookOptions) {
   if (!isThisPlugin(hookOptions)) {
@@ -25,20 +32,12 @@ module.exports = function (hookOptions) {
   }
 
   if (hasEnvironmentIdAsFirstArg(hookOptions)) {
-    const environmentId = getDefaultEnvironmentId()
-    if (environmentId) {
-      const originalParse = hookOptions.Command.prototype.parse
-      hookOptions.Command.prototype.parse = function (options) {
-        try {
-          return originalParse.call(this, options)
-        } catch (e) {
-          if (e instanceof RequiredArgsError && e.args && e.args.length === 1) {
-            return originalParse.call(this, options, [environmentId, ...hookOptions.argv])
-          } else {
-            throw e
-          }
-        }
+    const defaultEnvironmentId = getDefaultEnvironmentId()
+
+    if(!isValidEnvId(hookOptions.argv[0])) {
+      if(defaultEnvironmentId) {
+        hookOptions.argv.unshift(defaultEnvironmentId)
       }
-    }
+    } 
   }
 }
