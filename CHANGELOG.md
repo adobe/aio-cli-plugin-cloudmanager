@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.19.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.18.3...2.19.0) (2021-10-06)
+
+
+### Features
+
+* add support for proxies when using aio 8.2.0. fixes [#177](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/177) ([#514](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/514)) ([dd4facb](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/dd4facb15485047e6d74395f46f3b9880e15c055))
+
 ## [2.18.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.18.2...2.18.3) (2021-09-29)
 
 
