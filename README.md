@@ -158,11 +158,11 @@ When used with [Adobe I/O CLI](https://github.com/adobe/aio-cli) 8.2.0 or higher
 
 Primarily for scripting application purposes, the following exit codes are used:
 
-1 - A generic error has occurred
-2 - A configuration error has occurred
-3 - A validation error with the supplied flags or arguments has occurred
-10 - An error in IMS authentication has occurred
-30 - An error emanating from the Cloud Manager SDK has occurred
+* 1 - A generic error has occurred
+* 2 - A configuration error has occurred
+* 3 - A validation error with the supplied flags or arguments has occurred
+* 10 - An error in IMS authentication has occurred
+* 30 - An error emanating from the Cloud Manager SDK has occurred
 
 ## Reporting Issues
 
