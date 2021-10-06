@@ -150,6 +150,10 @@ $ aio config:set cloudmanager_environmentid 7
 
 > This only works for commands where the environmentId is the **first** argument.
 
+## Proxy Support
+
+When used with [Adobe I/O CLI](https://github.com/adobe/aio-cli) 8.2.0 or higher, this plugin can support an HTTP(S) Proxy. See [the Adobe I/O CLI release announcement](https://github.com/adobe/aio-cli/releases/tag/8.2.0) for more information.
+
 ## Exit Codes
 
 Primarily for scripting application purposes, the following exit codes are used:
