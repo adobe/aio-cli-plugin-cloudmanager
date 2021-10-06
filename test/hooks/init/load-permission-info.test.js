@@ -11,7 +11,9 @@ governing permissions and limitations under the License.
 */
 
 const fetchMock = require('fetch-mock').sandbox()
-jest.setMock('node-fetch', fetchMock)
+jest.setMock('@adobe/aio-lib-core-networking', {
+  createFetch: () => fetchMock,
+})
 
 const hook = require('../../../src/hooks/init/load-permission-info')
 
