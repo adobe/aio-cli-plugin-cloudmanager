@@ -12,6 +12,7 @@ governing permissions and limitations under the License.
 
 const { initSdk, getProgramId } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
+const { flags } = require('@oclif/command')
 const commonFlags = require('../../../common-flags')
 const BaseCommand = require('../../../base-command')
 
@@ -23,16 +24,16 @@ class StartExecutionCommand extends BaseCommand {
 
     cli.action.start('starting execution')
 
-    const result = await this.startExecution(programId, args.pipelineId, flags.imsContextName)
+    const result = await this.startExecution(programId, args.pipelineId, flags.emergency, flags.imsContextName)
 
     cli.action.stop(`started execution ID ${result.id}`)
 
     return result
   }
 
-  async startExecution (programId, pipelineId, imsContextName = null) {
+  async startExecution (programId, pipelineId, emergencyMode, imsContextName = null) {
     const sdk = await initSdk(imsContextName)
-    return sdk.createExecution(programId, pipelineId)
+    return sdk.createExecution(programId, pipelineId, emergencyMode ? 'EMERGENCY' : 'NORMAL')
   }
 }
 
@@ -41,6 +42,10 @@ StartExecutionCommand.description = 'start pipeline execution'
 StartExecutionCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  emergency: flags.boolean({
+    description: 'create the execution in emergency mode',
+    allowNo: true,
+  }),
 }
 
 StartExecutionCommand.args = [

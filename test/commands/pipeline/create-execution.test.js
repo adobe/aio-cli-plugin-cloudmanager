@@ -49,7 +49,45 @@ test('start-execution - some url', async () => {
   await expect(init.mock.calls.length).toEqual(1)
   await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
   await expect(mockSdk.createExecution.mock.calls.length).toEqual(1)
-  await expect(mockSdk.createExecution).toHaveBeenCalledWith('5', '10')
+  await expect(mockSdk.createExecution).toHaveBeenCalledWith('5', '10', 'NORMAL')
+
+  await expect(cli.action.stop.mock.calls[0][0]).toEqual('started execution ID 5000')
+})
+
+test('start-execution - emergency', async () => {
+  setCurrentOrgId('good')
+  mockSdk.createExecution = jest.fn(() => Promise.resolve({
+    id: '5000',
+  }))
+
+  expect.assertions(6)
+
+  const runResult = StartExecutionCommand.run(['--programId', '5', '10', '--emergency'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.createExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.createExecution).toHaveBeenCalledWith('5', '10', 'EMERGENCY')
+
+  await expect(cli.action.stop.mock.calls[0][0]).toEqual('started execution ID 5000')
+})
+
+test('start-execution - no-emergency', async () => {
+  setCurrentOrgId('good')
+  mockSdk.createExecution = jest.fn(() => Promise.resolve({
+    id: '5000',
+  }))
+
+  expect.assertions(6)
+
+  const runResult = StartExecutionCommand.run(['--programId', '5', '10', '--no-emergency'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.createExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.createExecution).toHaveBeenCalledWith('5', '10', 'NORMAL')
 
   await expect(cli.action.stop.mock.calls[0][0]).toEqual('started execution ID 5000')
 })
