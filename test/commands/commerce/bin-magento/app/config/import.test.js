@@ -35,13 +35,13 @@ test('app:config:import - missing environmentId', async () => {
 
   const runResult = run([])
   await expect(runResult instanceof Promise).toBeTruthy()
-  await expect(runResult).rejects.toThrow(/^Missing 1 required arg/)
+  await expect(runResult).rejects.toThrow(/^Missing required flag/)
 })
 
 test('app:config:import - missing IMS Context', async () => {
   expect.assertions(2)
 
-  const runResult = run(['--programId', '3', '60'])
+  const runResult = run(['--programId', '3', '--environmentId', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
@@ -52,7 +52,7 @@ test('app:config:import - api error', async () => {
     Promise.reject(new Error('Command failed.')),
   )
   mockSdk.getCommerceCommandExecution = jest.fn()
-  const runResult = run(['--programId', '3', '60'])
+  const runResult = run(['--programId', '3', '--environmentId', '60'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).rejects.toEqual(new Error('Command failed.'))
 })
@@ -86,7 +86,7 @@ test('app:config:import - success', async () => {
 
   expect.assertions(11)
 
-  const runResult = run(['--programId', '3', '60', '-v'])
+  const runResult = run(['--programId', '3', '--environmentId', '60', '-v'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)

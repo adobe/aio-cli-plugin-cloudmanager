@@ -13,16 +13,15 @@ governing permissions and limitations under the License.
 const BaseCommerceCliCommand = require('../../../../../../base-commerce-cli-command')
 const { getProgramId, getFormattedFlags } = require('../../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../../common-flags')
-const commonArgs = require('../../../../../../common-args')
 const commonCommerceFlags = require('../../../../../../common-commerce-flags')
 
 class AppConfigImportCommand extends BaseCommerceCliCommand {
   async run () {
-    const { args, flags } = this.parse(AppConfigImportCommand)
+    const { flags } = this.parse(AppConfigImportCommand)
 
     const programId = getProgramId(flags)
 
-    const result = await this.runSync(programId, args.environmentId,
+    const result = await this.runSync(programId, flags.environmentId,
       {
         type: 'bin/magento',
         command: 'app:config:import',
@@ -39,14 +38,11 @@ AppConfigImportCommand.description = 'commerce config import'
 AppConfigImportCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.environmentId,
   ...commonCommerceFlags.quiet,
   ...commonCommerceFlags.verbose,
   ...commonCommerceFlags.version,
   ...commonCommerceFlags.ansi,
 }
-
-AppConfigImportCommand.args = [
-  commonArgs.environmentId,
-]
 
 module.exports = AppConfigImportCommand

@@ -10,8 +10,12 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 const { flags } = require('@oclif/command')
+const { getDefaultEnvironmentId } = require('./cloudmanager-helpers')
 
 module.exports = {
+  environmentId: {
+    environmentId: flags.string({ char: 'e', description: 'the environment id', required: true, default: getDefaultEnvironmentId(), common: true }),
+  },
   quiet: {
     quiet: flags.boolean({ char: 'q', description: 'do not output any message' }),
   },

@@ -13,21 +13,19 @@ governing permissions and limitations under the License.
 const BaseCommerceCliCommand = require('../../../../../../base-commerce-cli-command')
 const { getProgramId, getFormattedFlags } = require('../../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../../common-flags')
-const commonArgs = require('../../../../../../common-args')
 const commonCommerceFlags = require('../../../../../../common-commerce-flags')
+const commonCommerceArgs = require('../../../../../../common-commerce-args')
 
 class AppConfigDumpCommand extends BaseCommerceCliCommand {
   async run () {
-    const { args, flags, argv } = this.parse(AppConfigDumpCommand)
+    const { flags, argv } = this.parse(AppConfigDumpCommand)
 
     const programId = getProgramId(flags)
-    const configTypes = argv.slice(1)
-
-    const result = await this.runSync(programId, args.environmentId,
+    const result = await this.runSync(programId, flags.environmentId,
       {
         type: 'bin/magento',
         command: 'app:config:dump',
-        options: ['-n', ...configTypes, ...getFormattedFlags(flags, AppConfigDumpCommand)],
+        options: ['-n', ...argv, ...getFormattedFlags(flags, AppConfigDumpCommand)],
       },
       1000, 'app:config:dump')
 
@@ -42,6 +40,7 @@ AppConfigDumpCommand.description = 'commerce config dump'
 AppConfigDumpCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.environmentId,
   ...commonCommerceFlags.quiet,
   ...commonCommerceFlags.verbose,
   ...commonCommerceFlags.version,
@@ -49,7 +48,7 @@ AppConfigDumpCommand.flags = {
 }
 
 AppConfigDumpCommand.args = [
-  commonArgs.environmentId,
+  commonCommerceArgs.configType,
 ]
 
 module.exports = AppConfigDumpCommand
