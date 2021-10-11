@@ -170,14 +170,14 @@ In general, issues with this plugin should be reported in this project using Git
 
 # Commands
 <!-- commands -->
-* [`aio cloudmanager:commerce:bin-magento:app:config:dump ENVIRONMENTID`](#aio-cloudmanagercommercebin-magentoappconfigdump-environmentid)
-* [`aio cloudmanager:commerce:bin-magento:app:config:import ENVIRONMENTID`](#aio-cloudmanagercommercebin-magentoappconfigimport-environmentid)
-* [`aio cloudmanager:commerce:bin-magento:cache:clean ENVIRONMENTID [CACHETYPE]`](#aio-cloudmanagercommercebin-magentocacheclean-environmentid-cachetype)
-* [`aio cloudmanager:commerce:bin-magento:cache:flush ENVIRONMENTID [CACHETYPE]`](#aio-cloudmanagercommercebin-magentocacheflush-environmentid-cachetype)
-* [`aio cloudmanager:commerce:bin-magento:indexer:reindex ENVIRONMENTID [INDEXTYPE]`](#aio-cloudmanagercommercebin-magentoindexerreindex-environmentid-indextype)
-* [`aio cloudmanager:commerce:bin-magento:maintenance:disable ENVIRONMENTID`](#aio-cloudmanagercommercebin-magentomaintenancedisable-environmentid)
-* [`aio cloudmanager:commerce:bin-magento:maintenance:enable ENVIRONMENTID`](#aio-cloudmanagercommercebin-magentomaintenanceenable-environmentid)
-* [`aio cloudmanager:commerce:bin-magento:maintenance:status ENVIRONMENTID`](#aio-cloudmanagercommercebin-magentomaintenancestatus-environmentid)
+* [`aio cloudmanager:commerce:bin-magento:app:config:dump [CONFIGTYPE]`](#aio-cloudmanagercommercebin-magentoappconfigdump-configtype)
+* [`aio cloudmanager:commerce:bin-magento:app:config:import`](#aio-cloudmanagercommercebin-magentoappconfigimport)
+* [`aio cloudmanager:commerce:bin-magento:cache:clean [CACHETYPE]`](#aio-cloudmanagercommercebin-magentocacheclean-cachetype)
+* [`aio cloudmanager:commerce:bin-magento:cache:flush [CACHETYPE]`](#aio-cloudmanagercommercebin-magentocacheflush-cachetype)
+* [`aio cloudmanager:commerce:bin-magento:indexer:reindex [INDEXTYPE]`](#aio-cloudmanagercommercebin-magentoindexerreindex-indextype)
+* [`aio cloudmanager:commerce:bin-magento:maintenance:disable`](#aio-cloudmanagercommercebin-magentomaintenancedisable)
+* [`aio cloudmanager:commerce:bin-magento:maintenance:enable`](#aio-cloudmanagercommercebin-magentomaintenanceenable)
+* [`aio cloudmanager:commerce:bin-magento:maintenance:status`](#aio-cloudmanagercommercebin-magentomaintenancestatus)
 * [`aio cloudmanager:commerce:get-command-execution ENVIRONMENTID COMMANDEXECUTIONID`](#aio-cloudmanagercommerceget-command-execution-environmentid-commandexecutionid)
 * [`aio cloudmanager:commerce:list-command-executions ENVIRONMENTID`](#aio-cloudmanagercommercelist-command-executions-environmentid)
 * [`aio cloudmanager:commerce:tail-command-execution-log ENVIRONMENTID COMMANDEXECUTIONID`](#aio-cloudmanagercommercetail-command-execution-log-environmentid-commandexecutionid)
@@ -220,69 +220,68 @@ In general, issues with this plugin should be reported in this project using Git
 * [`aio cloudmanager:program:list-ip-allowlists`](#aio-cloudmanagerprogramlist-ip-allowlists)
 * [`aio cloudmanager:program:list-pipelines`](#aio-cloudmanagerprogramlist-pipelines)
 
-## `aio cloudmanager:commerce:bin-magento:app:config:dump ENVIRONMENTID`
+## `aio cloudmanager:commerce:bin-magento:app:config:dump [CONFIGTYPE]`
 
 commerce config dump
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:app:config:dump ENVIRONMENTID
+  $ aio cloudmanager:commerce:bin-magento:app:config:dump [CONFIGTYPE]
 
 ARGUMENTS
-  ENVIRONMENTID  the environment id
+  CONFIGTYPE  the config type
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/commerce/bin-magento/app/config/dump.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.19.0/src/commands/cloudmanager/commerce/bin-magento/app/config/dump.js)_
 
-## `aio cloudmanager:commerce:bin-magento:app:config:import ENVIRONMENTID`
+## `aio cloudmanager:commerce:bin-magento:app:config:import`
 
 commerce config import
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:app:config:import ENVIRONMENTID
-
-ARGUMENTS
-  ENVIRONMENTID  the environment id
+  $ aio cloudmanager:commerce:bin-magento:app:config:import
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
 _See code: [src/commands/cloudmanager/commerce/bin-magento/app/config/import.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.19.0/src/commands/cloudmanager/commerce/bin-magento/app/config/import.js)_
 
-## `aio cloudmanager:commerce:bin-magento:cache:clean ENVIRONMENTID [CACHETYPE]`
+## `aio cloudmanager:commerce:bin-magento:cache:clean [CACHETYPE]`
 
 commerce cache clean
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:cache:clean ENVIRONMENTID [CACHETYPE]
+  $ aio cloudmanager:commerce:bin-magento:cache:clean [CACHETYPE]
 
 ARGUMENTS
-  ENVIRONMENTID  the environment id
-  CACHETYPE      the cache type
+  CACHETYPE  the cache type
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:commerce:cache-clean
@@ -290,25 +289,25 @@ ALIASES
 
 _See code: [src/commands/cloudmanager/commerce/bin-magento/cache/clean.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.19.0/src/commands/cloudmanager/commerce/bin-magento/cache/clean.js)_
 
-## `aio cloudmanager:commerce:bin-magento:cache:flush ENVIRONMENTID [CACHETYPE]`
+## `aio cloudmanager:commerce:bin-magento:cache:flush [CACHETYPE]`
 
 commerce cache flush
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:cache:flush ENVIRONMENTID [CACHETYPE]
+  $ aio cloudmanager:commerce:bin-magento:cache:flush [CACHETYPE]
 
 ARGUMENTS
-  ENVIRONMENTID  the environment id
-  CACHETYPE      the cache type
+  CACHETYPE  the cache type
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:commerce:cache-flush
@@ -316,25 +315,25 @@ ALIASES
 
 _See code: [src/commands/cloudmanager/commerce/bin-magento/cache/flush.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.19.0/src/commands/cloudmanager/commerce/bin-magento/cache/flush.js)_
 
-## `aio cloudmanager:commerce:bin-magento:indexer:reindex ENVIRONMENTID [INDEXTYPE]`
+## `aio cloudmanager:commerce:bin-magento:indexer:reindex [INDEXTYPE]`
 
 commerce indexer reindex
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:indexer:reindex ENVIRONMENTID [INDEXTYPE]
+  $ aio cloudmanager:commerce:bin-magento:indexer:reindex [INDEXTYPE]
 
 ARGUMENTS
-  ENVIRONMENTID  the environment id
-  INDEXTYPE      the index type
+  INDEXTYPE  the index type
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:commerce:indexer-reindex
@@ -342,24 +341,22 @@ ALIASES
 
 _See code: [src/commands/cloudmanager/commerce/bin-magento/indexer/reindex.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.19.0/src/commands/cloudmanager/commerce/bin-magento/indexer/reindex.js)_
 
-## `aio cloudmanager:commerce:bin-magento:maintenance:disable ENVIRONMENTID`
+## `aio cloudmanager:commerce:bin-magento:maintenance:disable`
 
 commerce maintenance disable
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:maintenance:disable ENVIRONMENTID
-
-ARGUMENTS
-  ENVIRONMENTID  the environment id
+  $ aio cloudmanager:commerce:bin-magento:maintenance:disable
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:commerce:maintenance-disable
@@ -367,24 +364,22 @@ ALIASES
 
 _See code: [src/commands/cloudmanager/commerce/bin-magento/maintenance/disable.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.19.0/src/commands/cloudmanager/commerce/bin-magento/maintenance/disable.js)_
 
-## `aio cloudmanager:commerce:bin-magento:maintenance:enable ENVIRONMENTID`
+## `aio cloudmanager:commerce:bin-magento:maintenance:enable`
 
 commerce maintenance enable
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:maintenance:enable ENVIRONMENTID
-
-ARGUMENTS
-  ENVIRONMENTID  the environment id
+  $ aio cloudmanager:commerce:bin-magento:maintenance:enable
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:commerce:maintenance-enable
@@ -392,24 +387,22 @@ ALIASES
 
 _See code: [src/commands/cloudmanager/commerce/bin-magento/maintenance/enable.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.19.0/src/commands/cloudmanager/commerce/bin-magento/maintenance/enable.js)_
 
-## `aio cloudmanager:commerce:bin-magento:maintenance:status ENVIRONMENTID`
+## `aio cloudmanager:commerce:bin-magento:maintenance:status`
 
 commerce maintenance status
 
 ```
 USAGE
-  $ aio cloudmanager:commerce:bin-magento:maintenance:status ENVIRONMENTID
-
-ARGUMENTS
-  ENVIRONMENTID  the environment id
+  $ aio cloudmanager:commerce:bin-magento:maintenance:status
 
 OPTIONS
-  -V, --version                    displays this applications version
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                      do not output any message
-  -v, --verbose                    increase the verbosity of messages for debugging
-  --[no-]ansi                      force/disable ANSI output
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -V, --version                      displays this applications version
+  -e, --environmentId=environmentId  (required) the environment id
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -q, --quiet                        do not output any message
+  -v, --verbose                      increase the verbosity of messages for debugging
+  --[no-]ansi                        force/disable ANSI output
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
 ALIASES
   $ aio cloudmanager:commerce:maintenance-status
