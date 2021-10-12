@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.20.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.19.0...2.20.0) (2021-10-12)
+
+
+### Features
+
+* **commerce:** move environmentId to be a flag to address proper defaulting. fixes [#511](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/511) ([90edcda](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/90edcdac013f0ce88ce37caacead28e748bd8100))
+
 # [2.19.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.18.3...2.19.0) (2021-10-06)
 
 
