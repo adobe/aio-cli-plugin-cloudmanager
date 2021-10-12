@@ -13,4 +13,5 @@ governing permissions and limitations under the License.
 module.exports = {
   cacheType: { name: 'cacheType', required: false, description: 'the cache type' },
   indexType: { name: 'indexType', required: false, description: 'the index type' },
+  configType: { name: 'configType', required: false, description: 'the config type' },
 }

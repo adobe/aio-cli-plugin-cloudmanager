@@ -14,15 +14,14 @@ const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command
 const { getProgramId, getFormattedFlags } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
 const commonCommerceFlags = require('../../../../../common-commerce-flags')
-const commonArgs = require('../../../../../common-args')
 
 class MaintenanceStatusCommand extends BaseCommerceCliCommand {
   async run () {
-    const { args, flags } = this.parse(MaintenanceStatusCommand)
+    const { flags } = this.parse(MaintenanceStatusCommand)
 
     const programId = getProgramId(flags)
 
-    const result = await this.runSync(programId, args.environmentId,
+    const result = await this.runSync(programId, flags.environmentId,
       {
         type: 'bin/magento',
         command: 'maintenance:status',
@@ -39,15 +38,12 @@ MaintenanceStatusCommand.description = 'commerce maintenance status'
 MaintenanceStatusCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.environmentId,
   ...commonCommerceFlags.quiet,
   ...commonCommerceFlags.verbose,
   ...commonCommerceFlags.version,
   ...commonCommerceFlags.ansi,
 }
-
-MaintenanceStatusCommand.args = [
-  commonArgs.environmentId,
-]
 
 MaintenanceStatusCommand.aliases = [
   'cloudmanager:commerce:maintenance-status',

@@ -14,15 +14,14 @@ const BaseCommerceCliCommand = require('../../../../../base-commerce-cli-command
 const { getProgramId, getFormattedFlags } = require('../../../../../cloudmanager-helpers')
 const commonFlags = require('../../../../../common-flags')
 const commonCommerceFlags = require('../../../../../common-commerce-flags')
-const commonArgs = require('../../../../../common-args')
 
 class MaintenanceDisableCommand extends BaseCommerceCliCommand {
   async run () {
-    const { args, flags } = this.parse(MaintenanceDisableCommand)
+    const { flags } = this.parse(MaintenanceDisableCommand)
 
     const programId = getProgramId(flags)
 
-    const result = await this.runSync(programId, args.environmentId,
+    const result = await this.runSync(programId, flags.environmentId,
       {
         type: 'bin/magento',
         command: 'maintenance:disable',
@@ -39,15 +38,12 @@ MaintenanceDisableCommand.description = 'commerce maintenance disable'
 MaintenanceDisableCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
+  ...commonCommerceFlags.environmentId,
   ...commonCommerceFlags.quiet,
   ...commonCommerceFlags.verbose,
   ...commonCommerceFlags.version,
   ...commonCommerceFlags.ansi,
 }
-
-MaintenanceDisableCommand.args = [
-  commonArgs.environmentId,
-]
 
 MaintenanceDisableCommand.aliases = [
   'cloudmanager:commerce:maintenance-disable',
