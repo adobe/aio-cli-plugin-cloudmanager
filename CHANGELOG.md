@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.21.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.20.0...2.21.0) (2021-10-14)
+
+
+### Features
+
+* **start-execution:** support for emergency mode pipeline executions. fixes [#530](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/530) ([#531](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/531)) ([d621241](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/d621241454f8161045865ec41f845f7666946e55))
+
 # [2.20.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.19.0...2.20.0) (2021-10-12)
 
 
