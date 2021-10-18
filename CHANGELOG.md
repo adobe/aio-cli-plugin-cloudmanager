@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.21.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.21.0...2.21.1) (2021-10-18)
+
+
+### Bug Fixes
+
+* **start-execution:** clarify emergency flag. fixes [#535](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/535) ([#536](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/536)) ([143ae1c](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/143ae1c848cd724c21f7c7f637f2c0183b9b254b))
+
 # [2.21.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.20.0...2.21.0) (2021-10-14)
 
 
