@@ -43,7 +43,7 @@ StartExecutionCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
   emergency: flags.boolean({
-    description: 'create the execution in emergency mode',
+    description: 'create the execution in emergency mode. emergency mode will skip certain steps and is only available to select AMS customers.',
     allowNo: true,
   }),
 }
