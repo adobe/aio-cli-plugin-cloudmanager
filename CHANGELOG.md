@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.22.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.21.1...2.22.0) (2021-10-25)
+
+
+### Features
+
+* **error:** add request id and timestamp to error output. fixes [#544](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/544) ([#545](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/545)) ([4c8b198](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/4c8b19826feb5696a4dedc1b4e4eeb34eaf4d133))
+
 ## [2.21.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.21.0...2.21.1) (2021-10-18)
 
 
