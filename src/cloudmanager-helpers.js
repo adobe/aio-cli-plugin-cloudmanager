@@ -273,9 +273,14 @@ function handleError (_error, errorFn) {
   }
 
   let exitCode = exitCodes.GENERAL
+  let reference
   switch (_error.name) {
     case 'CloudManagerError':
       exitCode = exitCodes.SDK
+      reference = `Timestamp: ${new Date().toISOString()}`
+      if (_error.sdkDetails && _error.sdkDetails.requestId) {
+        reference = `Request Id: ${_error.sdkDetails.requestId}. ${reference}`
+      }
       break
     case 'CloudManagerCLIValidationError':
       exitCode = exitCodes.VALIDATION
@@ -293,6 +298,7 @@ function handleError (_error, errorFn) {
   errorFn(_error.message, {
     code: _error.code,
     exit: exitCode,
+    ref: reference,
   })
 }
 

@@ -49,7 +49,29 @@ test('catch -- sdk (no action running)', async () => {
   err.code = 'ABC'
 
   await fixture.catch(err)
-  await expect(error).toHaveBeenCalledWith('msg', { exit: 30, code: 'ABC' })
+  await expect(error).toHaveBeenCalledWith('msg', expect.objectContaining({
+    exit: 30,
+    code: 'ABC',
+    ref: expect.stringMatching(/^Timestamp/),
+  }))
+  await expect(cli.action.stop).not.toHaveBeenCalled()
+})
+
+test('catch -- sdk with requestId (no action running)', async () => {
+  const err = new Error('msg')
+  err.name = 'CloudManagerError'
+  err.code = 'ABC'
+  err.sdkDetails = {
+    requestId: 'abc',
+  }
+
+  await fixture.catch(err)
+  await expect(error).toHaveBeenCalledWith('msg', expect.objectContaining({
+    exit: 30,
+    code: 'ABC',
+    ref: expect.stringMatching(/^Request Id: abc. Timestamp/),
+
+  }))
   await expect(cli.action.stop).not.toHaveBeenCalled()
 })
 
