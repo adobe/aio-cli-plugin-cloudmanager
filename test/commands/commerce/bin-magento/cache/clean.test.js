@@ -38,7 +38,7 @@ test('cache:clean - missing arg', async () => {
   await expect(runResult).rejects.toThrow(/^Missing required flag/)
 })
 
-test('maintenance:status - missing config', async () => {
+test('cache:clean - missing config', async () => {
   expect.assertions(2)
 
   const runResult = run(['--programId', '5', '--environmentId', '10'])
@@ -46,7 +46,7 @@ test('maintenance:status - missing config', async () => {
   await expect(runResult).rejects.toThrow('[CloudManagerCLI:NO_IMS_CONTEXT] Unable to find IMS context aio-cli-plugin-cloudmanager.')
 })
 
-test('maintenance:status', async () => {
+test('cache:clean', async () => {
   let counter = 0
   setCurrentOrgId('good')
   mockSdk.postCommerceCommandExecution = jest.fn(() =>
@@ -75,7 +75,7 @@ test('maintenance:status', async () => {
 
   expect.assertions(11)
 
-  const runResult = run(['--programId', '5', '--environmentId', '10', '-V', '--ansi'])
+  const runResult = run(['--programId', '5', '--environmentId', '10', '-V', '--ansi', 'cacheType1', 'cacheType2'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await runResult
   await expect(init.mock.calls.length).toEqual(1)
@@ -89,7 +89,7 @@ test('maintenance:status', async () => {
   await expect(mockSdk.postCommerceCommandExecution).toHaveBeenCalledWith('5', '10', {
     type: 'bin/magento',
     command: 'cache:clean',
-    options: ['-n', '--version', '--ansi'],
+    options: ['-n', 'cacheType1', 'cacheType2', '--version', '--ansi'],
   })
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledWith('5', '10', '5000')
   await expect(mockSdk.getCommerceCommandExecution).toHaveBeenCalledTimes(3)
