@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.23.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.22.1...2.23.0) (2021-11-02)
+
+
+### Features
+
+* **environment-variables:** update variable validation to align with AEM documentation. fixes [#550](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/550) ([#551](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/551)) ([34e989c](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/34e989c30d6a80cfd7d5f31654cf399a0965b573))
+
 ## [2.22.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.22.0...2.22.1) (2021-10-26)
 
 
