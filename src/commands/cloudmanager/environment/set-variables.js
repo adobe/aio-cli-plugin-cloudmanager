@@ -21,6 +21,12 @@ const commonArgs = require('../../../common-args')
 const { services } = require('../../../constants')
 const { codes: validationCodes } = require('../../../ValidationErrors')
 
+const IGNORED_PREFIXES = [
+  'INTERNAL_',
+  'ADOBE_',
+  'CONST_',
+]
+
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   getFlagDefs () {
     const coreFlagDefs = super.getFlagDefs()
@@ -57,7 +63,7 @@ class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
 
   validateVariables (flags, variables) {
     variables.forEach(variable => {
-      if (variable.name && variable.name.startsWith('INTERNAL_')) {
+      if (variable.name && IGNORED_PREFIXES.find(prefix => variable.name.startsWith(prefix))) {
         if (this.strictValidationEnabled(flags)) {
           throw new validationCodes.INTERNAL_VARIABLE_USAGE({ messageValues: variable.name })
         } else {
