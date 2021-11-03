@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.23.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.23.0...2.23.1) (2021-11-03)
+
+
+### Bug Fixes
+
+* **commerce:** always pass all arguments to commerce command API. fixes [#552](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/552) ([9145339](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/914533924dcf681dc71085bea85e1c683a745b31))
+
 # [2.23.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.22.1...2.23.0) (2021-11-02)
 
 
