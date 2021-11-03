@@ -21,13 +21,12 @@ class CacheFlushCommand extends BaseCommerceCliCommand {
     const { flags, argv } = this.parse(CacheFlushCommand)
 
     const programId = getProgramId(flags)
-    const cacheTypes = argv.slice(1)
 
     const result = await this.runSync(programId, flags.environmentId,
       {
         type: 'bin/magento',
         command: 'cache:flush',
-        options: ['-n', ...cacheTypes, ...getFormattedFlags(flags, CacheFlushCommand)],
+        options: ['-n', ...argv, ...getFormattedFlags(flags, CacheFlushCommand)],
       },
       1000, 'cache:flush')
 

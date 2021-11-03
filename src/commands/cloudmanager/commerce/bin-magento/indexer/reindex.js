@@ -21,13 +21,12 @@ class IndexerReindexCommand extends BaseCommerceCliCommand {
     const { flags, argv } = this.parse(IndexerReindexCommand)
 
     const programId = getProgramId(flags)
-    const indexTypes = argv.slice(1)
 
     const result = await this.runSync(programId, flags.environmentId,
       {
         type: 'bin/magento',
         command: 'indexer:reindex',
-        options: ['-n', ...indexTypes, ...getFormattedFlags(flags, IndexerReindexCommand)],
+        options: ['-n', ...argv, ...getFormattedFlags(flags, IndexerReindexCommand)],
       },
       1000, 'indexer:reindex')
 

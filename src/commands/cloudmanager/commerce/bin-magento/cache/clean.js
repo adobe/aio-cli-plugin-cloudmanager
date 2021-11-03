@@ -21,13 +21,12 @@ class CacheCleanCommand extends BaseCommerceCliCommand {
     const { flags, argv } = this.parse(CacheCleanCommand)
 
     const programId = getProgramId(flags)
-    const cacheTypes = argv.slice(1)
 
     const result = await this.runSync(programId, flags.environmentId,
       {
         type: 'bin/magento',
         command: 'cache:clean',
-        options: ['-n', ...cacheTypes, ...getFormattedFlags(flags, CacheCleanCommand)],
+        options: ['-n', ...argv, ...getFormattedFlags(flags, CacheCleanCommand)],
       },
       1000, 'cache:clean')
 
