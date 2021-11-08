@@ -166,7 +166,7 @@ Primarily for scripting application purposes, the following exit codes are used:
 
 ## Reporting Issues
 
-In general, issues with this plugin should be reported in this project using GitHub issues using one of the provided issue templates. Errors emanating from the Cloud Manager API (i.e. those with exit code 30 as described above) should be reportd to Adobe support. The error output will generally contain the URL, response code, and other debug information that is necessary to identify and resolve the issue.
+In general, issues with this plugin should be reported in this project via GitHub issues using one of the provided issue templates. Errors emanating from the Cloud Manager API (i.e. those with exit code 30 as described above) should be reported to Adobe support. The error output will generally contain the URL, response code, and other debug information that is necessary to identify and resolve the issue.
 
 # Commands
 <!-- commands -->
