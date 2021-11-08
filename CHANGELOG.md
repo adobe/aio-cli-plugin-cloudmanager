@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.24.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.23.1...2.24.0) (2021-11-08)
+
+
+### Features
+
+* **auth:** read API key from CLI access token. fixes [#562](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/562) ([#563](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/563)) ([0645186](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/06451860ba84adece717fd2dfe880d6d07e77b96))
+
 ## [2.23.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.23.0...2.23.1) (2021-11-03)
 
 
