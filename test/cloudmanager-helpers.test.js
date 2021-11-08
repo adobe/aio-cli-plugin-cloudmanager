@@ -14,10 +14,12 @@ const { setCurrentOrgId, context } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
 const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth, formatDuration } = require('../src/cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
+const { setDecodedToken, resetDecodedToken } = require('jsonwebtoken')
 
 beforeEach(() => {
   disableCliAuth()
   setStore({})
+  resetDecodedToken()
 })
 
 test('initSdk - base url config -- no config', async () => {
@@ -93,18 +95,27 @@ test('initSdk - cli context', async () => {
     cloudmanager_orgid: 'something',
   })
   await initSdk()
-  await expect(init).toHaveBeenCalledWith('something', 'aio-cli-console-auth', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(init).toHaveBeenCalledWith('something', 'fake-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
 })
 
-test('initSdk - cli context stage env', async () => {
+test('initSdk - cli cannot decode token', async () => {
   enableCliAuth()
+  setDecodedToken(null)
 
   setStore({
     cloudmanager_orgid: 'something',
-    'cli.env': 'stage',
   })
-  await initSdk()
-  await expect(init).toHaveBeenCalledWith('something', 'aio-cli-console-auth-stage', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(initSdk).rejects.toThrow('[CloudManagerCLI:CLI_AUTH_CONTEXT_CANNOT_DECODE] The access token configured for cli authentication cannot be decoded.')
+})
+
+test('initSdk - decoded token does not have client_id', async () => {
+  enableCliAuth()
+  setDecodedToken({})
+
+  setStore({
+    cloudmanager_orgid: 'something',
+  })
+  await expect(initSdk).rejects.toThrow('[CloudManagerCLI:CLI_AUTH_CONTEXT_NO_CLIENT_ID] The decoded access token configured for cli authentication does not have a client_id.')
 })
 
 test('formatDuration -- empty', async () => {

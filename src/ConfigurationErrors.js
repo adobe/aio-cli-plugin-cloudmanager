@@ -57,3 +57,5 @@ E('IMS_CONTEXT_MISSING_FIELDS', 'One or more of the required fields in %s were n
 E('IMS_CONTEXT_MISSING_METASCOPE', 'The configuration %s is missing the required metascope %s.')
 E('CLI_AUTH_EXPLICIT_NO_AUTH', 'cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.')
 E('CLI_AUTH_EXPLICIT_NO_ORG', 'cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio cloudmanager:org:select"')
+E('CLI_AUTH_CONTEXT_CANNOT_DECODE', 'The access token configured for cli authentication cannot be decoded.')
+E('CLI_AUTH_CONTEXT_NO_CLIENT_ID', 'The decoded access token configured for cli authentication does not have a client_id.')

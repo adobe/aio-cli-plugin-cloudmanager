@@ -14,21 +14,16 @@ const Config = require('@adobe/aio-lib-core-config')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { cli } = require('cli-ux')
 const { context, getToken, Ims } = require('@adobe/aio-lib-ims')
-const { getCliEnv, DEFAULT_ENV } = require('@adobe/aio-lib-env')
 const moment = require('moment')
 const _ = require('lodash')
 const { CLI } = require('@adobe/aio-lib-ims/src/context')
+const jwt = require('jsonwebtoken')
 const { defaultImsContextName: defaultContextName, exitCodes } = require('./constants')
 const { codes: validationCodes } = require('./ValidationErrors')
 const { codes: configurationCodes } = require('./ConfigurationErrors')
 
 const SERVICE_ACCOUNT = 'service_account'
 const CLI_AUTH = 'cli_auth'
-
-const CLI_API_KEYS = {
-  prod: 'aio-cli-console-auth',
-  stage: 'aio-cli-console-auth-stage',
-}
 
 const SERVICE_CODES = [
   'dma_aem_cloud',
@@ -154,11 +149,21 @@ function setCliOrgId (orgId, local) {
 async function initSdk (contextName) {
   let apiKey
   let orgId
+  let accessToken
 
   if (isCliAuthEnabled()) {
-    const imsEnv = getCliEnv() || DEFAULT_ENV
-    apiKey = CLI_API_KEYS[imsEnv]
     contextName = CLI
+    accessToken = await getToken(contextName)
+
+    // no need here to validate the token
+    const decodedToken = jwt.decode(accessToken)
+    if (!decodedToken) {
+      throw new configurationCodes.CLI_AUTH_CONTEXT_CANNOT_DECODE()
+    }
+    apiKey = decodedToken.client_id
+    if (!apiKey) {
+      throw new configurationCodes.CLI_AUTH_CONTEXT_NO_CLIENT_ID()
+    }
     orgId = getCliOrgId()
   } else {
     contextName = contextName || defaultContextName
@@ -168,9 +173,8 @@ async function initSdk (contextName) {
     }
     apiKey = contextData.data.client_id
     orgId = contextData.data.ims_org_id
+    accessToken = await getToken(contextName)
   }
-
-  const accessToken = await getToken(contextName)
 
   const baseUrl = getBaseUrl()
 
