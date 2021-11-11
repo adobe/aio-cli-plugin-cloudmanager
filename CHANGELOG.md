@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.24.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.24.0...2.24.1) (2021-11-11)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @adobe/aio-lib-cloudmanager to ^1.12.1 ([#564](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/564)) ([4d52052](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/4d5205278ed2c76a530e814c865b39f8e0ba8f84))
+
 # [2.24.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.23.1...2.24.0) (2021-11-08)
 
 
