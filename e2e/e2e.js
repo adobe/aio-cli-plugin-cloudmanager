@@ -9,12 +9,43 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
+jest.unmock('@adobe/aio-lib-ims')
+jest.unmock('@adobe/aio-lib-core-config')
+
 const execa = require('execa')
 const chalk = require('chalk')
 const { stdout } = require('stdout-stderr')
+const { context } = require('@adobe/aio-lib-ims')
 const fs = require('fs')
 
+const CONTEXT_NAME = 'aio-cli-plugin-cloudmanager-e2e'
+
+const CONTEXT_ARGS = ['--imsContextName', CONTEXT_NAME]
+
 stdout.print = true
+
+beforeEach(async () => {
+  await clearAuthContext()
+})
+
+const clearAuthContext = async () => {
+  await context.set(CONTEXT_NAME, {})
+}
+
+const bootstrapAuthContext = async () => {
+  const contextObj = {
+    client_id: process.env.E2E_CLIENT_ID,
+    client_secret: process.env.E2E_CLIENT_SECRET,
+    technical_account_id: process.env.E2E_TA_EMAIL,
+    ims_org_id: process.env.E2E_IMS_ORG_ID,
+    meta_scopes: [
+      'ent_cloudmgr_sdk',
+    ],
+    private_key: Buffer.from(process.env.E2E_PRIVATE_KEY_B64, 'base64').toString(),
+  }
+
+  await context.set(CONTEXT_NAME, contextObj)
+}
 
 test('plugin-cloudmanager help test', async () => {
   const packagejson = JSON.parse(fs.readFileSync('package.json').toString())
@@ -23,6 +54,22 @@ test('plugin-cloudmanager help test', async () => {
 
   console.log(chalk.dim('    - plugin-cloudmanager help ..'))
   expect(() => { execa.sync('./bin/run', ['--help'], { stderr: 'inherit' }) }).not.toThrow()
+
+  console.log(chalk.green(`    - done for ${chalk.bold(name)}`))
+})
+
+test('plugin-cloudmanager list-programs', async () => {
+  await bootstrapAuthContext()
+  const packagejson = JSON.parse(fs.readFileSync('package.json').toString())
+  const name = `${packagejson.name}`
+  console.log(chalk.blue(`> e2e tests for ${chalk.bold(name)}`))
+
+  console.log(chalk.dim('    - plugin-cloudmanager list-programs ..'))
+
+  let result
+  expect(() => { result = execa.sync('./bin/run', ['cloudmanager:list-programs', ...CONTEXT_ARGS, '--json'], { stderr: 'inherit' }) }).not.toThrow()
+  const parsed = JSON.parse(result.stdout)
+  expect(parsed).toSatisfy(arr => arr.length > 0)
 
   console.log(chalk.green(`    - done for ${chalk.bold(name)}`))
 })

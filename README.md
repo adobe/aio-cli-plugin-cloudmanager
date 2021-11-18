@@ -1417,6 +1417,30 @@ npm install
 
 Of course this should not replace proper unit testing.
 
+## End-to-End (E2E) Testing
+
+To execute the end-to-end tests, create a file named `.env` in the project directory and configure it with your JWT credentials:
+
+```
+E2E_CLIENT_ID=<CLIENT ID>
+E2E_CLIENT_SECRET=<CLIENT SECRET>
+E2E_TA_EMAIL=<TECHNICAL ACCOUNT EMAIL>
+E2E_IMS_ORG_ID=<ORG ID>
+E2E_PRIVATE_KEY_B64=<Base64-Encoded PRIVATE KEY>
+```
+
+Note that the private key **must** be base64 encoded, e.g. by running
+
+```
+$ base64 -i private.key
+```
+
+With this in place the end-to-end tests can be run with
+
+```
+npm run e2e
+```
+
 # Standalone Use
 
 In rare circumstances, it may be useful to run this plugin separately from the Adobe I/O CLI. To do this, install this npm module directly, i.e.
