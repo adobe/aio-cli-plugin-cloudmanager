@@ -15,3 +15,7 @@ junit.xml
 /package-lock.json
 .aio
 permissions.json
+.env
+.secrets
+certificate_pub.crt
+private.key
