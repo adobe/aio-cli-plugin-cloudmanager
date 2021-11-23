@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.25.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.24.2...2.25.0) (2021-11-23)
+
+
+### Features
+
+* **pipeline:update:** support changing the environment id. fixes [#572](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/572) ([f59f5d3](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/f59f5d3779cba5dcbf5f8cea718552288ae9882c))
+
 ## [2.24.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.24.1...2.24.2) (2021-11-17)
 
 
