@@ -57,7 +57,10 @@ UpdatePipelineCommand.flags = {
   ...commonFlags.programId,
   branch: flags.string({ description: 'the new branch' }),
   tag: flags.string({ description: 'the new tag' }),
-  repositoryId: flags.string({ description: 'the new repositoryId' }),
+  repositoryId: flags.string({ description: 'the new repository id' }),
+  devEnvironmentId: flags.string({ description: 'the new dev environment id' }),
+  stageEnvironmentId: flags.string({ description: 'the new stage environment id' }),
+  prodEnvironmentId: flags.string({ description: 'the new prod environment id' }),
 }
 
 UpdatePipelineCommand.args = [
