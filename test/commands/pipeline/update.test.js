@@ -115,3 +115,25 @@ test('update-pipeline - correct tag', async () => {
   })
   await expect(cli.action.stop.mock.calls[0][0]).toBe('updated pipeline ID 10')
 })
+
+test('update-pipeline - environments', async () => {
+  setCurrentOrgId('good')
+
+  expect.assertions(8)
+
+  const runResult = UpdatePipelineCommand.run(['--programId', '5', '10', '--devEnvironmentId', '42', '--stageEnvironmentId', '43', '--prodEnvironmentId', '44'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await runResult
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.updatePipeline.mock.calls.length).toEqual(1)
+  await expect(mockSdk.updatePipeline.mock.calls[0][0]).toEqual('5')
+  await expect(mockSdk.updatePipeline.mock.calls[0][1]).toEqual('10')
+  await expect(mockSdk.updatePipeline.mock.calls[0][2]).toMatchObject({
+    devEnvironmentId: '42',
+    stageEnvironmentId: '43',
+    prodEnvironmentId: '44',
+  })
+  await expect(cli.action.stop.mock.calls[0][0]).toBe('updated pipeline ID 10')
+})
