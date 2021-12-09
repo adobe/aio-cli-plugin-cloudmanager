@@ -29,10 +29,6 @@
       "allowedVersions": "<4.0"
     },
     {
-      "packageNames": ["eslint-plugin-node"],
-      "allowedVersions": "<11"
-    },
-    {
       "packageNames": ["chalk"],
       "allowedVersions": "<5"
     },
