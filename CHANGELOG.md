@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.25.0...2.25.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* **deps:** update dependency cli-ux to v6 ([16fc011](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/16fc011af201d0d6c7ba8964486f39d9b25dfc8a))
+
 # [2.25.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.24.2...2.25.0) (2021-11-23)
 
 
