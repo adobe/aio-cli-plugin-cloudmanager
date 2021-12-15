@@ -14,7 +14,6 @@ jest.unmock('@adobe/aio-lib-core-config')
 
 const execa = require('execa')
 const chalk = require('chalk')
-const { stdout } = require('stdout-stderr')
 const { context } = require('@adobe/aio-lib-ims')
 const fs = require('fs')
 
@@ -22,14 +21,23 @@ const CONTEXT_NAME = 'aio-cli-plugin-cloudmanager-e2e'
 
 const CONTEXT_ARGS = ['--imsContextName', CONTEXT_NAME]
 
-stdout.print = true
-
 beforeEach(async () => {
   await clearAuthContext()
 })
 
 const clearAuthContext = async () => {
   await context.set(CONTEXT_NAME, {})
+}
+
+const exec = (cmd, args) => {
+  try {
+    const result = execa.sync(cmd, args)
+    console.log('result of %s %s: %s', cmd, args, result.stdout)
+    return result
+  } catch (e) {
+    console.error('result of %s %s: (stdout): %s; (stderr): %s', cmd, args, e.stdout, e.stderr)
+    throw e
+  }
 }
 
 const bootstrapAuthContext = async () => {
@@ -53,7 +61,7 @@ test('plugin-cloudmanager help test', async () => {
   console.log(chalk.blue(`> e2e tests for ${chalk.bold(name)}`))
 
   console.log(chalk.dim('    - plugin-cloudmanager help ..'))
-  expect(() => { execa.sync('./bin/run', ['--help'], { stderr: 'inherit' }) }).not.toThrow()
+  expect(() => { exec('./bin/run', ['--help']) }).not.toThrow()
 
   console.log(chalk.green(`    - done for ${chalk.bold(name)}`))
 })
@@ -67,7 +75,7 @@ test('plugin-cloudmanager list-programs', async () => {
   console.log(chalk.dim('    - plugin-cloudmanager list-programs ..'))
 
   let result
-  expect(() => { result = execa.sync('./bin/run', ['cloudmanager:list-programs', ...CONTEXT_ARGS, '--json'], { stderr: 'inherit' }) }).not.toThrow()
+  expect(() => { result = exec('./bin/run', ['cloudmanager:list-programs', ...CONTEXT_ARGS, '--json']) }).not.toThrow()
   const parsed = JSON.parse(result.stdout)
   expect(parsed).toSatisfy(arr => arr.length > 0)
 
