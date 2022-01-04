@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.25.1...2.25.2) (2022-01-04)
+
+
+### Bug Fixes
+
+* **deps:** update dependency @oclif/plugin-help to v5 ([ddbe075](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/ddbe075c67f37840c80796e4552a5500a4ffb146))
+
 ## [2.25.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.25.0...2.25.1) (2021-12-09)
 
 
