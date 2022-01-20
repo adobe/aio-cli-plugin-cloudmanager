@@ -74,6 +74,8 @@ DownloadLogs.aliases = [
   'cloudmanager:download-logs',
 ]
 
-DownloadLogs.permissionInfo = {}
+DownloadLogs.permissionInfo = {
+  operation: 'downloadLogs',
+}
 
 module.exports = DownloadLogs
