@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.25.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.25.2...2.25.3) (2022-01-20)
+
+
+### Bug Fixes
+
+* update permission info for environment logs commands. fixes [#610](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/610) ([4a05f15](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/4a05f1587756939610b3d84e7012b371c849ff3d))
+
 ## [2.25.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.25.1...2.25.2) (2022-01-04)
 
 
