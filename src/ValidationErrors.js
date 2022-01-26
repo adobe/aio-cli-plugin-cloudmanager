@@ -52,6 +52,8 @@ E('INTERNAL_VARIABLE_USAGE', 'The variable name %s is reserved for internal usag
 E('IP_ALLOWLIST_NOT_FOUND', 'Could not find IP Allowlist with id %s in program id %s.')
 E('VARIABLES_JSON_PARSE_ERROR', 'Unable to parse variables from provided data.')
 E('VARIABLES_JSON_NOT_ARRAY', 'Provided variables input was not an array.')
+E('VARIABLES_YAML_PARSE_ERROR', 'Unable to parse variables from provided data.')
+E('VARIABLES_YAML_NOT_ARRAY', 'Provided variables input was not an array.')
 E('BOTH_BRANCH_AND_TAG_PROVIDED', 'Both branch and tag cannot be specified.')
 E('MISSING_PROGRAM_ID', 'Program ID must be specified either as --programId flag or through cloudmanager_programid config value.')
 E('MISSING_METRICS', 'Metrics for action %s on execution %s could not be found.')
