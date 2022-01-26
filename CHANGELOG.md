@@ -1,5 +1,12 @@
 # Changelog
 
+# [2.26.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.25.3...2.26.0) (2022-01-26)
+
+
+### Features
+
+* **variables:** add support for yaml variable input. fixes [#615](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/615) ([eec36ce](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/eec36ce5375f0d2170ba5305f1eb41b655a0ffc5))
+
 ## [2.25.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.25.2...2.25.3) (2022-01-20)
 
 
