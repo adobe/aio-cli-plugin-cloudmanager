@@ -291,6 +291,22 @@ test('set-environment-variables - stdin - not JSON', async () => {
   await expect(runResult).rejects.toThrow('Unable to parse variables from provided data.')
 })
 
+test('set-environment-variables - stdin - bad YAML', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  getPipedData.mockResolvedValue('{garbage')
+
+  expect.assertions(2)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--yamlStdin'])
+
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toThrow('Unable to parse variables from provided data.')
+})
+
 test('set-environment-variables - file - not JSON', async () => {
   setCurrentOrgId('good')
   setStore({
@@ -307,7 +323,23 @@ test('set-environment-variables - file - not JSON', async () => {
   await expect(runResult).rejects.toThrow('Unable to parse variables from provided data.')
 })
 
-test('set-environment-variables - stdin - not array', async () => {
+test('set-environment-variables - file - bad YAML', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  mockFileContent = '{garbage'
+
+  expect.assertions(2)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--yamlFile', mockFileName])
+
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toThrow('Unable to parse variables from provided data.')
+})
+
+test('set-environment-variables - JSON stdin - not array', async () => {
   setCurrentOrgId('good')
   setStore({
     cloudmanager_programid: '4',
@@ -323,7 +355,23 @@ test('set-environment-variables - stdin - not array', async () => {
   await expect(runResult).rejects.toThrow('Provided variables input was not an array.')
 })
 
-test('set-environment-variables - stdin - secret and variable', async () => {
+test('set-environment-variables - YAML stdin - not array', async () => {
+  setCurrentOrgId('good')
+  setStore({
+    cloudmanager_programid: '4',
+  })
+
+  getPipedData.mockResolvedValue('test: true')
+
+  expect.assertions(2)
+
+  const runResult = SetEnvironmentVariablesCommand.run(['1', '--yamlStdin'])
+
+  await expect(runResult instanceof Promise).toBeTruthy()
+  await expect(runResult).rejects.toThrow('Provided variables input was not an array.')
+})
+
+test('set-environment-variables - JSON stdin - secret and variable', async () => {
   setCurrentOrgId('good')
   setStore({
     cloudmanager_programid: '4',
@@ -496,7 +544,7 @@ test('set-environment-variables - both jsonStdin and jsonFile', async () => {
 
   await expect(runResult instanceof Promise).toBeTruthy()
 
-  await expect(runResult).rejects.toThrow('--jsonStdin= cannot also be provided when using --jsonFile=')
+  await expect(runResult).rejects.toThrow('--jsonFile= cannot also be provided when using --jsonStdin=')
 })
 
 test('set-environment-variables - author variable', async () => {

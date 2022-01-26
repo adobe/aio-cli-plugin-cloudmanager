@@ -15,6 +15,7 @@ const fs = require('fs')
 
 const BaseCommand = require('./base-command')
 const { cli } = require('cli-ux')
+const yaml = require('js-yaml')
 const { flags } = require('@oclif/command')
 const { getProgramId, createKeyValueObjectFromFlag, getOutputFormat } = require('./cloudmanager-helpers')
 const commonFlags = require('./common-flags')
@@ -126,42 +127,23 @@ class BaseVariablesCommand extends BaseCommand {
       }
     })
 
+    const getFileData = promisify(fs.readFile)
+
     if (flags.jsonStdin) {
       const rawStdinData = await getPipedData()
-      this.loadVariablesFromJson(rawStdinData, currentVariableTypes, variables)
+      BaseVariablesCommand.loadVariablesFromJson(rawStdinData, currentVariableTypes, variables)
     } else if (flags.jsonFile) {
-      const getFileData = promisify(fs.readFile)
       const rawFileData = await getFileData(flags.jsonFile)
-      this.loadVariablesFromJson(rawFileData, currentVariableTypes, variables)
+      BaseVariablesCommand.loadVariablesFromJson(rawFileData, currentVariableTypes, variables)
+    } else if (flags.yamlStdin) {
+      const rawStdinData = await getPipedData()
+      BaseVariablesCommand.loadVariablesFromYaml(rawStdinData, currentVariableTypes, variables)
+    } else if (flags.yamlFile) {
+      const rawFileData = await getFileData(flags.yamlFile)
+      BaseVariablesCommand.loadVariablesFromYaml(rawFileData, currentVariableTypes, variables)
     }
 
     return variables
-  }
-
-  loadVariablesFromJson (rawData, currentVariableTypes, variables) {
-    let data
-    try {
-      data = JSON.parse(rawData)
-    } catch (e) {
-      throw new validationCodes.VARIABLES_JSON_PARSE_ERROR()
-    }
-    if (!_.isArray(data)) {
-      throw new validationCodes.VARIABLES_JSON_NOT_ARRAY()
-    }
-    data.forEach(item => {
-      if (item.name && !_.isUndefined(item.value)) {
-        if (!item.type) {
-          item.type = 'string'
-        }
-        const currentVariableKey = item.service ? `${item.service}:${item.name}` : item.name
-        if (currentVariableTypes[currentVariableKey] && !item.value) {
-          item.type = currentVariableTypes[currentVariableKey]
-        }
-        if (!variables.find(variable => variable.name === item.name && variables.services === item.service)) {
-          variables.push(item)
-        }
-      }
-    })
   }
 
   validateVariables (flags, variables) { }
@@ -190,16 +172,69 @@ BaseVariablesCommand.setterFlags = {
   jsonStdin: flags.boolean({
     default: false,
     description: 'if set, read variables from a JSON array provided as standard input; variables set through --variable or --secret flag will take precedence',
+    exclusive: ['jsonFile', 'yamlStdin', 'yamlFile'],
   }),
   jsonFile: flags.string({
     description: 'if set, read variables from a JSON array provided as a file; variables set through --variable or --secret flag will take precedence',
-    exclusive: ['jsonStdin'],
+    exclusive: ['jsonStdin', 'yamlStdin', 'yamlFile'],
+  }),
+  yamlStdin: flags.boolean({
+    default: false,
+    description: 'if set, read variables from a YAML array provided as standard input; variables set through --variable or --secret flag will take precedence',
+    exclusive: ['jsonStdin', 'jsonFile', 'yamlFile'],
+  }),
+  yamlFile: flags.string({
+    description: 'if set, read variables from a YAML array provided as a file; variables set through --variable or --secret flag will take precedence',
+    exclusive: ['jsonStdin', 'jsonFile', 'yamlStdin'],
   }),
   ...commonFlags.outputFormat,
 }
 
 BaseVariablesCommand.getterFlags = {
   ...commonFlags.outputFormat,
+}
+
+const loadVariableData = (array, currentVariableTypes, variables) => {
+  array.forEach(item => {
+    if (item.name && !_.isUndefined(item.value)) {
+      if (!item.type) {
+        item.type = 'string'
+      }
+      const currentVariableKey = item.service ? `${item.service}:${item.name}` : item.name
+      if (currentVariableTypes[currentVariableKey] && !item.value) {
+        item.type = currentVariableTypes[currentVariableKey]
+      }
+      if (!variables.find(variable => variable.name === item.name && variables.services === item.service)) {
+        variables.push(item)
+      }
+    }
+  })
+}
+
+BaseVariablesCommand.loadVariablesFromJson = (rawData, currentVariableTypes, variables) => {
+  let data
+  try {
+    data = JSON.parse(rawData)
+  } catch (e) {
+    throw new validationCodes.VARIABLES_JSON_PARSE_ERROR()
+  }
+  if (!_.isArray(data)) {
+    throw new validationCodes.VARIABLES_JSON_NOT_ARRAY()
+  }
+  loadVariableData(data, currentVariableTypes, variables)
+}
+
+BaseVariablesCommand.loadVariablesFromYaml = (rawData, currentVariableTypes, variables) => {
+  let data
+  try {
+    data = yaml.load(rawData)
+  } catch (e) {
+    throw new validationCodes.VARIABLES_YAML_PARSE_ERROR()
+  }
+  if (!_.isArray(data)) {
+    throw new validationCodes.VARIABLES_YAML_NOT_ARRAY()
+  }
+  loadVariableData(data, currentVariableTypes, variables)
 }
 
 module.exports = BaseVariablesCommand
