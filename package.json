@@ -44,7 +44,7 @@
     "fetch-mock": "9.11.0",
     "husky": "5.2.0",
     "jest": "27.4.7",
-    "jest-extended": "1.2.0",
+    "jest-extended": "1.2.1",
     "jest-junit": "13.0.0",
     "node-wget": "0.4.3",
     "pinst": "2.1.6",
