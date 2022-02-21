@@ -47,7 +47,7 @@
     "jest-extended": "2.0.0",
     "jest-junit": "13.0.0",
     "node-wget": "0.4.3",
-    "pinst": "2.1.6",
+    "pinst": "3.0.0",
     "semantic-release": "17.4.7",
     "stdout-stderr": "0.1.13",
     "tmp": "0.2.1"
