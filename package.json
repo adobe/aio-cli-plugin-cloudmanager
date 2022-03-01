@@ -5,7 +5,7 @@
   "author": "Adobe Inc.",
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
-    "@adobe/aio-lib-cloudmanager": "^1.14.1",
+    "@adobe/aio-lib-cloudmanager": "^2.0.0",
     "@adobe/aio-lib-core-config": "^2.0.0",
     "@adobe/aio-lib-core-errors": "^3.0.1",
     "@adobe/aio-lib-core-logging": "^1.2.0",
