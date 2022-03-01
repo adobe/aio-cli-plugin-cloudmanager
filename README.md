@@ -171,17 +171,6 @@ In general, issues with this plugin should be reported in this project via GitHu
 
 # Commands
 <!-- commands -->
-* [`aio cloudmanager:commerce:bin-magento:app:config:dump [CONFIGTYPE]`](#aio-cloudmanagercommercebin-magentoappconfigdump-configtype)
-* [`aio cloudmanager:commerce:bin-magento:app:config:import`](#aio-cloudmanagercommercebin-magentoappconfigimport)
-* [`aio cloudmanager:commerce:bin-magento:cache:clean [CACHETYPE]`](#aio-cloudmanagercommercebin-magentocacheclean-cachetype)
-* [`aio cloudmanager:commerce:bin-magento:cache:flush [CACHETYPE]`](#aio-cloudmanagercommercebin-magentocacheflush-cachetype)
-* [`aio cloudmanager:commerce:bin-magento:indexer:reindex [INDEXTYPE]`](#aio-cloudmanagercommercebin-magentoindexerreindex-indextype)
-* [`aio cloudmanager:commerce:bin-magento:maintenance:disable`](#aio-cloudmanagercommercebin-magentomaintenancedisable)
-* [`aio cloudmanager:commerce:bin-magento:maintenance:enable`](#aio-cloudmanagercommercebin-magentomaintenanceenable)
-* [`aio cloudmanager:commerce:bin-magento:maintenance:status`](#aio-cloudmanagercommercebin-magentomaintenancestatus)
-* [`aio cloudmanager:commerce:get-command-execution ENVIRONMENTID COMMANDEXECUTIONID`](#aio-cloudmanagercommerceget-command-execution-environmentid-commandexecutionid)
-* [`aio cloudmanager:commerce:list-command-executions ENVIRONMENTID`](#aio-cloudmanagercommercelist-command-executions-environmentid)
-* [`aio cloudmanager:commerce:tail-command-execution-log ENVIRONMENTID COMMANDEXECUTIONID`](#aio-cloudmanagercommercetail-command-execution-log-environmentid-commandexecutionid)
 * [`aio cloudmanager:current-execution:advance PIPELINEID`](#aio-cloudmanagercurrent-executionadvance-pipelineid)
 * [`aio cloudmanager:current-execution:cancel PIPELINEID`](#aio-cloudmanagercurrent-executioncancel-pipelineid)
 * [`aio cloudmanager:current-execution:get PIPELINEID`](#aio-cloudmanagercurrent-executionget-pipelineid)
@@ -221,265 +210,6 @@ In general, issues with this plugin should be reported in this project via GitHu
 * [`aio cloudmanager:program:list-ip-allowlists`](#aio-cloudmanagerprogramlist-ip-allowlists)
 * [`aio cloudmanager:program:list-pipelines`](#aio-cloudmanagerprogramlist-pipelines)
 
-## `aio cloudmanager:commerce:bin-magento:app:config:dump [CONFIGTYPE]`
-
-commerce config dump
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:app:config:dump [CONFIGTYPE]
-
-ARGUMENTS
-  CONFIGTYPE  the config type
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/app/config/dump.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/app/config/dump.js)_
-
-## `aio cloudmanager:commerce:bin-magento:app:config:import`
-
-commerce config import
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:app:config:import
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/app/config/import.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/app/config/import.js)_
-
-## `aio cloudmanager:commerce:bin-magento:cache:clean [CACHETYPE]`
-
-commerce cache clean
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:cache:clean [CACHETYPE]
-
-ARGUMENTS
-  CACHETYPE  the cache type
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-
-ALIASES
-  $ aio cloudmanager:commerce:cache-clean
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/cache/clean.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/cache/clean.js)_
-
-## `aio cloudmanager:commerce:bin-magento:cache:flush [CACHETYPE]`
-
-commerce cache flush
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:cache:flush [CACHETYPE]
-
-ARGUMENTS
-  CACHETYPE  the cache type
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-
-ALIASES
-  $ aio cloudmanager:commerce:cache-flush
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/cache/flush.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/cache/flush.js)_
-
-## `aio cloudmanager:commerce:bin-magento:indexer:reindex [INDEXTYPE]`
-
-commerce indexer reindex
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:indexer:reindex [INDEXTYPE]
-
-ARGUMENTS
-  INDEXTYPE  the index type
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-
-ALIASES
-  $ aio cloudmanager:commerce:indexer-reindex
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/indexer/reindex.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/indexer/reindex.js)_
-
-## `aio cloudmanager:commerce:bin-magento:maintenance:disable`
-
-commerce maintenance disable
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:maintenance:disable
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-
-ALIASES
-  $ aio cloudmanager:commerce:maintenance-disable
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/maintenance/disable.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/maintenance/disable.js)_
-
-## `aio cloudmanager:commerce:bin-magento:maintenance:enable`
-
-commerce maintenance enable
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:maintenance:enable
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-
-ALIASES
-  $ aio cloudmanager:commerce:maintenance-enable
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/maintenance/enable.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/maintenance/enable.js)_
-
-## `aio cloudmanager:commerce:bin-magento:maintenance:status`
-
-commerce maintenance status
-
-```
-USAGE
-  $ aio cloudmanager:commerce:bin-magento:maintenance:status
-
-OPTIONS
-  -V, --version                      displays this applications version
-  -e, --environmentId=environmentId  (required) the environment id
-  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -q, --quiet                        do not output any message
-  -v, --verbose                      increase the verbosity of messages for debugging
-  --[no-]ansi                        force/disable ANSI output
-  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-
-ALIASES
-  $ aio cloudmanager:commerce:maintenance-status
-```
-
-_See code: [src/commands/cloudmanager/commerce/bin-magento/maintenance/status.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/bin-magento/maintenance/status.js)_
-
-## `aio cloudmanager:commerce:get-command-execution ENVIRONMENTID COMMANDEXECUTIONID`
-
-get status of a single commerce cli command
-
-```
-USAGE
-  $ aio cloudmanager:commerce:get-command-execution ENVIRONMENTID COMMANDEXECUTIONID
-
-ARGUMENTS
-  ENVIRONMENTID       the environment id
-  COMMANDEXECUTIONID  the command execution id
-
-OPTIONS
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-```
-
-_See code: [src/commands/cloudmanager/commerce/get-command-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/get-command-execution.js)_
-
-## `aio cloudmanager:commerce:list-command-executions ENVIRONMENTID`
-
-get status of a single commerce cli command
-
-```
-USAGE
-  $ aio cloudmanager:commerce:list-command-executions ENVIRONMENTID
-
-ARGUMENTS
-  ENVIRONMENTID  the environment id
-
-OPTIONS
-  -c, --command=maintenance:status|maintenance:enable|maintenance:disable|indexer:reindex|cache:clean|cache:flush|app:co
-  nfig:dump|app:config:import
-      filter by command
-
-  -p, --programId=programId
-      the programId. if not specified, defaults to 'cloudmanager_programid' config value
-
-  -s, --status=PENDING|RUNNING|CANCELLED|COMPLETED|FAILED|CANCELLING|CANCEL_FAILED|UNKNOWN
-      filter by status of command
-
-  -t, --type=bin/magento
-      filter by type of command
-
-  --imsContextName=imsContextName
-      the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-```
-
-_See code: [src/commands/cloudmanager/commerce/list-command-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/list-command-executions.js)_
-
-## `aio cloudmanager:commerce:tail-command-execution-log ENVIRONMENTID COMMANDEXECUTIONID`
-
-outputs a stream of log data for the specified environment and commerce execution id
-
-```
-USAGE
-  $ aio cloudmanager:commerce:tail-command-execution-log ENVIRONMENTID COMMANDEXECUTIONID
-
-ARGUMENTS
-  ENVIRONMENTID       the environment id
-  COMMANDEXECUTIONID  the commerece command execution id
-
-OPTIONS
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
-```
-
-_See code: [src/commands/cloudmanager/commerce/tail-command-execution-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/commerce/tail-command-execution-log.js)_
-
 ## `aio cloudmanager:current-execution:advance PIPELINEID`
 
 advance current pipeline execution either by overriding a waiting quality gate or advancing the approval step
@@ -499,7 +229,7 @@ ALIASES
   $ aio cloudmanager:advance-current-execution
 ```
 
-_See code: [src/commands/cloudmanager/current-execution/advance.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/current-execution/advance.js)_
+_See code: [src/commands/cloudmanager/current-execution/advance.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/current-execution/advance.js)_
 
 ## `aio cloudmanager:current-execution:cancel PIPELINEID`
 
@@ -520,7 +250,7 @@ ALIASES
   $ aio cloudmanager:cancel-current-execution
 ```
 
-_See code: [src/commands/cloudmanager/current-execution/cancel.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/current-execution/cancel.js)_
+_See code: [src/commands/cloudmanager/current-execution/cancel.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/current-execution/cancel.js)_
 
 ## `aio cloudmanager:current-execution:get PIPELINEID`
 
@@ -543,7 +273,7 @@ ALIASES
   $ aio cloudmanager:get-current-execution
 ```
 
-_See code: [src/commands/cloudmanager/current-execution/get.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/current-execution/get.js)_
+_See code: [src/commands/cloudmanager/current-execution/get.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/current-execution/get.js)_
 
 ## `aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
 
@@ -563,7 +293,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/environment/bind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/bind-ip-allowlist.js)_
+_See code: [src/commands/cloudmanager/environment/bind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/bind-ip-allowlist.js)_
 
 ## `aio cloudmanager:environment:delete ENVIRONMENTID`
 
@@ -584,7 +314,7 @@ ALIASES
   $ aio cloudmanager:delete-environment
 ```
 
-_See code: [src/commands/cloudmanager/environment/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/delete.js)_
+_See code: [src/commands/cloudmanager/environment/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/delete.js)_
 
 ## `aio cloudmanager:environment:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`
 
@@ -612,7 +342,7 @@ ALIASES
   $ aio cloudmanager:download-logs
 ```
 
-_See code: [src/commands/cloudmanager/environment/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/download-logs.js)_
+_See code: [src/commands/cloudmanager/environment/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/download-logs.js)_
 
 ## `aio cloudmanager:environment:list-available-log-options ENVIRONMENTID`
 
@@ -635,7 +365,7 @@ ALIASES
   $ aio cloudmanager:list-available-log-options
 ```
 
-_See code: [src/commands/cloudmanager/environment/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/list-available-log-options.js)_
+_See code: [src/commands/cloudmanager/environment/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/list-available-log-options.js)_
 
 ## `aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID`
 
@@ -658,7 +388,7 @@ ALIASES
   $ aio cloudmanager:environment:list-bound-ip-allowlists
 ```
 
-_See code: [src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js)_
+_See code: [src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js)_
 
 ## `aio cloudmanager:environment:list-variables ENVIRONMENTID`
 
@@ -681,7 +411,7 @@ ALIASES
   $ aio cloudmanager:list-environment-variables
 ```
 
-_See code: [src/commands/cloudmanager/environment/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/list-variables.js)_
+_See code: [src/commands/cloudmanager/environment/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/list-variables.js)_
 
 ## `aio cloudmanager:environment:open-developer-console ENVIRONMENTID`
 
@@ -702,7 +432,7 @@ ALIASES
   $ aio cloudmanager:open-developer-console
 ```
 
-_See code: [src/commands/cloudmanager/environment/open-developer-console.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/open-developer-console.js)_
+_See code: [src/commands/cloudmanager/environment/open-developer-console.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/open-developer-console.js)_
 
 ## `aio cloudmanager:environment:set-variables ENVIRONMENTID`
 
@@ -759,7 +489,7 @@ ALIASES
   $ aio cloudmanager:set-environment-variables
 ```
 
-_See code: [src/commands/cloudmanager/environment/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/set-variables.js)_
+_See code: [src/commands/cloudmanager/environment/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/set-variables.js)_
 
 ## `aio cloudmanager:environment:tail-log ENVIRONMENTID SERVICE NAME`
 
@@ -783,7 +513,7 @@ ALIASES
   $ aio cloudmanager:tail-log
 ```
 
-_See code: [src/commands/cloudmanager/environment/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/tail-log.js)_
+_See code: [src/commands/cloudmanager/environment/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/tail-log.js)_
 
 ## `aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
 
@@ -803,7 +533,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/environment/unbind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/environment/unbind-ip-allowlist.js)_
+_See code: [src/commands/cloudmanager/environment/unbind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/environment/unbind-ip-allowlist.js)_
 
 ## `aio cloudmanager:execution:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
 
@@ -828,7 +558,7 @@ ALIASES
   $ aio cloudmanager:get-quality-gate-results
 ```
 
-_See code: [src/commands/cloudmanager/execution/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/execution/get-quality-gate-results.js)_
+_See code: [src/commands/cloudmanager/execution/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/execution/get-quality-gate-results.js)_
 
 ## `aio cloudmanager:execution:get-step-details PIPELINEID EXECUTIONID`
 
@@ -852,7 +582,7 @@ ALIASES
   $ aio cloudmanager:get-execution-step-details
 ```
 
-_See code: [src/commands/cloudmanager/execution/get-step-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/execution/get-step-details.js)_
+_See code: [src/commands/cloudmanager/execution/get-step-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/execution/get-step-details.js)_
 
 ## `aio cloudmanager:execution:get-step-log PIPELINEID EXECUTIONID ACTION`
 
@@ -881,7 +611,7 @@ ALIASES
   $ aio cloudmanager:get-execution-step-log
 ```
 
-_See code: [src/commands/cloudmanager/execution/get-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/execution/get-step-log.js)_
+_See code: [src/commands/cloudmanager/execution/get-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/execution/get-step-log.js)_
 
 ## `aio cloudmanager:execution:tail-step-log PIPELINEID ACTION`
 
@@ -900,7 +630,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/execution/tail-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/execution/tail-step-log.js)_
+_See code: [src/commands/cloudmanager/execution/tail-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/execution/tail-step-log.js)_
 
 ## `aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE`
 
@@ -920,7 +650,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/bind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/ip-allowlist/bind.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/bind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/ip-allowlist/bind.js)_
 
 ## `aio cloudmanager:ip-allowlist:create NAME`
 
@@ -939,7 +669,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/create.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/ip-allowlist/create.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/create.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/ip-allowlist/create.js)_
 
 ## `aio cloudmanager:ip-allowlist:delete IPALLOWLISTID`
 
@@ -957,7 +687,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/ip-allowlist/delete.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/ip-allowlist/delete.js)_
 
 ## `aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID`
 
@@ -977,7 +707,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/get-binding-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/ip-allowlist/get-binding-details.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/get-binding-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/ip-allowlist/get-binding-details.js)_
 
 ## `aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE`
 
@@ -997,7 +727,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/unbind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/ip-allowlist/unbind.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/unbind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/ip-allowlist/unbind.js)_
 
 ## `aio cloudmanager:ip-allowlist:update IPALLOWLISTID`
 
@@ -1018,7 +748,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/ip-allowlist/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/ip-allowlist/update.js)_
+_See code: [src/commands/cloudmanager/ip-allowlist/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/ip-allowlist/update.js)_
 
 ## `aio cloudmanager:list-programs`
 
@@ -1035,7 +765,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/list-programs.js)_
+_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/list-programs.js)_
 
 ## `aio cloudmanager:org:list`
 
@@ -1051,7 +781,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/org/list.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/org/list.js)_
+_See code: [src/commands/cloudmanager/org/list.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/org/list.js)_
 
 ## `aio cloudmanager:org:select [ORGID]`
 
@@ -1068,7 +798,7 @@ OPTIONS
   --global  stores selected organization in global configuration
 ```
 
-_See code: [src/commands/cloudmanager/org/select.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/org/select.js)_
+_See code: [src/commands/cloudmanager/org/select.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/org/select.js)_
 
 ## `aio cloudmanager:pipeline:create-execution PIPELINEID`
 
@@ -1094,7 +824,7 @@ ALIASES
   $ aio cloudmanager:start-execution
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/create-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/pipeline/create-execution.js)_
+_See code: [src/commands/cloudmanager/pipeline/create-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/pipeline/create-execution.js)_
 
 ## `aio cloudmanager:pipeline:delete PIPELINEID`
 
@@ -1115,7 +845,7 @@ ALIASES
   $ aio cloudmanager:delete-pipeline
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/pipeline/delete.js)_
+_See code: [src/commands/cloudmanager/pipeline/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/pipeline/delete.js)_
 
 ## `aio cloudmanager:pipeline:invalidate-cache PIPELINEID`
 
@@ -1133,7 +863,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/invalidate-cache.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/pipeline/invalidate-cache.js)_
+_See code: [src/commands/cloudmanager/pipeline/invalidate-cache.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/pipeline/invalidate-cache.js)_
 
 ## `aio cloudmanager:pipeline:list-executions PIPELINEID`
 
@@ -1154,7 +884,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/list-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/pipeline/list-executions.js)_
+_See code: [src/commands/cloudmanager/pipeline/list-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/pipeline/list-executions.js)_
 
 ## `aio cloudmanager:pipeline:list-variables PIPELINEID`
 
@@ -1177,7 +907,7 @@ ALIASES
   $ aio cloudmanager:list-pipeline-variables
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/pipeline/list-variables.js)_
+_See code: [src/commands/cloudmanager/pipeline/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/pipeline/list-variables.js)_
 
 ## `aio cloudmanager:pipeline:set-variables PIPELINEID`
 
@@ -1215,7 +945,7 @@ ALIASES
   $ aio cloudmanager:set-pipeline-variables
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/pipeline/set-variables.js)_
+_See code: [src/commands/cloudmanager/pipeline/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/pipeline/set-variables.js)_
 
 ## `aio cloudmanager:pipeline:update PIPELINEID`
 
@@ -1250,7 +980,7 @@ ALIASES
   $ aio cloudmanager:update-pipeline
 ```
 
-_See code: [src/commands/cloudmanager/pipeline/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/pipeline/update.js)_
+_See code: [src/commands/cloudmanager/pipeline/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/pipeline/update.js)_
 
 ## `aio cloudmanager:program:delete PROGRAMID`
 
@@ -1270,7 +1000,7 @@ ALIASES
   $ aio cloudmanager:delete-program
 ```
 
-_See code: [src/commands/cloudmanager/program/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/program/delete.js)_
+_See code: [src/commands/cloudmanager/program/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/program/delete.js)_
 
 ## `aio cloudmanager:program:list-current-executions`
 
@@ -1290,7 +1020,7 @@ ALIASES
   $ aio cloudmanager:list-current-executions
 ```
 
-_See code: [src/commands/cloudmanager/program/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/program/list-current-executions.js)_
+_See code: [src/commands/cloudmanager/program/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/program/list-current-executions.js)_
 
 ## `aio cloudmanager:program:list-environments`
 
@@ -1310,7 +1040,7 @@ ALIASES
   $ aio cloudmanager:list-environments
 ```
 
-_See code: [src/commands/cloudmanager/program/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/program/list-environments.js)_
+_See code: [src/commands/cloudmanager/program/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/program/list-environments.js)_
 
 ## `aio cloudmanager:program:list-ip-allowlists`
 
@@ -1327,7 +1057,7 @@ OPTIONS
   --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 ```
 
-_See code: [src/commands/cloudmanager/program/list-ip-allowlists.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/program/list-ip-allowlists.js)_
+_See code: [src/commands/cloudmanager/program/list-ip-allowlists.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/program/list-ip-allowlists.js)_
 
 ## `aio cloudmanager:program:list-pipelines`
 
@@ -1347,7 +1077,7 @@ ALIASES
   $ aio cloudmanager:list-pipelines
 ```
 
-_See code: [src/commands/cloudmanager/program/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/2.26.1/src/commands/cloudmanager/program/list-pipelines.js)_
+_See code: [src/commands/cloudmanager/program/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.0/src/commands/cloudmanager/program/list-pipelines.js)_
 <!-- commandsstop -->
 
 # Permissions

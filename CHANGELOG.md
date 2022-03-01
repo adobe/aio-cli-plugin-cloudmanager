@@ -1,5 +1,17 @@
 # Changelog
 
+# [3.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.26.1...3.0.0) (2022-03-01)
+
+
+### Features
+
+* **commerce:** remove commerce commands. fixes [#635](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/635) ([dd74644](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/dd74644dc3ef0dca2f14db31e6f2f1e40e75cc3c))
+
+
+### BREAKING CHANGES
+
+* **commerce:** commands are no longer available
+
 ## [2.26.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.26.0...2.26.1) (2022-01-31)
 
 
