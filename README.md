@@ -171,7 +171,913 @@ In general, issues with this plugin should be reported in this project via GitHu
 
 # Commands
 <!-- commands -->
+* [`aio cloudmanager:current-execution:advance PIPELINEID`](#aio-cloudmanagercurrent-executionadvance-pipelineid)
+* [`aio cloudmanager:current-execution:cancel PIPELINEID`](#aio-cloudmanagercurrent-executioncancel-pipelineid)
+* [`aio cloudmanager:current-execution:get PIPELINEID`](#aio-cloudmanagercurrent-executionget-pipelineid)
+* [`aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`](#aio-cloudmanagerenvironmentbind-ip-allowlist-environmentid-ipallowlistid-service)
+* [`aio cloudmanager:environment:delete ENVIRONMENTID`](#aio-cloudmanagerenvironmentdelete-environmentid)
+* [`aio cloudmanager:environment:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`](#aio-cloudmanagerenvironmentdownload-logs-environmentid-service-name-days)
+* [`aio cloudmanager:environment:list-available-log-options ENVIRONMENTID`](#aio-cloudmanagerenvironmentlist-available-log-options-environmentid)
+* [`aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID`](#aio-cloudmanagerenvironmentlist-ip-allowlist-bindings-environmentid)
+* [`aio cloudmanager:environment:list-variables ENVIRONMENTID`](#aio-cloudmanagerenvironmentlist-variables-environmentid)
+* [`aio cloudmanager:environment:open-developer-console ENVIRONMENTID`](#aio-cloudmanagerenvironmentopen-developer-console-environmentid)
+* [`aio cloudmanager:environment:set-variables ENVIRONMENTID`](#aio-cloudmanagerenvironmentset-variables-environmentid)
+* [`aio cloudmanager:environment:tail-log ENVIRONMENTID SERVICE NAME`](#aio-cloudmanagerenvironmenttail-log-environmentid-service-name)
+* [`aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`](#aio-cloudmanagerenvironmentunbind-ip-allowlist-environmentid-ipallowlistid-service)
+* [`aio cloudmanager:execution:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerexecutionget-quality-gate-results-pipelineid-executionid-action)
+* [`aio cloudmanager:execution:get-step-details PIPELINEID EXECUTIONID`](#aio-cloudmanagerexecutionget-step-details-pipelineid-executionid)
+* [`aio cloudmanager:execution:get-step-log PIPELINEID EXECUTIONID ACTION`](#aio-cloudmanagerexecutionget-step-log-pipelineid-executionid-action)
+* [`aio cloudmanager:execution:tail-step-log PIPELINEID ACTION`](#aio-cloudmanagerexecutiontail-step-log-pipelineid-action)
+* [`aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE`](#aio-cloudmanagerip-allowlistbind-ipallowlistid-environmentid-service)
+* [`aio cloudmanager:ip-allowlist:create NAME`](#aio-cloudmanagerip-allowlistcreate-name)
+* [`aio cloudmanager:ip-allowlist:delete IPALLOWLISTID`](#aio-cloudmanagerip-allowlistdelete-ipallowlistid)
+* [`aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID`](#aio-cloudmanagerip-allowlistget-binding-details-ipallowlistid)
+* [`aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE`](#aio-cloudmanagerip-allowlistunbind-ipallowlistid-environmentid-service)
+* [`aio cloudmanager:ip-allowlist:update IPALLOWLISTID`](#aio-cloudmanagerip-allowlistupdate-ipallowlistid)
+* [`aio cloudmanager:list-programs`](#aio-cloudmanagerlist-programs)
+* [`aio cloudmanager:org:list`](#aio-cloudmanagerorglist)
+* [`aio cloudmanager:org:select [ORGID]`](#aio-cloudmanagerorgselect-orgid)
+* [`aio cloudmanager:pipeline:create-execution PIPELINEID`](#aio-cloudmanagerpipelinecreate-execution-pipelineid)
+* [`aio cloudmanager:pipeline:delete PIPELINEID`](#aio-cloudmanagerpipelinedelete-pipelineid)
+* [`aio cloudmanager:pipeline:invalidate-cache PIPELINEID`](#aio-cloudmanagerpipelineinvalidate-cache-pipelineid)
+* [`aio cloudmanager:pipeline:list-executions PIPELINEID`](#aio-cloudmanagerpipelinelist-executions-pipelineid)
+* [`aio cloudmanager:pipeline:list-variables PIPELINEID`](#aio-cloudmanagerpipelinelist-variables-pipelineid)
+* [`aio cloudmanager:pipeline:set-variables PIPELINEID`](#aio-cloudmanagerpipelineset-variables-pipelineid)
+* [`aio cloudmanager:pipeline:update PIPELINEID`](#aio-cloudmanagerpipelineupdate-pipelineid)
+* [`aio cloudmanager:program:delete PROGRAMID`](#aio-cloudmanagerprogramdelete-programid)
+* [`aio cloudmanager:program:list-current-executions`](#aio-cloudmanagerprogramlist-current-executions)
+* [`aio cloudmanager:program:list-environments`](#aio-cloudmanagerprogramlist-environments)
+* [`aio cloudmanager:program:list-ip-allowlists`](#aio-cloudmanagerprogramlist-ip-allowlists)
+* [`aio cloudmanager:program:list-pipelines`](#aio-cloudmanagerprogramlist-pipelines)
 
+## `aio cloudmanager:current-execution:advance PIPELINEID`
+
+advance current pipeline execution either by overriding a waiting quality gate or advancing the approval step
+
+```
+USAGE
+  $ aio cloudmanager:current-execution:advance PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:advance-current-execution
+```
+
+_See code: [src/commands/cloudmanager/current-execution/advance.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/current-execution/advance.js)_
+
+## `aio cloudmanager:current-execution:cancel PIPELINEID`
+
+cancel current pipeline execution either by cancelling the current step, rejecting a waiting quality gate, or rejecting the approval step
+
+```
+USAGE
+  $ aio cloudmanager:current-execution:cancel PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:cancel-current-execution
+```
+
+_See code: [src/commands/cloudmanager/current-execution/cancel.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/current-execution/cancel.js)_
+
+## `aio cloudmanager:current-execution:get PIPELINEID`
+
+get pipeline execution
+
+```
+USAGE
+  $ aio cloudmanager:current-execution:get PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:get-current-execution
+```
+
+_See code: [src/commands/cloudmanager/current-execution/get.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/current-execution/get.js)_
+
+## `aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
+
+Bind an IP Allowlist to an environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:bind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  IPALLOWLISTID  the IP allowlist id
+  SERVICE        (author|publish|preview) the service name
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/environment/bind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/bind-ip-allowlist.js)_
+
+## `aio cloudmanager:environment:delete ENVIRONMENTID`
+
+delete environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:delete ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:delete-environment
+```
+
+_See code: [src/commands/cloudmanager/environment/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/delete.js)_
+
+## `aio cloudmanager:environment:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`
+
+downloads log files for the specified environment, service and log name for one or more days
+
+```
+USAGE
+  $ aio cloudmanager:environment:download-logs ENVIRONMENTID SERVICE NAME [DAYS]
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  SERVICE        the service
+  NAME           the log name
+  DAYS           [default: 1] the number of days
+
+OPTIONS
+  -o, --outputDirectory=outputDirectory  the output directory. If not set, defaults to the current directory.
+
+  -p, --programId=programId              the programId. if not specified, defaults to 'cloudmanager_programid' config
+                                         value
+
+  --imsContextName=imsContextName        the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:download-logs
+```
+
+_See code: [src/commands/cloudmanager/environment/download-logs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/download-logs.js)_
+
+## `aio cloudmanager:environment:list-available-log-options ENVIRONMENTID`
+
+lists available log options for an environment in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:environment:list-available-log-options ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:list-available-log-options
+```
+
+_See code: [src/commands/cloudmanager/environment/list-available-log-options.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/list-available-log-options.js)_
+
+## `aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID`
+
+lists IP Allowlists bound to an environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:list-ip-allowlist-bindings ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:environment:list-bound-ip-allowlists
+```
+
+_See code: [src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/list-ip-allowlist-bindings.js)_
+
+## `aio cloudmanager:environment:list-variables ENVIRONMENTID`
+
+lists variables set on an environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:list-variables ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:list-environment-variables
+```
+
+_See code: [src/commands/cloudmanager/environment/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/list-variables.js)_
+
+## `aio cloudmanager:environment:open-developer-console ENVIRONMENTID`
+
+opens the Developer Console, if available, in a browser
+
+```
+USAGE
+  $ aio cloudmanager:environment:open-developer-console ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:open-developer-console
+```
+
+_See code: [src/commands/cloudmanager/environment/open-developer-console.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/open-developer-console.js)_
+
+## `aio cloudmanager:environment:set-variables ENVIRONMENTID`
+
+sets variables set on an environment. These are runtime variables available to components running inside the runtime environment. Use set-pipeline-variables to set build-time variables on a pipeline.
+
+```
+USAGE
+  $ aio cloudmanager:environment:set-variables ENVIRONMENTID
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+
+OPTIONS
+  -d, --delete=delete                variables/secrets to delete
+  -j, --json                         output in json format
+  -p, --programId=programId          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -s, --secret=secret                secret values in KEY VALUE format
+  -v, --variable=variable            variable values in KEY VALUE format
+  -y, --yaml                         output in yaml format
+  --authorDelete=authorDelete        variables/secrets to delete for author service
+  --authorSecret=authorSecret        secret values in KEY VALUE format for author service
+  --authorVariable=authorVariable    variable values in KEY VALUE format for author service
+  --imsContextName=imsContextName    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+  --jsonFile=jsonFile                if set, read variables from a JSON array provided as a file; variables set through
+                                     --variable or --secret flag will take precedence
+
+  --jsonStdin                        if set, read variables from a JSON array provided as standard input; variables set
+                                     through --variable or --secret flag will take precedence
+
+  --previewDelete=previewDelete      variables/secrets to delete for preview service
+
+  --previewSecret=previewSecret      secret values in KEY VALUE format for preview service
+
+  --previewVariable=previewVariable  variable values in KEY VALUE format for preview service
+
+  --publishDelete=publishDelete      variables/secrets to delete for publish service
+
+  --publishSecret=publishSecret      secret values in KEY VALUE format for publish service
+
+  --publishVariable=publishVariable  variable values in KEY VALUE format for publish service
+
+  --strict                           performs strict validation of internal variables. Can also be enabled by setting
+                                     configuration property cloudmanager.environmentVariables.strictValidation to a
+                                     truthy value.
+
+  --yamlFile=yamlFile                if set, read variables from a YAML array provided as a file; variables set through
+                                     --variable or --secret flag will take precedence
+
+  --yamlStdin                        if set, read variables from a YAML array provided as standard input; variables set
+                                     through --variable or --secret flag will take precedence
+
+ALIASES
+  $ aio cloudmanager:set-environment-variables
+```
+
+_See code: [src/commands/cloudmanager/environment/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/set-variables.js)_
+
+## `aio cloudmanager:environment:tail-log ENVIRONMENTID SERVICE NAME`
+
+outputs a stream of log data for the specified environment, service and log name
+
+```
+USAGE
+  $ aio cloudmanager:environment:tail-log ENVIRONMENTID SERVICE NAME
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  SERVICE        the service
+  NAME           the log name
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:tail-logs
+  $ aio cloudmanager:tail-log
+```
+
+_See code: [src/commands/cloudmanager/environment/tail-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/tail-log.js)_
+
+## `aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE`
+
+Bind an IP Allowlist to an environment
+
+```
+USAGE
+  $ aio cloudmanager:environment:unbind-ip-allowlist ENVIRONMENTID IPALLOWLISTID SERVICE
+
+ARGUMENTS
+  ENVIRONMENTID  the environment id
+  IPALLOWLISTID  the IP allowlist id
+  SERVICE        (author|publish|preview) the service name
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/environment/unbind-ip-allowlist.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/environment/unbind-ip-allowlist.js)_
+
+## `aio cloudmanager:execution:get-quality-gate-results PIPELINEID EXECUTIONID ACTION`
+
+get quality gate results
+
+```
+USAGE
+  $ aio cloudmanager:execution:get-quality-gate-results PIPELINEID EXECUTIONID ACTION
+
+ARGUMENTS
+  PIPELINEID   the pipeline id
+  EXECUTIONID  the execution id
+  ACTION       (codeQuality|security|performance|contentAudit|experienceAudit) the step action
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:get-quality-gate-results
+```
+
+_See code: [src/commands/cloudmanager/execution/get-quality-gate-results.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/execution/get-quality-gate-results.js)_
+
+## `aio cloudmanager:execution:get-step-details PIPELINEID EXECUTIONID`
+
+get execution step details
+
+```
+USAGE
+  $ aio cloudmanager:execution:get-step-details PIPELINEID EXECUTIONID
+
+ARGUMENTS
+  PIPELINEID   the pipeline id
+  EXECUTIONID  the execution id
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:get-execution-step-details
+```
+
+_See code: [src/commands/cloudmanager/execution/get-step-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/execution/get-step-details.js)_
+
+## `aio cloudmanager:execution:get-step-log PIPELINEID EXECUTIONID ACTION`
+
+get step log
+
+```
+USAGE
+  $ aio cloudmanager:execution:get-step-log PIPELINEID EXECUTIONID ACTION
+
+ARGUMENTS
+  PIPELINEID   the pipeline id
+  EXECUTIONID  the execution id
+  ACTION       (build|codeQuality|devDeploy|stageDeploy|prodDeploy|buildImage) the step action
+
+OPTIONS
+  -f, --file=file                  the alternative log file name. currently only `sonarLogFile` is available (for the
+                                   codeQuality step)
+
+  -o, --output=output              the output file. If not set, uses standard output.
+
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:get-execution-step-log
+```
+
+_See code: [src/commands/cloudmanager/execution/get-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/execution/get-step-log.js)_
+
+## `aio cloudmanager:execution:tail-step-log PIPELINEID ACTION`
+
+tail step log
+
+```
+USAGE
+  $ aio cloudmanager:execution:tail-step-log PIPELINEID ACTION
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+  ACTION      (build) [default: build] the step action
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/execution/tail-step-log.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/execution/tail-step-log.js)_
+
+## `aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE`
+
+Bind an IP Allowlist to an environment
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:bind IPALLOWLISTID ENVIRONMENTID SERVICE
+
+ARGUMENTS
+  IPALLOWLISTID  the IP allowlist id
+  ENVIRONMENTID  the environment id
+  SERVICE        (author|publish|preview) the service name
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/bind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/ip-allowlist/bind.js)_
+
+## `aio cloudmanager:ip-allowlist:create NAME`
+
+Create an IP Allowlist
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:create NAME
+
+ARGUMENTS
+  NAME  the name to create
+
+OPTIONS
+  -c, --cidr=cidr                  (required) a CIDR block
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/create.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/ip-allowlist/create.js)_
+
+## `aio cloudmanager:ip-allowlist:delete IPALLOWLISTID`
+
+Delete an IP Allowlist
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:delete IPALLOWLISTID
+
+ARGUMENTS
+  IPALLOWLISTID  the id of the allowlist to delete
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/ip-allowlist/delete.js)_
+
+## `aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID`
+
+list detailed information on IP Allowlist Bindings
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:get-binding-details IPALLOWLISTID
+
+ARGUMENTS
+  IPALLOWLISTID  the id of the allowlist
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/get-binding-details.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/ip-allowlist/get-binding-details.js)_
+
+## `aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE`
+
+Remove an IP Allowlist binding
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:unbind IPALLOWLISTID ENVIRONMENTID SERVICE
+
+ARGUMENTS
+  IPALLOWLISTID  the IP allowlist id
+  ENVIRONMENTID  the environment id
+  SERVICE        (author|publish|preview) the service name
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/unbind.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/ip-allowlist/unbind.js)_
+
+## `aio cloudmanager:ip-allowlist:update IPALLOWLISTID`
+
+Update an IP Allowlist by replacing the CIDR blocks
+
+```
+USAGE
+  $ aio cloudmanager:ip-allowlist:update IPALLOWLISTID
+
+ARGUMENTS
+  IPALLOWLISTID  the id of the allowlist to update
+
+OPTIONS
+  -c, --cidr=cidr                  (required) a CIDR block
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/ip-allowlist/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/ip-allowlist/update.js)_
+
+## `aio cloudmanager:list-programs`
+
+lists programs available in Cloud Manager
+
+```
+USAGE
+  $ aio cloudmanager:list-programs
+
+OPTIONS
+  -e, --enabledonly                only output Cloud Manager-enabled programs
+  -j, --json                       output in json format
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/list-programs.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/list-programs.js)_
+
+## `aio cloudmanager:org:list`
+
+list the organizations in which the current user is authorized to use Cloud Manager
+
+```
+USAGE
+  $ aio cloudmanager:org:list
+
+OPTIONS
+  -j, --json                       output in json format
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/org/list.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/org/list.js)_
+
+## `aio cloudmanager:org:select [ORGID]`
+
+select an organization in which the current user is authorized to use Cloud Manager
+
+```
+USAGE
+  $ aio cloudmanager:org:select [ORGID]
+
+ARGUMENTS
+  ORGID  the org id to store in configuration
+
+OPTIONS
+  --global  stores selected organization in global configuration
+```
+
+_See code: [src/commands/cloudmanager/org/select.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/org/select.js)_
+
+## `aio cloudmanager:pipeline:create-execution PIPELINEID`
+
+start pipeline execution
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:create-execution PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+
+  --[no-]emergency                 create the execution in emergency mode. emergency mode will skip certain steps and is
+                                   only available to select AMS customers.
+
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:create-execution
+  $ aio cloudmanager:start-execution
+```
+
+_See code: [src/commands/cloudmanager/pipeline/create-execution.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/pipeline/create-execution.js)_
+
+## `aio cloudmanager:pipeline:delete PIPELINEID`
+
+delete pipeline
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:delete PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:delete-pipeline
+```
+
+_See code: [src/commands/cloudmanager/pipeline/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/pipeline/delete.js)_
+
+## `aio cloudmanager:pipeline:invalidate-cache PIPELINEID`
+
+invalidate pipeline cache
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:invalidate-cache PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/pipeline/invalidate-cache.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/pipeline/invalidate-cache.js)_
+
+## `aio cloudmanager:pipeline:list-executions PIPELINEID`
+
+list pipeline executions
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:list-executions PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -j, --json                       output in json format
+  -l, --limit=limit                Specify number of executions to return (defaults to 20)
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/pipeline/list-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/pipeline/list-executions.js)_
+
+## `aio cloudmanager:pipeline:list-variables PIPELINEID`
+
+lists variables set on an pipeline
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:list-variables PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:list-pipeline-variables
+```
+
+_See code: [src/commands/cloudmanager/pipeline/list-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/pipeline/list-variables.js)_
+
+## `aio cloudmanager:pipeline:set-variables PIPELINEID`
+
+sets variables set on a pipeline. These are build-time variables available during the build process. Use set-environment-variables to set runtime variables on a environment.
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:set-variables PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -d, --delete=delete              variables/secrets to delete
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -s, --secret=secret              secret values in KEY VALUE format
+  -v, --variable=variable          variable values in KEY VALUE format
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+  --jsonFile=jsonFile              if set, read variables from a JSON array provided as a file; variables set through
+                                   --variable or --secret flag will take precedence
+
+  --jsonStdin                      if set, read variables from a JSON array provided as standard input; variables set
+                                   through --variable or --secret flag will take precedence
+
+  --yamlFile=yamlFile              if set, read variables from a YAML array provided as a file; variables set through
+                                   --variable or --secret flag will take precedence
+
+  --yamlStdin                      if set, read variables from a YAML array provided as standard input; variables set
+                                   through --variable or --secret flag will take precedence
+
+ALIASES
+  $ aio cloudmanager:set-pipeline-variables
+```
+
+_See code: [src/commands/cloudmanager/pipeline/set-variables.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/pipeline/set-variables.js)_
+
+## `aio cloudmanager:pipeline:update PIPELINEID`
+
+update pipeline
+
+```
+USAGE
+  $ aio cloudmanager:pipeline:update PIPELINEID
+
+ARGUMENTS
+  PIPELINEID  the pipeline id
+
+OPTIONS
+  -p, --programId=programId                the programId. if not specified, defaults to 'cloudmanager_programid' config
+                                           value
+
+  --branch=branch                          the new branch
+
+  --devEnvironmentId=devEnvironmentId      the new dev environment id
+
+  --imsContextName=imsContextName          the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+  --prodEnvironmentId=prodEnvironmentId    the new prod environment id
+
+  --repositoryId=repositoryId              the new repository id
+
+  --stageEnvironmentId=stageEnvironmentId  the new stage environment id
+
+  --tag=tag                                the new tag
+
+ALIASES
+  $ aio cloudmanager:update-pipeline
+```
+
+_See code: [src/commands/cloudmanager/pipeline/update.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/pipeline/update.js)_
+
+## `aio cloudmanager:program:delete PROGRAMID`
+
+delete program
+
+```
+USAGE
+  $ aio cloudmanager:program:delete PROGRAMID
+
+ARGUMENTS
+  PROGRAMID  the program id
+
+OPTIONS
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:delete-program
+```
+
+_See code: [src/commands/cloudmanager/program/delete.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/program/delete.js)_
+
+## `aio cloudmanager:program:list-current-executions`
+
+list running pipeline executions
+
+```
+USAGE
+  $ aio cloudmanager:program:list-current-executions
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:list-current-executions
+```
+
+_See code: [src/commands/cloudmanager/program/list-current-executions.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/program/list-current-executions.js)_
+
+## `aio cloudmanager:program:list-environments`
+
+lists environments available in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:program:list-environments
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:list-environments
+```
+
+_See code: [src/commands/cloudmanager/program/list-environments.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/program/list-environments.js)_
+
+## `aio cloudmanager:program:list-ip-allowlists`
+
+lists IP Allowlists available in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:program:list-ip-allowlists
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+```
+
+_See code: [src/commands/cloudmanager/program/list-ip-allowlists.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/program/list-ip-allowlists.js)_
+
+## `aio cloudmanager:program:list-pipelines`
+
+lists pipelines available in a Cloud Manager program
+
+```
+USAGE
+  $ aio cloudmanager:program:list-pipelines
+
+OPTIONS
+  -j, --json                       output in json format
+  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -y, --yaml                       output in yaml format
+  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+
+ALIASES
+  $ aio cloudmanager:list-pipelines
+```
+
+_See code: [src/commands/cloudmanager/program/list-pipelines.js](https://github.com/adobe/aio-cli-plugin-cloudmanager/blob/3.0.2/src/commands/cloudmanager/program/list-pipelines.js)_
 <!-- commandsstop -->
 
 # Permissions
