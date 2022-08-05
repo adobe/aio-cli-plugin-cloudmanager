@@ -21,14 +21,6 @@ jobs:
         run: npm install
       - name: Test
         run: npm test
-      - name: End to End Test
-        run: npm run e2e
-        env:
-          E2E_CLIENT_ID: ${{ secrets.E2E_CLIENT_ID }}
-          E2E_CLIENT_SECRET: ${{ secrets.E2E_CLIENT_SECRET }}
-          E2E_TA_EMAIL: ${{ secrets.E2E_TA_EMAIL }}
-          E2E_IMS_ORG_ID: ${{ secrets.E2E_IMS_ORG_ID }}
-          E2E_PRIVATE_KEY_B64: ${{ secrets.E2E_PRIVATE_KEY_B64 }}
       - name: Codecov
         uses: codecov/codecov-action@v2.1.0
         with:

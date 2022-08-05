@@ -31,7 +31,7 @@ class GetExecutionStepDetails extends BaseCommand {
 
       const buildStep = stepStates.find(stepState => stepState.action === 'build')
       const codeQualityStep = stepStates.find(stepState => stepState.action === 'codeQuality')
-      if (buildStep.status === 'FINISHED') {
+      if (buildStep.status === 'FINISHED' && codeQualityStep) {
         codeQualityStep.startedAt = buildStep.finishedAt
       }
 

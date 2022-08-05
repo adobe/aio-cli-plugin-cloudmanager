@@ -16,6 +16,7 @@ const { resetCurrentOrgId, setCurrentOrgId } = require('@adobe/aio-lib-ims')
 const GetExecutionStepDetails = require('../../../src/commands/cloudmanager/execution/get-step-details')
 const execution1010 = require('../../data/execution1010.json')
 const execution1011 = require('../../data/execution1011.json')
+const execution1013 = require('../../data/execution1013.json')
 
 beforeEach(() => {
   resetCurrentOrgId()
@@ -94,4 +95,21 @@ test('get-execution-step-details - cancelled build', async () => {
   await expect(cli.table.mock.calls).toHaveLength(1)
 
   await expect(cli.table.mock.calls[0][0][2].startedAt).toBeUndefined()
+})
+
+test('get-execution-step-details - result with no code quality step', async () => {
+  setCurrentOrgId('good')
+  mockSdk.getExecution = jest.fn(() => execution1013)
+
+  expect.assertions(7)
+
+  const runResult = GetExecutionStepDetails.run(['5', '--programId', '5', '1002'])
+  await expect(runResult instanceof Promise).toBeTruthy()
+
+  await expect(runResult).resolves.toBeTruthy()
+  await expect(init.mock.calls.length).toEqual(1)
+  await expect(init).toHaveBeenCalledWith('good', 'test-client-id', 'fake-token', 'https://cloudmanager.adobe.io')
+  await expect(mockSdk.getExecution.mock.calls.length).toEqual(1)
+  await expect(mockSdk.getExecution).toHaveBeenCalledWith('5', '5', '1002')
+  await expect(cli.table.mock.calls).toHaveLength(1)
 })
