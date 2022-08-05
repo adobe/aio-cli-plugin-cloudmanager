@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/3.0.0...3.0.1) (2022-08-05)
+
+
+### Bug Fixes
+
+* execution:get-step-details fails for executions without code quality step. fixes [#651](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/651) ([56f43aa](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/56f43aa964789eedb7050130b29cf2818320b4b3))
+
 # [3.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/2.26.1...3.0.0) (2022-03-01)
 
 
