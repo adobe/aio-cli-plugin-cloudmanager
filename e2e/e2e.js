@@ -1,5 +1,5 @@
 /*
-Copyright 2019 Adobe. All rights reserved.
+Copyright 2022 Adobe. All rights reserved.
 This file is licensed to you under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License. You may obtain a copy
 of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -66,6 +66,8 @@ test('plugin-cloudmanager help test', async () => {
   console.log(chalk.green(`    - done for ${chalk.bold(name)}`))
 })
 
+/* Side condition: debug log output must not be enabled (DEBUG=* or LOG_LEVEL=debug),
+   or else the result in result.stdout is not valid JSON and cannot be parsed (line: JSON.parse...)  */
 test('plugin-cloudmanager list-programs', async () => {
   await bootstrapAuthContext()
   const packagejson = JSON.parse(fs.readFileSync('package.json').toString())
