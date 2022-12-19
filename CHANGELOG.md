@@ -1,5 +1,20 @@
 # Changelog
 
+# [4.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/3.0.2...4.0.0) (2022-12-19)
+
+
+### chore
+
+* **deps:** Update AIO Libraries. Fixes [#662](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/662) ([#664](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/664)) ([2b286c6](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/2b286c69d521d4fd451b914ca204f0eee9537539))
+
+
+### BREAKING CHANGES
+
+* **deps:** Using new major versions of AIO libraries
+
+Co-authored-by: Patrick Hupe <hupe@adobe.com>
+Co-authored-by: Mihai Bradoschi <bradosch@adobe.com>
+
 ## [3.0.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/3.0.1...3.0.2) (2022-08-05)
 
 
