@@ -18,6 +18,8 @@ All submissions should come in the form of pull requests and need to be reviewed
 
 Please follow the [pull request template](PULL_REQUEST_TEMPLATE.md) when submitting a pull request. Following the requirements for semantic releases (as described in the next section), each pull request should contain a single change and be comprised of a single commit.
 
+**Pull requests created from forks won't be able to successfully run the E2E tests. We can’t use E2E secrets with workflows from a forked repository.**
+
 ## Error Handling
 
 In order to ensure proper error handling, individual commands should generally *not* handle errors themselves. Commands should throw errors and allow them to be caught by the `catch` method in `BaseCommand`. There may be exceptions specifically around errors that are non-fatal. Thrown errors should be defined in either `ValidationErrors` or `ConfigurationErrors`.
