@@ -318,7 +318,7 @@ _See code: [src/commands/cloudmanager/environment/delete.js](https://github.com/
 
 ## `aio cloudmanager:environment:download-logs ENVIRONMENTID SERVICE NAME [DAYS]`
 
-downloads log files for the specified environment, service and log name for one or more days
+Downloads log files for the specified environment, service and log name for one or more days. Filtering by 1 day will return data from current time until 24 hours ago.
 
 ```
 USAGE
