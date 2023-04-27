@@ -1,0 +1,13 @@
+{
+  "contentSetId": "123",
+  "contentSetName": "Test cas one",
+  "srcEnvironmentId": "10",
+  "srcEnvironmentName": "TestEnv-prod",
+  "destEnvironmentId": "1234",
+  "destEnvironmentName": "TestEnv-stage",
+  "tier": "author",
+  "status": "IN_PROGRESS",
+  "contentFlowId": "45",
+  "programId": "5",
+  "destProgramId": "5"
+}
