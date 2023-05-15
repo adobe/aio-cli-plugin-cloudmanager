@@ -1,0 +1,13 @@
+{
+  "id": "7202",
+  "name": "AIO cloud manager plugin test",
+  "description": "Test AIO cloud manager plugin",
+  "paths": [{
+    "path": "/content/dam/image_1.png"
+  }, {
+    "path": "/content/dam/image.jpg"
+  }],
+  "programId": "67406",
+  "createdAt": "2023-04-03T14:05:46.189+0000",
+  "updatedAt": "2023-04-03T14:05:46.189+0000"
+}

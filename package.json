@@ -5,7 +5,7 @@
   "author": "Adobe Inc.",
   "bugs": "https://github.com/adobe/aio-cli-plugin-cloudmanager/issues",
   "dependencies": {
-    "@adobe/aio-lib-cloudmanager": "^3.0.0",
+    "@adobe/aio-lib-cloudmanager": "^3.1.0",
     "@adobe/aio-lib-core-config": "^3.0.0",
     "@adobe/aio-lib-core-errors": "^3.1.1",
     "@adobe/aio-lib-core-logging": "^2.0.0",
@@ -106,6 +106,12 @@
       },
       "cloudmanager:org": {
         "description": "commands to work with organizational authentication"
+      },
+      "cloudmanager:content-flow": {
+        "description": "commands to work with content flows"
+      },
+      "cloudmanager:content-set": {
+        "description": "commands to work with content sets"
       },
       "cloudmanager:commerce": {
         "description": "commands to work with commerce cli"
