@@ -1,5 +1,17 @@
 # Changelog
 
+# [4.1.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.0.0...4.1.0) (2023-06-14)
+
+
+### Bug Fixes
+
+* **release:** update release job to ubuntu-latest Fixes: [#674](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/674) ([8a4c438](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/8a4c438b9be2200459b6829ad05ff33346fc5f37))
+
+
+### Features
+
+* **contenflow:** adding content set and content flow commands implements [#670](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/670) ([3c3d804](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/3c3d80404df16ad4375f079c67cfef3ea6b15fbd))
+
 # [4.0.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/3.0.2...4.0.0) (2022-12-19)
 
 
