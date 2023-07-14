@@ -70,7 +70,9 @@ Alternatively, if you have selected an organization using `aio console:org:selec
 
 ### Service Account Authentication
 
-To use a service account authentication, an integration must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service. You may also add other services to this integration if you want to use other Adobe I/O CLI plugins.
+To use a service account authentication, an integration (aka project) must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service.
+
+***The required type of server-to-server authentication should be [Service Account (JWT)](https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication/#service-account-jwt-credential-deprecated).***
 
 After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
 
