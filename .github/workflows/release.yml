@@ -30,7 +30,7 @@ jobs:
           E2E_IMS_ORG_ID: ${{ secrets.E2E_IMS_ORG_ID }}
           E2E_PRIVATE_KEY_B64: ${{ secrets.E2E_PRIVATE_KEY_B64 }}
       - name: Codecov
-        uses: codecov/codecov-action@v2.1.0
+        uses: codecov/codecov-action@v3.1.6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
       - name: Release

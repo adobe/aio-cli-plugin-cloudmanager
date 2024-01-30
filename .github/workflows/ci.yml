@@ -37,7 +37,7 @@ jobs:
         E2E_PRIVATE_KEY_B64: ${{ secrets.E2E_PRIVATE_KEY_B64 }}
     - run: npm run semantic-release-dry-run
     - name: Codecov
-      uses: codecov/codecov-action@v2.1.0
+      uses: codecov/codecov-action@v3.1.6
       if: matrix.reportCoverage
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
