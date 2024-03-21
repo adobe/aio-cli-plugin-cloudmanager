@@ -38,7 +38,7 @@ BindIPAllowlist.description = 'Bind an IP Allowlist to an environment'
 BindIPAllowlist.args = [
   commonArgs.environmentId,
   { name: 'ipAllowlistId', required: true, description: 'the IP allowlist id' },
-  commonArgs.service,
+  commonArgs.environmentServices,
 ]
 
 BindIPAllowlist.flags = {

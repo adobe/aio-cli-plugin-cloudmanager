@@ -14,8 +14,13 @@ const BasePipelineVariablesCommand = require('../../../base-pipeline-variables-c
 const BaseVariablesCommand = require('../../../base-variables-command')
 const { initSdk } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
+const { pipelineServices } = require('../../../constants')
 
 class SetPipelineVariablesCommand extends BasePipelineVariablesCommand {
+  getFlagDefs () {
+    return super.getFlagDefs(pipelineServices)
+  }
+
   async run () {
     const { args, flags } = this.parse(SetPipelineVariablesCommand)
 
@@ -37,7 +42,7 @@ SetPipelineVariablesCommand.args = [
 SetPipelineVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.setterFlags,
+  ...BaseVariablesCommand.setterFlags(pipelineServices),
 }
 
 SetPipelineVariablesCommand.aliases = [
