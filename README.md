@@ -25,9 +25,7 @@ Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
 
 * [Adobe I/O CLI](https://github.com/adobe/aio-cli)
 * Node.js version compatibility:
-    * 12.x -- 12.0.0 or higher.
-    * 14.x -- 14.0.0 or higher.
-    * 16.x -- currently incompatible due to lack of support from aio-cli.
+    * 16.x -- 16.0.0 or higher.
     * Use with odd Node versions is *not* recommended.
 
 > Although not recommended for general use, it is possible to use this plugin outside of the Adobe I/O CLI. See [Standalone Use](#standalone-use) below.
@@ -1043,19 +1041,43 @@ ARGUMENTS
   PIPELINEID  the pipeline id
 
 OPTIONS
-  -d, --delete=delete              variables/secrets to delete
-  -j, --json                       output in json format
-  -p, --programId=programId        the programId. if not specified, defaults to 'cloudmanager_programid' config value
-  -s, --secret=secret              secret values in KEY VALUE format
-  -v, --variable=variable          variable values in KEY VALUE format
-  -y, --yaml                       output in yaml format
-  --imsContextName=imsContextName  the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
+  -d, --delete=delete                                variables/secrets to delete
+  -j, --json                                         output in json format
+  -p, --programId=programId                          the programId. if not specified, defaults to 'cloudmanager_programid' config value
+  -s, --secret=secret                                secret values in KEY VALUE format
+  -v, --variable=variable                            variable values in KEY VALUE format
+  -y, --yaml                                         output in yaml format
+  --imsContextName=imsContextName                    the alternate IMS context name to use instead of aio-cli-plugin-cloudmanager
 
-  --jsonFile=jsonFile              if set, read variables from a JSON array provided as a file; variables set through
-                                   --variable or --secret flag will take precedence
+  --jsonFile=jsonFile                                if set, read variables from a JSON array provided as a file; variables set through
+                                                     --variable or --secret flag will take precedence
 
-  --jsonStdin                      if set, read variables from a JSON array provided as standard input; variables set
-                                   through --variable or --secret flag will take precedence
+  --jsonStdin                                        if set, read variables from a JSON array provided as standard input; variables set
+                                                     through --variable or --secret flag will take precedence
+
+  --buildDelete=buildDelete                          variables/secrets to delete for build service
+
+  --buildSecret=buildSecret                          secret values in KEY VALUE format for build service
+
+  --buildVariable=buildVariable                      variable values in KEY VALUE format for build service
+
+  --functionalTestDelete=functionalTestDelete        variables/secrets to delete for functionalTest service
+
+  --functionalTestSecret=functionalTestSecret        secret values in KEY VALUE format for functionalTest service
+
+  --functionalTestVariable=functionalTestVariable    variable values in KEY VALUE format for functionalTest service
+
+  --uiTestDelete=uiTestDelete                        variables/secrets to delete for uiTest service
+
+  --uiTestSecret=uiTestSecret                        secret values in KEY VALUE format for uiTest service
+
+  --uiTestVariable=uiTestVariable                    variable values in KEY VALUE format for uiTest service
+
+  --loadTestDelete=loadTestDelete                    variables/secrets to delete for loadTest service
+
+  --loadTestSecret=loadTestSecret                    secret values in KEY VALUE format for loadTest service
+
+  --loadTestVariable=loadTestVariable                variable values in KEY VALUE format for loadTest service
 
   --yamlFile=yamlFile              if set, read variables from a YAML array provided as a file; variables set through
                                    --variable or --secret flag will take precedence

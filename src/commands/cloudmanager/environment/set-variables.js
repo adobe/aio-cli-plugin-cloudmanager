@@ -15,10 +15,9 @@ const BaseVariablesCommand = require('../../../base-variables-command')
 const { initSdk, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
 const { flags } = require('@oclif/command')
 const Config = require('@adobe/aio-lib-core-config')
-const _ = require('lodash')
 const commonFlags = require('../../../common-flags')
 const commonArgs = require('../../../common-args')
-const { services } = require('../../../constants')
+const { environmentServices } = require('../../../constants')
 const { codes: validationCodes } = require('../../../ValidationErrors')
 
 const IGNORED_PREFIXES = [
@@ -29,20 +28,7 @@ const IGNORED_PREFIXES = [
 
 class SetEnvironmentVariablesCommand extends BaseEnvironmentVariablesCommand {
   getFlagDefs () {
-    const coreFlagDefs = super.getFlagDefs()
-    const result = {
-      ...coreFlagDefs,
-    }
-    services.forEach(service => {
-      Object.keys(coreFlagDefs).forEach(coreFlagKey => {
-        const flagName = _.camelCase(`${service} ${coreFlagKey}`)
-        result[flagName] = {
-          ...coreFlagDefs[coreFlagKey],
-          service,
-        }
-      })
-    })
-    return result
+    return super.getFlagDefs(environmentServices)
   }
 
   async run () {
@@ -83,20 +69,9 @@ SetEnvironmentVariablesCommand.args = [
 SetEnvironmentVariablesCommand.flags = {
   ...commonFlags.global,
   ...commonFlags.programId,
-  ...BaseVariablesCommand.setterFlags,
+  ...BaseVariablesCommand.setterFlags(environmentServices),
   strict: flags.boolean({ description: 'performs strict validation of internal variables. Can also be enabled by setting configuration property cloudmanager.environmentVariables.strictValidation to a truthy value.' }),
 }
-
-services.forEach(service => {
-  Object.keys(BaseVariablesCommand.coreSetterFlags).forEach(coreFlagKey => {
-    const coreFlag = BaseVariablesCommand.coreSetterFlags[coreFlagKey]
-    const flagName = _.camelCase(`${service} ${coreFlagKey}`)
-    SetEnvironmentVariablesCommand.flags[flagName] = flags.string({
-      description: `${coreFlag.description} for ${service} service`,
-      multiple: true,
-    })
-  })
-})
 
 SetEnvironmentVariablesCommand.aliases = [
   'cloudmanager:set-environment-variables',

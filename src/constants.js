@@ -11,7 +11,8 @@ governing permissions and limitations under the License.
 */
 
 module.exports = {
-  services: ['author', 'publish', 'preview'],
+  environmentServices: ['author', 'publish', 'preview'],
+  pipelineServices: ['build', 'functionalTest', 'uiTest', 'loadTest'],
   defaultImsContextName: 'aio-cli-plugin-cloudmanager',
   exitCodes: {
     GENERAL: 1,

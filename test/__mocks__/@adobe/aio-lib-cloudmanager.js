@@ -105,6 +105,16 @@ function createDefaultMock () {
     }, {
       name: 'I_AM_A_SECRET',
       type: 'secretString',
+    }, {
+      name: 'FUNCTIONAL_VARIABLE',
+      value: 'something',
+      service: 'functionalTest',
+      type: 'string',
+    }, {
+      name: 'BUILD_SECRET',
+      value: 'something',
+      service: 'build',
+      type: 'secretString',
     }])),
     setPipelineVariables: jest.fn(() => Promise.resolve()),
     deleteProgram: jest.fn(() => Promise.resolve()),

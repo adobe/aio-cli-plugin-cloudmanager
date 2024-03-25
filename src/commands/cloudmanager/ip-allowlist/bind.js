@@ -44,7 +44,7 @@ BindIPAllowlist.strict = false
 BindIPAllowlist.args = [
   { name: 'ipAllowlistId', required: true, description: 'the IP allowlist id' },
   commonArgs.environmentId,
-  commonArgs.service,
+  commonArgs.environmentServices,
 ]
 
 BindIPAllowlist.flags = {

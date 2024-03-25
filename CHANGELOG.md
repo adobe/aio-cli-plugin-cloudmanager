@@ -1,5 +1,12 @@
 # Changelog
 
+# [4.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.1.0...4.2.0) (2024-25-03)
+
+
+### Features
+
+* **variables:** support service-specific pipeline variables [#686](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/686) ([3c3d804](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/3c3d80404df16ad4375f079c67cfef3ea6b15fbd))
+
 # [4.1.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.0.0...4.1.0) (2023-06-14)
 
 
