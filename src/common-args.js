@@ -10,9 +10,9 @@ OF ANY KIND, either express or implied. See the License for the specific languag
 governing permissions and limitations under the License.
 */
 
-const { services } = require('./constants')
+const { environmentServices } = require('./constants')
 
 module.exports = {
-  service: { name: 'service', required: true, options: services, description: 'the service name' },
+  environmentServices: { name: 'service', required: true, options: environmentServices, description: 'the service name' },
   environmentId: { name: 'environmentId', required: true, description: 'the environment id' },
 }

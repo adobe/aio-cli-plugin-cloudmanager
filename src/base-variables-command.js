@@ -24,8 +24,8 @@ const _ = require('lodash')
 const { codes: validationCodes } = require('./ValidationErrors')
 
 class BaseVariablesCommand extends BaseCommand {
-  getFlagDefs () {
-    return {
+  getFlagDefs (services) {
+    const coreFlagDefs = {
       variable: {
         type: 'string',
       },
@@ -36,6 +36,21 @@ class BaseVariablesCommand extends BaseCommand {
         action: 'delete',
       },
     }
+
+    const result = {
+      ...coreFlagDefs,
+    }
+
+    services.forEach(service => {
+      Object.keys(coreFlagDefs).forEach(coreFlagKey => {
+        const flagName = _.camelCase(`${service} ${coreFlagKey}`)
+        result[flagName] = {
+          ...coreFlagDefs[coreFlagKey],
+          service,
+        }
+      })
+    })
+    return result
   }
 
   outputTable (result, flags, extraColumns = {}) {
@@ -167,27 +182,30 @@ BaseVariablesCommand.coreSetterFlags = {
   }),
 }
 
-BaseVariablesCommand.setterFlags = {
-  ...BaseVariablesCommand.coreSetterFlags,
-  jsonStdin: flags.boolean({
-    default: false,
-    description: 'if set, read variables from a JSON array provided as standard input; variables set through --variable or --secret flag will take precedence',
-    exclusive: ['jsonFile', 'yamlStdin', 'yamlFile'],
-  }),
-  jsonFile: flags.string({
-    description: 'if set, read variables from a JSON array provided as a file; variables set through --variable or --secret flag will take precedence',
-    exclusive: ['jsonStdin', 'yamlStdin', 'yamlFile'],
-  }),
-  yamlStdin: flags.boolean({
-    default: false,
-    description: 'if set, read variables from a YAML array provided as standard input; variables set through --variable or --secret flag will take precedence',
-    exclusive: ['jsonStdin', 'jsonFile', 'yamlFile'],
-  }),
-  yamlFile: flags.string({
-    description: 'if set, read variables from a YAML array provided as a file; variables set through --variable or --secret flag will take precedence',
-    exclusive: ['jsonStdin', 'jsonFile', 'yamlStdin'],
-  }),
-  ...commonFlags.outputFormat,
+BaseVariablesCommand.setterFlags = (services) => {
+  return {
+    ...BaseVariablesCommand.coreSetterFlags,
+    jsonStdin: flags.boolean({
+      default: false,
+      description: 'if set, read variables from a JSON array provided as standard input; variables set through --variable or --secret flag will take precedence',
+      exclusive: ['jsonFile', 'yamlStdin', 'yamlFile'],
+    }),
+    jsonFile: flags.string({
+      description: 'if set, read variables from a JSON array provided as a file; variables set through --variable or --secret flag will take precedence',
+      exclusive: ['jsonStdin', 'yamlStdin', 'yamlFile'],
+    }),
+    yamlStdin: flags.boolean({
+      default: false,
+      description: 'if set, read variables from a YAML array provided as standard input; variables set through --variable or --secret flag will take precedence',
+      exclusive: ['jsonStdin', 'jsonFile', 'yamlFile'],
+    }),
+    yamlFile: flags.string({
+      description: 'if set, read variables from a YAML array provided as a file; variables set through --variable or --secret flag will take precedence',
+      exclusive: ['jsonStdin', 'jsonFile', 'yamlStdin'],
+    }),
+    ...commonFlags.outputFormat,
+    ...BaseVariablesCommand.serviceSetterFlags(services),
+  }
 }
 
 BaseVariablesCommand.getterFlags = {
@@ -235,6 +253,22 @@ BaseVariablesCommand.loadVariablesFromYaml = (rawData, currentVariableTypes, var
     throw new validationCodes.VARIABLES_YAML_NOT_ARRAY()
   }
   loadVariableData(data, currentVariableTypes, variables)
+}
+
+BaseVariablesCommand.serviceSetterFlags = (services) => {
+  const serviceFlags = {}
+  services.forEach(service => {
+    Object.keys(BaseVariablesCommand.coreSetterFlags).forEach(coreFlagKey => {
+      const coreFlag = BaseVariablesCommand.coreSetterFlags[coreFlagKey]
+      const flagName = _.camelCase(`${service} ${coreFlagKey}`)
+      serviceFlags[flagName] = flags.string({
+        description: `${coreFlag.description} for ${service} service`,
+        multiple: true,
+      })
+    })
+  })
+
+  return serviceFlags
 }
 
 module.exports = BaseVariablesCommand

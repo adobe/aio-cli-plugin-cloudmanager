@@ -44,7 +44,7 @@ UnbindIPAllowlist.strict = false
 UnbindIPAllowlist.args = [
   { name: 'ipAllowlistId', required: true, description: 'the IP allowlist id' },
   commonArgs.environmentId,
-  commonArgs.service,
+  commonArgs.environmentServices,
 ]
 
 UnbindIPAllowlist.flags = {
