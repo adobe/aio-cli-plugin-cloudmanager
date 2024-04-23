@@ -49,7 +49,7 @@ test('hook -- command from other plugin', async () => {
   })).not.toThrowError()
 })
 
-test('hook -- ok', async () => {
+test('hook -- ok with JWT', async () => {
   setStore({
     'ims.contexts.aio-cli-plugin-cloudmanager': {
       client_id: 'test-client-id',
@@ -62,6 +62,27 @@ test('hook -- ok', async () => {
         'ent_cloudmgr_sdk',
       ],
       private_key: '-----BEGIN PRIVATE KEY-----\n-----END PRIVATE KEY-----\n',
+    },
+  })
+  expect(invoke()).not.toThrowError()
+})
+
+test('hook -- ok with OAuth', async () => {
+  setStore({
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secrets: ['5678'],
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      scopes: [
+        'openid',
+        'AdobeID',
+        'read_organizations',
+        'additional_info.projectedProductContext',
+        'read_pc.dma_aem_ams',
+      ],
+      oauth_enabled: true,
     },
   })
   expect(invoke()).not.toThrowError()
@@ -272,7 +293,7 @@ test('hook -- missing some fields', async () => {
   expect(invoke()).toThrowError('One or more of the required fields in ims.contexts.aio-cli-plugin-cloudmanager were not set. Missing keys were technical_account_id, meta_scopes, private_key.')
 })
 
-test('hook -- missing scope', async () => {
+test('hook -- missing metascope for JWT', async () => {
   setStore({
     'ims.contexts.aio-cli-plugin-cloudmanager': {
       client_id: 'test-client-id',
@@ -287,6 +308,21 @@ test('hook -- missing scope', async () => {
     },
   })
   expect(invoke()).toThrowError('The configuration ims.contexts.aio-cli-plugin-cloudmanager is missing the required metascope ent_cloudmgr_sdk.')
+})
+
+test('hook -- missing scope for OAuth', async () => {
+  setStore({
+    'ims.contexts.aio-cli-plugin-cloudmanager': {
+      client_id: 'test-client-id',
+      client_secrets: ['5678'],
+      ims_org_id: 'someorg@AdobeOrg',
+      technical_account_id: '4321@techacct.adobe.com',
+      technical_account_email: 'unused',
+      scopes: [],
+      oauth_enabled: true,
+    },
+  })
+  expect(invoke()).toThrowError('[CloudManagerCLI:IMS_CONTEXT_MISSING_OAUTH_SCOPES] The configuration ims.contexts.aio-cli-plugin-cloudmanager is missing the required OAuth scopes openid, AdobeID, read_organizations, additional_info.projectedProductContext, read_pc.dma_aem_ams')
 })
 
 test('hook -- scope is a number', async () => {

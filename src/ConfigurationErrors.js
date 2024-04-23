@@ -55,6 +55,7 @@ E('CLI_AUTH_NO_ORG', 'The CLI has been authenticated, but no organization has be
 E('NO_DEFAULT_IMS_CONTEXT', 'There is no IMS context configuration defined for %s. Either define this context configuration or authenticate using "aio auth:login" and select an organization using "aio cloudmanager:org:select".')
 E('IMS_CONTEXT_MISSING_FIELDS', 'One or more of the required fields in %s were not set. Missing keys were %s.')
 E('IMS_CONTEXT_MISSING_METASCOPE', 'The configuration %s is missing the required metascope %s.')
+E('IMS_CONTEXT_MISSING_OAUTH_SCOPES', 'The configuration %s is missing the required OAuth scopes %s.')
 E('CLI_AUTH_EXPLICIT_NO_AUTH', 'cli context explicitly enabled, but not authenticated. You must run "aio auth:login" first.')
 E('CLI_AUTH_EXPLICIT_NO_ORG', 'cli context explicitly enabled but no org id specified. Configure using either "cloudmanager_orgid" or by running "aio cloudmanager:org:select"')
 E('CLI_AUTH_CONTEXT_CANNOT_DECODE', 'The access token configured for cli authentication cannot be decoded.')
