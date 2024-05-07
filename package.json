@@ -10,7 +10,7 @@
     "@adobe/aio-lib-core-errors": "^3.1.1",
     "@adobe/aio-lib-core-logging": "^2.0.0",
     "@adobe/aio-lib-core-networking": "^3.0.0",
-    "@adobe/aio-lib-ims": "^6.0.1",
+    "@adobe/aio-lib-ims": "^6.5.0",
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
     "@oclif/parser": "^3.8.5",

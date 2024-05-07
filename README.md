@@ -70,10 +70,40 @@ Alternatively, if you have selected an organization using `aio console:org:selec
 
 To use a service account authentication, an integration (aka project) must be created in the [Adobe I/O Console](https://console.adobe.io) which has the Cloud Manager service.
 
-***The required type of server-to-server authentication should be [Service Account (JWT)](https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication/#service-account-jwt-credential-deprecated).***
+***The required type of server-to-server authentication should be [Service Account (JWT/OAuth)](https://developer.adobe.com/developer-console/docs/guides/authentication/ServerToServerAuthentication).***
+***NOTE:*** The JWT mode of authentication is deprecated and will be completely removed by Jan,2025. So if you are using JWT integration, it is recommended to migrate to OAuth
+
+#### Setup for OAuth integration
 
 After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
+```
+//config.json 
+{
+  "client_id": "value from your CLI integration (String)",
+  "client_secret": "value from your CLI integration (String)",
+  "technical_account_id": "value from your CLI integration (String)",
+  "technical_account_email": "value from your CLI integration (String)",
+  "ims_org_id": "value from your CLI integration (String)",
+  "scopes": [
+    'openid', 
+    'AdobeID', 
+    'read_organizations', 
+    'additional_info.projectedProductContext', 
+    'read_pc.dma_aem_ams'
+  ],
+  "oauth_enabled": true
+}
+```
 
+Configure the credentials:
+
+```
+aio config:set ims.contexts.aio-cli-plugin-cloudmanager PATH_TO_CONFIG_JSON_FILE --file --json
+```
+
+#### Setup for JWT integration
+
+After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
 ```
 //config.json 
 {
@@ -83,7 +113,8 @@ After you've created the integration, create a `config.json` file on your comput
   "ims_org_id": "value from your CLI integration (String)",
   "meta_scopes": [
     "ent_cloudmgr_sdk"
-  ]
+  ],
+  "oauth_enabled": false
 }
 ```
 
@@ -1369,6 +1400,16 @@ Note that the private key **must** be base64 encoded, e.g. by running
 
 ```
 $ base64 -i private.key
+```
+
+To run tests with OAuth credentials, add the following to `.env`:
+
+```
+OAUTH_E2E_CLIENT_ID=<CLIENT ID>
+OAUTH_E2E_CLIENT_SECRET=<CLIENT SECRET>
+OAUTH_E2E_TA_ID=<TECHNICAL ACCOUNT ID>
+OAUTH_E2E_TA_EMAIL=<TECHNICAL ACCOUNT EMAIL>
+OAUTH_E2E_IMS_ORG_ID=<ORG ID>
 ```
 
 With this in place the end-to-end tests can be run with

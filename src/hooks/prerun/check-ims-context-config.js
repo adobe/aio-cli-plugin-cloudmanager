@@ -16,9 +16,10 @@ const { isThisPlugin } = require('../../cloudmanager-hook-helpers')
 const { defaultImsContextName: defaultContextName } = require('../../constants')
 const { codes: configurationCodes } = require('../../ConfigurationErrors')
 
-const requiredKeys = ['client_id', 'client_secret', 'technical_account_id', 'meta_scopes', 'ims_org_id', 'private_key']
-
-const requiredMetaScope = 'ent_cloudmgr_sdk'
+const requiredKeysForJWTIntegration = ['client_id', 'client_secret', 'technical_account_id', 'meta_scopes', 'ims_org_id', 'private_key']
+const requiredKeysForOAuthIntegration = ['client_id', 'client_secrets', 'technical_account_email', 'technical_account_id', 'scopes', 'ims_org_id']
+const requiredMetaScopeForJWTIntegration = 'ent_cloudmgr_sdk'
+const requiredScopesForOAuthIntegration = ['openid', 'AdobeID', 'read_organizations', 'additional_info.projectedProductContext', 'read_pc.dma_aem_ams']
 
 function getContextName (options) {
   if (options.Command.flags && options.Command.flags.imsContextName) {
@@ -46,6 +47,7 @@ module.exports = function (hookOptions) {
     }
 
     const missingKeys = []
+    const requiredKeys = config.oauth_enabled ? requiredKeysForOAuthIntegration : requiredKeysForJWTIntegration
 
     requiredKeys.forEach(key => {
       if (!config[key]) {
@@ -57,9 +59,16 @@ module.exports = function (hookOptions) {
       throw new configurationCodes.IMS_CONTEXT_MISSING_FIELDS({ messageValues: [configKey, missingKeys.join(', ')] })
     }
 
-    const metaScopes = config.meta_scopes
-    if (!metaScopes.includes || !metaScopes.includes(requiredMetaScope)) {
-      throw new configurationCodes.IMS_CONTEXT_MISSING_METASCOPE({ messageValues: [configKey, requiredMetaScope] })
+    if (config.oauth_enabled) {
+      const oauthScopes = config.scopes
+      if (!oauthScopes.includes || !requiredScopesForOAuthIntegration.every(scope => oauthScopes.includes(scope))) {
+        throw new configurationCodes.IMS_CONTEXT_MISSING_OAUTH_SCOPES({ messageValues: [configKey, requiredScopesForOAuthIntegration.join(', ')] })
+      }
+    } else {
+      const metaScopes = config.meta_scopes
+      if (!metaScopes.includes || !metaScopes.includes(requiredMetaScopeForJWTIntegration)) {
+        throw new configurationCodes.IMS_CONTEXT_MISSING_METASCOPE({ messageValues: [configKey, requiredMetaScopeForJWTIntegration] })
+      }
     }
   }
 
