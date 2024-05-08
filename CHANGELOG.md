@@ -1,5 +1,17 @@
 # Changelog
 
+# [4.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.1.0...4.2.0) (2024-05-08)
+
+
+### Bug Fixes
+
+* **auth:** add support for oauth authentication in parallel to jwt fixes [#676](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/676) part 2 ([3a401af](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/3a401af45fa5b8d0b60833dea531de4a5a00b843))
+
+
+### Features
+
+* **variables:** support service-specific pipeline variables. fixes [#686](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/686) ([b1001e9](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/b1001e9be1e1660d6b613e6205a44b713819b3e1))
+
 # [4.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.1.0...4.2.0) (2024-25-03)
 
 
