@@ -80,7 +80,7 @@ After you've created the integration, create a `config.json` file on your comput
 //config.json 
 {
   "client_id": "value from your CLI integration (String)",
-  "client_secret": "value from your CLI integration (String)",
+  "client_secrets": ["client secret value from your CLI integration (String)"],
   "technical_account_id": "value from your CLI integration (String)",
   "technical_account_email": "value from your CLI integration (String)",
   "ims_org_id": "value from your CLI integration (String)",
@@ -89,7 +89,10 @@ After you've created the integration, create a `config.json` file on your comput
     'AdobeID', 
     'read_organizations', 
     'additional_info.projectedProductContext', 
-    'read_pc.dma_aem_ams'
+    'read_pc.dma_aem_ams',
+    .
+    .
+    'any other scope from your CLI integration (String)'
   ],
   "oauth_enabled": true
 }
@@ -101,7 +104,7 @@ Configure the credentials:
 aio config:set ims.contexts.aio-cli-plugin-cloudmanager PATH_TO_CONFIG_JSON_FILE --file --json
 ```
 
-#### Setup for JWT integration
+#### Setup for JWT integration (Deprecated)
 
 After you've created the integration, create a `config.json` file on your computer and navigate to the integration Overview page. From this page, copy the values into the file as described below.
 ```
