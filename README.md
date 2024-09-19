@@ -25,7 +25,7 @@ Cloud Manager Plugin for the [Adobe I/O CLI](https://github.com/adobe/aio-cli)
 
 * [Adobe I/O CLI](https://github.com/adobe/aio-cli)
 * Node.js version compatibility:
-    * 16.x -- 16.0.0 or higher.
+    * 17.x -- 17.0.0 or higher.
     * Use with odd Node versions is *not* recommended.
 
 > Although not recommended for general use, it is possible to use this plugin outside of the Adobe I/O CLI. See [Standalone Use](#standalone-use) below.
