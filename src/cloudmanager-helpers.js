@@ -14,6 +14,7 @@ const Config = require('@adobe/aio-lib-core-config')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { cli } = require('cli-ux')
 const { context, getToken, Ims } = require('@adobe/aio-lib-ims')
+const logger = require('@adobe/aio-lib-core-logging')('@adobe/aio-lib-cloudmanager', { provider: 'debug' })
 const moment = require('moment')
 const _ = require('lodash')
 const { CLI } = require('@adobe/aio-lib-ims/src/context')
@@ -306,6 +307,37 @@ function handleError (_error, errorFn) {
   })
 }
 
+async function executeWithRetries (fn, maxRetries = 5) {
+  let retries = 0
+  let startTime = Date.now()
+  while (retries < maxRetries) {
+    try {
+      return await fn()
+    } catch (error) {
+      if (error.sdkDetails && error.sdkDetails.response && (error.sdkDetails.response.status === 401 || error.sdkDetails.response.status === 403)) {
+        logger.debug('Received 401, 403 error, retrying.')
+      } else {
+        throw error
+      }
+      if (shouldResetRetires(startTime)) {
+        retries = 0
+        startTime = Date.now()
+      }
+      retries++
+    }
+  }
+  throw new validationCodes.MAX_RETRY_REACHED()
+}
+
+function shouldResetRetires (startTime, resetInterval = 3600000) {
+  const elapsedTime = Date.now() - startTime
+  if (elapsedTime >= resetInterval) {
+    logger.debug(`Resetting retries after ${resetInterval / 1000} seconds.`)
+    return true
+  }
+  return false
+}
+
 module.exports = {
   getProgramId,
   getOutputFormat,
@@ -328,4 +360,5 @@ module.exports = {
   getActiveOrganizationId,
   getFullOrgIdentity,
   handleError,
+  executeWithRetries,
 }

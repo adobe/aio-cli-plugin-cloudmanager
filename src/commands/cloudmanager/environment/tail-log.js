@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const BaseCommand = require('../../../base-command')
-const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, sanitizeEnvironmentId, executeWithRetries } = require('../../../cloudmanager-helpers')
 const commonFlags = require('../../../common-flags')
 const commonArgs = require('../../../common-args')
 
@@ -31,8 +31,10 @@ class TailLog extends BaseCommand {
   }
 
   async tailLog (programId, environmentId, service, logName, imsContextName = null) {
-    const sdk = await initSdk(imsContextName)
-    return sdk.tailLog(programId, environmentId, service, logName, process.stdout)
+    return executeWithRetries(async () => {
+      const sdk = await initSdk(imsContextName)
+      return sdk.tailLog(programId, environmentId, service, logName, process.stdout)
+    })
   }
 }
 

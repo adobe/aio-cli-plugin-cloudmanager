@@ -47,3 +47,14 @@ test('tail-log - config', async () => {
   await expect(mockSdk.tailLog.mock.calls.length).toEqual(1)
   await expect(mockSdk.tailLog).toHaveBeenCalledWith('5', '17', 'author', 'aemerror', process.stdout)
 })
+
+test('tail-log - should retry 5 times and throw error', async () => {
+  setCurrentOrgId('good')
+  mockSdk.tailLog.mockRejectedValue({ sdkDetails: { response: { status: 401 } } })
+
+  expect.assertions(2)
+
+  const runResult = TailLog.run(['17', 'author', 'aemerror', '--programId', '5'])
+  await expect(runResult).rejects.toThrow('[CloudManagerCLI:MAX_RETRY_REACHED] Max retries reached')
+  await expect(mockSdk.tailLog.mock.calls.length).toEqual(5)
+})
