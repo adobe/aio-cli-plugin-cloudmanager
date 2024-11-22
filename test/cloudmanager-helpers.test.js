@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { setCurrentOrgId, context } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
-const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth, formatDuration } = require('../src/cloudmanager-helpers')
+const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth, formatDuration, executeWithRetries } = require('../src/cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { setDecodedToken, resetDecodedToken } = require('jsonwebtoken')
 
@@ -132,4 +132,67 @@ test('formatDuration -- only finished', async () => {
   expect(formatDuration({
     finishedAt: '2021-05-01',
   })).toEqual('')
+})
+
+describe('executeWithRetries', () => {
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
+  test('should not retry when no 401, 403 thrown', async () => {
+    const mockFn = jest.fn().mockResolvedValue('success')
+
+    executeWithRetries(mockFn)
+
+    expect(mockFn.mock.calls.length).toEqual(1)
+  })
+
+  test('should retry when 401 thrown', async () => {
+    const mockFn = jest.fn()
+      .mockRejectedValueOnce({ sdkDetails: { response: { status: 401 } } })
+      .mockResolvedValue('success')
+
+    await executeWithRetries(mockFn)
+
+    expect(mockFn.mock.calls.length).toEqual(2)
+  })
+
+  test('should retry when 403 thrown', async () => {
+    const mockFn = jest.fn()
+      .mockRejectedValueOnce({ sdkDetails: { response: { status: 401 } } })
+      .mockResolvedValue('success')
+
+    await executeWithRetries(mockFn)
+
+    expect(mockFn.mock.calls.length).toEqual(2)
+  })
+
+  test('should throw error when no 401, 403 thrown', async () => {
+    const mockFn = jest.fn()
+      .mockRejectedValue(new Error())
+
+    await expect(executeWithRetries(mockFn)).rejects.toThrow()
+
+    expect(mockFn.mock.calls.length).toEqual(1)
+  })
+
+  test('should retry 5 times and throw exception', async () => {
+    const mockFn = jest.fn().mockRejectedValue({ sdkDetails: { response: { status: 401 } } })
+
+    await expect(executeWithRetries(mockFn)).rejects.toThrow('[CloudManagerCLI:MAX_RETRY_REACHED] Max retries')
+
+    expect(mockFn.mock.calls.length).toEqual(5)
+  })
+
+  test('should reset retry counter after 1 hour', async () => {
+    jest.spyOn(Date, 'now')
+      .mockReturnValueOnce(new Date(Date.UTC(2024, 11, 1, 0, 0, 0)))
+      .mockReturnValueOnce(new Date(Date.UTC(2024, 11, 1, 0, 0, 0)))
+      .mockReturnValue(new Date(Date.UTC(2024, 11, 1, 1, 0, 0)))
+    const mockFn = jest.fn().mockRejectedValue({ sdkDetails: { response: { status: 401 } } })
+
+    await expect(executeWithRetries(mockFn)).rejects.toThrow('[CloudManagerCLI:MAX_RETRY_REACHED] Max retries')
+
+    expect(mockFn.mock.calls.length).toEqual(6)
+  })
 })

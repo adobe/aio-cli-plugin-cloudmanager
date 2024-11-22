@@ -61,3 +61,4 @@ E('INVALID_TAG_SYNTAX', 'tag flag should not be specified with "refs/tags/" pref
 E('JSON_PARSE_NUMBER', 'parsed flag value as a number')
 E('BLANK_VARIABLE_VALUE', 'Blank variable values are not allowed. Use the proper flag if you intend to delete a variable.')
 E('MALFORMED_NAME_VALUE_PAIR', 'Please provide correct values for flags')
+E('MAX_RETRY_REACHED', 'Max retries reached')
