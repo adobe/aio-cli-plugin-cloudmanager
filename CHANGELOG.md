@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.2.0...4.2.1) (2024-11-22)
+
+
+### Bug Fixes
+
+* **auth:** tail logs refresh token [#702](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/702) ([23a7474](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/23a74742d831e6e7b59061049c2b39dff82d938a))
+
 # [4.2.0](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.1.0...4.2.0) (2024-05-08)
 
 
