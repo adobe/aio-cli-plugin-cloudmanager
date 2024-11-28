@@ -20,7 +20,7 @@
     "halfred": "^2.0.0",
     "inquirer": "^8.1.0",
     "js-yaml": "^4.1.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "lodash": "^4.17.15",
     "moment": "^2.29.0"
   },
