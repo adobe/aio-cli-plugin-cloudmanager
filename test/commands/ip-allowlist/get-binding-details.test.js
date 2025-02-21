@@ -66,7 +66,7 @@ test('get-binding-details - no bindings', async () => {
   const runResult = ListIPAllowlistBindingDetails.run(['--programId', '4', '1'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.toMatchObject({
-    id: '1',
+    id: 1,
     bindings: [],
   })
   await expect(mockSdk.listIpAllowlists.mock.calls.length).toEqual(1)
