@@ -26,7 +26,7 @@ class ListIPAllowlistBindingDetails extends BaseCommand {
 
     const result = await this.listIpAllowlists(programId, flags.imsContextName)
 
-    const allowList = result.find(allowList => allowList.id === args.ipAllowlistId)
+    const allowList = result.find(allowList => allowList.id === Number(args.ipAllowlistId))
 
     if (!allowList) {
       throw new validationCodes.IP_ALLOWLIST_NOT_FOUND({ messageValues: [args.ipAllowlistId, programId] })
