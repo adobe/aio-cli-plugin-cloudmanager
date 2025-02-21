@@ -37,7 +37,7 @@ test('get-binding-details - not found', async () => {
 
   mockSdk.listIpAllowlists = jest.fn(() => Promise.resolve([
     {
-      id: '1',
+      id: 1,
       name: 'test1',
       ipCidrSet: ['1.1.1.1/5', '2.2.2.2/5'],
       programId: '4',
@@ -55,7 +55,7 @@ test('get-binding-details - no bindings', async () => {
 
   mockSdk.listIpAllowlists = jest.fn(() => Promise.resolve([
     {
-      id: '1',
+      id: 1,
       name: 'test1',
       ipCidrSet: ['1.1.1.1/5', '2.2.2.2/5'],
       programId: '4',
@@ -84,7 +84,7 @@ test('get-binding-details - normal with bindings', async () => {
 
   mockSdk.listIpAllowlists = jest.fn(() => Promise.resolve([
     {
-      id: '1',
+      id: 1,
       name: 'test1',
       ipCidrSet: ['1.1.1.1/5', '2.2.2.2/5'],
       programId: '4',
@@ -98,7 +98,7 @@ test('get-binding-details - normal with bindings', async () => {
   const runResult = ListIPAllowlistBindingDetails.run(['--programId', '4', '1'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.toMatchObject({
-    id: '1',
+    id: 1,
     bindings: [{
       environmentId: '3',
       environmentName: 'TestProgram_dev',
@@ -114,7 +114,7 @@ test('get-binding-details - binding to unknown environment (should not ever happ
 
   mockSdk.listIpAllowlists = jest.fn(() => Promise.resolve([
     {
-      id: '1',
+      id: 1,
       name: 'test1',
       ipCidrSet: ['1.1.1.1/5', '2.2.2.2/5'],
       programId: '4',
@@ -128,7 +128,7 @@ test('get-binding-details - binding to unknown environment (should not ever happ
   const runResult = ListIPAllowlistBindingDetails.run(['--programId', '4', '1'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.toMatchObject({
-    id: '1',
+    id: 1,
     bindings: [{
       environmentId: 'X',
       environmentName: 'Environment X',
@@ -144,7 +144,7 @@ test('get-binding-details - bindings when environment load fails', async () => {
 
   mockSdk.listIpAllowlists = jest.fn(() => Promise.resolve([
     {
-      id: '1',
+      id: 1,
       name: 'test1',
       ipCidrSet: ['1.1.1.1/5', '2.2.2.2/5'],
       programId: '4',
@@ -159,7 +159,7 @@ test('get-binding-details - bindings when environment load fails', async () => {
   const runResult = ListIPAllowlistBindingDetails.run(['--programId', '4', '1'])
   await expect(runResult instanceof Promise).toBeTruthy()
   await expect(runResult).resolves.toMatchObject({
-    id: '1',
+    id: 1,
     bindings: [{
       environmentId: 'X',
       environmentName: 'Environment X',
