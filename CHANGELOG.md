@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.2.1...4.2.2) (2025-02-24)
+
+
+### Bug Fixes
+
+* **ipallowlists:** exception on getBindingDetails fixes [#707](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/707) ([6c9d4f2](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/6c9d4f27fab36770f65080fad0ff54f0a86600d6))
+
 ## [4.2.1](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.2.0...4.2.1) (2024-11-22)
 
 
