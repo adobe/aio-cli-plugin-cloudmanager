@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.2.2...4.2.3) (2025-04-17)
+
+
+### Bug Fixes
+
+* **pipeline:** corrected status for pipeline in approve step [#708](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/708) ([36d782e](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/36d782e7ebf2300868be5fd2c94dfeae8b0e42f0))
+
 ## [4.2.2](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.2.1...4.2.2) (2025-02-24)
 
 
