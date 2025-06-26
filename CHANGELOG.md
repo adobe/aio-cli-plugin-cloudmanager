@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.2.4](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.2.3...4.2.4) (2025-06-26)
+
+
+### Bug Fixes
+
+* **download-logs:** retry download logs fixes [#711](https://github.com/adobe/aio-cli-plugin-cloudmanager/issues/711) ([efb6789](https://github.com/adobe/aio-cli-plugin-cloudmanager/commit/efb67893b6f3b1c6d9678794696ae4265c145f57))
+
 ## [4.2.3](https://github.com/adobe/aio-cli-plugin-cloudmanager/compare/4.2.2...4.2.3) (2025-04-17)
 
 
