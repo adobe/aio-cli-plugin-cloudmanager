@@ -12,7 +12,7 @@ governing permissions and limitations under the License.
 
 const { setCurrentOrgId, context } = require('@adobe/aio-lib-ims')
 const { setStore } = require('@adobe/aio-lib-core-config')
-const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth, formatDuration, executeWithRetries } = require('../src/cloudmanager-helpers')
+const { initSdk, getOutputFormat, columnWithArray, disableCliAuth, enableCliAuth, formatDuration, executeWithRetries, executeWithRetry } = require('../src/cloudmanager-helpers')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { setDecodedToken, resetDecodedToken } = require('jsonwebtoken')
 
@@ -194,5 +194,38 @@ describe('executeWithRetries', () => {
     await expect(executeWithRetries(mockFn)).rejects.toThrow('[CloudManagerCLI:MAX_RETRY_REACHED] Max retries')
 
     expect(mockFn.mock.calls.length).toEqual(6)
+  })
+})
+
+describe('executeWithRetry', () => {
+  afterEach(() => {
+    jest.restoreAllMocks()
+  })
+
+  test('should not retry when function succeed', async () => {
+    const mockFn = jest.fn().mockResolvedValue('success')
+
+    executeWithRetry(mockFn)
+
+    expect(mockFn.mock.calls.length).toEqual(1)
+  })
+
+  test('should retry when error thrown', async () => {
+    const mockFn = jest.fn()
+      .mockRejectedValueOnce({})
+      .mockResolvedValue('success')
+
+    await executeWithRetry(mockFn)
+
+    expect(mockFn.mock.calls.length).toEqual(2)
+  })
+
+  test('should throw error after 3 attempts', async () => {
+    const mockFn = jest.fn()
+      .mockRejectedValue(new Error())
+
+    await expect(executeWithRetry(mockFn)).rejects.toThrow()
+
+    expect(mockFn.mock.calls.length).toEqual(3)
   })
 })
