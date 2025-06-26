@@ -11,7 +11,7 @@ governing permissions and limitations under the License.
 */
 
 const { flags } = require('@oclif/command')
-const { initSdk, getProgramId, sanitizeEnvironmentId } = require('../../../cloudmanager-helpers')
+const { initSdk, getProgramId, sanitizeEnvironmentId, executeWithRetry } = require('../../../cloudmanager-helpers')
 const { cli } = require('cli-ux')
 const path = require('path')
 const commonFlags = require('../../../common-flags')
@@ -50,8 +50,10 @@ class DownloadLogs extends BaseCommand {
   }
 
   async downloadLogs (programId, environmentId, service, logName, days, outputDirectory, imsContextName = null) {
-    const sdk = await initSdk(imsContextName)
-    return sdk.downloadLogs(programId, environmentId, service, logName, days, outputDirectory)
+    return executeWithRetry(async () => {
+      const sdk = await initSdk(imsContextName)
+      return sdk.downloadLogs(programId, environmentId, service, logName, days, outputDirectory)
+    })
   }
 }
 

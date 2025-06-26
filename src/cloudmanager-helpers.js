@@ -14,7 +14,7 @@ const Config = require('@adobe/aio-lib-core-config')
 const { init } = require('@adobe/aio-lib-cloudmanager')
 const { cli } = require('cli-ux')
 const { context, getToken, Ims } = require('@adobe/aio-lib-ims')
-const logger = require('@adobe/aio-lib-core-logging')('@adobe/aio-lib-cloudmanager', { provider: 'debug' })
+const logger = require('@adobe/aio-lib-core-logging')('@adobe/aio-lib-cloudmanager', { level: process.env.LOG_LEVEL })
 const moment = require('moment')
 const _ = require('lodash')
 const { CLI } = require('@adobe/aio-lib-ims/src/context')
@@ -338,6 +338,18 @@ function shouldResetRetires (startTime, resetInterval = 3600000) {
   return false
 }
 
+async function executeWithRetry (fn, retries = 3, delay = 1000) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn()
+    } catch (error) {
+      logger.debug(`Retrying due to error: ${error.message || 'Unknown error'} (attempt ${i + 1}/${retries})`)
+      if (i === retries - 1) throw error
+      await new Promise(resolve => setTimeout(resolve, delay))
+    }
+  }
+}
+
 module.exports = {
   getProgramId,
   getOutputFormat,
@@ -361,4 +373,5 @@ module.exports = {
   getFullOrgIdentity,
   handleError,
   executeWithRetries,
+  executeWithRetry,
 }
