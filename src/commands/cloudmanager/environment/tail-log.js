@@ -31,10 +31,17 @@ class TailLog extends BaseCommand {
   }
 
   async tailLog (programId, environmentId, service, logName, imsContextName = null) {
-    return executeWithRetries(async () => {
-      const sdk = await initSdk(imsContextName)
-      return sdk.tailLog(programId, environmentId, service, logName, process.stdout)
-    })
+    while (true) {
+      try {
+        await executeWithRetries(async () => {
+          const sdk = await initSdk(imsContextName)
+          return sdk.tailLog(programId, environmentId, service, logName, process.stdout)
+        })
+      } catch (error) {
+        if (error.code) throw error
+      }
+      await new Promise(resolve => setTimeout(resolve, 2000))
+    }
   }
 }
 
